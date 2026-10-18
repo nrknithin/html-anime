@@ -196,22 +196,36 @@ async function main() {
     const data = unzipMember(buf, ing.member);
     src = path.join(srcDir, path.basename(ing.member));
     await fsp.writeFile(src, data);
-    for (const extra of ing.extraMembers || []) await fsp.writeFile(path.join(srcDir, path.basename(extra)), unzipMember(buf, extra)); // .bin, textures
+    // .bin and textures keep their path relative to the member, so "Textures/colormap.png" in a GLB resolves.
+    const memberDir = path.posix.dirname(ing.member.replace(/\\/g, "/"));
+    for (const extra of ing.extraMembers || []) {
+      const rel = path.posix.relative(memberDir, extra.replace(/\\/g, "/"));
+      const to = path.resolve(srcDir, rel.startsWith("..") ? path.posix.basename(extra) : rel);
+      if (!to.startsWith(srcDir + path.sep)) throw new Error(`extraMembers: ${extra} leaves the scratch folder`);
+      await fsp.mkdir(path.dirname(to), { recursive: true });
+      await fsp.writeFile(to, unzipMember(buf, extra));
+    }
     ing.memberSha256 = sha256(data);
   } else {
     src = path.join(srcDir, ing.filename || path.basename(new URL(url || ing.fetch.url).pathname));
     await fsp.writeFile(src, buf);
   }
 
-  // 3. convert + normalize (Blender)
+  // 3. convert + normalize: Blender, or for via "gltf" a GLB kept as is under a new root node (normalize.mjs)
   const py = process.env.LIBRARY_PYTHON || "python3.11";
   const raw = path.join(tmp, "raw.glb");
   const report = path.join(tmp, "report.json");
+  if (ing.via === "gltf") {
+    const { normalizeGlb } = await import("./normalize.mjs");
+    const r = await normalizeGlb(await fsp.readFile(src), { height: ing.height || 0, yaw: ing.yaw || 0 });
+    await fsp.writeFile(raw, r.glb);
+    await fsp.writeFile(report, JSON.stringify(r.report));
+  } else if (ing.via && ing.via !== "blender") throw new Error(`ingest.via must be "blender" (default) or "gltf" (got ${ing.via})`);
   const cargs = ["-I", path.join(HERE, "convert.py"), "--in", src, "--out", raw, "--report", report, "--height", String(ing.height || 0), "--yaw", String(ing.yaw || 0)];
   if (ing.drop?.length) cargs.push("--drop", ing.drop.join(","));
   if (ing.keepActions?.length) cargs.push("--keep-actions", ing.keepActions.join(","));
   if (ing.maxColors) cargs.push("--max-colors", String(ing.maxColors));
-  run(py, cargs, "convert.py", { cwd: tmp });
+  if (ing.via !== "gltf") run(py, cargs, "convert.py", { cwd: tmp });
   const rep = JSON.parse(await fsp.readFile(report, "utf8"));
 
   // 4. compress: meshopt geometry and animation; keep every material and mesh (roles map by material name)
