@@ -3,22 +3,22 @@
   "count": 1,
   "entries": [
     {
-      "id": "woman-dress",
-      "name": "Woman (everyday, long hair)",
+      "id": "woman-casual-2",
+      "name": "Woman (casual 2)",
       "category": "character",
       "tags": [
         "human",
         "woman",
+        "casual",
         "everyday",
         "townsfolk",
-        "tank top",
         "long hair",
         "chibi"
       ],
       "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
       "height": 1.65,
       "script": "noon",
-      "file": "models/library/woman-dress/model.glb",
+      "file": "models/library/woman-casual-2/model.glb",
       "bytes": 269136,
       "sha256": "3daeb7b60a8f647a65777c3a1006005b06b3a89d3e6ca64e97e2df4f37d0d637",
       "triangles": 8444,
@@ -36,7 +36,7 @@
         "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
         "page": "https://opengameart.org/content/animated-characters-pack",
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "note": "Wave-1 row 66 asked for a woman in a dress (row 72 Animated Woman is the poly.pizza Quaternius model, behind a Cloudflare challenge). The Quaternius Ultimate Animated Character Pack (Nov 2019, OpenGameArt) used by man-casual and woman-casual has no everyday dress or skirt: its only dress is on Witch, whose pointed hat is part of the same single mesh and cannot be dropped. Substituted with Casual3_Female (tank top, cropped trousers, long loose hair): same pack, rig, clips and scale as the two casual characters, so the three read as one cast."
+        "note": "Plan wave-1 row 66 asked for a woman in a dress; none exists in reachable free packs (the only dress in this pack is the Witch tunic, whose hat brim shares the Belt material). Casual3_Female from the Quaternius Ultimate Animated Character Pack (Nov 2019, OpenGameArt) instead: long loose hair, tank top, cropped trousers; same pack, rig, clips and scale as man-casual and woman-casual, so the three read as one cast."
       }
     }
   ]

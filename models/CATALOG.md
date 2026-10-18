@@ -9,4 +9,4 @@
 
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| <img src="library/woman-dress/preview.png" width="240"> | `woman-dress` | Woman (everyday, long hair)<br>*low-poly, flat colours, chibi big-head proportions (Quaternius 2019)* | 1.65 m | 8444 | idle, walk, attack, hit, sit | CC0 1.0 | [Quaternius · Ultimate Animated Character Pack (Nov 2019)](https://opengameart.org/content/animated-characters-pack) |
+| <img src="library/woman-casual-2/preview.png" width="240"> | `woman-casual-2` | Woman (casual 2)<br>*low-poly, flat colours, chibi big-head proportions (Quaternius 2019)* | 1.65 m | 8444 | idle, walk, attack, hit, sit | CC0 1.0 | [Quaternius · Ultimate Animated Character Pack (Nov 2019)](https://opengameart.org/content/animated-characters-pack) |
