@@ -2,7 +2,7 @@
 
 > **Status: plan only.** Nothing is downloaded, converted or built until the owner approves this plan.
 > Every candidate we found (all sources, ranked high to low priority): [CANDIDATES.md](CANDIDATES.md).
-> Wave 1, the first ~200 models to build: [section 9](#9-wave-1-the-first-200-models).
+> Wave 1, the first ~200 models to build: [section 10](#10-wave-1-the-first-200-models).
 
 ## 1. Why the current models don't look right
 
@@ -22,7 +22,20 @@ The eight models in `models/*.js` (horse, ox, frog, dragon, knight, heroine, AE8
 | **Procedural** | a `models/<name>.js` code model, as today | morphing/transforming subjects, anime-specific subjects with no library source, effects | ~200–350k tokens |
 | **Kitbash** | library parts + code parts (a prop in a hand, a recolour, an outfit) | variants and story-specific props | ~20–60k tokens |
 
-<!-- PROCEDURAL_DECISIONS -->
+### What happens to the current eight
+
+| model | decision | why |
+|---|---|---|
+| `horse.js` | replace with Quaternius Horse (26 clips) | artist anatomy; gallop, jump, eat, attack clips |
+| `ox.js` | replace with Quaternius Bull (25 clips) | same; the fable's ox can be re-shot with it |
+| `wolf.js` | replace with Quaternius Wolf (24 clips) | same |
+| `knight.js` | replace with KayKit Knight (76 clips) | full sword-and-shield combat set |
+| `frog.js` | keep (code) | its puff morph exists in no library frog |
+| `dragon.js` | keep (code) for a hero dragon | the library dragon is a small cute flyer, fine for backgrounds |
+| `heroine.js` | keep (code) | no anime heroine in any CC0 library |
+| `ae86.js` | keep (code) | no AE86 anywhere; Kenney's sports sedan is a background stand-in |
+
+A replaced file stays in the repo until its library version passes the checks in section 6.
 
 ## 3. Where the models come from (verified)
 
@@ -43,7 +56,7 @@ Excluded, with reasons (they appear at the bottom of [CANDIDATES.md](CANDIDATES.
 
 ## 4. How a library model becomes film-ready
 
-Each step is a script or a lab command, so most of the work is automatic. A batch agent's job is to run it, look at the renders and fix what the automatic steps get wrong.
+Each step becomes a script or a lab command in phase 1, so most of the work is automatic. A batch agent's job is to run it, look at the renders and fix what the automatic steps get wrong.
 
 1. **Fetch.** `npm run models:fetch -- <id>` downloads from the manifest into `models/library/<id>/`, checks the sha256, and records source URL, licence and author. Requests are throttled (one file at a time, a pause between requests); poly.pizza HTML is never crawled, only its static files.
 2. **Normalize.** Scale to the subject's real height (a per-subject table: a wolf 0.85 m to the ear tips, a sedan 1.45 m), turn it to face +Z, put its lowest rest point on y = 0 and centre it. Each pack's own convention is measured once.
@@ -62,7 +75,7 @@ This changes two rules written earlier: the 3D skill's "no loaders, no model fil
 | phase | agents | what | gate before the next phase |
 |---|---|---|---|
 | **1. Pipeline + pilot** | 2 (1 for lab v3, the skinned cel shader, hull and loader; 1 for the fetch, normalize, compress and catalog scripts) | build the pipeline, then run 6 pilot models end to end: a Quaternius wolf (animated), a Quaternius horse, the KayKit Knight (76 clips), a Kenney mini-character, a Kenney car, a Poly Haven sofa (photoreal → toon) | **The owner approves the pilot renders**, side by side with the current procedural wolf and horse. If the look isn't right, we fix the pipeline before ingesting 200. |
-| **2. Wave 1** | 8 in parallel, one per batch B1–B8 (~25 models each) | fetch → normalize → cel-ify → QA → catalog for every P1 model | every model passes the checks in section 6; independent reviewer pass on the catalog |
+| **2. Wave 1** | 8 in parallel, one per batch (B1, B2, B3a, B3b, B4, B5, B7, B8; 17–34 models each) | fetch → normalize → cel-ify → QA → catalog for every P1 model | every model passes the checks in section 6; independent reviewer pass on the catalog |
 | **3. Waves 2+** | up to 8 | P2 next, then P3, in chunks (~50 per agent), on request | same checks |
 | **4. Wrap-up** | 2 | skill update (how to pick and use library models), README, one demo film using library models, decide on the procedural eight, final review | reviewer approves |
 
@@ -98,8 +111,344 @@ Routing: batch agents start on `sonnet`; a batch that fails its checks twice mov
 4. **The current procedural eight.** Replace where a library model is better, keep the frog (puff morph) and the AE86 (no library equivalent)? See section 2.
 5. **Pilot sign-off.** Approve the look on six pilot models before wave 1.
 
-<!-- COUNTS -->
+## 9. Totals and batches
 
-## 9. Wave 1: the first ~200 models
+**All candidates** ([CANDIDATES.md](CANDIDATES.md)): 4,965 rows (4,943 library candidates + 22 wave-1 gap and code rows), each listed once and ranked by one formula written at the top of that file: subject demand, animated, licence, style fit, file size, an anime/Japan bonus, a penalty for duplicate variants and tiles.
 
-<!-- WAVE1_TABLE -->
+| tier | rows | meaning |
+|---|---|---|
+| P1 | 216 | wave 1 (section 10) |
+| P2 | 235 | usable, score ≥ 70 |
+| P3 | 1,502 | usable, score 40–69 |
+| P4 | 1,684 | usable, score < 40: variants, tiles, odds and ends |
+| X | 1,328 | blocked: 1,170 KayKit itch.io files, 96 avatars pending the licence decision, 36 OpenGameArt files needing conversion, 23 Smithsonian scans with unverified licences, 3 Kenney FBX-only characters, 3 oversized |
+
+**Wave 1:** 216 rows = 194 library models + 14 gaps + 8 code rows. 101 animated. 191 CC0, 3 pending the licence decision. About 95 MB of single files before compression, plus 18 Kenney kit zips. By source: Quaternius 130, Kenney 53, KayKit 6, three.js 1, Poly Haven 1 (the katana), avatars 3.
+
+Machine-readable: [`plan/wave1.json`](plan/wave1.json) has the exact download URL, licence, author, clips and batch of every wave-1 row; [`plan/candidates.json`](plan/candidates.json) has all 4,965 rows with their scores.
+
+### Gaps: no library source, built in phase 4 as code or kitbash
+
+Schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (armour on a KayKit rig), Japanese house (the shoji walls and door plus a roof), school building (Kenney commercial blocks plus a clock tower), sakura tree (a recoloured round tree plus petals), bicycle, umbrella, airplane, helicopter, crow, butterfly, turtle, lizard or crocodile.
+
+### Batches for wave 1 (8 agents in parallel)
+
+| batch | rows | contents |
+|---|---|---|
+| B1 | 29 | animals: Quaternius Ultimate Animals and Animated Animals, Kenney Cube Pets, frog, snake |
+| B2 | 34 | creatures, dinosaurs, sea life, birds, insects |
+| B3a | 17 | KayKit characters (Knight, Barbarian, Mage, two Rogues, Skeleton), RobotExpressive, Kenney mini and blocky characters, avatars (if approved) |
+| B3b | 17 | Quaternius people (man, woman, suit, dress, Shaun, Sam, Matt, the 24-clip set) and the ninja |
+| B4 | 28 | land, water and space vehicles |
+| B5 | 28 | buildings and nature |
+| B7 | 20 | household props and food |
+| B8 | 21 | weapons, tools, street props, misc |
+
+The 22 gap and code rows are not download work; they move to phase 4.
+
+**Style flag:** Kenney's Cube Pets (elephant, giraffe, lion, monkey, parrot, penguin, crab, caterpillar) are deliberately blocky. They are the only animated versions found, so they stand in until a better source turns up, and the catalog marks them.
+
+## 10. Wave 1: the first ~200 models
+
+Grouped by category. *Pri* is the order inside wave 1 (P1 first). *Batch* is the agent that ingests it. Exact URLs are in `plan/wave1.json`.
+
+### Mammals (28)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 1 | Horse | Quaternius · Ultimate Animated Animals | 26 (Attack_Headbutt, Attack_Kick, Death, Gallop_Jump) | CC0 | 1.1 MB | P1 | B1 |
+| 2 | Bull / Ox | Quaternius · Ultimate Animated Animals | 25 (Attack_Headbutt, Attack_Kick, Death, Gallop) | CC0 | 1.0 MB | P1 | B1 |
+| 3 | Wolf | Quaternius · Ultimate Animated Animals | 24 (Attack, Death, Gallop, Gallop_Jump) | CC0 | 990 KB | P1 | B1 |
+| 4 | Fox | Quaternius · Ultimate Animated Animals | 24 (Attack, Death, Gallop, Gallop_Jump) | CC0 | 960 KB | P1 | B1 |
+| 5 | Deer | Quaternius · Ultimate Animated Animals | 26 (Attack_Headbutt, Attack_Kick, Death, Gallop) | CC0 | 1.0 MB | P1 | B1 |
+| 6 | Stag | Quaternius · Ultimate Animated Animals | 26 (Attack_Headbutt, Attack_Kick, Death, Gallop) | CC0 | 1.0 MB | P2 | B1 |
+| 7 | Shiba Inu | Quaternius · Ultimate Animated Animals | 24 (Attack, Death, Gallop, Gallop_Jump) | CC0 | 850 KB | P1 | B1 |
+| 8 | Husky | Quaternius · Ultimate Animated Animals | 24 (Attack, Death, Gallop, Gallop_Jump) | CC0 | 930 KB | P2 | B1 |
+| 9 | Dog | Quaternius · Animated Animals | 8 (Death, Idle, Idle_Eating, Jump_Loop) | CC0 | 300 KB | P1 | B1 |
+| 10 | Cat | Quaternius · Animated Animals | 8 (Death, Idle, Idle_Eating, Jump_Loop) | CC0 | 240 KB | P1 | B1 |
+| 11 | Cow | Quaternius · Ultimate Animated Animals | 25 (Attack_Headbutt, Attack_Kick, Death, Gallop) | CC0 | 1.0 MB | P2 | B1 |
+| 12 | Donkey | Quaternius · Ultimate Animated Animals | 26 (Attack_Headbutt, Attack_Kick, Death, Gallop) | CC0 | 1.1 MB | P3 | B1 |
+| 13 | Alpaca | Quaternius · Ultimate Animated Animals | 26 (Attack_Headbutt, Attack_Kick, Death, Gallop) | CC0 | 1.1 MB | P3 | B1 |
+| 14 | Sheep | Quaternius · Animated Animals | 8 (Death, Idle, Idle_Eating, Jump_Loop) | CC0 | 220 KB | P2 | B1 |
+| 15 | Pig | Quaternius · Animated Animals | 8 (Death, Idle, Idle_Eating, Jump_Loop) | CC0 | 300 KB | P2 | B1 |
+| 16 | Rabbit | Quaternius · Animated Animals (kitchen rig) | 30 (Death, Idle, Idle_Holding, Jump) | CC0 | 640 KB | P1 | B1 |
+| 17 | Panda | Quaternius · Animated Animals (kitchen rig) | 30 (Death, Idle, Idle_Holding, Jump) | CC0 | 630 KB | P2 | B1 |
+| 18 | Bat | Quaternius · Animated Creatures/Dinosaurs | 5 (Bat_Attack, Bat_Attack2, Bat_Death, Bat_Flying) | CC0 | 230 KB | P2 | B1 |
+| 19 | Rat | Quaternius · Animated Creatures/Dinosaurs | 6 (Rat_Attack, Rat_Death, Rat_Idle, Rat_Jump) | CC0 | 550 KB | P3 | B1 |
+| 20 | Zebra | Quaternius · Animated models (misc) | 6 (Death, Idle, Jump, Run) | CC0 | 380 KB | P3 | B1 |
+| 21 | Elephant | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 140 KB | P2 | B1 |
+| 22 | Giraffe | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 130 KB | P3 | B1 |
+| 23 | Lion | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 170 KB | P2 | B1 |
+| 24 | Monkey | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 170 KB | P3 | B1 |
+| 25 | Raccoon (tanuki stand-in) | Quaternius · Animated Animals | 8 (Death, Idle, Idle_Eating, Jump_Loop) | CC0 | 240 KB | P3 | B1 |
+| 26 | Horse (procedural horse.js) | procedural (code) | yes | project | - | P2 | B8 |
+| 27 | Ox (procedural ox.js) | procedural (code) | yes | project | - | P2 | B8 |
+| 28 | Wolf (procedural wolf.js) | procedural (code) | yes | project | - | P2 | B8 |
+
+### Birds (8)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 29 | Chicken | Quaternius · Animated models (misc) | 5 (Attack, Death, Idle, Idle_Peck) | CC0 | 170 KB | P2 | B2 |
+| 30 | Chick | Quaternius · Animated models (misc) | 5 (Attack, Death, Idle, Idle_Peck) | CC0 | 160 KB | P3 | B2 |
+| 31 | Pigeon | Quaternius · Cute Creatures | 9 (Dance, Death, Idle, Jump) | CC0 | 110 KB | P2 | B2 |
+| 32 | Small bird (Birb) | Quaternius · Cute Creatures | 9 (Dance, Death, Idle, Jump) | CC0 | 170 KB | P1 | B2 |
+| 33 | Parrot | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 150 KB | P3 | B2 |
+| 34 | Penguin | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 130 KB | P3 | B2 |
+| 35 | Bird (static) | Quaternius · Static models | - | CC0 | 50 KB | P3 | B2 |
+| 36 | Crow / raven | gap | - | - | - | P2 | B8 |
+
+### Sea life (10)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 37 | Shark | Quaternius · Ultimate Fish | 6 (Attack, Death, Swimming_Fast, Swimming_Impulse) | CC0 | 140 KB | P2 | B2 |
+| 38 | Whale | Quaternius · Low Poly Sea Animals | (Swim) | CC0 | 70 KB | P2 | B2 |
+| 39 | Dolphin | Quaternius · Low Poly Sea Animals | (Swim) | CC0 | 60 KB | P2 | B2 |
+| 40 | Manta ray | Quaternius · Low Poly Sea Animals | (Swim) | CC0 | 100 KB | P3 | B2 |
+| 41 | Koi | Quaternius · Ultimate Fish | 6 (Attack, Death, Swimming_Fast, Swimming_Impulse) | CC0 | 160 KB | P1 | B2 |
+| 42 | Goldfish | Quaternius · Ultimate Fish | 6 (Attack, Death, Swimming_Fast, Swimming_Impulse) | CC0 | 180 KB | P2 | B2 |
+| 43 | Clownfish | Quaternius · Ultimate Fish | 6 (Attack, Death, Swimming_Fast, Swimming_Impulse) | CC0 | 170 KB | P2 | B2 |
+| 44 | Pufferfish | Quaternius · Ultimate Fish | 6 (Attack, Death, Swimming_Fast, Swimming_Impulse) | CC0 | 240 KB | P3 | B2 |
+| 45 | Crab | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 150 KB | P3 | B2 |
+| 46 | Squid | Quaternius · Static models | - | CC0 | 50 KB | P3 | B2 |
+
+### Reptiles & amphibians (7)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 47 | Frog | Quaternius · Animated Creatures/Dinosaurs | (Frog_Attack, Frog_Death, Frog_Idle, Frog_Jump) | CC0 | 590 KB | P2 | B1 |
+| 48 | Frog (cute) | Quaternius · Animated models (misc) | 14 (Death, Idle, Jump, Jump_Idle) | CC0 | 380 KB | P3 | B1 |
+| 49 | Snake | Quaternius · Animated Creatures/Dinosaurs | (Snake_Attack, Snake_Idle, Snake_Jump, Snake_Walk) | CC0 | 220 KB | P3 | B1 |
+| 50 | Cartoon dino lizard | Quaternius · Animated models (misc) | 14 (Death, Idle, Jump, Jump_Idle) | CC0 | 400 KB | P3 | B1 |
+| 51 | Turtle / tortoise | gap | - | - | - | P3 | B8 |
+| 52 | Lizard / crocodile | gap | - | - | - | P3 | B8 |
+| 53 | Frog (procedural frog.js) | procedural (code) | yes | project | - | P1 | B8 |
+
+### Insects (4)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 54 | Bee | Quaternius · Cute Creatures | (Death, Flying, Bite_Front, HitRecieve) | CC0 | 190 KB | P2 | B2 |
+| 55 | Spider | Quaternius · Animated Creatures/Dinosaurs | 5 (Spider_Attack, Spider_Death, Spider_Idle, Spider_Jump) | CC0 | 450 KB | P3 | B2 |
+| 56 | Butterfly | gap | - | - | - | P1 | B8 |
+| 57 | Caterpillar | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 130 KB | P3 | B2 |
+
+### Dinosaurs (6)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 58 | T-Rex | Quaternius · Animated Creatures/Dinosaurs | 6 (TRex_Attack, TRex_Death, TRex_Idle, TRex_Jump) | CC0 | 340 KB | P1 | B2 |
+| 59 | Triceratops | Quaternius · Animated Creatures/Dinosaurs | 6 (Triceratops_Attack, Triceratops_Death, Triceratops_Idle, Triceratops_Jump) | CC0 | 310 KB | P2 | B2 |
+| 60 | Velociraptor | Quaternius · Animated Creatures/Dinosaurs | 6 (Velociraptor_Attack, Velociraptor_Death, Velociraptor_Idle, Velociraptor_Jump) | CC0 | 290 KB | P2 | B2 |
+| 61 | Stegosaurus | Quaternius · Animated Creatures/Dinosaurs | 6 (Stegosaurus_Attack, Stegosaurus_Death, Stegosaurus_Idle, Stegosaurus_Jump) | CC0 | 420 KB | P3 | B2 |
+| 62 | Apatosaurus | Quaternius · Animated Creatures/Dinosaurs | 6 (Apatosaurus_Attack, Apatosaurus_Idle, Apatosaurus_Jump, Apatosaurus_Run) | CC0 | 380 KB | P3 | B2 |
+| 63 | Parasaurolophus | Quaternius · Animated Creatures/Dinosaurs | 6 (Parasaurolophus_Attack, Parasaurolophus_Death, Parasaurolophus_Idle, Parasaurolophus_Jump) | CC0 | 290 KB | P3 | B2 |
+
+### Human characters (29)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 64 | Man (casual) | Quaternius · Animated Man/Woman | 11 (Man_Death, Man_Idle, Man_Jump, Man_Punch) | CC0 | 500 KB | P1 | B3 |
+| 65 | Woman (casual) | Quaternius · Animated Man/Woman | 11 (Female_Death, Female_Idle, Female_Jump, Female_Punch) | CC0 | 590 KB | P1 | B3 |
+| 66 | Woman in dress | Quaternius · Animated Man/Woman | 11 (Female_Death, Female_Idle, Female_Jump, Female_Punch) | CC0 | 480 KB | P1 | B3 |
+| 67 | Man in suit | Quaternius · Animated Man/Woman | 11 (Man_Death, Man_Idle, Man_Jump, Man_Punch) | CC0 | 580 KB | P2 | B3 |
+| 68 | Character Shaun | Quaternius · Animated models (misc) | 20 (Death, Idle, Idle_Gun, Jump) | CC0 | 860 KB | P2 | B3 |
+| 69 | Character Sam | Quaternius · Animated models (misc) | 20 (Death, Idle, Idle_Gun, Jump) | CC0 | 730 KB | P3 | B3 |
+| 70 | Character Matt | Quaternius · Animated models (misc) | 20 (Death, Idle, Idle_Gun, Jump) | CC0 | 670 KB | P3 | B3 |
+| 71 | Adventurer | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.6 MB | P2 | B3 |
+| 72 | Animated Woman | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.5 MB | P1 | B3 |
+| 73 | Punk | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.5 MB | P3 | B3 |
+| 74 | Business man | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.5 MB | P2 | B3 |
+| 75 | Farmer | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.4 MB | P3 | B3 |
+| 76 | SWAT | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.6 MB | P3 | B3 |
+| 77 | Worker | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.3 MB | P3 | B3 |
+| 78 | Casual character | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.4 MB | P2 | B3 |
+| 79 | Astronaut | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.9 MB | P3 | B3 |
+| 80 | Mini character female A | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 270 KB | P1 | B3 |
+| 81 | Mini character female B | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 250 KB | P2 | B3 |
+| 82 | Mini character female C | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 250 KB | P3 | B3 |
+| 83 | Mini character male A | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 240 KB | P1 | B3 |
+| 84 | Mini character male B | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 240 KB | P2 | B3 |
+| 85 | Mini character male C | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 260 KB | P3 | B3 |
+| 86 | Blocky character A | Kenney · Blocky Characters | 27 (idle, walk, sit, sprint) | CC0 | 110 KB | P3 | B3 |
+| 87 | Schoolgirl | gap | - | - | - | P1 | B8 |
+| 88 | Schoolboy | gap | - | - | - | P1 | B8 |
+| 89 | VRoid anime girl (pixiv sample) | pixiv three-vrm examples | - | VRM 1.0 (pending licence decision) | 10.8 MB | P3 | B3 |
+| 90 | Olivia (VRM) | VRM · 100avatars-r1 | - | CC0 (pending licence decision) | 1.7 MB | P3 | B3 |
+| 91 | Shiro (VRM) | VRM · 100avatars-r1 | - | CC0 (pending licence decision) | 1.3 MB | P3 | B3 |
+| 92 | Heroine (procedural heroine.js) | procedural (code) | yes | project | - | P1 | B8 |
+
+### Fantasy & monsters (19)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 93 | Knight | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.7 MB | P1 | B3 |
+| 94 | Barbarian | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P2 | B3 |
+| 95 | Mage | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P2 | B3 |
+| 96 | Rogue | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P3 | B3 |
+| 97 | Rogue (hooded) | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P3 | B3 |
+| 98 | Skeleton warrior | KayKit · Character Pack Skeletons | 95 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Jump_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal) | CC0 | 4.9 MB | P2 | B3 |
+| 99 | Ninja | Quaternius · Animated models (misc) | 14 (Death, Idle, Jump, Jump_Idle) | CC0 | 460 KB | P1 | B3 |
+| 100 | Samurai | gap | - | - | - | P1 | B8 |
+| 101 | Goblin | Quaternius · Animated models (misc) | 7 (Attack, Death, Idle, Jump) | CC0 | 220 KB | P3 | B2 |
+| 102 | Orc | Quaternius · Animated models (misc) | 14 (Death, Idle, Jump, Jump_Idle) | CC0 | 510 KB | P3 | B2 |
+| 103 | Ghost | Quaternius · Cute Monsters | 8 (Death, Fast_Flying, Flying_Idle, Punch) | CC0 | 200 KB | P2 | B2 |
+| 104 | Zombie | Quaternius · Animated models (misc) | 32 (Death, Idle, Idle_Attack, Jump) | CC0 | 980 KB | P3 | B2 |
+| 105 | Demon (oni stand-in) | Quaternius · Animated models (misc) | 14 (Death, Idle, Jump, Jump_Idle) | CC0 | 490 KB | P2 | B2 |
+| 106 | Slime | Quaternius · Animated Creatures/Dinosaurs | (Slime_Attack, Slime_Death, Slime_Idle, Slime_Walk) | CC0 | 170 KB | P3 | B2 |
+| 107 | Robot (RobotExpressive) | three.js examples | 14 (Dance, Death, Idle, Jump) | CC0 | 450 KB | P1 | B3 |
+| 108 | Mech | Quaternius · Robots & Mechs | 17 (Dance, Death, Idle, Jump) | CC0 | 670 KB | P2 | B2 |
+| 109 | Dragon | Quaternius · Cute Monsters | 8 (Death, Fast_Flying, Flying_Idle, Punch) | CC0 | 250 KB | P2 | B2 |
+| 110 | Dragon (procedural dragon.js) | procedural (code) | yes | project | - | P2 | B8 |
+| 111 | Knight (procedural knight.js) | procedural (code) | yes | project | - | P2 | B8 |
+
+### Land vehicles (20)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 112 | Sports sedan (AE86-like stand-in) | Kenney · Car Kit | - | CC0 | 170 KB | P1 | B4 |
+| 113 | Hatchback sports | Kenney · Car Kit | - | CC0 | 190 KB | P2 | B4 |
+| 114 | Sedan | Kenney · Car Kit | - | CC0 | 170 KB | P1 | B4 |
+| 115 | SUV | Kenney · Car Kit | - | CC0 | 200 KB | P2 | B4 |
+| 116 | Taxi | Kenney · Car Kit | - | CC0 | 170 KB | P2 | B4 |
+| 117 | Police car | Kenney · Car Kit | - | CC0 | 190 KB | P2 | B4 |
+| 118 | Ambulance | Kenney · Car Kit | - | CC0 | 230 KB | P3 | B4 |
+| 119 | Fire truck | Kenney · Car Kit | - | CC0 | 230 KB | P3 | B4 |
+| 120 | Van | Kenney · Car Kit | - | CC0 | 170 KB | P2 | B4 |
+| 121 | Delivery truck | Kenney · Car Kit | - | CC0 | 240 KB | P2 | B4 |
+| 122 | Tractor | Kenney · Car Kit | - | CC0 | 170 KB | P3 | B4 |
+| 123 | Race kart | Kenney · Car Kit | - | CC0 | 250 KB | P3 | B4 |
+| 124 | Bullet train (shinkansen) | Kenney · Train Kit | - | CC0 | 110 KB | P1 | B4 |
+| 125 | City commuter train | Kenney · Train Kit | - | CC0 | 100 KB | P1 | B4 |
+| 126 | Tram | Kenney · Train Kit | - | CC0 | 130 KB | P2 | B4 |
+| 127 | Steam locomotive | Kenney · Train Kit | - | CC0 | 150 KB | P3 | B4 |
+| 128 | Sushi truck / food truck | Quaternius · Static models | - | CC0 | 550 KB | P3 | B4 |
+| 129 | Kick scooter | Kenney · Mini Skate | - | CC0 | 40 KB | P3 | B4 |
+| 130 | Bicycle | gap | - | - | - | P1 | B8 |
+| 131 | AE86 (procedural ae86.js) | procedural (code) | yes | project | - | P1 | B8 |
+
+### Air / water / space vehicles (12)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 132 | Fishing boat | Kenney · Watercraft Kit | - | CC0 | 20 KB | P2 | B4 |
+| 133 | Row boat | Kenney · Watercraft Kit | - | CC0 | 20 KB | P3 | B4 |
+| 134 | Sail boat | Kenney · Watercraft Kit | - | CC0 | 30 KB | P2 | B4 |
+| 135 | Speed boat | Kenney · Watercraft Kit | - | CC0 | 20 KB | P3 | B4 |
+| 136 | Pirate ship | Kenney · Pirate Kit | - | CC0 | 160 KB | P2 | B4 |
+| 137 | Ocean liner | Kenney · Watercraft Kit | - | CC0 | 220 KB | P3 | B4 |
+| 138 | Spaceship | Quaternius · Static models | - | CC0 | 160 KB | P2 | B4 |
+| 139 | Speeder craft | Kenney · Space Kit | - | CC0 | 20 KB | P3 | B4 |
+| 140 | Planetary rover | Kenney · Space Kit | - | CC0 | 10 KB | P3 | B4 |
+| 141 | UFO | Kenney · Tower Defense Kit | - | CC0 | 40 KB | P3 | B4 |
+| 142 | Airplane | gap | - | - | - | P2 | B8 |
+| 143 | Helicopter | gap | - | - | - | P3 | B8 |
+
+### Buildings (15)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 144 | Torii gate | Quaternius · Static models | - | CC0 | 20 KB | P1 | B5 |
+| 145 | Japanese sliding door | Quaternius · Static models | - | CC0 | 10 KB | P1 | B5 |
+| 146 | Shoji wall | Quaternius · Static models | - | CC0 | 30 KB | P1 | B5 |
+| 147 | Temple / shrine hall | Quaternius · Static models | - | CC0 | 30 KB | P1 | B5 |
+| 148 | Wooden temple | Quaternius · Static models | - | CC0 | 340 KB | P2 | B5 |
+| 149 | Japanese house | gap | - | - | - | P1 | B8 |
+| 150 | School building | gap | - | - | - | P1 | B8 |
+| 151 | House | Quaternius · Static models | - | CC0 | 160 KB | P1 | B5 |
+| 152 | Town house | Quaternius · Static models | - | CC0 | 280 KB | P2 | B5 |
+| 153 | Suburban house | Kenney · City Kit Suburban | - | CC0 | 100 KB | P1 | B5 |
+| 154 | Apartment / office block | Kenney · City Kit Commercial | - | CC0 | 110 KB | P1 | B5 |
+| 155 | Skyscraper | Kenney · City Kit Commercial | - | CC0 | 110 KB | P2 | B5 |
+| 156 | Windmill | Kenney · City Kit Industrial | - | CC0 | 50 KB | P3 | B5 |
+| 157 | Water tower | Quaternius · Static models | - | CC0 | 60 KB | P3 | B5 |
+| 158 | Bell / clock tower | Quaternius · Static models | - | CC0 | 730 KB | P3 | B5 |
+
+### Nature (16)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 159 | Cherry blossom (sakura) tree | gap | - | - | - | P1 | B8 |
+| 160 | Tree | Quaternius · Static models | - | CC0 | 50 KB | P1 | B6 |
+| 161 | Pine tree | Quaternius · Static models | - | CC0 | 90 KB | P2 | B6 |
+| 162 | Autumn tree | Quaternius · Static models | - | CC0 | 160 KB | P2 | B6 |
+| 163 | Bamboo | Quaternius · Static models | - | CC0 | 30 KB | P1 | B6 |
+| 164 | Palm tree | Quaternius · Static models | - | CC0 | 120 KB | P3 | B6 |
+| 165 | Willow | Quaternius · Static models | - | CC0 | 150 KB | P3 | B6 |
+| 166 | Dead tree | Quaternius · Static models | - | CC0 | 40 KB | P3 | B6 |
+| 167 | Flower group | Quaternius · Static models | - | CC0 | 1.3 MB | P2 | B6 |
+| 168 | Grass | Quaternius · Static models | - | CC0 | 20 KB | P2 | B6 |
+| 169 | Bush | Quaternius · Static models | - | CC0 | 80 KB | P2 | B6 |
+| 170 | Mushroom | Kenney · Nature Kit | - | CC0 | 10 KB | P3 | B6 |
+| 171 | Rock | Quaternius · Static models | - | CC0 | 30 KB | P2 | B6 |
+| 172 | Lily pad | Quaternius · Static models | - | CC0 | 20 KB | P3 | B6 |
+| 173 | Cactus | Quaternius · Static models | - | CC0 | 20 KB | P3 | B6 |
+| 174 | Cloud | Quaternius · Static models | - | CC0 | 30 KB | P2 | B6 |
+
+### Household props (12)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 175 | Classroom desk | Kenney · Furniture Kit | - | CC0 | 20 KB | P1 | B7 |
+| 176 | Classroom chair | Kenney · Furniture Kit | - | CC0 | 40 KB | P1 | B7 |
+| 177 | Sofa | Quaternius · Static models | - | CC0 | 20 KB | P2 | B7 |
+| 178 | Table | Quaternius · Static models | - | CC0 | 50 KB | P2 | B7 |
+| 179 | Bed (single) | Quaternius · Static models | - | CC0 | 20 KB | P2 | B7 |
+| 180 | Bookcase | Quaternius · Static models | - | CC0 | 590 KB | P3 | B7 |
+| 181 | Table lamp | Quaternius · Static models | - | CC0 | 10 KB | P3 | B7 |
+| 182 | TV | Quaternius · Static models | - | CC0 | 30 KB | P2 | B7 |
+| 183 | Computer | Quaternius · Static models | - | CC0 | 40 KB | P3 | B7 |
+| 184 | Radio | Quaternius · Static models | - | CC0 | 30 KB | P3 | B7 |
+| 185 | Fridge | Quaternius · Static models | - | CC0 | 20 KB | P3 | B7 |
+| 186 | Bench | Quaternius · Static models | - | CC0 | 20 KB | P3 | B7 |
+
+### Food (8)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 187 | Ramen | Quaternius · Static models | - | CC0 | 200 KB | P1 | B7 |
+| 188 | Sushi nigiri | Quaternius · Static models | - | CC0 | 10 KB | P1 | B7 |
+| 189 | Onigiri | Quaternius · Static models | - | CC0 | 20 KB | P1 | B7 |
+| 190 | Dango | Quaternius · Static models | - | CC0 | 50 KB | P2 | B7 |
+| 191 | Udon | Quaternius · Static models | - | CC0 | 150 KB | P2 | B7 |
+| 192 | Sushi roll | Quaternius · Static models | - | CC0 | 10 KB | P2 | B7 |
+| 193 | Pizza | Quaternius · Static models | - | CC0 | 60 KB | P3 | B7 |
+| 194 | Cake | Kenney · Food Kit | - | CC0 | 70 KB | P3 | B7 |
+
+### Weapons & tools (10)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 195 | Katana | Poly Haven | - | CC0 | 650 KB | P1 | B8 |
+| 196 | Sword | Quaternius · Static models | - | CC0 | 50 KB | P2 | B8 |
+| 197 | Bow | Quaternius · Static models | - | CC0 | 40 KB | P2 | B8 |
+| 198 | Axe | Quaternius · Static models | - | CC0 | 50 KB | P3 | B8 |
+| 199 | Spear | Quaternius · Static models | - | CC0 | 150 KB | P3 | B8 |
+| 200 | Round shield | Quaternius · Static models | - | CC0 | 70 KB | P3 | B8 |
+| 201 | Staff | Quaternius · Static models | - | CC0 | 10 KB | P3 | B8 |
+| 202 | Dagger | Quaternius · Static models | - | CC0 | 40 KB | P3 | B8 |
+| 203 | Scythe | Quaternius · Static models | - | CC0 | 80 KB | P3 | B8 |
+| 204 | Pickaxe | Quaternius · Static models | - | CC0 | 20 KB | P3 | B8 |
+
+### Street props (8)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 205 | Vending machine | Kenney · Mini Arcade | - | CC0 | 20 KB | P1 | B8 |
+| 206 | Traffic light | Quaternius · Static models | - | CC0 | 40 KB | P2 | B8 |
+| 207 | Street light | Quaternius · Static models | - | CC0 | 20 KB | P2 | B8 |
+| 208 | Fire hydrant | Quaternius · Static models | - | CC0 | 50 KB | P3 | B8 |
+| 209 | Bench (street) | Kenney · Mini Skate | - | CC0 | 20 KB | P3 | B8 |
+| 210 | Lantern (stone/paper stand-in) | Kenney · Fantasy Town Kit | - | CC0 | 20 KB | P1 | B8 |
+| 211 | Traffic cone | Kenney · Car Kit | - | CC0 | 20 KB | P3 | B8 |
+| 212 | Dumpster | Quaternius · Static models | - | CC0 | 20 KB | P3 | B8 |
+
+### Misc props (4)
+
+| # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
+|---|---|---|---|---|---|---|---|
+| 213 | Treasure chest (animated) | Quaternius · Animated models (misc) | (Chest_Close, Chest_Open, Chest_Close, Chest_Open) | CC0 | 400 KB | P3 | B8 |
+| 214 | Guitar | Quaternius · Static models | - | CC0 | 130 KB | P3 | B8 |
+| 215 | Key | Quaternius · Static models | - | CC0 | 30 KB | P3 | B8 |
+| 216 | Umbrella | gap | - | - | - | P2 | B8 |

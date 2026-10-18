@@ -26,4 +26,6 @@ ox: poses rest, walk-a, walk-b, drink (muzzle ~0.04 m above ground), stomp (fron
 light-side: fixed LIGHT (0.62,0.72,0.3) puts every model's -X side and straight-on front in shade; film cameras favour the subject's left / front-left three-quarter
 thresholds: solids 0.35, skin ~-0.2, face -0.25, steel 0.45, glow facing away from light -0.7
 fable: films/ox-and-frog/index.html (kit + frog + ox inlined, each model in an IIFE; 1468 lines; lint 0 errors, 11 warnings); MP4 at renders/ox-and-frog.mp4 (gitignored)
+library-plan: models/PLAN.md (approach, pipeline, phases, decisions) + models/CANDIDATES.md (4,965 rows ranked P1-P4/X) + models/plan/{wave1.json (216 rows with exact URLs), candidates.json}; NOT approved yet, nothing downloaded
+library-sources: Quaternius CC0 via https://static.poly.pizza/<uuid>.glb (Drive route quota-blocked; never crawl poly.pizza HTML); KayKit CC0 via GitHub raw (itch.io excluded: browser handshake); Kenney CC0 zip scraped from each kit page (hash changes); Poly Haven CC0 API (trees/cliffs too big); avatars pending licence decision
 compile-bugs (pre-existing, unfixed): prototype keys pass aspect/script lookup (compile.js:187,192), compileBrief(null) throws (:174), multi-line dialogue breaks the quote (:224), slugFrom drops non-ASCII ("Kokuyō"→"kokuy") (:156)
