@@ -172,6 +172,16 @@ Torii gate, stone and paper lanterns (tōrō, chōchin), shoji screen and Japane
 
 Found in a source search after wave 1 started, now being built or queued (all CC0 unless marked): bicycle (Quaternius Public Transport, OGA), sakura (OGA lowpoly-sakura-tree), bamboo (Kenney Nature Kit), airplane and helicopter (OGA low-poly singles), umbrella and fire hydrant (KayKit Mixed Bag 1 on itch, KayKit City Builder Bits on GitHub), udon (Kenney Food Kit bowl-broth), staff (Quaternius RPG Pack, OGA), pickaxe (Kenney Survival Kit), dumpster (Kenney City Kit Roads), guitar (KayKit Mixed Bag 1 or OGA classical-guitar), water tower (Kenney City Kit Industrial), bell tower (Quaternius Medieval Village Pack, OGA), songbird (Asset Quest Free Pond Kit, OGA), butterfly (OGA butterfly-animated), turtle (OGA turtle-0), lizard (OGA lizard, CC-BY 3.0), goblin and zombie (Quaternius Ultimate Animated Character Pack), Japanese school (OGA japanese-school, CC-BY 4.0, unchecked). The search notes are in the session scratchpad; quaternius.com packs link to Google Drive or Patreon only and stay out of reach.
 
+A second search covered the rows 6–99 that had no entry yet. Results:
+- **Already covered:** stag (`deer`), static bird (`songbird`), business man (`man-suit`), casual character (`man-casual`), hooded rogue (`rogue-kaykit`).
+- **Built from new CC0 sources:** rat, frog, snake and spider (Quaternius Easy Animated Enemy Pack, itch); zebra and alpaca (Farm Animals, the alpaca is the llama); manta ray (Animated Fish); bee (Ultimate Platformer Pack); chick (Kenney Cube Pets); pigeon (OGA mujtaba-io .blend); mech (Animated Mech Pack); SWAT stand-in (UACP BlueSoldier_Male); blocky character (Kenney Blocky Characters).
+- **CC-BY, credited:** orc (OGA umask007 "Ork"), food cart stand-in (OGA ouren "Chinese Food Cart").
+- **Built as code:** torii, tōrō, chōchin, shrine hall, Japanese house, dango; goldfish, koi with patches, better ramen and a bamboo grove in progress.
+- **No usable source:** husky, donkey, raccoon, pufferfish, cartoon lizard, Japanese temple (only LGPL/SA), astronaut (the only animated one is a third-party repost of the Ultimate Space Kit, not used).
+- **Blocked:** VRM avatars (licence decision pending).
+
+Limits found on the way: no colour script has green (dango, bamboo, orc skin and leaves fall back to tan, red or blue); the pipeline flattens a texture to one colour per triangle, so painted faces on box characters (Kenney Blocky) are lost.
+
 ### Batches for wave 1 (8 agents in parallel)
 
 | batch | rows | contents |
