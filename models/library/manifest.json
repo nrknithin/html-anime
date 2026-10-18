@@ -61,7 +61,7 @@
         "pack": "Kenney · Mini Characters",
         "page": "https://kenney.nl/assets/mini-characters",
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "note": "Kenney ships the same character as FBX and GLB; this entry uses the FBX (same mesh, colour map and 32 clips). The long arm stubs are authored (Kenney preview and the OBJ show them) and reach about 7 cm below the soles when the arms hang: standing gesture clips keep the feet planted and allow that dip (sinkAllowed); moving clips use ground clamp; sit, drive and the wheelchair poses are lifted onto the ground plane (set their lift to 0 to seat her on a chair or wheelchair at the authored height)."
+        "note": "Kenney ships the same character as FBX and GLB; this entry uses the FBX (same mesh, colour map and 32 clips). The long arm stubs are authored (Kenney preview and the OBJ show them) and reach about 7 cm below the soles when the arms hang: standing gesture clips keep the feet planted and allow that dip (sinkAllowed); moving clips use ground clamp; sit, drive and the wheelchair poses are lifted so the body rests on the ground plane (set their lift to 0 to seat her on a chair or wheelchair at the authored height); when she sits on the ground the arm stubs hang about 15 cm past the seat and cross the ground (sinkAllowed), as lifting her onto their tips would leave her floating. The FBX rest pose is a T-pose, so views use idle@0."
       }
     }
   ]
