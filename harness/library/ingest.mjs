@@ -210,6 +210,7 @@ async function main() {
   const cargs = ["-I", path.join(HERE, "convert.py"), "--in", src, "--out", raw, "--report", report, "--height", String(ing.height || 0), "--yaw", String(ing.yaw || 0)];
   if (ing.drop?.length) cargs.push("--drop", ing.drop.join(","));
   if (ing.keepActions?.length) cargs.push("--keep-actions", ing.keepActions.join(","));
+  if (ing.maxColors) cargs.push("--max-colors", String(ing.maxColors));
   run(py, cargs, "convert.py", { cwd: tmp });
   const rep = JSON.parse(await fsp.readFile(report, "utf8"));
 
