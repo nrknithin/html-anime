@@ -93,6 +93,15 @@ KayKit's gradient atlas, Kenney's colour map and Poly Haven photos are textures,
 
 `convert.py` puts everything under one `root` node: scaled so the rest pose is `ingest.height` metres tall, turned by `ingest.yaw` degrees (about up) so the face points +Z, the lowest rest point on y = 0 and the bbox centred on x = z = 0. Find the yaw once per pack: shoot the `left` view; the face must point to the image's left. Clip names lose their `Armature|` prefixes and a suffix they all share with the armature's name (`Idle_Rig` -> `Idle`). Before measuring, any action an importer assigned is unassigned and every pose bone cleared, so the exported bones are the measured rest pose; bone display shapes (rig widgets) and render-hidden objects are deleted. Alternative props a pack ships on the rig (KayKit's four shields and three swords) go with `ingest.drop` by object name. A part that shares one mesh with the body (a witch's hat) goes with `ingest.dropMaterials`: every face using those source materials is deleted before measuring.
 
+### Two armatures: follower rigs are merged
+
+Blender 4.2's glTF exporter (actions mode) writes every action only when the scene has exactly one armature; with two it writes only the active actions, and `convert.py` unassigns those, so the export would have no clips. Some packs hang a part on a second rig: the 2018 Quaternius monsters skin their eyes to an `EyeArmature` whose one bone follows `BatArmature`'s `Face` bone through a Child Of constraint (dropping that rig leaves the eyes on the floor). Before measuring, `convert.py` folds such a follower into the armature it follows, when:
+
+- the follower is not animated (no action, NLA or drivers), and every bone of it is parentless and held by one enabled Child Of constraint (influence 1, all nine channels on) to a bone of one other armature;
+- every mesh it deforms is deformed by it alone (empty armature modifiers aside) and has no shape keys.
+
+Each of its meshes is baked where it sits with the main rig at rest and the constraints evaluated, then skinned rigidly to the constraint target bone (weight 1.0; a vertex weighted across several follower bones splits its weight among their targets, and a vertex with no weight goes whole to the target of a one-bone follower) and parented to the main armature; other children of the follower move to the main armature (bone children to the target bone), and the follower is deleted. The part then follows the target bone through every clip exactly as the constraint did. The report lists `mergedArmatures`; a source still left with several armatures prints a warning. A source with one armature is untouched (its GLB is byte-identical). Look at a clip that moves the head a lot (`death`, `attack`) in the `left` and `front` views: the part stays on the face.
+
 ### Props on bones: `ingest.attach`
 
 Some packs ship a character without what it holds: KayKit's Skeletons rigs come empty-handed, and the blades and shields are separate files meant for the `handslot.r` / `handslot.l` bones. `ingest.attach` puts them on:
@@ -147,7 +156,7 @@ Things only eyes catch, so look at the preview and a `--clip <c> --frames 8` mon
 | file | what |
 |---|---|
 | `ingest.mjs` | fetch, pin, unzip, convert, compress, write facts |
-| `convert.py` | Blender: import FBX / .blend / glTF / OBJ, attach props to bones, normalize, export GLB, report |
+| `convert.py` | Blender: import FBX / .blend / glTF / OBJ, merge follower armatures, attach props to bones, normalize, export GLB, report |
 | `check.mjs` | acceptance checks, `preview.png`, `meta.qa` |
 | `catalog.mjs` | `manifest.json`, `CATALOG.md`, `CREDITS.md`; `--check` fails on stale files or incomplete entries |
 | `library.test.mjs` | zip reader, attach arguments, catalog, entry completeness, no clock in pasted files (`npm test`) |
