@@ -153,6 +153,11 @@ Where the plan's source was unreachable, each model PR names the substitute and 
 | 58 T-Rex | `t-rex` | Quaternius Animated LowPoly Dinosaurs (itch.io) | the plan's pack, other route |
 | 64 Man | `man-casual` | Quaternius Ultimate Animated Character Pack (OpenGameArt) | chibi proportions, 11 clips, no run |
 | 144 Torii | gap | none free and verified | build as a code model (vermilion pillars, black caps, nuki, curved kasagi, ~4 m) |
+| 145 Sliding door, 146 Shoji wall, 147 Shrine hall | gap | none free and verified (the only OpenGameArt shrine is LGPL / CC-BY-SA; the rest are paid or unlicensed) | code models, with the torii as one Japanese-architecture set |
+| 175 Classroom desk | `desk-teacher` | Kenney Furniture Kit | an all-wood teacher's desk; a student desk (wood top on a metal frame) is a code model |
+| 187 Ramen | `ramen` | "Ramen" by DREAM_SEARCH_REPEAT (OpenGameArt, CC0) | noodles and toppings were painted on the texture and vanish in cel; a code model would read better |
+| 205 Vending machine | `vending-machine` | "Voxel Vending Machine" by MonoTone (OpenGameArt, CC0) | Kenney's is a small snack box |
+| 112, 114 Cars; 124, 125 Trains; 153, 154 Buildings | Kenney kits | as planned | chunky toy proportions at real height (a 3.7 m train car is 6.3 m long) |
 
 Not used yet, worth a later kitbash: Quaternius **Universal Base Characters** (itch.io, CC0) are realistic-proportion bodies, but unclothed "superhero" meshes with separate hair; their clips live in the separate **Universal Animation Library** GLB (same skeleton). Everyday people from them need outfits and a clip-merge step in the pipeline.
 
