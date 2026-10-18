@@ -284,11 +284,13 @@ def attach(spec, arms):
     """Import one prop and parent its top-level objects to an armature bone at rest (bone parenting, rigid). The
     prop's origin sits on the bone's head and its file axes on the bone's axes (KayKit's handslot bones are oriented
     for weapons); then offset (in the bone's frame, source units), rotation (degrees XYZ about the bone's axes) and
-    scale apply. Materials keep their names; one that collides with a material already in the scene is named
+    scale apply. Without a bone the prop stays a static part of the model: its origin on the model's origin, its file
+    axes on the model file's axes (Y up), then offset, rotation and scale in those axes (a keyboard beside a monitor).
+    Materials keep their names; one that collides with a material already in the scene is named
     "<name>@<file stem>" (instead of Blender's "<name>.001"), so meta.materials can map the prop on its own."""
-    path, bone_name = spec["file"], spec["bone"]
-    arm = next((o for o in arms if bone_name in o.data.bones), None)
-    if arm is None:
+    path, bone_name = spec["file"], spec.get("bone")
+    arm = next((o for o in arms if bone_name in o.data.bones), None) if bone_name else None
+    if bone_name and arm is None:
         raise SystemExit(f"convert: --attach {os.path.basename(path)}: no armature has a bone {bone_name!r}")
     scene = bpy.context.scene
     before = set(scene.objects)
@@ -319,8 +321,16 @@ def attach(spec, arms):
 
     rot = Euler([math.radians(v) for v in (spec.get("rotation") or (0, 0, 0))], "XYZ")
     local = Matrix.Translation(Vector(spec.get("offset") or (0, 0, 0))) @ rot.to_matrix().to_4x4() @ Matrix.Scale(float(spec.get("scale", 1)), 4)
-    head = arm.matrix_world @ arm.data.bones[bone_name].matrix_local  # the bone's head and axes at rest
     bpy.context.view_layer.update()
+    if arm is None:
+        # The importer already turned the file's Y-up into Z-up: undo it, place the prop in file axes, redo it.
+        place = ZUP_TO_FILE.inverted() @ local @ ZUP_TO_FILE
+        for o in new:
+            if o.parent is None:
+                o.matrix_world = place @ o.matrix_world
+        bpy.context.view_layer.update()
+        return meshes
+    head = arm.matrix_world @ arm.data.bones[bone_name].matrix_local  # the bone's head and axes at rest
     for o in sorted((o for o in new if o.parent is None), key=lambda o: o.name):
         world = head @ local @ ZUP_TO_FILE @ o.matrix_world
         o.parent = arm
@@ -491,10 +501,10 @@ def main():
     if len(arms) > 1:
         print(f"convert: warn: {len(arms)} armatures ({', '.join(o.name for o in arms)}): the glTF exporter writes only their active actions")
 
-    # Props parented to bones (a sword in a hand slot), at rest and before measuring, so they count in the bbox.
+    # Props parented to bones (a sword in a hand slot) or placed in the model (a keyboard), at rest and before measuring, so they count in the bbox.
     attached = {}
     for spec in map(json.loads, a.attach):
-        attached[os.path.basename(spec["file"])] = {"bone": spec["bone"], "meshes": attach(spec, arms)}
+        attached[os.path.basename(spec["file"])] = {"bone": spec.get("bone"), "meshes": attach(spec, arms)}
 
     # One root above everything, so the whole normalization is one node transform.
     root = bpy.data.objects.new("root", None)
