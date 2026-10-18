@@ -8,6 +8,10 @@
 # --attach (repeatable): a prop file (glTF/GLB, FBX or OBJ) imported at the rest pose and parented rigidly to a bone
 # before normalizing, so it is measured, exported and follows every clip (see attach()).
 #
+# A second armature that only follows a bone of the main one through Child Of constraints (eyes on their own rig) is
+# merged into it before export, since the glTF exporter writes all actions only for a single armature (see
+# merge_constraint_rigs()).
+#
 # Normalizing: every top-level object goes under one empty named "root" (exported as the glTF root node). Its scale
 # makes the rest-pose bbox --height metres tall, --yaw (degrees about up) turns the face to +Z, and its translation
 # puts the lowest rest point on y = 0 and the bbox centre on x = z = 0. Blender is Z-up and the glTF exporter maps
@@ -327,6 +331,116 @@ def attach(spec, arms):
     return meshes
 
 
+def merge_constraint_rigs(arms):
+    """Fold secondary armatures into the one they follow, so the export has one armature (Blender 4.2's glTF exporter
+    writes every action only when there is exactly one; with two it writes the active ones, and none are active here).
+    A secondary armature qualifies when it is not animated, every bone is parentless and held by one enabled Child Of
+    constraint (influence 1, all nine channels) to a bone of one other armature, and every mesh it deforms is deformed
+    by it alone and has no shape keys. Each such mesh is baked where it sits now (the main rig at rest, the
+    constraints evaluated), re-skinned rigidly to the constraint target bones (a vertex's weights move from each
+    secondary bone to that bone's target; a vertex with no weight goes whole to the target of a one-bone rig) and
+    parented to the main armature; other children follow their bone's target; the secondary armature is deleted.
+    The 2018 Quaternius monsters hang their eyes this way (EyeArmature -> BatArmature's Face). A source with one
+    armature is untouched. Returns {secondary armature: main armature} for what was merged."""
+    scene = bpy.context.scene
+    merged = {}
+    for s in list(arms):
+        ad = s.animation_data
+        if ad and (ad.action or len(ad.nla_tracks) or len(ad.drivers)) or not s.data.bones:
+            continue
+        target = {}  # secondary bone -> main bone
+        main = set()
+        for pb in s.pose.bones:
+            live = [c for c in pb.constraints if not c.mute and c.influence > 0]
+            c = live[0] if len(live) == 1 else None
+            if (
+                pb.parent is not None
+                or c is None
+                or c.type != "CHILD_OF"
+                or c.influence != 1.0
+                or c.target is None
+                or c.target is s
+                or c.target.type != "ARMATURE"
+                or c.subtarget not in c.target.data.bones
+                or not all(getattr(c, f"use_{k}_{ax}") for k in ("location", "rotation", "scale") for ax in "xyz")
+            ):
+                break
+            target[pb.name] = c.subtarget
+            main.add(c.target)
+        else:
+            if len(main) != 1:
+                continue
+            t = main.pop()
+            meshes = [o for o in scene.objects if o.type == "MESH" and any(m.type == "ARMATURE" and m.object is s for m in o.modifiers)]
+            if any(o.data.shape_keys or any(m.type == "ARMATURE" and m.object not in (None, s) for m in o.modifiers) for o in meshes):
+                continue
+            # Where every secondary bone puts its vertices now, with the main armature at rest (world space).
+            s.data.pose_position = "POSE"
+            bpy.context.view_layer.update()
+            sw = s.matrix_world
+            deform = {b.name: sw @ s.pose.bones[b.name].matrix @ b.matrix_local.inverted() @ sw.inverted() for b in s.data.bones}
+            plan = []
+            for o in meshes:
+                mw = o.matrix_world.copy()
+                verts = []
+                for v in o.data.vertices:
+                    ws = [(o.vertex_groups[g.group].name, g.weight) for g in v.groups if g.weight > 0 and o.vertex_groups[g.group].name in deform]
+                    if not ws:
+                        if len(deform) != 1:
+                            break
+                        ws = [(next(iter(deform)), 1.0)]
+                    tot = sum(w for _, w in ws)
+                    p = mw @ v.co
+                    q = Vector((0.0, 0.0, 0.0))
+                    new = {}
+                    for name, w in ws:
+                        q += (deform[name] @ p) * (w / tot)
+                        new[target[name]] = new.get(target[name], 0.0) + w / tot
+                    verts.append((q, new))
+                else:
+                    plan.append((o, mw, verts))
+                    continue
+                break
+            else:
+                for o, mw, verts in plan:
+                    for m in [m for m in o.modifiers if m.type == "ARMATURE" and m.object in (None, s)][1:]:
+                        o.modifiers.remove(m)  # an empty armature modifier deforms nothing but hides the skin from the exporter
+                    mod = next(m for m in o.modifiers if m.type == "ARMATURE")
+                    mod.object = t
+                    o.vertex_groups.clear()
+                    groups = {}
+                    o.parent = t
+                    o.parent_type = "OBJECT"
+                    o.matrix_parent_inverse = Matrix.Identity(4)
+                    bpy.context.view_layer.update()
+                    o.matrix_world = mw
+                    bpy.context.view_layer.update()
+                    inv = o.matrix_world.inverted()
+                    for v, (q, new) in zip(o.data.vertices, verts):
+                        v.co = inv @ q
+                        for bone, w in new.items():
+                            if bone not in groups:
+                                groups[bone] = o.vertex_groups.new(name=bone)
+                            groups[bone].add([v.index], w, "REPLACE")
+                    o.data.update()
+                for o in [o for o in s.children if o not in meshes]:
+                    mw = o.matrix_world.copy()
+                    bone = target.get(o.parent_bone) if o.parent_type == "BONE" else None
+                    o.parent = t
+                    o.parent_type = "BONE" if bone else "OBJECT"
+                    o.parent_bone = bone or ""
+                    o.matrix_parent_inverse = Matrix.Identity(4)
+                    bpy.context.view_layer.update()
+                    o.matrix_world = mw
+                merged[s.name] = t.name
+                bpy.data.objects.remove(s, do_unlink=True)
+                bpy.context.view_layer.update()
+                continue
+            s.data.pose_position = "REST"
+            bpy.context.view_layer.update()
+    return merged
+
+
 def mesh_points(objs):
     """World-space vertices of every mesh as evaluated now (armature modifiers included)."""
     dg = bpy.context.evaluated_depsgraph_get()
@@ -367,6 +481,13 @@ def main():
             pb.scale = (1.0, 1.0, 1.0)
         arm.data.pose_position = "REST"
     bpy.context.view_layer.update()
+    # A second armature that only follows a bone of the first (eyes on a Child Of rig) is folded into it.
+    merged = merge_constraint_rigs(arms) if len(arms) > 1 else {}
+    if merged:
+        arms = [o for o in scene.objects if o.type == "ARMATURE"]
+        print("convert: merged " + ", ".join(f"{k} -> {v}" for k, v in merged.items()))
+    if len(arms) > 1:
+        print(f"convert: warn: {len(arms)} armatures ({', '.join(o.name for o in arms)}): the glTF exporter writes only their active actions")
 
     # Props parented to bones (a sword in a hand slot), at rest and before measuring, so they count in the bbox.
     attached = {}
@@ -482,6 +603,8 @@ def main():
     }
     if attached:
         report["attached"] = attached
+    if merged:
+        report["mergedArmatures"] = merged
     with open(a.report, "w") as f:
         json.dump(report, f, indent=2)
     print(json.dumps({k: report[k] for k in ("height", "triangles", "bones")}))
