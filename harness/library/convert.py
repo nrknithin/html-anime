@@ -29,6 +29,7 @@ def parse():
     p.add_argument("--yaw", type=float, default=0.0, help="degrees about up, applied before measuring")
     p.add_argument("--drop", default="", help="comma list of object names to delete (cameras and lights always go)")
     p.add_argument("--keep-actions", default="", help="comma list: export only these actions (default all)")
+    p.add_argument("--max-colors", type=int, default=12, help="textured materials: at most this many flat colours per material")
     return p.parse_args(sys.argv[sys.argv.index("--") + 1 :] if "--" in sys.argv else sys.argv[1:])
 
 
@@ -54,6 +55,102 @@ def material_color(mat):
                 if sock is not None and sock.is_linked:
                     return "texture"
     return hexof(mat.diffuse_color)
+
+
+def base_image(mat):
+    """The image node feeding a material's Base Color (directly or through one node), or None."""
+    if not (mat and mat.use_nodes and mat.node_tree):
+        return None
+    for n in mat.node_tree.nodes:
+        if n.type == "BSDF_PRINCIPLED":
+            sock = n.inputs.get("Base Color")
+            if sock is None or not sock.is_linked:
+                return None
+            src = sock.links[0].from_node
+            for _ in range(3):
+                if src.type == "TEX_IMAGE":
+                    return src.image
+                ins = [i for i in src.inputs if i.is_linked]
+                if not ins:
+                    return None
+                src = ins[0].links[0].from_node
+    return None
+
+
+def split_textures(objs, max_colors):
+    """Textured materials -> flat ones. Each face takes the texel at its UV centroid; all faces of one source material
+    (across every object) are clustered (k-means in sRGB, weighted by face area, at most max_colors, seeded by the
+    most-covered colours so the result is deterministic) and each cluster becomes a material "<material>#rrggbb" with
+    that flat colour. Roles then map per colour, as for flat-coloured packs."""
+    import numpy as np
+
+    groups = {}  # material name -> list of (object, polygon index, rgb, area)
+    pixels = {}
+    for o in objs:
+        me = o.data
+        if not me.uv_layers.active:
+            continue
+        uv = me.uv_layers.active.data
+        for slot_i, slot in enumerate(o.material_slots):
+            img = base_image(slot.material)
+            if img is None or img.size[0] == 0:
+                continue
+            if img.name not in pixels:
+                w, h = img.size
+                px = np.array(img.pixels[:], dtype=np.float32).reshape(h, w, img.channels)[:, :, :3]
+                if img.colorspace_settings.name != "sRGB":  # linear data: to sRGB for clustering and hex
+                    px = np.where(px <= 0.0031308, px * 12.92, 1.055 * np.power(np.clip(px, 0, 1), 1 / 2.4) - 0.055)
+                pixels[img.name] = px
+            px = pixels[img.name]
+            h, w = px.shape[:2]
+            g = groups.setdefault(slot.material.name, [])
+            for p in me.polygons:
+                if p.material_index != slot_i:
+                    continue
+                u = sum(uv[i].uv[0] for i in p.loop_indices) / p.loop_total
+                v = sum(uv[i].uv[1] for i in p.loop_indices) / p.loop_total
+                g.append((o, p.index, px[int((v % 1.0) * h) % h, int((u % 1.0) * w) % w], max(p.area, 1e-9)))
+    made = {}
+    for base, faces in groups.items():
+        cols = np.array([f[2] for f in faces])
+        area = np.array([f[3] for f in faces])
+        keys = np.round(cols * 255).astype(int)
+        cover = {}
+        for c, a in zip(map(tuple, keys), area):
+            cover[c] = cover.get(c, 0) + a
+        k = min(max_colors, len(cover))
+        cent = np.array(sorted(cover, key=lambda c: (-cover[c], c))[:k], dtype=np.float32) / 255
+        for _ in range(25):
+            lab = np.argmin(((cols[:, None, :] - cent[None, :, :]) ** 2).sum(-1), axis=1)
+            for j in range(k):
+                m = lab == j
+                if m.any():
+                    cent[j] = (cols[m] * area[m, None]).sum(0) / area[m].sum()
+        lab = np.argmin(((cols[:, None, :] - cent[None, :, :]) ** 2).sum(-1), axis=1)
+        mats = {}
+        for j in sorted(set(int(x) for x in lab)):
+            hexc = "#" + "".join(f"{int(round(min(max(c, 0), 1) * 255)):02x}" for c in cent[j])
+            name = f"{base}{hexc}"
+            mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)
+            lin = [c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4 for c in cent[j]]
+            mat.diffuse_color = (*lin, 1.0)
+            mat.use_nodes = True
+            mat.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (*lin, 1.0)
+            mats[j] = mat
+            made[name] = hexc
+        slot_of = {}
+        for (o, pi, _, _), j in zip(faces, lab):
+            mat = mats[int(j)]
+            key = (o.name, mat.name)
+            if key not in slot_of:
+                idx = next((i for i, m in enumerate(o.data.materials) if m == mat), None)
+                if idx is None:
+                    o.data.materials.append(mat)
+                    idx = len(o.data.materials) - 1
+                slot_of[key] = idx
+            o.data.polygons[pi].material_index = slot_of[key]
+    # textured slots no face uses any more export nothing: the glTF exporter writes only used materials
+    return made
 
 
 def load(src):
@@ -93,12 +190,23 @@ def main():
     load(a.src)
     scene = bpy.context.scene
     drop = {s for s in a.drop.split(",") if s}
+    # Bone display shapes (custom_shape) are rig widgets, not part of the model; render-hidden objects too.
+    widgets = {pb.custom_shape.name for o in scene.objects if o.type == "ARMATURE" for pb in o.pose.bones if pb.custom_shape}
     for o in list(scene.objects):
-        if o.type in {"CAMERA", "LIGHT"} or o.name in drop:
+        if o.type in {"CAMERA", "LIGHT"} or o.name in drop or o.name in widgets or o.hide_render:
             bpy.data.objects.remove(o, do_unlink=True)
 
+    # The exported bone transforms must be the rest pose that gets measured: unassign any active action (importers
+    # assign one) and clear every pose bone. The actions themselves are still exported.
     arms = [o for o in scene.objects if o.type == "ARMATURE"]
     for arm in arms:
+        if arm.animation_data:
+            arm.animation_data.action = None
+        for pb in arm.pose.bones:
+            pb.location = (0.0, 0.0, 0.0)
+            pb.rotation_quaternion = (1.0, 0.0, 0.0, 0.0)
+            pb.rotation_euler = (0.0, 0.0, 0.0)
+            pb.scale = (1.0, 1.0, 1.0)
         arm.data.pose_position = "REST"
     bpy.context.view_layer.update()
 
@@ -133,7 +241,16 @@ def main():
     for arm in arms:
         arm.data.pose_position = "POSE"
 
-    # "Armature|Armature|Run" (FBX import) -> "Run": clip names are the last segment, kept unique.
+    # "Armature|Armature|Run" (FBX import) -> "Run": clip names are the last segment, kept unique. A suffix every
+    # action shares that is an armature's name ("Idle_Rig", glTF import) goes too.
+    names = [act.name.split("|")[-1] for act in bpy.data.actions]
+    for arm in arms:
+        suf = "_" + arm.name
+        if names and all(n.endswith(suf) for n in names):
+            for act in bpy.data.actions:
+                if act.name.endswith(suf):
+                    act.name = act.name[: -len(suf)]
+            break
     taken = set()
     for act in list(bpy.data.actions):  # a copy: renaming re-sorts the collection
         if act.id_root not in {"OBJECT"}:
@@ -154,6 +271,7 @@ def main():
         f0, f1 = act.frame_range
         actions.append({"name": act.name, "frames": [f0, f1], "seconds": round((f1 - f0) / scene.render.fps, 4)})
 
+    split = split_textures(objs, a.max_colors)
     mats = {}
     tris = 0
     for o in objs:
@@ -190,6 +308,7 @@ def main():
         "armatures": [o.name for o in arms],
         "bones": sum(len(o.data.bones) for o in arms),
         "materials": mats,
+        "textureSplit": split,
         "actions": actions,
         "fps": scene.render.fps,
     }

@@ -79,9 +79,13 @@ Shared clip vocabulary: `idle`, `walk`, `run`, `jump`, `attack`, `hit`, `death`,
 
 The first fetch pins `ingest.fetch.sha256`; a later fetch that differs stops with an error. Downloads are cached in `<tmp>/html-anime-library-cache` (`--refetch` skips the cache). Requests go one at a time with a pause. Never work around a bot check: `poly.pizza` (Cloudflare challenge) and Quaternius's Google Drive (quota) are off limits; find the pack on OpenGameArt or itch.io instead.
 
+### Textured sources
+
+KayKit's gradient atlas, Kenney's colour map and Poly Haven photos are textures, and the cel look has no textures. `convert.py` turns every textured material into flat ones: each face takes the texel at its UV centroid, the faces of one source material are clustered into at most `ingest.maxColors` colours (default 12, k-means, deterministic), and each cluster becomes a material named `<material>#rrggbb`. ingest lists them in `sourceMaterials`; map each to a role like any other material (several greys of one armour all go to `steel`).
+
 ### Normalizing
 
-`convert.py` puts everything under one `root` node: scaled so the rest pose is `ingest.height` metres tall, turned by `ingest.yaw` degrees (about up) so the face points +Z, the lowest rest point on y = 0 and the bbox centred on x = z = 0. Find the yaw once per pack: shoot the `left` view; the face must point to the image's left. Clip names lose their `Armature|` prefixes.
+`convert.py` puts everything under one `root` node: scaled so the rest pose is `ingest.height` metres tall, turned by `ingest.yaw` degrees (about up) so the face points +Z, the lowest rest point on y = 0 and the bbox centred on x = z = 0. Find the yaw once per pack: shoot the `left` view; the face must point to the image's left. Clip names lose their `Armature|` prefixes and a suffix they all share with the armature's name (`Idle_Rig` -> `Idle`). Before measuring, any action an importer assigned is unassigned and every pose bone cleared, so the exported bones are the measured rest pose; bone display shapes (rig widgets) and render-hidden objects are deleted. Alternative props a pack ships on the rig (KayKit's four shields and three swords) go with `ingest.drop` by object name.
 
 ## In the lab
 
