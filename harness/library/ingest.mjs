@@ -218,18 +218,19 @@ async function main() {
   } else {
     src = path.join(srcDir, ing.filename || path.basename(new URL(url || ing.fetch.url).pathname));
     await fsp.writeFile(src, buf);
-    // fetch.extraFiles: [{ url, path }] a multi-file source (a .gltf's .bin and textures, Poly Haven), each pinned
-    // by sha256 like the main file and saved at `path` relative to it.
-    for (const x of ing.fetch.extraFiles || []) {
-      const to = path.resolve(srcDir, x.path);
-      if (!to.startsWith(srcDir + path.sep)) throw new Error(`extraFiles: ${x.path} leaves the scratch folder`);
-      const { buf: xb } = await fetchSource({ type: "file", url: x.url }, refetch);
-      const h = sha256(xb);
-      if (x.sha256 && x.sha256 !== h) throw new Error(`${id}: ${x.path} sha256 ${h} does not match the pinned ${x.sha256}`);
-      x.sha256 = h;
-      await fsp.mkdir(path.dirname(to), { recursive: true });
-      await fsp.writeFile(to, xb);
-    }
+  }
+  // fetch.extraFiles: [{ url, path }] more single files, each pinned by sha256 like the main download and saved at
+  // `path` under the scratch folder: a multi-file source (a .gltf's .bin and textures, Poly Haven), or a prop from
+  // another source for ingest.attach beside a zip member (a katana in a pack character's hand).
+  for (const x of ing.fetch.extraFiles || []) {
+    const to = path.resolve(srcDir, x.path);
+    if (!to.startsWith(srcDir + path.sep)) throw new Error(`extraFiles: ${x.path} leaves the scratch folder`);
+    const { buf: xb } = await fetchSource({ type: "file", url: x.url }, refetch);
+    const h = sha256(xb);
+    if (x.sha256 && x.sha256 !== h) throw new Error(`${id}: ${x.path} sha256 ${h} does not match the pinned ${x.sha256}`);
+    x.sha256 = h;
+    await fsp.mkdir(path.dirname(to), { recursive: true });
+    await fsp.writeFile(to, xb);
   }
 
   // 3. convert + normalize: Blender, or for via "gltf" a GLB kept as is under a new root node (normalize.mjs)
