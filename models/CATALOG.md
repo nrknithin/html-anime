@@ -9,4 +9,4 @@
 
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| <img src="library/key/preview.png" width="240"> | `key` | Key<br>*low-poly, flat colours, chunky old-style gold key (Quaternius 2021)* | 0.061 m | 472 | - | CC0 1.0 | [Quaternius · Ultimate Platformer Pack (Dec 2021)](https://quaternius.itch.io/ultimate-platformer-pack) |
+| <img src="library/key/preview.png" width="240"> | `key` | Key<br>*low-poly, flat colours, chunky old-style gold key (Quaternius 2021)* | 0.12 m | 472 | - | CC0 1.0 | [Quaternius · Ultimate Platformer Pack (Dec 2021)](https://quaternius.itch.io/ultimate-platformer-pack) |
