@@ -656,7 +656,7 @@
 
         // --clip <name> [--at s]: one frame of a library clip; --frames n: a montage of n frames across the clip.
         if (P.clip) {
-          if (!built.clips || !(P.clip in built.clips)) throw new Error(`--clip: no clip "${P.clip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (only library models have clips)"}`);
+          if (!built.clips || !(P.clip in built.clips)) throw new Error(`--clip: no clip "${P.clip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (the model returns no clips)"}`);
           const d = built.clips[P.clip];
           if (P.frames > 1) {
             montage.length = 0;
@@ -668,7 +668,7 @@
         // `left` view, all at one scale: the library preview.png.
         const strip = [];
         if (P.strip && !montage.length) {
-          if (!built.clips || !(P.strip in built.clips)) throw new Error(`--strip: no clip "${P.strip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (only library models have clips)"}`);
+          if (!built.clips || !(P.strip in built.clips)) throw new Error(`--strip: no clip "${P.strip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (the model returns no clips)"}`);
           const n = P.frames > 0 ? P.frames : 4;
           for (let k = 0; k < n; k++) strip.push(`${P.strip}@${+((built.clips[P.strip] * k) / n).toFixed(4)}`);
         }
