@@ -44,6 +44,9 @@
     "steel": 0.1
   },
   "smooth": false,
+  "doubleSided": [
+    "cloth"
+  ],
   "clips": {
     "idle": "Idle",
     "walk": "Walking_A",
@@ -66,6 +69,7 @@
     ]
   },
   "preview": {
+    "pose": "idle@0",
     "clip": "attack"
   },
   "source": {
@@ -363,6 +367,6 @@
     },
     "palette": 1,
     "deterministic": true,
-    "preview": "rest + attack"
+    "preview": "idle@0 + attack"
   }
 }
