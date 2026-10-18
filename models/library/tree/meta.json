@@ -1,0 +1,75 @@
+{
+  "id": "tree",
+  "name": "Tree",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "tree",
+    "broadleaf",
+    "deciduous",
+    "park",
+    "forest",
+    "background",
+    "static"
+  ],
+  "style": "low-poly, flat colours, rounded faceted canopy (Quaternius 2019)",
+  "height": 7,
+  "script": "noon",
+  "colors": {
+    "leaves": "#c4452d",
+    "leavesShade": "#5c3d32",
+    "trunk": "#241c16",
+    "trunkShade": "#2c261f"
+  },
+  "materials": {
+    "Wood": "trunk",
+    "Green": "leaves",
+    "DarkGreen": "leaves"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
+    "page": "https://opengameart.org/content/low-poly-nature-pack-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius static tree on poly.pizza) is behind a Cloudflare challenge; this is CommonTree_2 (the fullest, roundest of the five CommonTree variants) from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0). Height 7 m: a mature small broadleaf street or park tree (maple, cherry, young oak) is 6-8 m; at 7 m the trunk is about 0.35 m across and the canopy starts at 3 m, so a 1.6 m person stands well under it, as in an anime park or school-yard background. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip",
+      "sha256": "92daf8b532f60ac0fb53371144d0f8e9ec2f82a2fa408effdf1a64cb8fbaee09",
+      "bytes": 22990249,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip"
+    },
+    "member": "Ultimate Nature Pack - Jun 2019/FBX/CommonTree_2.fbx",
+    "height": 7,
+    "yaw": 0,
+    "memberSha256": "b3ca339781adc90ca0714d5d3fb081e5432f4a0e47f2697b7865a907b39c93cc"
+  },
+  "file": "model.glb",
+  "sha256": "d70b64ecf3ae0a48f9aef581c735e2c26d2821ebbced54f5e3bb4d0331091f86",
+  "bytes": 41640,
+  "triangles": 2952,
+  "bones": 0,
+  "sourceMaterials": {
+    "Wood": "#6d4b45",
+    "Green": "#536d45",
+    "DarkGreen": "#415536"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 7,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2952,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
