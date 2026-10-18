@@ -263,6 +263,11 @@ export function applyFilter(THREE, built, { hide = [], only = null } = {}) {
       if (o.isObject3D && !keep.has(o)) o.visible = false;
     });
   }
+  if (only) {
+    let shown = 0;
+    built.joints[only].traverseVisible((o) => (shown += o.isMesh && !o.userData.isHull ? 1 : 0));
+    if (!shown) throw new Error(`--only ${only}: nothing drawn under that joint${root.getObjectByProperty("isSkinnedMesh", true) ? " (a skinned mesh is not in a bone's subtree: use --focus for a close-up instead)" : ""}`);
+  }
   return warnings;
 }
 
