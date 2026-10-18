@@ -103,7 +103,8 @@ export function checkMeta(mod, SCRIPTS, warnings) {
 export function contractWarnings(M, meta, warnings) {
   if (Math.abs(M.max[1] - meta.height) > Math.max(0.0005, 0.02 * meta.height)) warnings.push(`meta.height ${meta.height} m but the model's top at rest is ${fmt(M.max[1])} m`);
   if (Math.abs(M.min[1]) > Math.min(0.02, Math.max(0.0005, 0.02 * meta.height))) warnings.push(`model should stand on y=0 (lowest point at rest is ${fmt(M.min[1])} m)`);
-  for (const [i, axis] of [[0, "x"], [2, "z"]])
+  // A library entry centred on its body (ingest.centerOn) is off-centre overall by design: a held weapon sticks out.
+  if (!meta.ingest?.centerOn) for (const [i, axis] of [[0, "x"], [2, "z"]])
     if (Math.abs(M.center[i]) > 0.15 * Math.max(M.size[i], 0.2)) warnings.push(`model should be centered on ${axis}=0 (bbox center is ${fmt(M.center[i])} m)`);
 }
 
