@@ -1,0 +1,67 @@
+{
+  "id": "key",
+  "name": "Key",
+  "category": "misc prop",
+  "tags": [
+    "prop",
+    "key",
+    "gold",
+    "pickup",
+    "treasure",
+    "static"
+  ],
+  "style": "low-poly, flat colours, chunky old-style gold key (Quaternius 2021)",
+  "height": 0.061,
+  "script": "indigo",
+  "colors": {
+    "gold": "#f0c36a",
+    "goldShade": "#e7a04a"
+  },
+  "materials": {
+    "Gold": "gold"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Platformer Pack (Dec 2021)",
+    "page": "https://quaternius.itch.io/ultimate-platformer-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius key on poly.pizza) is behind a Cloudflare challenge. This is the same Quaternius key as shipped in the Ultimate Platformer Pack on itch.io (free download; License.txt in the zip: CC0 1.0; the same zip and sha256 as the chest and cloud entries): Powerups and Pickups/FBX/Key.fbx, the pack's only key, a static chunky old-style key with a ring bow, a round shaft and two bit teeth, one Gold material. Orientation: the source stands on its edge with the long axis horizontal (shaft along X, the flat of the bow facing the front, teeth down), like a pickup on display. Upright (bow up, bit down) was wanted, but the pipeline turns only about up (ingest.yaw), with no pitch or roll, so the rest pose stays horizontal on its edge. To stand it upright in a film, rotate the root +90 degrees about Z after loading (the bow, at +X, swings up; lift it by half the length, 0.06 m, to put the bit on the ground). Hand offset: grip the shaft next to the bow, about 0.04-0.06 m from the bow end along X, the bit pointing away from the palm. yaw 180 puts the bow at +X and the teeth at -X so the hero camera (front-left, low) sees the flat of the bow and the key reads at a glance; at yaw 0 it looked end-on down the shaft from the bow side and read as a pi sign. Size: the length (X) is normalised to 0.12 m, mid-range for a hand-held old-style key (7-15 cm); since ingest scales by height, height is 0.061 m (the bow diameter), with 0.02 m thickness, game-pickup chunky. Colours on indigo: practical gold shading to iris amber, with ink (noon has no yellow). Flat shading (smooth false) was tried and looked the same, so smooth stays. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/ultimate-platformer-pack",
+      "upload": "Ultimate Platformer Pack by Quaternius.zip",
+      "sha256": "2d0cac0f3cb58f6845f779a4c6b4a92be6fa27d118ee0b976ead55c6834a53d4",
+      "bytes": 18863631
+    },
+    "member": "Ultimate Platformer Pack - Dec 2021/Powerups and Pickups/FBX/Key.fbx",
+    "height": 0.061,
+    "yaw": 180,
+    "memberSha256": "9cd5d46b8fdfca0440ce96ff3d5efafe33e957af55a7fffe232e0e54b16d86ee"
+  },
+  "file": "model.glb",
+  "sha256": "f46c54d5e900ffb102b8af8749e4b4e4e17588d11871453bfbcaed2be57af939",
+  "bytes": 5316,
+  "triangles": 472,
+  "bones": 0,
+  "sourceMaterials": {
+    "Gold": "#e5b55c"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.061,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 472,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
