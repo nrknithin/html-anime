@@ -29,7 +29,7 @@ const USAGE = `usage: node harness/lab/probe.mjs --model <path> [--pose <name> |
   --pose <name>    one pose (default rest)
   --poses <list>   several poses, or "all" for every name in meta.poses
   --opts '<json>'  JSON object passed to build() as its 4th argument, e.g. '{"lit":true}' (code models; library entries ignore it)
-  --clip <name>    library models: probe n frames of a clip [--frames n, default 8]
+  --clip <name>    models with clips: probe n frames of a clip [--frames n, default 8]
   --json           one JSON object instead of text
   --lax            contract violations (Math.random, imports ...) warn instead of fail
 
@@ -233,7 +233,7 @@ async function main() {
   if (opts.poses) names = opts.poses === "all" ? [...meta.poses] : String(opts.poses).split(",").map((s) => s.trim()).filter(Boolean);
   if (opts.clip) {
     // --clip <name> [--frames n]: n evenly spaced frames of a library clip (default 8)
-    if (!built.clips || !(opts.clip in built.clips)) throw new Error(`--clip: no clip "${opts.clip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (only library models have clips)"}`);
+    if (!built.clips || !(opts.clip in built.clips)) throw new Error(`--clip: no clip "${opts.clip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (the model returns no clips)"}`);
     const n = Number(opts.frames) > 0 ? Number(opts.frames) : 8;
     names = Array.from({ length: n }, (_, k) => `${opts.clip}@${+((built.clips[opts.clip] * k) / n).toFixed(4)}`);
   }

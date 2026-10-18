@@ -144,6 +144,7 @@ Rules the lab enforces:
 - Errors (exit 1, message on stderr and on the page, `window.__labError`): `meta` or `build` missing or malformed; `meta.script` not in SCRIPTS; the source uses `Math.random`, `Date`, `performance.now`, `requestAnimationFrame`, `Clock`, or any `import` (comments are ignored; `--lax` makes this a warning); `build` or `pose` throws; no meshes.
 - Warnings: a color that is not on the script; `meta.height` more than 2% (or 1 cm) off the top of the rest pose; the model does not stand on y=0; it is more than 15% off x=0 or z=0; the pose is not in `meta.poses`; no `rest` pose.
 - Build with plain `Mesh` objects (no `InstancedMesh`, `SkinnedMesh`, morph targets) in code models. (Library models are skinned; the lab measures skinned and morphed vertices where they are drawn.)
+- A model with continuous motion may also return `clips: { name: seconds }` (as library entries do); `pose("swim@0.3")` then shows that clip at 0.3 s, looping, and `--clip` / `--strip` / `--frames` work on it.
 - `pose(name)` must set every joint it uses, absolutely (a table per pose, a rest table underneath), so poses do not depend on call order. When `meta.poses` lists `rest`, the lab applies it first (the height, ground and centering checks are against it), then the pose you asked for.
 - Colors are raw sRGB hex, exact in the PNG. Shade pairs both come from the script. Hull pixels are 5 at any cell size; `kit.resolution` is updated per cell.
 
