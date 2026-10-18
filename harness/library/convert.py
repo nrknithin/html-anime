@@ -74,8 +74,9 @@ def material_color(mat):
 
 def legacy_image():
     """The one colour image of an old Blender Internal file, or None. Those materials have no nodes and Blender 2.8+
-    drops their texture slots, but the image textures survive in bpy.data.textures. Used only when exactly one loaded
-    image is left after leaving out normal maps, so a guess never picks between two candidates."""
+    drops their texture slots, but the image textures survive in bpy.data.textures (or, older still, only as an image
+    the faces used). Used only when exactly one loaded image is left after leaving out normal maps, so a guess never
+    picks between two candidates."""
     found = set()
     for t in bpy.data.textures:
         img = getattr(t, "image", None)
@@ -84,6 +85,12 @@ def legacy_image():
         if getattr(t, "use_normal_map", False) or "norm" in (t.name + img.name + img.filepath).lower():
             continue
         found.add(img.name)
+    if not found:
+        # Older still: the image was assigned straight to the UV faces (no texture datablock), a link Blender 4.2
+        # drops; the image itself survives, packed or beside the file.
+        for img in bpy.data.images:
+            if img.users and img.size[0] and img.type == "IMAGE" and "norm" not in (img.name + img.filepath).lower():
+                found.add(img.name)
     return bpy.data.images[found.pop()] if len(found) == 1 else None
 
 
