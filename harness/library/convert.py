@@ -60,8 +60,25 @@ def material_color(mat):
     return hexof(mat.diffuse_color)
 
 
+def legacy_image():
+    """The one colour image of an old Blender Internal file, or None. Those materials have no nodes and Blender 2.8+
+    drops their texture slots, but the image textures survive in bpy.data.textures. Used only when exactly one loaded
+    image is left after leaving out normal maps, so a guess never picks between two candidates."""
+    found = set()
+    for t in bpy.data.textures:
+        img = getattr(t, "image", None)
+        if t.type != "IMAGE" or img is None or img.size[0] == 0:
+            continue
+        if getattr(t, "use_normal_map", False) or "norm" in (t.name + img.name + img.filepath).lower():
+            continue
+        found.add(img.name)
+    return bpy.data.images[found.pop()] if len(found) == 1 else None
+
+
 def base_image(mat):
     """The image feeding a material's colour (through up to three nodes), or None."""
+    if mat and not mat.use_nodes:
+        return legacy_image()
     if not (mat and mat.use_nodes and mat.node_tree):
         return None
     # Principled "Base Color", or "Color" on the older shaders (Diffuse, Emission, Toon, Glossy)
@@ -116,6 +133,8 @@ def split_textures(objs, max_colors):
                 g.append((o, p.index, px[int((v % 1.0) * h) % h, int((u % 1.0) * w) % w], max(p.area, 1e-9)))
     made = {}
     for base, faces in groups.items():
+        if not faces:  # a slot no face uses
+            continue
         cols = np.array([f[2] for f in faces])
         area = np.array([f[3] for f in faces])
         keys = np.round(cols * 255).astype(int)
