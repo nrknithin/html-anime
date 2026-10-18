@@ -45,9 +45,10 @@ Look at every PNG. One model per branch and per PR; the PR carries `meta.json`, 
   "thresholds": { "skin": -0.2 },      // optional, per role (default 0.35)
   "noInk": [],                         // optional: roles drawn without a hull (eyes, decals)
   "smooth": true,                      // default: shade on per-position averaged normals (false keeps low-poly facets)
+  "doubleSided": ["cloth"],            // optional: roles drawn from both sides (one-sided capes, flags, leaves)
   "clips": { "idle": "Idle", "walk": "Walk", "run": "Run", "jump": "Jump", "death": "Death" },  // vocabulary -> source clip
   "poseDefs": { "gallop-a": ["run", 0.2] },          // optional named poses: [clip, seconds]
-  "preview": { "clip": "run" },                       // optional: which clip the preview strip shows
+  "preview": { "clip": "run", "pose": "idle@0" },     // optional: the strip's clip, and the views' pose (a T-pose rig)
   "source": {
     "license": "CC0",                  // CC0 | CC-BY-4.0 | CC-BY-3.0 (free licences only; CC-BY lands in CREDITS.md)
     "author": "Quaternius",
@@ -64,7 +65,7 @@ Look at every PNG. One model per branch and per PR; the PR carries `meta.json`, 
 }
 ```
 
-`clipInfo` is written by ingest (`seconds`, and `loop` guessed from the name: death, hit, jump and attack clamp, the rest wrap). Edit `loop` by hand when the guess is wrong, and add `lift` to a clip that sinks into the ground (a body lying down in a death clip): metres, or keys `[[seconds, metres], ...]` interpolated linearly and held past both ends, so a fall can stay planted while standing and lift only once it lies down. `npm run probe -- --model models/library/<id> --clip death --frames 16` gives the lowest point per frame to key from.
+`clipInfo` is written by ingest (`seconds`, and `loop` guessed from the name: death, hit, jump and attack clamp, the rest wrap). Edit `loop` by hand when the guess is wrong, and add `lift` to a clip that sinks into the ground (a body lying down in a death clip): metres, or keys `[[seconds, metres], ...]` interpolated linearly and held past both ends, so a fall can stay planted while standing and lift only once it lies down. `npm run probe -- --model models/library/<id> --clip death --frames 16` gives the lowest point per frame to key from. When only a thin part crosses the ground while the feet stay planted (a tail sweeping down in a howl), lifting would float the body: set `sinkAllowed: "<why>"` on that clip instead, and the check reports it as a note.
 
 Shared clip vocabulary: `idle`, `walk`, `run`, `jump`, `attack`, `hit`, `death`, `eat`, `sit`, `wave`, `dance`, `fly`, `swim`. Map the ones the source has; keep source names for the rest (they still play under their own name).
 
@@ -73,11 +74,15 @@ Shared clip vocabulary: `idle`, `walk`, `run`, `jump`, `attack`, `hit`, `death`,
 | type | fields | used for |
 |---|---|---|
 | `file` | `url` | a GLB or file on a static host (GitHub raw, Poly Haven, jsdelivr) |
-| `zip` | `url`, `member`, `extraMembers` | OpenGameArt zips, any zip with a stable URL |
+| `zip` | `url`, `member`, `extraMembers` | OpenGameArt zips, any zip with a stable URL. `extraMembers` (a .bin, textures) land at their path relative to the member's folder, so a GLB's `Textures/colormap.png` resolves |
 | `kenney` | `page` (`https://kenney.nl/assets/<kit>`), `member` | Kenney kits: the zip link changes on every update, so it is read from the page |
 | `itch` | `page`, `upload` (the file name on the download page), `member` | free itch.io packs (KayKit, Quaternius): the same form posts as the "No thanks, just take me to the downloads" button |
 
 The first fetch pins `ingest.fetch.sha256`; a later fetch that differs stops with an error. Downloads are cached in `<tmp>/html-anime-library-cache` (`--refetch` skips the cache). Requests go one at a time with a pause. Never work around a bot check: `poly.pizza` (Cloudflare challenge) and Quaternius's Google Drive (quota) are off limits; find the pack on OpenGameArt or itch.io instead.
+
+### `ingest.via`: Blender or glTF as is
+
+By default every source goes through Blender (`"via": "blender"`). A GLB source can instead keep its own nodes, skins, morphs and clips untouched with `"via": "gltf"` (`normalize.mjs`): its rest pose is measured with three.js and the normalization is one added `root` node. Use it when Blender's round trip damages a rig. That happens with meshes parented rigidly to bones, which RobotExpressive has: after Blender its legs sank into its torso. Check the raw source in the lab first if a converted rig looks wrong. On this path textures are not flattened and clip names stay as the source wrote them.
 
 ### Textured sources
 
