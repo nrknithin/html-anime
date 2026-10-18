@@ -7,7 +7,7 @@
 // models/library/<id>/meta.json holds the recipe under "ingest" (see harness/library/README.md):
 //   fetch   { type: "file"|"zip"|"kenney"|"itch", url, page, upload, sha256 }  where the download comes from
 //   member  path inside the zip ("Farm Animals/FBX/Horse.fbx"); omitted for a single file
-//   height, yaw, drop, keepActions                                          handed to convert.py
+//   height, yaw, drop, keepActions, attach                                  handed to convert.py
 // Steps: download (cached under <tmp>/html-anime-library-cache, sha256 pinned in meta.json on the first fetch and
 // checked on every later one) -> unzip the member (in Node) -> convert.py (Blender: import, normalize, GLB) ->
 // gltf-transform optimize (meshopt, no simplify, no palette, materials kept) -> models/library/<id>/model.glb, and
@@ -242,11 +242,15 @@ async function main() {
     await fsp.writeFile(raw, r.glb);
     await fsp.writeFile(report, JSON.stringify(r.report));
   } else if (ing.via && ing.via !== "blender") throw new Error(`ingest.via must be "blender" (default) or "gltf" (got ${ing.via})`);
-  const cargs = ["-I", path.join(HERE, "convert.py"), "--in", src, "--out", raw, "--report", report, "--height", String(ing.height || 0), "--yaw", String(ing.yaw || 0)];
+  const cargs = ["-I", path.join(HERE, "convert.py"), "--in", src, "--out", raw, "--report", report, "--height", String(ing.height || 0), "--yaw", String(ing.yaw || 0), "--search", srcDir];
   if (ing.drop?.length) cargs.push("--drop", ing.drop.join(","));
   if (ing.keepActions?.length) cargs.push("--keep-actions", ing.keepActions.join(","));
   if (ing.maxColors) cargs.push("--max-colors", String(ing.maxColors));
   if (ing.dropMaterials?.length) cargs.push("--drop-materials", ing.dropMaterials.join(","));
+  if (ing.attach?.length) {
+    if (ing.via === "gltf") throw new Error(`${id}: ingest.attach needs the Blender path (drop "via": "gltf")`);
+    cargs.push(...attachArgs(ing.attach, srcDir));
+  }
   if (ing.via !== "gltf") run(py, cargs, "convert.py", { cwd: tmp });
   const rep = JSON.parse(await fsp.readFile(report, "utf8"));
 
@@ -256,6 +260,10 @@ async function main() {
     "--flatten", "false", "--join", "false", "--texture-compress", "false", "--texture-size", "512"], "gltf-transform", { cwd: tmp });
   const glb = await fsp.readFile(out);
 
+  // The clips as the exported file holds them: Blender splits node-animated sources into one action per object
+  // ("walk_body", "walk_leg-back-left", ...) that the exporter merges back into one clip per name.
+  const clips = glbClips(glb) ?? rep.actions;
+
   // 5. facts back into meta.json
   meta.file = meta.file || "model.glb";
   meta.sha256 = sha256(glb);
@@ -264,12 +272,50 @@ async function main() {
   meta.bones = rep.bones;
   meta.sourceMaterials = rep.materials;
   // Measured seconds; hand-set fields (loop, lift) survive a re-ingest.
-  meta.clipInfo = Object.fromEntries(rep.actions.map((a) => [a.name, { ...meta.clipInfo?.[a.name], seconds: a.seconds, loop: meta.clipInfo?.[a.name]?.loop ?? !/death|die|hit|jump|attack/i.test(a.name) }]));
+  meta.clipInfo = Object.fromEntries(clips.map((a) => [a.name, { ...meta.clipInfo?.[a.name], seconds: a.seconds, loop: meta.clipInfo?.[a.name]?.loop ?? !/death|die|hit|jump|attack/i.test(a.name) }]));
   if (meta.height && Math.abs(rep.height - meta.height) > 0.05 * meta.height) console.error(`[ingest] warn: meta.height ${meta.height} but the GLB is ${rep.height.toFixed(3)} m`);
   await fsp.writeFile(metaFile, JSON.stringify(meta, null, 2) + "\n");
   if (!args.includes("--keep-tmp")) await fsp.rm(tmp, { recursive: true, force: true });
   else console.error(`[ingest] kept ${tmp}`);
-  console.log(`${id}: ${(glb.length / 1024).toFixed(0)} KB, ${rep.triangles} tris, ${rep.bones} bones, clips ${rep.actions.map((a) => a.name).join(",") || "-"}, materials ${Object.entries(rep.materials).map(([k, v]) => `${k}=${v}`).join(" ")}`);
+  console.log(`${id}: ${(glb.length / 1024).toFixed(0)} KB, ${rep.triangles} tris, ${rep.bones} bones, clips ${clips.map((a) => a.name).join(",") || "-"}, materials ${Object.entries(rep.materials).map(([k, v]) => `${k}=${v}`).join(" ")}`);
+}
+
+/** ingest.attach -> convert.py arguments. Each entry is { file, bone, offset?, rotation?, scale? }: `file` is a file
+ * this entry already fetched (an `extraFiles` path, or an `extraMembers` zip path), relative to the scratch source
+ * folder, so every prop is sha256-pinned like the model; offset is [x, y, z] in the bone's frame (source units),
+ * rotation [x, y, z] degrees, scale a number. Throws on a malformed entry or a file that was not fetched. */
+export function attachArgs(attach, srcDir, exists = fs.existsSync) {
+  if (!Array.isArray(attach)) throw new Error("ingest.attach must be a list of { file, bone, offset, rotation, scale }");
+  const vec = (v, what, file) => {
+    if (v === undefined) return [0, 0, 0];
+    if (!Array.isArray(v) || v.length !== 3 || !v.every(Number.isFinite)) throw new Error(`ingest.attach ${file}: ${what} must be [x, y, z] numbers`);
+    return v;
+  };
+  const out = [];
+  for (const a of attach) {
+    if (!a || typeof a.file !== "string" || !a.file) throw new Error("ingest.attach: every entry needs a file");
+    if (typeof a.bone !== "string" || !a.bone) throw new Error(`ingest.attach ${a.file}: needs a bone`);
+    const file = path.resolve(srcDir, a.file.replace(/\\/g, "/"));
+    if (!file.startsWith(srcDir + path.sep)) throw new Error(`ingest.attach: ${a.file} leaves the scratch folder`);
+    if (!exists(file)) throw new Error(`ingest.attach: ${a.file} was not fetched (list it in ingest.fetch.extraFiles or ingest.extraMembers, with its .bin and textures)`);
+    const scale = a.scale ?? 1;
+    if (!Number.isFinite(scale) || scale <= 0) throw new Error(`ingest.attach ${a.file}: scale must be a positive number`);
+    out.push("--attach", JSON.stringify({ file, bone: a.bone, offset: vec(a.offset, "offset", a.file), rotation: vec(a.rotation, "rotation", a.file), scale }));
+  }
+  return out;
+}
+
+/** GLB bytes -> [{name, seconds}] of its animations (seconds = the last key time), or null if they can't be read. */
+export function glbClips(buf) {
+  if (buf.readUInt32LE(0) !== 0x46546c67) return null;
+  const json = JSON.parse(buf.toString("utf8", 20, 20 + buf.readUInt32LE(12)));
+  const out = [];
+  for (const a of json.animations || []) {
+    const ends = a.samplers.map((s) => json.accessors[s.input]?.max?.[0]);
+    if (ends.some((t) => typeof t !== "number")) return null;
+    out.push({ name: a.name, seconds: Math.round(Math.max(0, ...ends) * 10000) / 10000 });
+  }
+  return out;
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))

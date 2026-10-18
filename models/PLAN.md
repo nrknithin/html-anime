@@ -151,6 +151,11 @@ Where the plan's source was unreachable, each model PR names the substitute and 
 | 7, 9 Shiba / Dog | `dog` (a pug) | Quaternius Farm Animals `Pug.blend` | no free animated Shiba |
 | 10 Cat | `cat` | Quaternius Animal Pack Vol.2 (OpenGameArt) | two clips |
 | 58 T-Rex | `t-rex` | Quaternius Animated LowPoly Dinosaurs (itch.io) | the plan's pack, other route |
+| 14, 15 Sheep, Pig | `sheep`, `pig` | Quaternius Farm Animals `.blend` files | the FBX files hold only Idle and Jump; no eat clip |
+| 32 Small bird | gap | none good (the CC0 OpenGameArt cardinal is one material with a near-static idle) | a code model |
+| 36 Crow / raven | `crow` | "Raven" by Teh_Bucket (OpenGameArt, CC0) | crow-sized; one-frame perch idle; flap loop |
+| 37, 38, 39, 43 Shark, whale, dolphin, clownfish | `shark`, `whale`, `dolphin`, `clownfish` | Quaternius Animated Fish (OpenGameArt) | the plan's pack, other route; Swim only (no attack, death or fast swim) |
+| 41 Koi | `koi` | Quaternius Animated Fish `Fish1` | no koi in the pack: a red-and-white carp shape without black patches; a code koi for close-ups |
 | 64 Man | `man-casual` | Quaternius Ultimate Animated Character Pack (OpenGameArt) | chibi proportions, 11 clips, no run |
 | 144 Torii | gap | none free and verified | build as a code model (vermilion pillars, black caps, nuki, curved kasagi, ~4 m) |
 | 145 Sliding door, 146 Shoji wall, 147 Shrine hall | gap | none free and verified (the only OpenGameArt shrine is LGPL / CC-BY-SA; the rest are paid or unlicensed) | code models, with the torii as one Japanese-architecture set |
@@ -163,7 +168,7 @@ Not used yet, worth a later kitbash: Quaternius **Universal Base Characters** (i
 
 ### Gaps: no library source, built in phase 4 as code or kitbash
 
-Torii gate (no free verified model found in wave 1), schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (armour on a KayKit rig), Japanese house (the shoji walls and door plus a roof), school building (Kenney commercial blocks plus a clock tower), sakura tree (a recoloured round tree plus petals), bicycle, umbrella, airplane, helicopter, crow, butterfly, turtle, lizard or crocodile.
+Torii gate (no free verified model found in wave 1), schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (armour on a KayKit rig), Japanese house (the shoji walls and door plus a roof), school building (Kenney commercial blocks plus a clock tower), sakura tree (a recoloured round tree plus petals), bicycle, umbrella, airplane, helicopter, small songbird, koi (with patches, for close-ups), butterfly, turtle, lizard or crocodile, and better ramen and lanterns (tōrō, chōchin).
 
 ### Batches for wave 1 (8 agents in parallel)
 
