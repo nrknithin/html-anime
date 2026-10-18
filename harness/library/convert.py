@@ -305,6 +305,10 @@ def load(src):
     low = src.lower()
     if low.endswith(".blend"):
         bpy.ops.wm.open_mainfile(filepath=src, load_ui=False, use_scripts=False)
+        # A file saved in edit mode keeps that mesh's real data in its edit copy: the mesh reads as stale or empty
+        # (a UV layer with no entries) and exports wrong until the object is back in object mode.
+        if bpy.context.object and bpy.context.object.mode != "OBJECT":
+            bpy.ops.object.mode_set(mode="OBJECT")
         return
     bpy.ops.wm.read_factory_settings(use_empty=True)
     if low.endswith(".fbx"):
