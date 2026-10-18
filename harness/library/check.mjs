@@ -82,6 +82,7 @@ function main() {
   const clips = Object.keys(meta.clips || {});
   const stripClip = args.includes("--clip") ? args[args.indexOf("--clip") + 1] : meta.preview?.clip || ["run", "walk", "idle"].find((c) => clips.includes(c)) || clips[0];
   const shot = ["--model", model, "--views", "front,left,three4,top", "--size", "1600x1000", "--info", "--out", path.join(dir, "preview.png")];
+  if (meta.preview?.pose) shot.push("--pose", meta.preview.pose); // a T-pose rig shows its views in a real pose (the checks above stay at rest)
   if (stripClip) shot.push("--strip", stripClip, "--cols", "4");
   const pv = node("harness/lab/shoot.mjs", shot);
   if (!pv.ok) throw new Error(`preview shot failed:\n${pv.err}`);
@@ -101,7 +102,7 @@ function main() {
     for (const f of [a, b]) fs.rmSync(f, { force: true });
   }
 
-  qa.preview = stripClip ? `rest + ${stripClip}` : "rest";
+  qa.preview = `${meta.preview?.pose || "rest"}${stripClip ? ` + ${stripClip}` : ""}`;
   meta.qa = qa;
   fs.writeFileSync(metaFile, JSON.stringify(meta, null, 2) + "\n");
   for (const n of notes) console.log(`note: ${n}`);

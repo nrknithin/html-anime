@@ -45,9 +45,10 @@ Look at every PNG. One model per branch and per PR; the PR carries `meta.json`, 
   "thresholds": { "skin": -0.2 },      // optional, per role (default 0.35)
   "noInk": [],                         // optional: roles drawn without a hull (eyes, decals)
   "smooth": true,                      // default: shade on per-position averaged normals (false keeps low-poly facets)
+  "doubleSided": ["cloth"],            // optional: roles drawn from both sides (one-sided capes, flags, leaves)
   "clips": { "idle": "Idle", "walk": "Walk", "run": "Run", "jump": "Jump", "death": "Death" },  // vocabulary -> source clip
   "poseDefs": { "gallop-a": ["run", 0.2] },          // optional named poses: [clip, seconds]
-  "preview": { "clip": "run" },                       // optional: which clip the preview strip shows
+  "preview": { "clip": "run", "pose": "idle@0" },     // optional: the strip's clip, and the views' pose (a T-pose rig)
   "source": {
     "license": "CC0",                  // CC0 | CC-BY-4.0 | CC-BY-3.0 (free licences only; CC-BY lands in CREDITS.md)
     "author": "Quaternius",
