@@ -18,6 +18,8 @@
 //           behind their lattice; the other pair is bare lattice. Lattice bars have no hull (a 5 px hull on every bar
 //           scribbles at thumbnail size): the iris bars read as lines on their own. Whips, hemlaths and canvas are
 //           inked with a 2 px hull so each sail still has a closed edge.
+//   MERGE   parts are authored one by one, then baked per (material, ink width) into one mesh each inside the three
+//           rigid groups (static mill, cap, sails): 12 meshes in cel instead of ~130. Joints are never merged across.
 // Proportions (real size, base unit the sail radius R = 5.6 m): tower 0.7-8.8 m (circum radius 3.0 -> 1.95),
 //   plinth 0-0.7 (3.3), stage 2.6 (3.9 = 0.7 R), cap curb 8.8, dome top 11.0, finial tip 11.55; windshaft axis y 9.8,
 //   poll end z 3.0; sails r 1.3-5.6 from the axis, sail 2.1 m wide (0.38 R) including the leading board. At rest the sails
@@ -223,6 +225,58 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     }
     if (spread.includes(k)) put(arm, cloth(box(XH - 0.05 + 0.02, L - 0.1, 0.03)), (XH - 0.05) / 2 + 0.01, ym, zl - 0.09, `canvas${k}`);
   }
+
+  // ---------- merge: one mesh per material and ink width in each rigid group ----------
+  // Parts are authored one by one above; here every mesh of a rigid group (static mill, cap, sails) is baked into the
+  // group's frame and concatenated by (material, hull px), so ~130 parts become ~14 meshes. Joints are never crossed:
+  // the cap and the sails stay separate nodes, so the hub pivot and the spin are untouched. The hull is rebuilt on the
+  // merged geometry (hullNormals averages by position, as it did per part).
+  function merge(group) {
+    group.updateMatrixWorld(true);
+    const inv = group.matrixWorld.clone().invert();
+    const bins = new Map(), found = [];
+    const visit = (o) => {
+      for (const ch of o.children) {
+        if (ch.userData.isHull || Object.values(joints).includes(ch)) continue;
+        if (ch.isMesh) found.push(ch);
+        visit(ch);
+      }
+    };
+    visit(group);
+    for (const m of found) {
+      const hull = m.children.find((h) => h.userData.isHull);
+      const px = hull ? hull.material.uniforms.px.value : 0;
+      const key = `${m.material.uuid}|${px}`;
+      if (!bins.has(key)) bins.set(key, { mat: m.material, px, name: m.name, parts: [] });
+      let g = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone();
+      if (!g.attributes.normal) g.computeVertexNormals();
+      g = new THREE.BufferGeometry().setAttribute("position", g.attributes.position).setAttribute("normal", g.attributes.normal);
+      g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, m.matrixWorld));
+      bins.get(key).parts.push(g);
+    }
+    for (const m of found) m.parent.remove(m);
+    for (const ch of [...group.children]) if (!ch.isMesh && !Object.values(joints).includes(ch)) group.remove(ch); // empty arms
+    for (const { mat, px, name, parts } of bins.values()) {
+      const n = parts.reduce((s, g) => s + g.attributes.position.count, 0);
+      const P = new Float32Array(n * 3), N = new Float32Array(n * 3);
+      let o = 0;
+      for (const g of parts) {
+        P.set(g.attributes.position.array, o * 3);
+        N.set(g.attributes.normal.array, o * 3);
+        o += g.attributes.position.count;
+      }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute("position", new THREE.BufferAttribute(P, 3));
+      g.setAttribute("normal", new THREE.BufferAttribute(N, 3));
+      const mesh = new THREE.Mesh(g, mat);
+      mesh.name = `${group.name}:${name.replace(/\d+(_\d+)?$/, "")}`;
+      if (px) kit.outline(mesh, { px });
+      group.add(mesh);
+    }
+  }
+  merge(mill);
+  merge(cap);
+  merge(sails);
 
   // ---------- clips and poses ----------
   const clips = { spin: SPIN_T };
