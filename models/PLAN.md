@@ -168,7 +168,7 @@ Not used yet, worth a later kitbash: Quaternius **Universal Base Characters** (i
 
 ### Gaps: no library source, built in phase 4 as code or kitbash
 
-Torii gate (no free verified model found in wave 1), schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (armour on a KayKit rig), Japanese house (the shoji walls and door plus a roof), school building (Kenney commercial blocks plus a clock tower), sakura tree (a recoloured round tree plus petals), bicycle, umbrella, airplane, helicopter, small songbird, koi (with patches, for close-ups), butterfly, turtle, lizard or crocodile, and better ramen and lanterns (tōrō, chōchin).
+Torii gate (no free verified model found in wave 1), schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (armour on a KayKit rig), Japanese house (the shoji walls and door plus a roof), school building (Kenney commercial blocks plus a clock tower), sakura tree (a recoloured round tree plus petals), bicycle, umbrella, airplane, helicopter, small songbird, koi (with patches, for close-ups), butterfly, turtle, lizard or crocodile, better ramen and lanterns (tōrō, chōchin), a yumi (the wooden bow stands in only at a distance), and a staff and pickaxe (not in the Medieval Weapons Pack).
 
 ### Batches for wave 1 (8 agents in parallel)
 
