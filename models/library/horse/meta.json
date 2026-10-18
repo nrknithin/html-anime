@@ -64,28 +64,7 @@
     "Death": {
       "seconds": 1.0833,
       "loop": false,
-      "lift": [
-        [
-          0,
-          0
-        ],
-        [
-          0.4219,
-          0.029
-        ],
-        [
-          0.5625,
-          0.03
-        ],
-        [
-          0.7031,
-          0.102
-        ],
-        [
-          0.8438,
-          0.103
-        ]
-      ]
+      "ground": "clamp"
     },
     "Idle": {
       "seconds": 6.25,
@@ -93,15 +72,18 @@
     },
     "Jump": {
       "seconds": 1.5,
-      "loop": false
+      "loop": false,
+      "ground": "clamp"
     },
     "Run": {
       "seconds": 0.8333,
-      "loop": true
+      "loop": true,
+      "ground": "clamp"
     },
     "Walk": {
       "seconds": 2.6667,
-      "loop": true
+      "loop": true,
+      "ground": "clamp"
     },
     "WalkSlow": {
       "seconds": 2,
@@ -124,22 +106,22 @@
         "maxSize": 2.3
       },
       "walk": {
-        "minY": -0.0133,
+        "minY": 0,
         "touches": true,
         "maxSize": 2.33
       },
       "run": {
-        "minY": -0.0188,
+        "minY": 0,
         "touches": true,
         "maxSize": 2.64
       },
       "jump": {
-        "minY": -0.0154,
+        "minY": 0,
         "touches": true,
         "maxSize": 2.65
       },
       "death": {
-        "minY": -0.0003,
+        "minY": 0,
         "touches": true,
         "maxSize": 2.27
       }
