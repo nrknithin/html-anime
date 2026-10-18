@@ -7,7 +7,7 @@
 // models/library/<id>/meta.json holds the recipe under "ingest" (see harness/library/README.md):
 //   fetch   { type: "file"|"zip"|"kenney"|"itch", url, page, upload, sha256 }  where the download comes from
 //   member  path inside the zip ("Farm Animals/FBX/Horse.fbx"); omitted for a single file
-//   height, yaw, drop, keepActions                                          handed to convert.py
+//   height, yaw, drop, keepActions, attach                                  handed to convert.py
 // Steps: download (cached under <tmp>/html-anime-library-cache, sha256 pinned in meta.json on the first fetch and
 // checked on every later one) -> unzip the member (in Node) -> convert.py (Blender: import, normalize, GLB) ->
 // gltf-transform optimize (meshopt, no simplify, no palette, materials kept) -> models/library/<id>/model.glb, and
@@ -247,6 +247,10 @@ async function main() {
   if (ing.keepActions?.length) cargs.push("--keep-actions", ing.keepActions.join(","));
   if (ing.maxColors) cargs.push("--max-colors", String(ing.maxColors));
   if (ing.dropMaterials?.length) cargs.push("--drop-materials", ing.dropMaterials.join(","));
+  if (ing.attach?.length) {
+    if (ing.via === "gltf") throw new Error(`${id}: ingest.attach needs the Blender path (drop "via": "gltf")`);
+    cargs.push(...attachArgs(ing.attach, srcDir));
+  }
   if (ing.via !== "gltf") run(py, cargs, "convert.py", { cwd: tmp });
   const rep = JSON.parse(await fsp.readFile(report, "utf8"));
 
@@ -274,6 +278,31 @@ async function main() {
   if (!args.includes("--keep-tmp")) await fsp.rm(tmp, { recursive: true, force: true });
   else console.error(`[ingest] kept ${tmp}`);
   console.log(`${id}: ${(glb.length / 1024).toFixed(0)} KB, ${rep.triangles} tris, ${rep.bones} bones, clips ${clips.map((a) => a.name).join(",") || "-"}, materials ${Object.entries(rep.materials).map(([k, v]) => `${k}=${v}`).join(" ")}`);
+}
+
+/** ingest.attach -> convert.py arguments. Each entry is { file, bone, offset?, rotation?, scale? }: `file` is a file
+ * this entry already fetched (an `extraFiles` path, or an `extraMembers` zip path), relative to the scratch source
+ * folder, so every prop is sha256-pinned like the model; offset is [x, y, z] in the bone's frame (source units),
+ * rotation [x, y, z] degrees, scale a number. Throws on a malformed entry or a file that was not fetched. */
+export function attachArgs(attach, srcDir, exists = fs.existsSync) {
+  if (!Array.isArray(attach)) throw new Error("ingest.attach must be a list of { file, bone, offset, rotation, scale }");
+  const vec = (v, what, file) => {
+    if (v === undefined) return [0, 0, 0];
+    if (!Array.isArray(v) || v.length !== 3 || !v.every(Number.isFinite)) throw new Error(`ingest.attach ${file}: ${what} must be [x, y, z] numbers`);
+    return v;
+  };
+  const out = [];
+  for (const a of attach) {
+    if (!a || typeof a.file !== "string" || !a.file) throw new Error("ingest.attach: every entry needs a file");
+    if (typeof a.bone !== "string" || !a.bone) throw new Error(`ingest.attach ${a.file}: needs a bone`);
+    const file = path.resolve(srcDir, a.file.replace(/\\/g, "/"));
+    if (!file.startsWith(srcDir + path.sep)) throw new Error(`ingest.attach: ${a.file} leaves the scratch folder`);
+    if (!exists(file)) throw new Error(`ingest.attach: ${a.file} was not fetched (list it in ingest.fetch.extraFiles or ingest.extraMembers, with its .bin and textures)`);
+    const scale = a.scale ?? 1;
+    if (!Number.isFinite(scale) || scale <= 0) throw new Error(`ingest.attach ${a.file}: scale must be a positive number`);
+    out.push("--attach", JSON.stringify({ file, bone: a.bone, offset: vec(a.offset, "offset", a.file), rotation: vec(a.rotation, "rotation", a.file), scale }));
+  }
+  return out;
 }
 
 /** GLB bytes -> [{name, seconds}] of its animations (seconds = the last key time), or null if they can't be read. */
