@@ -18,9 +18,9 @@
       "height": 1.6,
       "script": "indigo",
       "file": "models/library/skeleton-warrior/model.glb",
-      "bytes": 972120,
-      "sha256": "19295eded9eaf10f64c9113f344fd07f7f411fbb7b0988b5057b0c5157cef249",
-      "triangles": 5934,
+      "bytes": 1012308,
+      "sha256": "2aaf5ed2c865a4c2af03a0100f9a6757f70191962394423672a2cdd45bcf457e",
+      "triangles": 6891,
       "bones": 41,
       "clips": [
         "idle",
@@ -39,7 +39,7 @@
         "pack": "KayKit · Character Pack Skeletons 1.0",
         "page": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Skeletons-1.0",
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "note": "Skeleton_Warrior.glb from the pack's GitHub mirror, pinned to commit 15b62b9 (LICENSE.txt: CC0, Kay Lousberg); the gradient atlas is embedded in the GLB. Unlike the Adventurers rigs, this GLB carries no weapons: the pack ships blades and shields as separate asset files and the pipeline has no way to parent a prop to the handslot bones, so the warrior is unarmed and its sword and block clips swing and guard with empty fists. 26 of 95 clips kept (1H melee set, block, hits, deaths, the skeleton-only shamble, collapse/resurrect and awaken/spawn clips, taunt, cheer, sit; ranged, 2H, dual-wield, spellcast, lie-down and pose clips dropped). death is Death_A; Death_C_Skeletons (falls apart: the body tumbles about 1.5 m back and one leg is left standing, as authored) and Death_C_Skeletons_Resurrect stay under their own names. Height 1.6 m like the KayKit knight: KayKit characters are chibi (head about a third of the body), so 1.6 m keeps the helmeted skull near a real head size. Grey iron is recoloured to the script's amber (rusted bronze) so the armour reads against a dark sky; the bones stay bone-white."
+        "note": "Skeleton_Warrior.glb from the pack's GitHub mirror, pinned to commit 15b62b9 (LICENSE.txt: CC0, Kay Lousberg); the gradient atlas is embedded in the GLB. Unlike the Adventurers rigs, this GLB carries no weapons: the pack ships them as separate asset files, so Skeleton_Blade.gltf and Skeleton_Shield_Small_A.gltf (same commit, with their .bin files and skeleton_texture.png) are attached with ingest.attach to handslot.r and handslot.l. 26 of 95 clips kept (1H melee set, block, hits, deaths, the skeleton-only shamble, collapse/resurrect and awaken/spawn clips, taunt, cheer, sit; ranged, 2H, dual-wield, spellcast, lie-down and pose clips dropped). death is Death_A; Death_C_Skeletons (falls apart: the body tumbles about 1.5 m back and one leg is left standing, as authored) and Death_C_Skeletons_Resurrect stay under their own names. Height 1.6 m like the KayKit knight: KayKit characters are chibi (head about a third of the body), so 1.6 m keeps the helmeted skull near a real head size. Colours: the bones stay bone-white as the main read; the grey iron armour and helmet go navy (sky over near-black); the blade is pale steel (moon over near-black) so it reads apart from the navy armour in both tones; the shield has a steel rim and an amber wooden face."
       }
     }
   ]
