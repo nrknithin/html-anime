@@ -7,7 +7,7 @@
 // models/library/<id>/meta.json holds the recipe under "ingest" (see harness/library/README.md):
 //   fetch   { type: "file"|"zip"|"kenney"|"itch", url, page, upload, sha256 }  where the download comes from
 //   member  path inside the zip ("Farm Animals/FBX/Horse.fbx"); omitted for a single file
-//   height, yaw, drop, keepActions, attach                                  handed to convert.py
+//   height, yaw, pitch, roll, drop, keepActions, attach                     handed to convert.py
 // Steps: download (cached under <tmp>/html-anime-library-cache, sha256 pinned in meta.json on the first fetch and
 // checked on every later one) -> unzip the member (in Node) -> convert.py (Blender: import, normalize, GLB) ->
 // gltf-transform optimize (meshopt, no simplify, no palette, materials kept) -> models/library/<id>/model.glb, and
@@ -237,12 +237,15 @@ async function main() {
   const raw = path.join(tmp, "raw.glb");
   const report = path.join(tmp, "report.json");
   if (ing.via === "gltf") {
+    if (ing.pitch || ing.roll) throw new Error(`${id}: ingest.pitch and ingest.roll need the Blender path (drop "via": "gltf")`);
     const { normalizeGlb } = await import("./normalize.mjs");
     const r = await normalizeGlb(await fsp.readFile(src), { height: ing.height || 0, yaw: ing.yaw || 0 });
     await fsp.writeFile(raw, r.glb);
     await fsp.writeFile(report, JSON.stringify(r.report));
   } else if (ing.via && ing.via !== "blender") throw new Error(`ingest.via must be "blender" (default) or "gltf" (got ${ing.via})`);
   const cargs = ["-I", path.join(HERE, "convert.py"), "--in", src, "--out", raw, "--report", report, "--height", String(ing.height || 0), "--yaw", String(ing.yaw || 0), "--search", srcDir];
+  if (ing.pitch) cargs.push("--pitch", String(ing.pitch));
+  if (ing.roll) cargs.push("--roll", String(ing.roll));
   if (ing.drop?.length) cargs.push("--drop", ing.drop.join(","));
   if (ing.keepActions?.length) cargs.push("--keep-actions", ing.keepActions.join(","));
   if (ing.maxColors) cargs.push("--max-colors", String(ing.maxColors));
