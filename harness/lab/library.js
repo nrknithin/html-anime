@@ -41,7 +41,8 @@ export function buildLibrary(THREE, kit, gltf, meta, colors = meta.colors) {
       g.setAttribute("normal", g.attributes.hullNormal.clone());
       smoothed.add(g);
     }
-    mesh.material = kit.cel(base, shade, { threshold: thresholds[role] ?? 0.35 });
+    // meta.doubleSided: roles drawn from both sides (a one-sided cape would otherwise show its ink hull from behind)
+    mesh.material = kit.cel(base, shade, { threshold: thresholds[role] ?? 0.35, doubleSided: (meta.doubleSided || []).includes(role) });
     mesh.frustumCulled = false; // a skinned mesh's bounding sphere is its bind pose; a gallop leaves it
     mesh.userData.role = role;
     if (!noInk.has(role)) kit.outline(mesh);

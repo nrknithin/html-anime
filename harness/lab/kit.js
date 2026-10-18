@@ -47,7 +47,11 @@ export function makeKit(THREE, { mode = "cel", ink = "#101628", light = [0.62, 0
     uniform vec3 base, shade, light;
     uniform float threshold;
     varying vec3 vN;
-    void main() { gl_FragColor = vec4(dot(normalize(vN), light) > threshold ? base : shade, 1.0); }`;
+    void main() {
+      vec3 n = normalize(vN);
+      if (!gl_FrontFacing) n = -n; // a double-sided sheet (cloth) shades its back face on its own normal
+      gl_FragColor = vec4(dot(n, light) > threshold ? base : shade, 1.0);
+    }`;
   // Inverted hull, pushed out a fixed number of pixels in clip space so near and far lines match.
   // The hull normal goes through the same skinning as the surface, so the outline follows a walking leg.
   const HULL_VS = `
@@ -117,12 +121,13 @@ export function makeKit(THREE, { mode = "cel", ink = "#101628", light = [0.62, 0
   const memo = (key, make) => cache.get(key) ?? (cache.set(key, make()), cache.get(key));
 
   /** Two-tone material (cel), smooth gray (clay) or flat black (sil). Cached, so meshes share it. */
-  function cel(base, shade, { threshold = 0.35 } = {}) {
+  function cel(base, shade, { threshold = 0.35, doubleSided = false } = {}) {
     if (mode === "sil") return memo("sil", () => new THREE.ShaderMaterial({ vertexShader: SIL_VS, fragmentShader: SIL_FS }));
     if (mode === "clay") return memo("clay", () => new THREE.ShaderMaterial({ vertexShader: CLAY_VS, fragmentShader: CLAY_FS }));
     const [b, s] = [toInt(base), toInt(shade)];
-    return memo(`cel|${b}|${s}|${threshold}`, () =>
+    return memo(`cel|${b}|${s}|${threshold}|${doubleSided}`, () =>
       new THREE.ShaderMaterial({
+        side: doubleSided ? THREE.DoubleSide : THREE.FrontSide,
         uniforms: { base: { value: rgb(b) }, shade: { value: rgb(s) }, light: { value: LIGHT }, threshold: { value: threshold } },
         vertexShader: TONE_VS,
         fragmentShader: TONE_FS,
