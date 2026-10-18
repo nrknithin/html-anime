@@ -9,4 +9,4 @@
 
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| <img src="library/bat/preview.png" width="240"> | `bat` | Bat<br>*low-poly chibi, painted texture flattened to flat colours (Quaternius 2020)* | 0.2 m | 1200 | idle, fly, attack, hit, death | CC0 1.0 | [Quaternius · Textured Cute Monster Pack (Aug 2020)](https://opengameart.org/content/textured-cute-monster-pack) |
+| <img src="library/bat/preview.png" width="240"> | `bat` | Bat<br>*low-poly, flat colours (Quaternius 2018)* | 0.3 m | 1046 | idle, fly, attack, hit, death | CC0 1.0 | [Quaternius · Animated Monster Pack (2018)](https://opengameart.org/content/lowpoly-animated-monsters) |

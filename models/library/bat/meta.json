@@ -8,45 +8,36 @@
     "flying",
     "night",
     "monster",
-    "cute",
     "halloween"
   ],
-  "style": "low-poly chibi, painted texture flattened to flat colours (Quaternius 2020)",
-  "height": 0.2,
+  "style": "low-poly, flat colours (Quaternius 2018)",
+  "height": 0.3,
   "script": "indigo",
   "colors": {
-    "fur": "#d5e2ff",
-    "furShade": "#1b2d6b",
-    "dark": "#16141c",
-    "darkShade": "#1b2d6b",
-    "glint": "#f6f3ee",
-    "glintShade": "#f6f3ee",
-    "teeth": "#f6f3ee",
-    "teethShade": "#e7eefc",
-    "mouth": "#e23b4a",
-    "mouthShade": "#1b2d6b"
+    "fur": "#1b2d6b",
+    "furShade": "#16141c",
+    "wing": "#16141c",
+    "wingShade": "#1b2d6b",
+    "belly": "#f0c36a",
+    "bellyShade": "#e7a04a",
+    "nose": "#e23b4a",
+    "noseShade": "#1b2d6b",
+    "eye": "#16141c",
+    "eyeShade": "#16141c"
   },
   "materials": {
-    "Texture": "glint",
-    "Texture#0d0d10": "dark",
-    "Texture#383c41": "fur",
-    "Texture#434549": "fur",
-    "Texture#2d3036": "fur",
-    "Texture#2f3339": "fur",
-    "Texture#32353b": "fur",
-    "Texture#313439": "fur",
-    "Texture#34383e": "fur",
-    "Texture#292c31": "fur",
-    "Texture#7a7462": "teeth",
-    "Texture#3a0c1d": "mouth",
-    "Texture#24262a": "fur"
+    "Main": "fur",
+    "Black": "wing",
+    "Belly": "belly",
+    "Nose": "nose",
+    "Eyes": "eye"
   },
   "clips": {
-    "idle": "Flying",
-    "fly": "Flying",
-    "attack": "Bite_Front",
-    "hit": "HitRecieve",
-    "death": "Death"
+    "idle": "Bat_Flying",
+    "fly": "Bat_Flying",
+    "attack": "Bat_Attack",
+    "hit": "Bat_Hit",
+    "death": "Bat_Death"
   },
   "preview": {
     "clip": "fly"
@@ -54,100 +45,97 @@
   "source": {
     "license": "CC0",
     "author": "Quaternius",
-    "pack": "Quaternius · Textured Cute Monster Pack (Aug 2020)",
-    "page": "https://opengameart.org/content/textured-cute-monster-pack",
+    "pack": "Quaternius · Animated Monster Pack (2018)",
+    "page": "https://opengameart.org/content/lowpoly-animated-monsters",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "note": "Wave-1 row 18 named the Ultimate Animated Animals bat (poly.pizza, behind a Cloudflare challenge; its Google Drive is quota-blocked). Two reachable Quaternius CC0 bats were tried. The 2018 Animated Monster Pack bat (https://opengameart.org/content/lowpoly-animated-monsters) has the stronger bat silhouette, but its eyes hang on a second armature held to the Face bone by a Child Of constraint; with two armatures Blender's glTF exporter writes no actions, and dropping the eye rig leaves the eyes on the floor, so it cannot ship without a pipeline change. This chibi bat from the 2020 Cute Monster Pack comes through whole: a round head-body with bat ears, small wings and fangs. Height 0.2 m puts its wingspan at about 0.37 m, the span of a mid-size real bat (a noctule's is 0.32-0.40 m); the body is chibi-large for that span. The pack has no idle: a bat hovers, so idle and fly both play the Flying flap loop. Ground: Flying only bobs up from its rest low point (0 to 15 mm), so it never sinks and needs no lift (a film raises the bat to its flight height); Death rolls onto its back and sank 10 mm, so it is clamped. Every grey of the painted fur maps to one fur role: the ear-interior greys are speckled across the body too and only added noise."
+    "note": "Wave-1 row 18 named the Ultimate Animated Animals bat (poly.pizza, behind a Cloudflare challenge; its Google Drive is quota-blocked). This is the bat from Quaternius’s 2018 Animated Monster Pack (OpenGameArt, CC0), the reachable Quaternius bat with the clearest bat silhouette. Its eyes are skinned to a second armature that follows the Face bone through a Child Of constraint; the pipeline now folds that follower rig into the main one, so all five clips export with the eyes on the face. Until then the PR carried the chibi bat from the 2020 Textured Cute Monster Pack as a stand-in. The pack has no idle: a bat hovers, so idle and fly both play Bat_Flying; Bat_Attack2 (a second bite) keeps its source name. Height 0.3 m (ear tips to feet) gives a flight wingspan of about 0.36 m, a noctule-size bat; the head and ears are stylized large. Ground: in Bat_Flying, Bat_Attack, Bat_Attack2 and Bat_Hit the bat flaps in place and the downstroke sweeps its wingtips up to 49 mm below the feet, so these airborne clips carry a constant lift of 0.05 m (a hover that never sinks; clamping would jolt the body with every wingbeat). Bat_Death drops it onto its side on the ground and is clamped."
   },
   "ingest": {
     "fetch": {
       "type": "zip",
-      "url": "https://opengameart.org/sites/default/files/cute_animated_monsters_-_aug_2020.zip",
-      "sha256": "844824c04936a9af954ee82011f98ad8c14ba291a20a0dd0b83c172764ba0eb2",
-      "bytes": 10181866,
-      "resolved": "https://opengameart.org/sites/default/files/cute_animated_monsters_-_aug_2020.zip"
+      "url": "https://opengameart.org/sites/default/files/Animated%20Monster%20Pack%20by%20%40Quaternius.zip",
+      "sha256": "acab2bddc5939f9b1b92c930507d73e0fd80037a39631cf2049bb6cfcaec1acd",
+      "bytes": 1408836,
+      "resolved": "https://opengameart.org/sites/default/files/Animated%20Monster%20Pack%20by%20%40Quaternius.zip"
     },
-    "member": "Cute Animated Monsters - Aug 2020/Blends/Bat.blend",
-    "extraMembers": [
-      "Cute Animated Monsters - Aug 2020/Textures/Bat_Texture.png"
-    ],
-    "height": 0.2,
-    "yaw": 0,
-    "memberSha256": "a697ffbc45455336fbee0985391551a9841e14ab2d32b1f4312d1d0cea324684"
+    "member": "Animated Monster Pack by @Quaternius/Blend/Bat.blend",
+    "memberSha256": "4e0e58e611bfef63bb9380103e1b1f1a6890b44353cc16dc83039c97f549a2d4",
+    "height": 0.3,
+    "yaw": 0
   },
   "file": "model.glb",
-  "sha256": "b40833cb14a66672cf871415cab2440c841052977189d37391e5305f8a626316",
-  "bytes": 79476,
-  "triangles": 1200,
-  "bones": 15,
+  "sha256": "d53958316b5996fbd6802e4b1471fb204071a15f07d424223e5635e63d228d8e",
+  "bytes": 121932,
+  "triangles": 1046,
+  "bones": 23,
   "sourceMaterials": {
-    "Texture": "#e7e7e7",
-    "Texture#0d0d10": "#0d0d10",
-    "Texture#383c41": "#383c41",
-    "Texture#434549": "#434549",
-    "Texture#2d3036": "#2d3036",
-    "Texture#2f3339": "#2f3339",
-    "Texture#32353b": "#32353b",
-    "Texture#313439": "#313439",
-    "Texture#34383e": "#34383e",
-    "Texture#292c31": "#292c31",
-    "Texture#7a7462": "#7a7462",
-    "Texture#3a0c1d": "#3a0c1d",
-    "Texture#24262a": "#24262a"
+    "Main": "#281b3f",
+    "Black": "#0c0c0c",
+    "Belly": "#e7c155",
+    "Nose": "#6d3c5a",
+    "Eyes": "#000000"
   },
   "clipInfo": {
-    "Bite_Front": {
-      "seconds": 1.125,
-      "loop": false
+    "Bat_Attack": {
+      "seconds": 0.875,
+      "loop": false,
+      "lift": 0.05
     },
-    "Death": {
-      "seconds": 1.125,
+    "Bat_Attack2": {
+      "seconds": 1.25,
+      "loop": false,
+      "lift": 0.05
+    },
+    "Bat_Death": {
+      "seconds": 1.2083,
       "loop": false,
       "ground": "clamp"
     },
-    "Flying": {
-      "seconds": 1.125,
-      "loop": true
+    "Bat_Flying": {
+      "seconds": 1.25,
+      "loop": true,
+      "lift": 0.05
     },
-    "HitRecieve": {
-      "seconds": 1.125,
-      "loop": false
+    "Bat_Hit": {
+      "seconds": 1.25,
+      "loop": false,
+      "lift": 0.05
     }
   },
   "qa": {
-    "height": 0.2,
+    "height": 0.3,
     "heightError": 0,
     "minY": 0,
     "centre": [
       0,
       0
     ],
-    "triangles": 1200,
+    "triangles": 1046,
     "clips": {
       "idle": {
-        "minY": 0,
+        "minY": 0.0009,
         "touches": true,
-        "maxSize": 0.37
+        "maxSize": 0.36
       },
       "fly": {
-        "minY": 0,
+        "minY": 0.0009,
         "touches": true,
-        "maxSize": 0.37
+        "maxSize": 0.36
       },
       "attack": {
-        "minY": 0,
-        "touches": true,
-        "maxSize": 0.37
+        "minY": 0.0219,
+        "touches": false,
+        "maxSize": 0.4
       },
       "hit": {
-        "minY": 0,
-        "touches": true,
-        "maxSize": 0.37
+        "minY": 0.0237,
+        "touches": false,
+        "maxSize": 0.4
       },
       "death": {
         "minY": 0,
         "touches": true,
-        "maxSize": 0.37
+        "maxSize": 0.33
       }
     },
     "palette": 1,
