@@ -114,6 +114,18 @@ export function jointWarning(joints) {
   return bad.length ? `joints are not Object3D: ${bad.join(", ")}` : null;
 }
 
+/** --opts: the JSON object a code model's build() gets as its 4th argument. Throws a readable error on bad JSON. */
+export function parseOpts(text) {
+  let v;
+  try {
+    v = JSON.parse(text);
+  } catch (e) {
+    throw new Error(`--opts must be a JSON object like '{"lit":true}' (${e.message}; got ${text})`);
+  }
+  if (!v || typeof v !== "object" || Array.isArray(v)) throw new Error(`--opts must be a JSON object like '{"lit":true}' (got ${text})`);
+  return v;
+}
+
 // ---------------------------------------------------------------- measuring
 const isShown = (o) => o.isMesh && !o.userData.isHull && !o.userData.labHidden && o.geometry && o.geometry.attributes.position;
 // Vertex i of a mesh in world space. Skinned and morphed meshes (library models) are measured where they are drawn.

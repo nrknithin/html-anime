@@ -79,7 +79,7 @@
         return err;
       };
 
-      import { fmt, scanSource, checkMeta, measure, unionMeasure, contractWarnings, jointWarning, jointPositions, applyFilter, subtreeRadius } from "./inspect.js";
+      import { fmt, scanSource, checkMeta, measure, unionMeasure, contractWarnings, jointWarning, jointPositions, applyFilter, subtreeRadius, parseOpts } from "./inspect.js";
 
       // ---------------------------------------------------------------- params
       const q = new URLSearchParams(location.search);
@@ -521,6 +521,7 @@
           at: num("at", 0),
           frames: num("frames", 0),
           strip: str("strip"),
+          opts: str("opts"), // JSON object: the 4th argument to a code model's build()
         };
         const list = (v) => (v || "").split(",").map((t) => t.trim()).filter(Boolean);
         const montage = list(P.montage);
@@ -552,6 +553,7 @@
           lightDir = P.light.split(",").map(Number);
           if (lightDir.length !== 3 || lightDir.some((v) => !Number.isFinite(v)) || !Math.hypot(...lightDir)) throw new Error(`light must be x,y,z (a direction, not 0,0,0) (got "${P.light}")`);
         }
+        let buildOpts = P.opts ? parseOpts(P.opts) : undefined;
         if (P.radius < 0) throw new Error("radius must be above 0 meters");
         const hideList = list(P.hide);
 
@@ -615,13 +617,17 @@
           }
         }
         const meta = checkMeta(mod, SCRIPTS, warnings);
+        if (buildOpts && isLibrary) {
+          warnings.push("--opts is for code models: a library entry ignores it");
+          buildOpts = undefined;
+        }
 
         const ink = (SCRIPTS && SCRIPTS[meta.script] && SCRIPTS[meta.script].colors.ink) || "#101628";
         const kit = makeKit(THREE, { mode: P.mode, ink });
         if (lightDir) kit.LIGHT.set(...lightDir).normalize(); // the one vector every cel material's uniform points at
         let built;
         try {
-          built = mod.build(THREE, kit, meta.colors);
+          built = mod.build(THREE, kit, meta.colors, buildOpts);
         } catch (e) {
           throw rethrow(e, "build() threw: ");
         }
@@ -711,6 +717,7 @@
         if (img && P.refMode === "beside") items.splice(P.views.indexOf(P.refView) + 1, 0, { kind: "ref", name: "ref" });
 
         const extras = [];
+        if (buildOpts) extras.push(`opts ${JSON.stringify(buildOpts)}`); // first, so a long line never cuts which variant this is
         if (montage.length) extras.push(`montage ${montage.join(",")} (${P.views[0]}, one scale)`);
         if (P.focus) extras.push(`focus ${P.focus} r ${fmt(focusR, 3)} m`);
         if (lightDir) extras.push(`light ${kit.LIGHT.toArray().map((x) => fmt(x)).join(",")}${P.mode === "cel" ? "" : " (cel only)"}`);
@@ -843,6 +850,7 @@
           };
           if (montage.length) window.__labInfo.poses = per.map((p) => ({ pose: p.name, bbox: { min: xyz(p.M.min), max: xyz(p.M.max), size: xyz(p.M.size) }, triangles: p.M.tris, jointPositions: round3(p.jpos) }));
           if (P.focus) window.__labInfo.focus = { joint: P.focus, radius: focusR, positions: per.map((p) => p.jpos[P.focus].map((x) => Math.round(x * 1000) / 1000)) };
+          if (buildOpts) window.__labInfo.opts = buildOpts;
           if (lightDir) window.__labInfo.light = kit.LIGHT.toArray();
           if (hideList.length) window.__labInfo.hide = hideList;
           if (P.only) window.__labInfo.only = P.only;
