@@ -1,0 +1,368 @@
+{
+  "id": "knight-kaykit",
+  "name": "Knight (KayKit)",
+  "category": "character",
+  "tags": [
+    "human",
+    "knight",
+    "fantasy",
+    "armour",
+    "sword",
+    "shield",
+    "chibi"
+  ],
+  "style": "chibi low-poly, hard-surface, gradient atlas flattened (KayKit 2023)",
+  "height": 1.6,
+  "script": "indigo",
+  "colors": {
+    "steel": "#d5e2ff",
+    "steelShade": "#1b2d6b",
+    "under": "#16141c",
+    "underShade": "#1b2d6b",
+    "cloth": "#e23b4a",
+    "clothShade": "#1b2d6b",
+    "skin": "#f0c2ae",
+    "skinShade": "#e7a04a"
+  },
+  "materials": {
+    "knight_texture": "steel",
+    "knight_texture#5d6367": "steel",
+    "knight_texture#768084": "steel",
+    "knight_texture#686f73": "steel",
+    "knight_texture#414548": "under",
+    "knight_texture#70797e": "steel",
+    "knight_texture#7e888d": "steel",
+    "knight_texture#879297": "steel",
+    "knight_texture#b74943": "cloth",
+    "knight_texture#939fa5": "steel",
+    "knight_texture#a4b1b7": "steel",
+    "knight_texture#eabc92": "skin"
+  },
+  "thresholds": {
+    "cloth": -0.6,
+    "skin": -0.3,
+    "steel": 0.1
+  },
+  "smooth": false,
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walking_A",
+    "run": "Running_A",
+    "jump": "Jump_Full_Short",
+    "attack": "1H_Melee_Attack_Chop",
+    "hit": "Hit_A",
+    "death": "Death_B",
+    "sit": "Sit_Chair_Idle",
+    "block": "Blocking"
+  },
+  "poseDefs": {
+    "guard": [
+      "block",
+      0.5
+    ],
+    "strike": [
+      "attack",
+      0.65
+    ]
+  },
+  "preview": {
+    "clip": "attack"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kay Lousberg",
+    "pack": "KayKit · Character Pack Adventures 1.0",
+    "page": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Knight.glb from the pack's GitHub mirror (LICENSE.txt: CC0, Kay Lousberg). The rig carries every alternative prop; kept 1H_Sword + Badge_Shield, dropped 1H_Sword_Offhand, 2H_Sword and the Rectangle, Round and Spike shields. 27 of 76 clips kept (1H sword-and-shield set; ranged, 2H, dual-wield, spellcast, unarmed and lie-down clips dropped). Height 1.6 m: KayKit characters are chibi (head about a third of the body), so a 1.8 m adult scale makes the head read huge next to realistic props; 1.6 m keeps the helmet near a real head size."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/main/addons/kaykit_character_pack_adventures/Characters/gltf/Knight.glb",
+      "sha256": "60428e3abc09ba83e595d256e3af8c5c976b46cdae599f0802fc82b4a3445168",
+      "bytes": 3659532,
+      "resolved": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/main/addons/kaykit_character_pack_adventures/Characters/gltf/Knight.glb"
+    },
+    "height": 1.6,
+    "drop": [
+      "1H_Sword_Offhand",
+      "Rectangle_Shield",
+      "Round_Shield",
+      "Spike_Shield",
+      "2H_Sword"
+    ],
+    "keepActions": [
+      "Idle",
+      "Walking_A",
+      "Walking_Backwards",
+      "Running_A",
+      "Jump_Full_Short",
+      "Jump_Full_Long",
+      "1H_Melee_Attack_Chop",
+      "1H_Melee_Attack_Slice_Diagonal",
+      "1H_Melee_Attack_Slice_Horizontal",
+      "1H_Melee_Attack_Stab",
+      "Block",
+      "Blocking",
+      "Block_Attack",
+      "Block_Hit",
+      "Hit_A",
+      "Hit_B",
+      "Death_A",
+      "Death_B",
+      "Dodge_Forward",
+      "Dodge_Backward",
+      "Dodge_Left",
+      "Dodge_Right",
+      "Sit_Chair_Idle",
+      "Sit_Floor_Idle",
+      "Cheer",
+      "Interact",
+      "PickUp"
+    ]
+  },
+  "file": "model.glb",
+  "sha256": "d2220d2177edc93344cd02c8963ff2e5022d089d8d26aa8bcb04b65e06f1d85d",
+  "bytes": 920568,
+  "triangles": 5274,
+  "bones": 41,
+  "sourceMaterials": {
+    "knight_texture": "texture",
+    "knight_texture#5d6367": "#5d6367",
+    "knight_texture#768084": "#768084",
+    "knight_texture#686f73": "#686f73",
+    "knight_texture#414548": "#414548",
+    "knight_texture#70797e": "#70797e",
+    "knight_texture#7e888d": "#7e888d",
+    "knight_texture#879297": "#879297",
+    "knight_texture#b74943": "#b74943",
+    "knight_texture#939fa5": "#939fa5",
+    "knight_texture#a4b1b7": "#a4b1b7",
+    "knight_texture#eabc92": "#eabc92"
+  },
+  "clipInfo": {
+    "1H_Melee_Attack_Chop": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "1H_Melee_Attack_Slice_Diagonal": {
+      "seconds": 1,
+      "loop": false
+    },
+    "1H_Melee_Attack_Slice_Horizontal": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "1H_Melee_Attack_Stab": {
+      "seconds": 1.6,
+      "loop": false
+    },
+    "Block": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "Block_Attack": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "Block_Hit": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "Blocking": {
+      "seconds": 1.0667,
+      "loop": true
+    },
+    "Cheer": {
+      "seconds": 1.6667,
+      "loop": true
+    },
+    "Death_A": {
+      "seconds": 0.8,
+      "loop": false
+    },
+    "Death_B": {
+      "seconds": 2.6333,
+      "loop": false,
+      "lift": [
+        [
+          0,
+          0
+        ],
+        [
+          0.082,
+          0.009
+        ],
+        [
+          0.1641,
+          0.03
+        ],
+        [
+          0.3691,
+          0.123
+        ],
+        [
+          0.4512,
+          0.147
+        ],
+        [
+          0.4922,
+          0.149
+        ],
+        [
+          0.6563,
+          0.123
+        ],
+        [
+          0.8203,
+          0.087
+        ],
+        [
+          1.4355,
+          0.08
+        ],
+        [
+          1.5176,
+          0.099
+        ],
+        [
+          1.7637,
+          0.098
+        ],
+        [
+          1.8867,
+          0.054
+        ],
+        [
+          2.584,
+          0.052
+        ]
+      ]
+    },
+    "Dodge_Backward": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Dodge_Forward": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Dodge_Left": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Dodge_Right": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Hit_A": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Hit_B": {
+      "seconds": 0.8667,
+      "loop": false
+    },
+    "Idle": {
+      "seconds": 1.0667,
+      "loop": true
+    },
+    "Interact": {
+      "seconds": 1.3,
+      "loop": false
+    },
+    "Jump_Full_Long": {
+      "seconds": 2.3333,
+      "loop": false
+    },
+    "Jump_Full_Short": {
+      "seconds": 1.1667,
+      "loop": false
+    },
+    "PickUp": {
+      "seconds": 1.3,
+      "loop": false
+    },
+    "Running_A": {
+      "seconds": 0.8,
+      "loop": true
+    },
+    "Sit_Chair_Idle": {
+      "seconds": 3.6,
+      "loop": true
+    },
+    "Sit_Floor_Idle": {
+      "seconds": 4,
+      "loop": true
+    },
+    "Walking_A": {
+      "seconds": 1.0667,
+      "loop": true
+    },
+    "Walking_Backwards": {
+      "seconds": 1.0667,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.6,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 5274,
+    "clips": {
+      "idle": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.59
+      },
+      "walk": {
+        "minY": -0.0334,
+        "touches": true,
+        "maxSize": 1.59
+      },
+      "run": {
+        "minY": -0.0223,
+        "touches": true,
+        "maxSize": 1.56
+      },
+      "jump": {
+        "minY": -0.0006,
+        "touches": true,
+        "maxSize": 1.65
+      },
+      "attack": {
+        "minY": -0.007,
+        "touches": true,
+        "maxSize": 1.69
+      },
+      "hit": {
+        "minY": -0.001,
+        "touches": true,
+        "maxSize": 1.59
+      },
+      "death": {
+        "minY": -0.0014,
+        "touches": true,
+        "maxSize": 2.44
+      },
+      "sit": {
+        "minY": 0.103,
+        "touches": false,
+        "maxSize": 1.54
+      },
+      "block": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.56
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + attack"
+  }
+}
