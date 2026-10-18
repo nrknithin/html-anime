@@ -68,6 +68,16 @@ export function buildLibrary(THREE, kit, gltf, meta, colors = meta.colors) {
   for (const [k, v] of Object.entries(vocab)) if (byName.has(v)) clips[k] = byName.get(v).duration;
   for (const c of gltf.animations) if (!Object.values(vocab).includes(c.name)) clips[c.name] = c.duration;
 
+  // clipInfo[clip].lift: metres, or keys [[seconds, metres], ...] interpolated linearly and held past both ends.
+  function liftAt(lift, t) {
+    if (!lift) return 0;
+    if (typeof lift === "number") return lift;
+    if (t <= lift[0][0]) return lift[0][1];
+    for (let i = 1; i < lift.length; i++)
+      if (t <= lift[i][0]) return lift[i - 1][1] + ((lift[i][1] - lift[i - 1][1]) * (t - lift[i - 1][0])) / (lift[i][0] - lift[i - 1][0]);
+    return lift[lift.length - 1][1];
+  }
+
   function toRest() {
     mixer.stopAllAction();
     scene.position.y = 0;
@@ -86,7 +96,7 @@ export function buildLibrary(THREE, kit, gltf, meta, colors = meta.colors) {
     action.play();
     action.time = tt;
     mixer.update(0);
-    scene.position.y = info.lift || 0; // a clip that sinks (a body lying down) is lifted by a measured constant
+    scene.position.y = liftAt(info.lift, tt); // a clip that sinks (a body lying down) is lifted by measured amounts
     root.updateMatrixWorld(true);
   }
 

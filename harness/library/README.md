@@ -64,7 +64,7 @@ Look at every PNG. One model per branch and per PR; the PR carries `meta.json`, 
 }
 ```
 
-`clipInfo` is written by ingest (`seconds`, and `loop` guessed from the name: death, hit, jump and attack clamp, the rest wrap). Edit `loop` by hand when the guess is wrong, and add `lift` (metres) to a clip that sinks into the ground (a body lying down in a death clip): the check reports how far.
+`clipInfo` is written by ingest (`seconds`, and `loop` guessed from the name: death, hit, jump and attack clamp, the rest wrap). Edit `loop` by hand when the guess is wrong, and add `lift` to a clip that sinks into the ground (a body lying down in a death clip): metres, or keys `[[seconds, metres], ...]` interpolated linearly and held past both ends, so a fall can stay planted while standing and lift only once it lies down. `npm run probe -- --model models/library/<id> --clip death --frames 16` gives the lowest point per frame to key from.
 
 Shared clip vocabulary: `idle`, `walk`, `run`, `jump`, `attack`, `hit`, `death`, `eat`, `sit`, `wave`, `dance`, `fly`, `swim`. Map the ones the source has; keep source names for the rest (they still play under their own name).
 
