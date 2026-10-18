@@ -72,10 +72,20 @@ export function makeKit(THREE, { mode = "cel", ink = "#101628", light = [0.62, 0
   const HULL_FS = `uniform vec3 ink; void main() { gl_FragColor = vec4(ink, 1.0); }`;
   // Clay: smooth, light gray, lit from the upper right and front of the camera so every view reads.
   const CLAY_VS = `
+    #include <common>
+    #include <morphtarget_pars_vertex>
+    #include <skinning_pars_vertex>
     varying vec3 vV;
     void main() {
-      vV = normalMatrix * normal;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      #include <beginnormal_vertex>
+      #include <morphnormal_vertex>
+      #include <skinbase_vertex>
+      #include <skinnormal_vertex>
+      vV = normalMatrix * objectNormal;
+      #include <begin_vertex>
+      #include <morphtarget_vertex>
+      #include <skinning_vertex>
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
     }`;
   const CLAY_FS = `
     varying vec3 vV;
@@ -90,7 +100,17 @@ export function makeKit(THREE, { mode = "cel", ink = "#101628", light = [0.62, 0
       gl_FragColor = vec4(vec3(l), 1.0);
     }`;
   // Silhouette: flat black, no ink, no shading.
-  const SIL_VS = `void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
+  const SIL_VS = `
+    #include <common>
+    #include <morphtarget_pars_vertex>
+    #include <skinning_pars_vertex>
+    void main() {
+      #include <skinbase_vertex>
+      #include <begin_vertex>
+      #include <morphtarget_vertex>
+      #include <skinning_vertex>
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
+    }`;
   const SIL_FS = `void main() { gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); }`;
 
   const cache = new Map();
