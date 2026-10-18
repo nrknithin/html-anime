@@ -7,7 +7,7 @@
 // models/library/<id>/meta.json holds the recipe under "ingest" (see harness/library/README.md):
 //   fetch   { type: "file"|"zip"|"kenney"|"itch", url, page, upload, sha256 }  where the download comes from
 //   member  path inside the zip ("Farm Animals/FBX/Horse.fbx"); omitted for a single file
-//   height, yaw, drop, keepActions, attach                                  handed to convert.py
+//   height, yaw, pitch, roll, drop, keepActions, attach                     handed to convert.py
 // Steps: download (cached under <tmp>/html-anime-library-cache, sha256 pinned in meta.json on the first fetch and
 // checked on every later one) -> unzip the member (in Node) -> convert.py (Blender: import, normalize, GLB) ->
 // gltf-transform optimize (meshopt, no simplify, no palette, materials kept) -> models/library/<id>/model.glb, and
@@ -237,12 +237,15 @@ async function main() {
   const raw = path.join(tmp, "raw.glb");
   const report = path.join(tmp, "report.json");
   if (ing.via === "gltf") {
+    if (ing.pitch || ing.roll) throw new Error(`${id}: ingest.pitch and ingest.roll need the Blender path (drop "via": "gltf")`);
     const { normalizeGlb } = await import("./normalize.mjs");
     const r = await normalizeGlb(await fsp.readFile(src), { height: ing.height || 0, yaw: ing.yaw || 0 });
     await fsp.writeFile(raw, r.glb);
     await fsp.writeFile(report, JSON.stringify(r.report));
   } else if (ing.via && ing.via !== "blender") throw new Error(`ingest.via must be "blender" (default) or "gltf" (got ${ing.via})`);
   const cargs = ["-I", path.join(HERE, "convert.py"), "--in", src, "--out", raw, "--report", report, "--height", String(ing.height || 0), "--yaw", String(ing.yaw || 0), "--search", srcDir];
+  if (ing.pitch) cargs.push("--pitch", String(ing.pitch));
+  if (ing.roll) cargs.push("--roll", String(ing.roll));
   if (ing.drop?.length) cargs.push("--drop", ing.drop.join(","));
   if (ing.keepActions?.length) cargs.push("--keep-actions", ing.keepActions.join(","));
   if (ing.maxColors) cargs.push("--max-colors", String(ing.maxColors));
@@ -285,7 +288,7 @@ async function main() {
  * folder, so every prop is sha256-pinned like the model; offset is [x, y, z] in the bone's frame (source units),
  * rotation [x, y, z] degrees, scale a number. Throws on a malformed entry or a file that was not fetched. */
 export function attachArgs(attach, srcDir, exists = fs.existsSync) {
-  if (!Array.isArray(attach)) throw new Error("ingest.attach must be a list of { file, bone, offset, rotation, scale }");
+  if (!Array.isArray(attach)) throw new Error("ingest.attach must be a list of { file, bone?, offset, rotation, scale }");
   const vec = (v, what, file) => {
     if (v === undefined) return [0, 0, 0];
     if (!Array.isArray(v) || v.length !== 3 || !v.every(Number.isFinite)) throw new Error(`ingest.attach ${file}: ${what} must be [x, y, z] numbers`);
@@ -294,13 +297,13 @@ export function attachArgs(attach, srcDir, exists = fs.existsSync) {
   const out = [];
   for (const a of attach) {
     if (!a || typeof a.file !== "string" || !a.file) throw new Error("ingest.attach: every entry needs a file");
-    if (typeof a.bone !== "string" || !a.bone) throw new Error(`ingest.attach ${a.file}: needs a bone`);
+    if (a.bone !== undefined && (typeof a.bone !== "string" || !a.bone)) throw new Error(`ingest.attach ${a.file}: bone must be a bone name (or left out for a static part)`);
     const file = path.resolve(srcDir, a.file.replace(/\\/g, "/"));
     if (!file.startsWith(srcDir + path.sep)) throw new Error(`ingest.attach: ${a.file} leaves the scratch folder`);
     if (!exists(file)) throw new Error(`ingest.attach: ${a.file} was not fetched (list it in ingest.fetch.extraFiles or ingest.extraMembers, with its .bin and textures)`);
     const scale = a.scale ?? 1;
     if (!Number.isFinite(scale) || scale <= 0) throw new Error(`ingest.attach ${a.file}: scale must be a positive number`);
-    out.push("--attach", JSON.stringify({ file, bone: a.bone, offset: vec(a.offset, "offset", a.file), rotation: vec(a.rotation, "rotation", a.file), scale }));
+    out.push("--attach", JSON.stringify({ file, ...(a.bone ? { bone: a.bone } : {}), offset: vec(a.offset, "offset", a.file), rotation: vec(a.rotation, "rotation", a.file), scale }));
   }
   return out;
 }

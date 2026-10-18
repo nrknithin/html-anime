@@ -60,7 +60,7 @@ Look at every PNG. One model per branch and per PR; the PR carries `meta.json`, 
     "fetch": { "type": "zip", "url": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip" },
     "member": "Farm Animals by @Quaternius/FBX/Horse.fbx",
     "height": 1.7, "yaw": 0, "drop": [], "keepActions": [],
-    "attach": []                       // optional: props parented to bones, see "Props on bones"
+    "attach": []                       // optional: props parented to bones, see "Props on bones, and kit pieces"
   }
   // written by the scripts: file, sha256, bytes, triangles, bones, sourceMaterials, clipInfo, ingest.fetch.sha256, qa
 }
@@ -91,7 +91,7 @@ KayKit's gradient atlas, Kenney's colour map and Poly Haven photos are textures,
 
 ### Normalizing
 
-`convert.py` puts everything under one `root` node: scaled so the rest pose is `ingest.height` metres tall, turned by `ingest.yaw` degrees (about up) so the face points +Z, the lowest rest point on y = 0 and the bbox centred on x = z = 0. Find the yaw once per pack: shoot the `left` view; the face must point to the image's left. Clip names lose their `Armature|` prefixes and a suffix they all share with the armature's name (`Idle_Rig` -> `Idle`). Before measuring, any action an importer assigned is unassigned and every pose bone cleared, so the exported bones are the measured rest pose; bone display shapes (rig widgets) and render-hidden objects are deleted. Alternative props a pack ships on the rig (KayKit's four shields and three swords) go with `ingest.drop` by object name. A part that shares one mesh with the body (a witch's hat) goes with `ingest.dropMaterials`: every face using those source materials is deleted before measuring.
+`convert.py` puts everything under one `root` node: scaled so the rest pose is `ingest.height` metres tall, turned by `ingest.yaw` degrees (about up) so the face points +Z, the lowest rest point on y = 0 and the bbox centred on x = z = 0. Find the yaw once per pack: shoot the `left` view; the face must point to the image's left. A prop modelled lying down (a key on its side) is stood up with `ingest.pitch` (degrees about +X) and `ingest.roll` (degrees about +Z, the facing axis), applied in that order before the yaw, all before measuring; Blender path only. Clip names lose their `Armature|` prefixes and a suffix they all share with the armature's name (`Idle_Rig` -> `Idle`). Before measuring, any action an importer assigned is unassigned and every pose bone cleared, so the exported bones are the measured rest pose; bone display shapes (rig widgets) and render-hidden objects are deleted. Alternative props a pack ships on the rig (KayKit's four shields and three swords) go with `ingest.drop` by object name. A part that shares one mesh with the body (a witch's hat) goes with `ingest.dropMaterials`: every face using those source materials is deleted before measuring.
 
 ### Two armatures: follower rigs are merged
 
@@ -102,7 +102,7 @@ Blender 4.2's glTF exporter (actions mode) writes every action only when the sce
 
 Each of its meshes is baked where it sits with the main rig at rest and the constraints evaluated, then skinned rigidly to the constraint target bone (weight 1.0; a vertex weighted across several follower bones splits its weight among their targets, and a vertex with no weight goes whole to the target of a one-bone follower) and parented to the main armature; other children of the follower move to the main armature (bone children to the target bone), and the follower is deleted. The part then follows the target bone through every clip exactly as the constraint did. The report lists `mergedArmatures`; a source still left with several armatures prints a warning. A source with one armature is untouched (its GLB is byte-identical). Look at a clip that moves the head a lot (`death`, `attack`) in the `left` and `front` views: the part stays on the face.
 
-### Props on bones: `ingest.attach`
+### Props on bones, and kit pieces: `ingest.attach`
 
 Some packs ship a character without what it holds: KayKit's Skeletons rigs come empty-handed, and the blades and shields are separate files meant for the `handslot.r` / `handslot.l` bones. `ingest.attach` puts them on:
 
@@ -118,6 +118,14 @@ Some packs ship a character without what it holds: KayKit's Skeletons rigs come 
 ```
 
 `file` is a file the entry already fetches, so every prop is sha256-pinned like the model: an `extraFiles` `path` (with its `.bin` and textures), or an `extraMembers` path for a zip. ingest stops on a file it did not fetch. `convert.py` imports each prop (glTF, FBX or OBJ) at the rest pose, before anything is measured, and parents its objects rigidly to the bone (bone parenting, no weights): the prop's origin on the bone's head and the prop file's own axes on the bone's axes, the way an engine hangs a weapon on a hand slot (KayKit's slots are already oriented for it). `offset` (the bone's frame, source units), `rotation` (degrees about the bone's X, Y, Z) and `scale` adjust it. The prop follows every clip, counts in the rest bbox (the height, the ground and the centring include it) and exports with the model. Its materials keep their names, except that one sharing a name with a material already in the model becomes `<name>@<file stem>` (the Skeleton blade's atlas material `skeleton` becomes `skeleton@Skeleton_Blade`, split as usual into `skeleton@Skeleton_Blade#rrggbb`), so its colours map to roles apart from the body's. Look at the attack clip in the `left` and `right` views: the grip sits in the fist and the blade follows the swing. Not on the `"via": "gltf"` path.
+
+Leave `bone` out to build a static model from several kit pieces (a monitor plus its keyboard, a bookcase plus its books): the prop becomes a fixed part of the model, its origin on the model file's origin and its axes on the model file's axes (Y up, +Z front), then `offset` (those axes, the model's source units), `rotation` and `scale`. It counts in the bbox like the rest. Materials follow the same `@<file stem>` rule.
+
+```jsonc
+"member": "Models/GLTF format/computerScreen.glb",
+"extraMembers": ["Models/GLTF format/computerKeyboard.glb"],
+"attach": [{ "file": "Models/GLTF format/computerKeyboard.glb", "offset": [0, 0, 0.2] }]
+```
 
 ## In the lab
 
