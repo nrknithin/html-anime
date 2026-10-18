@@ -93,6 +93,7 @@ function readForm() {
     dialogue: data.get("dialogue"),
     seconds: data.get("seconds"),
     aspect: data.get("aspect"),
+    medium: data.get("medium"),
     script: data.get("script"),
     agent: data.get("agent"),
   };
@@ -181,7 +182,7 @@ buildCells();
 paintSwatches();
 
 const params = new URLSearchParams(location.search);
-for (const name of ["aspect", "script", "seconds", "agent"]) {
+for (const name of ["aspect", "medium", "script", "seconds", "agent"]) {
   const value = params.get(name);
   if (!value) continue;
   const radio = form.querySelector(`input[name="${name}"][value="${CSS.escape(value)}"]`);

@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-anime model lab</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #20232a;
+      }
+      canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+      }
+      #err {
+        display: none;
+        position: absolute;
+        z-index: 9;
+        left: 16px;
+        right: 16px;
+        top: 16px;
+        max-height: calc(100% - 32px);
+        overflow: auto;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 14px 18px;
+        background: #fff3f2;
+        color: #8a1c14;
+        border: 3px solid #d93025;
+        border-radius: 6px;
+        font: 13px/1.45 Consolas, "Cascadia Mono", Menlo, monospace;
+        white-space: pre-wrap;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/cdn/npm/three@0.186.1/build/three.module.min.js",
+          "three/addons/": "/cdn/npm/three@0.186.1/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="bg"></canvas><canvas id="gl"></canvas><canvas id="fg"></canvas>
+    <pre id="err"></pre>
+    <script type="module">
+      // The model lab stage. Reads URL params (see harness/lab/README.md), builds the model with kit.js, renders
+      // each view into one cell of one WebGL canvas (viewport + scissor), then paints grid, labels and the reference
+      // photo on 2D canvases behind (bg) and in front (fg) of it. The shooter waits on window.__labReady / __labError.
+      const $ = (id) => document.getElementById(id);
+      const FONT = "system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
+      window.__labReady = false;
+      window.__labError = null;
+      window.__labInfo = null;
+
+      function fail(e) {
+        const err = e instanceof Error ? e : new Error(String(e && e.message ? e.message : e));
+        const frames = String(err.stack || "").split("\n").filter((l) => /^\s+at /.test(l)).join("\n");
+        const msg = `${err.name}: ${err.message}` + (frames ? `\n${frames}` : "");
+        if (!window.__labError) window.__labError = msg;
+        const box = $("err");
+        box.style.display = "block";
+        box.textContent = "model lab error\n\n" + window.__labError;
+      }
+      addEventListener("error", (e) => fail(e.error || e.message));
+      addEventListener("unhandledrejection", (e) => fail(e.reason));
+
+      // ---------------------------------------------------------------- params
+      const q = new URLSearchParams(location.search);
+      const str = (k, d = null) => (q.get(k) ? q.get(k) : d);
+      const num = (k, d) => (Number.isFinite(parseFloat(q.get(k))) ? parseFloat(q.get(k)) : d);
+      const flag = (k, d = false) => (q.has(k) ? !["0", "false", "no", "off", ""].includes(q.get(k).toLowerCase()) : d);
+
+      const VIEW_NAMES = ["front", "back", "left", "right", "top", "three4", "hero"];
+      // Orthographic views: the camera sits on `dir` looking back at the model; `up` is screen-up.
+      // front +Z (the face), back -Z, left +X (the model's left side, face to the image left), right -X, top +Y.
+      const ORTHO = {
+        front: { dir: [0, 0, 1], up: [0, 1, 0], ground: true },
+        back: { dir: [0, 0, -1], up: [0, 1, 0], ground: true },
+        left: { dir: [1, 0, 0], up: [0, 1, 0], ground: true },
+        right: { dir: [-1, 0, 0], up: [0, 1, 0], ground: true },
+        top: { dir: [0, 1, 0], up: [0, 0, 1], ground: false }, // face to the top of the image, model's left on the image's left
+      };
+      // Perspective views: az degrees from +Z toward +X (the model's left), el degrees above the horizon, aim = starting height share.
+      const PERSP = {
+        three4: { az: 38, el: 20, fov: 30, aim: 0.5 },
+        hero: { az: 52, el: -7, fov: 32, aim: 0.55 },
+      };
+      const BG = { cel: "#aeb4bd", clay: "#e6e8ec", sil: "#ffffff" };
+      const GAP = 2;
+
+      // ---------------------------------------------------------------- small math
+      const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+      const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+      const unit = (a) => {
+        const l = Math.hypot(...a) || 1;
+        return a.map((x) => x / l);
+      };
+      const fmt = (v, d = 2) => String(Math.round(v * 10 ** d) / 10 ** d);
+      const ndiv = (v, a) => Math.abs(v / a - Math.round(v / a)) < 1e-6;
+
+      // ---------------------------------------------------------------- the model contract
+      const FORBIDDEN = [
+        [/\bMath\s*\.\s*random\b/, "Math.random"],
+        [/\bDate\s*\.\s*now\b|\bnew\s+Date\b|\bDate\s*\(/, "Date"],
+        [/\bperformance\s*\.\s*now\b/, "performance.now"],
+        [/\brequestAnimationFrame\b|\bsetAnimationLoop\b/, "requestAnimationFrame/setAnimationLoop"],
+        [/\bClock\b/, "Clock"],
+        [/^\s*import(?:\s+[\w{*]|\s*["'{*])/m, "an import statement (models take THREE and kit as arguments)"],
+        [/\bimport\s*\(/, "dynamic import()"],
+      ];
+      function scanSource(src) {
+        // Blank out comments but keep newlines, so line numbers stay true.
+        const code = src.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, "")).replace(/(^|[^:\\])\/\/.*$/gm, "$1");
+        const found = [];
+        for (const [re, what] of FORBIDDEN) {
+          const m = re.exec(code);
+          if (m) found.push(`${what} (line ${code.slice(0, m.index).split("\n").length})`);
+        }
+        return found;
+      }
+
+      function checkMeta(mod, SCRIPTS, warnings) {
+        const problems = [];
+        const meta = mod.meta;
+        if (!meta || typeof meta !== "object") problems.push("export const meta = { name, height, script, colors, poses } is missing");
+        if (typeof mod.build !== "function") problems.push("export function build(THREE, kit, colors = meta.colors) is missing");
+        if (meta && typeof meta === "object") {
+          if (typeof meta.name !== "string" || !meta.name) problems.push("meta.name must be a non-empty string");
+          if (!(Number.isFinite(meta.height) && meta.height > 0)) problems.push("meta.height must be a positive number of meters");
+          if (typeof meta.script !== "string") problems.push("meta.script must name a color script from harness/compile.js SCRIPTS");
+          else if (SCRIPTS && !SCRIPTS[meta.script]) problems.push(`meta.script "${meta.script}" is not a script (${Object.keys(SCRIPTS).join(", ")})`);
+          if (!meta.colors || typeof meta.colors !== "object" || !Object.keys(meta.colors).length) problems.push("meta.colors must map role -> #rrggbb");
+          else
+            for (const [role, hex] of Object.entries(meta.colors))
+              if (!/^#[0-9a-f]{6}$/i.test(String(hex))) problems.push(`meta.colors.${role} must be "#rrggbb" (got ${JSON.stringify(hex)})`);
+          if (!Array.isArray(meta.poses) || !meta.poses.every((p) => typeof p === "string")) problems.push('meta.poses must be an array of pose names, e.g. ["rest"]');
+        }
+        if (problems.length) throw new Error("model contract:\n  - " + problems.join("\n  - "));
+        if (!meta.poses.includes("rest")) warnings.push('meta.poses should include "rest"');
+        const script = SCRIPTS && SCRIPTS[meta.script];
+        if (script) {
+          const allowed = new Set(Object.values(script.colors).map((h) => h.toLowerCase()));
+          for (const [role, hex] of Object.entries(meta.colors))
+            if (!allowed.has(hex.toLowerCase())) warnings.push(`colors.${role} ${hex} is not on script "${meta.script}"`);
+        }
+        return meta;
+      }
+
+      // World-space vertices of the visible, non-hull meshes: bbox, triangle count, projection fits.
+      function measure(THREE, root) {
+        root.updateMatrixWorld(true);
+        const list = [];
+        let n = 0;
+        let tris = 0;
+        root.traverseVisible((o) => {
+          if (!o.isMesh || o.userData.isHull || !o.geometry || !o.geometry.attributes.position) return;
+          list.push(o);
+          const g = o.geometry;
+          n += g.attributes.position.count;
+          tris += (g.index ? g.index.count : g.attributes.position.count) / 3;
+        });
+        const pts = new Float32Array(n * 3);
+        const [min, max] = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]];
+        const v = new THREE.Vector3();
+        let k = 0;
+        for (const o of list) {
+          const pos = o.geometry.attributes.position;
+          for (let i = 0; i < pos.count; i++) {
+            v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld);
+            pts[k++] = v.x;
+            pts[k++] = v.y;
+            pts[k++] = v.z;
+            if (v.x < min[0]) min[0] = v.x;
+            if (v.y < min[1]) min[1] = v.y;
+            if (v.z < min[2]) min[2] = v.z;
+            if (v.x > max[0]) max[0] = v.x;
+            if (v.y > max[1]) max[1] = v.y;
+            if (v.z > max[2]) max[2] = v.z;
+          }
+        }
+        if (!n) throw new Error("model has no visible meshes: build() must add Mesh objects to root");
+        const size = max.map((m, i) => m - min[i]);
+        const center = max.map((m, i) => (m + min[i]) / 2);
+        return { pts, n, min, max, size, center, tris: Math.round(tris), meshes: list.length };
+      }
+      const xyz = (a) => ({ x: a[0], y: a[1], z: a[2] });
+
+      // ---------------------------------------------------------------- layout
+      function chooseGrid(n, W, H, forced) {
+        let best = null;
+        for (let cols = 1; cols <= n; cols++) {
+          if (forced && cols !== Math.min(forced, n)) continue;
+          const rows = Math.ceil(n / cols);
+          const [w, h] = [(W - GAP * (cols + 1)) / cols, (H - GAP * (rows + 1)) / rows];
+          const score = ((w * h) / (1 + Math.abs(Math.log(w / h / 1.3)))) * (1 - 0.03 * (cols * rows - n));
+          if (!best || score > best.score) best = { cols, rows, score };
+        }
+        return best;
+      }
+      function placeCells(n, W, H, forced) {
+        const { cols, rows } = chooseGrid(n, W, H, forced);
+        const cw = Math.floor((W - GAP * (cols + 1)) / cols);
+        const ch = Math.floor((H - GAP * (rows + 1)) / rows);
+        const ox = Math.floor((W - (cols * cw + GAP * (cols + 1))) / 2) + GAP;
+        const oy = Math.floor((H - (rows * ch + GAP * (rows + 1))) / 2) + GAP;
+        return Array.from({ length: n }, (_, i) => ({ x: ox + (i % cols) * (cw + GAP), y: oy + Math.floor(i / cols) * (ch + GAP), w: cw, h: ch }));
+      }
+
+      // ---------------------------------------------------------------- cameras
+      function orthoFrame(name, M) {
+        const d = ORTHO[name];
+        const dir = unit(d.dir);
+        const r = unit(cross(d.up, dir)); // screen-right
+        const u = cross(dir, r); // screen-up
+        let [a0, a1, b0, b1] = [Infinity, -Infinity, Infinity, -Infinity];
+        for (let i = 0; i < 8; i++) {
+          const c = [i & 1 ? M.max[0] : M.min[0], i & 2 ? M.max[1] : M.min[1], i & 4 ? M.max[2] : M.min[2]];
+          const [a, b] = [dot(c, r), dot(c, u)];
+          [a0, a1, b0, b1] = [Math.min(a0, a), Math.max(a1, a), Math.min(b0, b), Math.max(b1, b)];
+        }
+        return { name, dir, r, u, a0, a1, b0, b1, ac: (a0 + a1) / 2, bc: (b0 + b1) / 2, ground: d.ground, floor: Math.min(0, M.min[1]) };
+      }
+      function orthoCamera(THREE, cell, M, mpp) {
+        const f = cell.frame;
+        const R = Math.hypot(M.size[0], M.size[1], M.size[2]) / 2;
+        const D = R * 1.5 + 1;
+        const cam = new THREE.OrthographicCamera((-cell.w * mpp) / 2, (cell.w * mpp) / 2, (cell.h * mpp) / 2, (-cell.h * mpp) / 2, D - R * 1.1, D + R * 1.1);
+        cam.up.set(...unit(ORTHO[cell.name].up));
+        cam.position.set(M.center[0] + f.dir[0] * D, M.center[1] + f.dir[1] * D, M.center[2] + f.dir[2] * D);
+        cam.lookAt(...M.center);
+        cam.updateProjectionMatrix();
+        cam.updateMatrixWorld(true);
+        return cam;
+      }
+      function perspCamera(THREE, cell, M, pad) {
+        const def = PERSP[cell.name];
+        const [az, el] = [(def.az * Math.PI) / 180, (def.el * Math.PI) / 180];
+        const dirv = [Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)]; // target -> camera
+        const fwd = dirv.map((x) => -x);
+        const right = unit(cross(fwd, [0, 1, 0]));
+        const upv = cross(right, fwd);
+        const tanV = Math.tan((def.fov * Math.PI) / 360);
+        const tanH = tanV * (cell.w / cell.h);
+        const [fx, fy] = [(cell.w - 2 * pad) / cell.w, (cell.h - 2 * pad) / cell.h];
+        const stride = Math.max(1, Math.floor(M.n / 40000));
+        const target = [M.center[0], M.min[1] + M.size[1] * def.aim, M.center[2]]; // only a starting point: the loop re-centers it
+        const rel = (i) => [M.pts[i * 3] - target[0], M.pts[i * 3 + 1] - target[1], M.pts[i * 3 + 2] - target[2]];
+        // The nearest distance at which every vertex stays inside the padded frame.
+        const fit = () => {
+          let d = 0.1;
+          for (let i = 0; i < M.n; i += stride) {
+            const r = rel(i);
+            const z = dot(r, fwd);
+            d = Math.max(d, Math.abs(dot(r, right)) / (fx * tanH) - z, Math.abs(dot(r, upv)) / (fy * tanV) - z);
+          }
+          return d;
+        };
+        let dist = fit();
+        for (let it = 0; it < 5; it++) {
+          // Recentre the silhouette in the frame, then fit again.
+          let [x0, x1, y0, y1] = [Infinity, -Infinity, Infinity, -Infinity];
+          for (let i = 0; i < M.n; i += stride) {
+            const r = rel(i);
+            const depth = dist + dot(r, fwd);
+            const [nx, ny] = [dot(r, right) / (depth * tanH), dot(r, upv) / (depth * tanV)];
+            [x0, x1, y0, y1] = [Math.min(x0, nx), Math.max(x1, nx), Math.min(y0, ny), Math.max(y1, ny)];
+          }
+          const [sx, sy] = [((x0 + x1) / 2) * dist * tanH, ((y0 + y1) / 2) * dist * tanV];
+          for (let k = 0; k < 3; k++) target[k] += right[k] * sx + upv[k] * sy;
+          dist = fit();
+        }
+        let rmax = 0;
+        for (let i = 0; i < M.n; i += stride) rmax = Math.max(rmax, Math.hypot(M.pts[i * 3] - target[0], M.pts[i * 3 + 1] - target[1], M.pts[i * 3 + 2] - target[2]));
+        const cam = new THREE.PerspectiveCamera(def.fov, cell.w / cell.h, Math.max(0.02, dist - rmax * 1.1), dist + rmax * 1.1);
+        cam.position.set(target[0] + dirv[0] * dist, target[1] + dirv[1] * dist, target[2] + dirv[2] * dist);
+        cam.lookAt(...target);
+        cam.updateProjectionMatrix();
+        cam.updateMatrixWorld(true);
+        return cam;
+      }
+      // Exact 2D bounds of the model's vertices as this camera draws them, in cell pixels (y down).
+      function projectBounds(THREE, cam, cell, M) {
+        const v = new THREE.Vector3();
+        let [x0, x1, y0, y1] = [Infinity, -Infinity, Infinity, -Infinity];
+        for (let i = 0; i < M.n; i++) {
+          v.set(M.pts[i * 3], M.pts[i * 3 + 1], M.pts[i * 3 + 2]).applyMatrix4(cam.matrixWorldInverse).applyMatrix4(cam.projectionMatrix);
+          const [px, py] = [(v.x * 0.5 + 0.5) * cell.w, (1 - (v.y * 0.5 + 0.5)) * cell.h];
+          [x0, x1, y0, y1] = [Math.min(x0, px), Math.max(x1, px), Math.min(y0, py), Math.max(y1, py)];
+        }
+        return { x0, x1, y0, y1 };
+      }
+
+      // ---------------------------------------------------------------- 2D painting
+      const STEPS = [0.01, 0.02, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10, 25, 50, 100, 250, 500];
+      const MAJORS = [0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+      function gridStep(mpp) {
+        if (0.25 / mpp >= 14 && 0.25 / mpp <= 140) return 0.25;
+        return STEPS.find((s) => s / mpp >= 14) ?? STEPS.at(-1);
+      }
+      function hline(ctx, x0, x1, y, color, w = 1) {
+        const yy = w % 2 ? Math.round(y - 0.5) + 0.5 : Math.round(y);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = w;
+        ctx.beginPath();
+        ctx.moveTo(x0, yy);
+        ctx.lineTo(x1, yy);
+        ctx.stroke();
+      }
+      function vline(ctx, x, y0, y1, color, w = 1) {
+        const xx = w % 2 ? Math.round(x - 0.5) + 0.5 : Math.round(x);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = w;
+        ctx.beginPath();
+        ctx.moveTo(xx, y0);
+        ctx.lineTo(xx, y1);
+        ctx.stroke();
+      }
+      // World point -> page pixels for an orthographic frame in a cell.
+      const orthoPx = (cell, f, mpp, p) => [cell.x + cell.w / 2 + (dot(p, f.r) - f.ac) / mpp, cell.y + cell.h / 2 - (dot(p, f.u) - f.bc) / mpp];
+
+      function paintGrid(ctx, cell, f, mpp) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(cell.x, cell.y, cell.w, cell.h);
+        ctx.clip();
+        const step = gridStep(mpp);
+        const major = MAJORS.find((m) => m >= step * 3.2);
+        ctx.font = `600 11px ${FONT}`;
+        ctx.textBaseline = "alphabetic";
+        const [x0, x1] = [cell.x, cell.x + cell.w];
+        // Horizontal lines are heights (elevations) or depths (top view), counted along the screen-up axis.
+        const upAxis = f.u.map(Math.abs).indexOf(1);
+        const upSign = f.u[upAxis];
+        const [va, vb] = [upSign * (f.bc - (cell.h / 2) * mpp), upSign * (f.bc + (cell.h / 2) * mpp)];
+        const [lo, hi] = [Math.min(va, vb), Math.max(va, vb)];
+        const point = (val) => {
+          const p = [0, 0, 0];
+          p[upAxis] = val;
+          return p;
+        };
+        if (f.ground) {
+          const gy = orthoPx(cell, f, mpp, point(0))[1];
+          ctx.fillStyle = "rgba(0,0,0,0.055)";
+          ctx.fillRect(x0, gy, cell.w, cell.y + cell.h - gy);
+        }
+        for (let k = Math.ceil(lo / step); k <= Math.floor(hi / step); k++) {
+          const val = k * step;
+          if (f.ground && (Math.abs(val) < 1e-9 || val < f.floor - step / 2)) continue; // the ground line is drawn below; nothing under it unless the model sinks
+          const y = orthoPx(cell, f, mpp, point(val))[1];
+          const isMajor = ndiv(val, major);
+          hline(ctx, x0, x1, y, isMajor ? "rgba(0,0,0,0.22)" : "rgba(0,0,0,0.10)");
+          if (isMajor && y - cell.y > 34) {
+            ctx.fillStyle = "rgba(0,0,0,0.5)";
+            ctx.fillText(`${fmt(val)} m`, x0 + 6, y - 3);
+          }
+        }
+        if (!f.ground) {
+          // Top view: the same lines across, so depth and width both read.
+          const rAxis = f.r.map(Math.abs).indexOf(1);
+          const rSign = f.r[rAxis];
+          const [ha, hb] = [rSign * (f.ac - (cell.w / 2) * mpp), rSign * (f.ac + (cell.w / 2) * mpp)];
+          const [hlo, hhi] = [Math.min(ha, hb), Math.max(ha, hb)];
+          for (let k = Math.ceil(hlo / step); k <= Math.floor(hhi / step); k++) {
+            const p = [0, 0, 0];
+            p[rAxis] = k * step;
+            vline(ctx, orthoPx(cell, f, mpp, p)[0], cell.y, cell.y + cell.h, ndiv(k * step, major) ? "rgba(0,0,0,0.22)" : "rgba(0,0,0,0.10)");
+          }
+        }
+        // The model's own origin, so an off-center build shows.
+        const ox = orthoPx(cell, f, mpp, [0, 0, 0])[0];
+        ctx.setLineDash([3, 4]);
+        vline(ctx, ox, cell.y, cell.y + cell.h, "rgba(0,0,0,0.30)");
+        ctx.setLineDash([]);
+        if (f.ground) {
+          const gy = orthoPx(cell, f, mpp, point(0))[1];
+          hline(ctx, x0, x1, gy, "rgba(0,0,0,0.6)", 2);
+          ctx.fillStyle = "rgba(0,0,0,0.55)";
+          ctx.fillText("0", x0 + 6, gy - 4);
+        } else {
+          const gy = orthoPx(cell, f, mpp, [0, 0, 0])[1];
+          hline(ctx, x0, x1, gy, "rgba(0,0,0,0.30)");
+        }
+        ctx.restore();
+      }
+
+      function chip(ctx, x, y, w, h) {
+        ctx.fillStyle = "rgba(255,255,255,0.6)";
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, 4);
+        ctx.fill();
+      }
+
+      function paintScaleBar(ctx, cell, mpp) {
+        // The longest 1-2-5 length that draws between 40 and 200 px.
+        let L = 0;
+        for (let k = -5; k <= 5; k++) for (const m of [1, 2, 5]) if (m * 10 ** k / mpp <= 200 && m * 10 ** k / mpp >= 40) L = Math.max(L, m * 10 ** k);
+        if (!L) L = 10 ** Math.round(Math.log10(100 * mpp));
+        const len = L / mpp;
+        const x1 = cell.x + cell.w - 14;
+        const y = cell.y + cell.h - 12;
+        ctx.save();
+        ctx.font = `600 12px ${FONT}`;
+        const text = `${+L.toPrecision(2)} m`;
+        const tw = ctx.measureText(text).width;
+        chip(ctx, x1 - len - 12 - tw - 4, y - 14, tw + 8, 18);
+        ctx.fillStyle = ctx.strokeStyle = "rgba(0,0,0,0.7)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x1 - len, y - 6);
+        ctx.lineTo(x1 - len, y);
+        ctx.lineTo(x1, y);
+        ctx.lineTo(x1, y - 6);
+        ctx.stroke();
+        ctx.textAlign = "right";
+        ctx.fillText(text, x1 - len - 8, y);
+        ctx.restore();
+      }
+
+      function paintLabel(ctx, cell, text, sub) {
+        ctx.save();
+        ctx.font = `700 15px ${FONT}`;
+        const w = ctx.measureText(text).width;
+        ctx.font = `500 11px ${FONT}`;
+        const sw = sub ? ctx.measureText(sub).width + 8 : 0;
+        chip(ctx, cell.x + 6, cell.y + 6, w + sw + 12, 22);
+        ctx.textBaseline = "alphabetic";
+        ctx.font = `700 15px ${FONT}`;
+        ctx.fillStyle = "rgba(0,0,0,0.75)";
+        ctx.fillText(text, cell.x + 12, cell.y + 22);
+        if (sub) {
+          ctx.font = `500 11px ${FONT}`;
+          ctx.fillStyle = "rgba(0,0,0,0.6)";
+          ctx.fillText(sub, cell.x + 12 + w + 8, cell.y + 22);
+        }
+        ctx.restore();
+      }
+
+      // Pivots of build().joints, drawn over every view: a yellow dot at each joint's world position, names on request.
+      function paintJoints(THREE, ctx, cells, joints, names) {
+        const v = new THREE.Vector3();
+        for (const c of cells) {
+          if (c.kind !== "view") continue;
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(c.x, c.y, c.w, c.h);
+          ctx.clip();
+          ctx.font = `600 10px ${FONT}`;
+          ctx.lineJoin = "round";
+          for (const [name, j] of Object.entries(joints)) {
+            if (!j || !j.isObject3D) continue;
+            j.getWorldPosition(v).applyMatrix4(c.cam.matrixWorldInverse).applyMatrix4(c.cam.projectionMatrix);
+            const [x, y] = [c.x + (v.x * 0.5 + 0.5) * c.w, c.y + (1 - (v.y * 0.5 + 0.5)) * c.h];
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = "#ffd400";
+            ctx.fill();
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = "rgba(0,0,0,0.85)";
+            ctx.stroke();
+            if (names) {
+              ctx.lineWidth = 3;
+              ctx.strokeStyle = "rgba(255,255,255,0.9)";
+              ctx.strokeText(name, x + 7, y + 3);
+              ctx.fillStyle = "#111";
+              ctx.fillText(name, x + 7, y + 3);
+            }
+          }
+          ctx.restore();
+        }
+      }
+
+      // Where the cropped reference lands: crop height = the model's projected bbox height, bottoms and centers aligned.
+      function refPlacement(img, crop, bb) {
+        const [sw, sh] = [crop.w * img.naturalWidth, crop.h * img.naturalHeight];
+        const s = (bb.y1 - bb.y0) / sh;
+        const [dw, dh] = [sw * s, sh * s];
+        return { sx: crop.x * img.naturalWidth, sy: crop.y * img.naturalHeight, sw, sh, dx: (bb.x0 + bb.x1) / 2 - dw / 2, dy: bb.y1 - dh, dw, dh };
+      }
+      function paintRef(ctx, cell, img, pl, flip, alpha, box) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(cell.x, cell.y, cell.w, cell.h);
+        ctx.clip();
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.globalAlpha = alpha;
+        const [dx, dy] = [cell.x + pl.dx, cell.y + pl.dy];
+        if (flip) {
+          ctx.translate(dx + pl.dw / 2, 0);
+          ctx.scale(-1, 1);
+          ctx.translate(-(dx + pl.dw / 2), 0);
+        }
+        ctx.drawImage(img, pl.sx, pl.sy, pl.sw, pl.sh, dx, dy, pl.dw, pl.dh);
+        ctx.restore();
+        if (box) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(cell.x, cell.y, cell.w, cell.h);
+          ctx.clip();
+          ctx.strokeStyle = "rgba(214,40,160,0.75)";
+          ctx.setLineDash([5, 4]);
+          ctx.lineWidth = 1;
+          ctx.strokeRect(Math.round(dx) + 0.5, Math.round(dy) + 0.5, Math.round(pl.dw), Math.round(pl.dh));
+          ctx.restore();
+        }
+      }
+
+      // ---------------------------------------------------------------- main
+      async function main() {
+        const t0 = performance.now();
+        const P = {
+          model: str("model"),
+          pose: str("pose", "rest"),
+          mode: str("mode", "cel"),
+          views: (str("views", "front,left,three4,top") || "").split(",").map((s) => s.trim()).filter(Boolean),
+          ref: str("ref"),
+          refMode: str("refMode", "overlay"),
+          refOpacity: num("refOpacity", 0.5),
+          refFlip: flag("refFlip"),
+          refCrop: str("refCrop"),
+          refBox: flag("refBox", true),
+          strict: flag("strict", true),
+          cols: num("cols", 0),
+          mpp: num("mpp", 0),
+          bg: str("bg"),
+          joints: str("joints"), // 1 = dots at every joint pivot, names = dots and labels
+        };
+        P.refView = str("refView", P.views[0]);
+        if (!P.model) throw new Error("missing ?model=/path/to/model.js (a path under the repo root)");
+        if (!BG[P.mode]) throw new Error(`mode must be cel, clay or sil (got "${P.mode}")`);
+        for (const v of P.views) if (!VIEW_NAMES.includes(v)) throw new Error(`unknown view "${v}" (${VIEW_NAMES.join(", ")})`);
+        P.views = [...new Set(P.views)];
+        if (!P.views.length) throw new Error("views is empty");
+        if (!["overlay", "beside"].includes(P.refMode)) throw new Error(`refMode must be overlay or beside (got "${P.refMode}")`);
+        if (P.ref && !P.views.includes(P.refView)) throw new Error(`refView "${P.refView}" is not among views (${P.views.join(",")})`);
+        let crop = { x: 0, y: 0, w: 1, h: 1 };
+        if (P.refCrop) {
+          const c = P.refCrop.split(",").map(Number);
+          if (c.length !== 4 || c.some((v) => !Number.isFinite(v)) || c[2] <= 0 || c[3] <= 0 || c[0] < 0 || c[1] < 0 || c[0] + c[2] > 1.0001 || c[1] + c[3] > 1.0001)
+            throw new Error(`refCrop must be x,y,w,h as fractions of the image inside 0..1 (got "${P.refCrop}")`);
+          crop = { x: c[0], y: c[1], w: c[2], h: c[3] };
+        }
+
+        const warnings = [];
+        const consoleErrors = [];
+        const nativeError = console.error;
+        console.error = (...a) => {
+          consoleErrors.push(a.map(String).join(" "));
+          nativeError.apply(console, a);
+        };
+
+        const THREE = await import("three");
+        const { makeKit } = await import("./kit.js");
+        let SCRIPTS = null;
+        try {
+          SCRIPTS = (await import("/harness/compile.js")).SCRIPTS;
+        } catch {
+          warnings.push("could not load /harness/compile.js: script and color checks skipped");
+        }
+
+        // The model: fetch the source once to enforce the no-clock, no-import rules, then import it.
+        const modelUrl = /^[a-z]+:\/\//i.test(P.model) ? P.model : "/" + P.model.replace(/^\/+/, "");
+        const res = await fetch(modelUrl, { cache: "no-store" });
+        if (!res.ok) throw new Error(`model not found: ${modelUrl} (HTTP ${res.status})`);
+        const found = scanSource(await res.text());
+        if (found.length) {
+          const text = `${modelUrl} uses ${found.join(", ")}: models are deterministic, procedural, and take THREE and kit as arguments`;
+          if (P.strict) throw new Error(text);
+          warnings.push(text);
+        }
+        let mod;
+        try {
+          mod = await import(modelUrl + (modelUrl.includes("?") ? "&" : "?") + "lab=1");
+        } catch (e) {
+          throw new Error(`model failed to load: ${e.message}`);
+        }
+        const meta = checkMeta(mod, SCRIPTS, warnings);
+
+        const ink = (SCRIPTS && SCRIPTS[meta.script] && SCRIPTS[meta.script].colors.ink) || "#101628";
+        const kit = makeKit(THREE, { mode: P.mode, ink });
+        let built;
+        try {
+          built = mod.build(THREE, kit, meta.colors);
+        } catch (e) {
+          e.message = `build() threw: ${e.message}`;
+          throw e;
+        }
+        if (!built || !(built.root && built.root.isObject3D)) throw new Error("model contract: build() must return { root: THREE.Group, joints, pose(name) }");
+        if (typeof built.pose !== "function") throw new Error("model contract: build() must return a pose(name) function");
+        if (!built.joints || typeof built.joints !== "object") throw new Error("model contract: build() must return joints: name -> Object3D");
+        const badJoints = Object.entries(built.joints).filter(([, j]) => !(j && j.isObject3D)).map(([k]) => k);
+        if (badJoints.length) warnings.push(`joints are not Object3D: ${badJoints.join(", ")}`);
+        const setPose = (name) => {
+          try {
+            built.pose(name);
+          } catch (e) {
+            e.message = `pose("${name}") threw: ${e.message}`;
+            throw e;
+          }
+        };
+        const scene = new THREE.Scene();
+        scene.add(built.root);
+
+        let M;
+        if (P.pose !== "rest") {
+          // Contract checks are against the rest pose, whatever pose was asked for.
+          setPose("rest");
+          M = measure(THREE, built.root);
+        }
+        setPose(P.pose);
+        const Mp = measure(THREE, built.root);
+        M = M || Mp;
+        if (!meta.poses.includes(P.pose)) warnings.push(`pose "${P.pose}" is not listed in meta.poses (${meta.poses.join(", ")})`);
+        if (Math.abs(M.max[1] - meta.height) > Math.max(0.01, 0.02 * meta.height)) warnings.push(`meta.height ${meta.height} m but the model's top at rest is ${fmt(M.max[1])} m`);
+        if (Math.abs(M.min[1]) > Math.max(0.02, 0.01 * meta.height)) warnings.push(`model should stand on y=0 (lowest point at rest is ${fmt(M.min[1])} m)`);
+        for (const [i, axis] of [[0, "x"], [2, "z"]])
+          if (Math.abs(M.center[i]) > 0.15 * Math.max(M.size[i], 0.2)) warnings.push(`model should be centered on ${axis}=0 (bbox center is ${fmt(M.center[i])} m)`);
+        M = Mp;
+
+        // ------------------------------------------------------------ layout and cameras
+        const renderer = new THREE.WebGLRenderer({ canvas: $("gl"), antialias: true, alpha: true, preserveDrawingBuffer: true });
+        renderer.setPixelRatio(1);
+        renderer.setClearColor(0x000000, 0);
+
+        let img = null;
+        if (P.ref) {
+          img = new Image();
+          img.src = P.ref;
+          try {
+            await img.decode();
+          } catch {
+            throw new Error(`could not load reference image ${P.ref}`);
+          }
+        }
+        const items = P.views.map((name) => ({ kind: "view", name }));
+        if (img && P.refMode === "beside") items.splice(P.views.indexOf(P.refView) + 1, 0, { kind: "ref", name: "ref" });
+
+        const draw = () => {
+          const W = innerWidth;
+          const H = innerHeight;
+          const foot = 24 + 16 * Math.min(warnings.length, 2);
+          const rects = placeCells(items.length, W, H - foot, P.cols);
+          const cells = items.map((it, i) => ({ ...it, ...rects[i] }));
+          const pad = (c) => Math.max(24, 0.07 * Math.min(c.w, c.h));
+
+          // One meters-per-pixel for every orthographic cell, fit so the largest projected extent fits its cell.
+          let mpp = P.mpp;
+          const ortho = cells.filter((c) => c.kind === "view" && ORTHO[c.name]);
+          for (const c of ortho) c.frame = orthoFrame(c.name, M);
+          if (!mpp && ortho.length) mpp = Math.max(...ortho.map((c) => Math.max((c.frame.a1 - c.frame.a0) / (c.w - 2 * pad(c)), (c.frame.b1 - c.frame.b0) / (c.h - 2 * pad(c)))));
+          for (const c of cells) {
+            if (c.kind !== "view") continue;
+            c.cam = ORTHO[c.name] ? orthoCamera(THREE, c, M, mpp) : perspCamera(THREE, c, M, pad(c));
+            c.bb = projectBounds(THREE, c.cam, c, M);
+          }
+          const refCell = cells.find((c) => c.kind === "view" && c.name === P.refView);
+          const besideCell = cells.find((c) => c.kind === "ref");
+          if (besideCell) besideCell.frame = refCell.frame;
+
+          for (const id of ["bg", "gl", "fg"]) {
+            $(id).width = W;
+            $(id).height = H;
+            $(id).style.width = W + "px";
+            $(id).style.height = H + "px";
+          }
+          // Background: cells, grid, ground
+          const bg = $("bg").getContext("2d");
+          bg.fillStyle = "#20232a";
+          bg.fillRect(0, 0, W, H);
+          for (const c of cells) {
+            bg.fillStyle = P.bg || BG[P.mode];
+            bg.fillRect(c.x, c.y, c.w, c.h);
+            if (c.frame) paintGrid(bg, c, c.frame, mpp);
+          }
+
+          // WebGL: one render per view cell
+          renderer.setSize(W, H, false);
+          renderer.setScissorTest(false);
+          renderer.setViewport(0, 0, W, H);
+          renderer.clear();
+          renderer.setScissorTest(true);
+          for (const c of cells) {
+            if (c.kind !== "view") continue;
+            kit.resolution.set(c.w, c.h); // hull thickness stays in pixels per viewport
+            const y = H - c.y - c.h;
+            renderer.setViewport(c.x, y, c.w, c.h);
+            renderer.setScissor(c.x, y, c.w, c.h);
+            renderer.render(scene, c.cam);
+          }
+          renderer.setScissorTest(false);
+
+          // Foreground: reference, labels, scale
+          const fg = $("fg").getContext("2d");
+          fg.clearRect(0, 0, W, H);
+          let refInfo = null;
+          if (img) {
+            const pl = refPlacement(img, crop, refCell.bb);
+            if (P.refMode === "overlay") {
+              paintRef(fg, refCell, img, pl, P.refFlip, P.refOpacity, P.refBox);
+              refInfo = { view: P.refView, mode: "overlay", rect: { x: refCell.x + pl.dx, y: refCell.y + pl.dy, w: pl.dw, h: pl.dh } };
+            } else {
+              const b = { ...pl, dx: besideCell.w / 2 - pl.dw / 2 };
+              paintRef(fg, besideCell, img, b, P.refFlip, 1, P.refBox);
+              refInfo = { view: P.refView, mode: "beside", rect: { x: besideCell.x + b.dx, y: besideCell.y + b.dy, w: b.dw, h: b.dh } };
+            }
+          }
+          for (const c of cells) {
+            if (c.kind === "view") {
+              const refHere = img && P.refMode === "overlay" && c === refCell;
+              paintLabel(fg, c, c.name, refHere ? `+ ref ${fmt(P.refOpacity)}${P.refFlip ? " flipped" : ""}` : "");
+            } else paintLabel(fg, c, "ref", `${P.refView}${P.refFlip ? " flipped" : ""}`);
+            if (c.frame) paintScaleBar(fg, c, mpp);
+          }
+          if (P.joints && P.joints !== "0") paintJoints(THREE, fg, cells, built.joints, P.joints === "names");
+          // Footer: what this picture is, and any contract warnings
+          fg.fillStyle = "#c9ced6";
+          fg.font = `500 12px ${FONT}`;
+          fg.textBaseline = "alphabetic";
+          const sz = M.size;
+          fg.fillText(
+            `${meta.name}  |  pose ${P.pose}  |  ${P.mode}  |  ${fmt(sz[0])} x ${fmt(sz[1])} x ${fmt(sz[2])} m (x y z)  |  ${M.tris} tris, ${M.meshes} meshes` +
+              (mpp ? `  |  ${fmt(mpp * 1000, 1)} mm/px` : ""),
+            10,
+            H - foot + 17,
+          );
+          fg.fillStyle = "#ffb454";
+          warnings.slice(0, 2).forEach((w, i) => fg.fillText(`warn: ${w}`.slice(0, Math.floor(W / 6.4)), 10, H - foot + 17 + 16 * (i + 1)));
+
+          window.__labInfo = {
+            name: meta.name,
+            pose: P.pose,
+            mode: P.mode,
+            views: P.views,
+            size: [W, H],
+            bbox: { min: xyz(M.min), max: xyz(M.max), size: xyz(M.size) },
+            triangles: M.tris,
+            meshes: M.meshes,
+            joints: Object.keys(built.joints).length,
+            warnings,
+            mPerPx: mpp || null,
+            cells: cells.map((c) => ({ id: c.name, kind: c.kind, x: c.x, y: c.y, w: c.w, h: c.h, bboxPx: c.bb ? { x0: c.bb.x0 + c.x, y0: c.bb.y0 + c.y, x1: c.bb.x1 + c.x, y1: c.bb.y1 + c.y } : null })),
+            ref: refInfo,
+          };
+        };
+
+        draw();
+        const shaderErrors = consoleErrors.filter((m) => /shader|program|webgl/i.test(m));
+        if (shaderErrors.length) throw new Error("WebGL error while drawing:\n" + shaderErrors[0].slice(0, 600));
+        window.__labInfo.ms = Math.round(performance.now() - t0);
+        // Let the compositor take one frame of the canvases before the shooter looks.
+        await new Promise((resolve) => {
+          const timer = setTimeout(resolve, 400);
+          requestAnimationFrame(() => requestAnimationFrame(() => (clearTimeout(timer), resolve())));
+        });
+        window.__labReady = true;
+        let pending = 0;
+        addEventListener("resize", () => {
+          clearTimeout(pending);
+          pending = setTimeout(() => {
+            try {
+              draw();
+            } catch (e) {
+              fail(e);
+            }
+          }, 120);
+        });
+      }
+      main().catch(fail);
+    </script>
+  </body>
+</html>

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { ASPECTS, compileBrief, SCRIPTS, shotPlan } from "./compile.js";
+import { ASPECTS, compileBrief, MEDIUMS, SCRIPTS, shotPlan } from "./compile.js";
 
 for (const seconds of [8, 12, 20]) {
   const shots = shotPlan(seconds);
@@ -74,6 +74,39 @@ assert.equal(
   compileBrief({ logline: "A bell.", seconds: 8, aspect: "1:1", script: "indigo" }).ok,
   false,
 );
+
+const base = {
+  logline: "A lantern drifts over a quiet canal.",
+  seconds: 8,
+  aspect: "16:9",
+  script: "indigo",
+  dialogue: "",
+};
+const plain = compileBrief(base);
+const cel = compileBrief({ ...base, medium: "cel" });
+assert.equal(plain.markdown, cel.markdown);
+assert.equal(plain.medium, "cel");
+assert.equal(cel.medium, "cel");
+assert.doesNotMatch(plain.markdown, /## 3D|Medium:|html-anime-3d|films\/lantern\/index/);
+
+const solid = compileBrief({ ...base, medium: "3d" });
+assert.equal(solid.ok, true);
+assert.equal(solid.medium, "3d");
+assert.match(solid.markdown, /^## 3D$/m);
+assert.match(solid.markdown, /^Medium: 3D cel \(three\.js\)$/m);
+assert.match(
+  solid.markdown,
+  /html-anime-camera\/SKILL\.md, skills\/html-anime-3d\/SKILL\.md, skills\/html-anime-render\/SKILL\.md\./,
+);
+assert.match(solid.markdown, /films\/lantern\/index\.html shows the 3D layer/);
+assert.ok(solid.markdown.indexOf("## Drawing budget") < solid.markdown.indexOf("## 3D"));
+assert.ok(solid.markdown.indexOf("## 3D") < solid.markdown.indexOf("## Shots"));
+
+for (const medium of ["4d", "constructor", "__proto__", "toString"]) {
+  assert.equal(compileBrief({ ...base, medium }).ok, false);
+}
+
+assert.deepEqual(MEDIUMS, ["cel", "3d"]);
 
 for (const script of Object.values(SCRIPTS)) {
   for (const hex of Object.values(script.colors)) {

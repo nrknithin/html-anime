@@ -67,6 +67,7 @@ const sheet = compileBrief({
   seconds: 8,          // 8, 12, or 20
   aspect: "16:9",      // or "9:16"
   script: "indigo",    // indigo, eclipse, noon, or festival
+  medium: "cel",       // optional: "cel" (default) or "3d"
   dialogue: "The rain hid the sound of the blade.",
 });
 console.log(sheet.ok ? sheet.markdown : sheet.error);
@@ -90,8 +91,16 @@ console.log(sheet.ok ? sheet.markdown : sheet.error);
 - `harness/compile.js` — logline to sheet
 - `media/film.mp4` — Kokuyō, the film
 - `media/city.jpg`, `media/moon.jpg`, `media/fight.jpg`, `media/helm.jpg`, `media/ren.jpg` — stills from it
+- `skills/html-anime-3d/SKILL.md` — the 3D layer: two tones, ink hull, drawing on hf-seek
 - `films/roof/` — an 8 second reference. File shape and the color-dip cut, not a film to remix
+- `films/lantern/` — a 3D reference. The two-tone shader, the ink outline, drawing on `hf-seek`
 - `AGENTS.md` — the contract
+
+## 3D
+
+Pick the 3D cel medium and the sheet adds a `## 3D` section. three.js draws the solid things on a transparent canvas. The background stays flat SVG. Every surface has two tones, and the outline is an ink hull.
+
+Poses step on twos. Frames are drawn from the `hf-seek` time and nothing else. [films/lantern/index.html](films/lantern/index.html) shows it. [skills/html-anime-3d/SKILL.md](skills/html-anime-3d/SKILL.md) owns the rules.
 
 ## Test
 

@@ -25,7 +25,8 @@ Then read, in this order, and follow them. They own their subjects. Do not resta
 1. `skills/html-anime-cel/SKILL.md` — the paint
 2. `skills/html-anime-timing/SKILL.md` — the drawings
 3. `skills/html-anime-camera/SKILL.md` — the cut and the lens
-4. `skills/html-anime-render/SKILL.md` — the file
+4. `skills/html-anime-3d/SKILL.md` — the solids, only when the sheet says Medium: 3D cel
+5. `skills/html-anime-render/SKILL.md` — the file
 
 `films/roof/index.html` is the file shape and the color-dip cut. It is not a character, a plot, or a palette to reuse.
 

@@ -11,6 +11,9 @@ export const ASPECTS = {
   "9:16": { w: 1080, h: 1920 },
 };
 
+/** The mediums a sheet can ask for. "cel" is the default. */
+export const MEDIUMS = ["cel", "3d"];
+
 export const SCRIPTS = {
   indigo: {
     id: "indigo",
@@ -115,6 +118,17 @@ const DIRECTION = {
     "The line, if there is one, in the clear, bottom third, off the eyes. Then a hold. Fade the last 8 frames to ink. Three drawings.",
 };
 
+const THREE_D = [
+  "## 3D",
+  "three.js 0.186.1 draws the solid things. The background is painted flat in SVG behind a transparent canvas. The dip and the line are DOM on top.",
+  'Read "drawing" as "pose": a held set of transforms. Poses step, they do not ease. Character and prop poses are on twos; the sakuga shot may step on ones. The camera moves on ones.',
+  "Read the establish move as a dolly in: the subject grows about 6% in frame, power1.inOut. No orbit, no handheld.",
+  "Every surface has two tones, a base and a shade, both hexes from the color script. The light direction picks the side, not the brightness. No tinted lights, no fog, no renderer gradients.",
+  "Outlines are ink, drawn as an inverted hull.",
+  "Draw a frame only from the hf-seek event's time. No requestAnimationFrame, no setAnimationLoop, no clock, no Math.random.",
+  "Pin the renderer at the sheet size with a pixel ratio of 1.",
+].join("\n");
+
 const STOP = new Set("a,an,the,of,to,and,in,on,for,with,as,at,from,by,into,over".split(","));
 
 /**
@@ -151,8 +165,9 @@ function clock(seconds) {
 
 /**
  * Build the shot sheet an agent follows.
- * @param {{logline: string, seconds: number|string, aspect: "16:9"|"9:16", script: string, dialogue?: string}} input
- * @returns {{ok: true, markdown: string, slug: string, seconds: number, frames: number, width: number, height: number, script: string} | {ok: false, error: string}}
+ * @param {{logline: string, seconds: number|string, aspect: "16:9"|"9:16", script: string, dialogue?: string, medium?: "cel"|"3d"}} input
+ *   `medium` defaults to "cel" when omitted.
+ * @returns {{ok: true, markdown: string, slug: string, seconds: number, frames: number, width: number, height: number, script: string, medium: "cel"|"3d"} | {ok: false, error: string}}
  *   `ok: false` with a readable `error` when the input breaks a sheet rule; nothing throws.
  */
 export function compileBrief(input) {
@@ -178,6 +193,12 @@ export function compileBrief(input) {
   if (!script) {
     return { ok: false, error: "Pick a color script." };
   }
+
+  const medium = input.medium === undefined ? "cel" : input.medium;
+  if (!MEDIUMS.includes(medium)) {
+    return { ok: false, error: "Medium has to be cel or 3d." };
+  }
+  const is3d = medium === "3d";
 
   const dialogue = String(input.dialogue ?? "").trim();
   if (dialogue.length > 180) {
@@ -207,12 +228,22 @@ export function compileBrief(input) {
     .map(([name, hex]) => `- ${name} ${hex}`)
     .join("\n");
 
+  const reads = [
+    "skills/html-anime-direct/SKILL.md",
+    "skills/html-anime-cel/SKILL.md",
+    "skills/html-anime-timing/SKILL.md",
+    "skills/html-anime-camera/SKILL.md",
+    ...(is3d ? ["skills/html-anime-3d/SKILL.md"] : []),
+    "skills/html-anime-render/SKILL.md",
+  ];
+
   const markdown = [
     "# html-anime",
     "",
     logline,
     "",
     `${seconds}s · ${FPS}fps · ${seconds * FPS} frames · ${aspect.w}×${aspect.h}`,
+    ...(is3d ? ["Medium: 3D cel (three.js)"] : []),
     `Color script: ${script.name}`,
     paints,
     "",
@@ -223,6 +254,7 @@ export function compileBrief(input) {
     "The sakuga shot may use 8 unique drawings. Every other shot uses 3.",
     "A hold after a settle lasts at least 12 frames.",
     "",
+    ...(is3d ? [THREE_D, ""] : []),
     "## Shots",
     shotBlocks.join("\n\n"),
     "",
@@ -231,8 +263,11 @@ export function compileBrief(input) {
     "",
     "## Build",
     `Write films/${slug}/index.html.`,
-    "Read, in order: skills/html-anime-direct/SKILL.md, skills/html-anime-cel/SKILL.md, skills/html-anime-timing/SKILL.md, skills/html-anime-camera/SKILL.md, skills/html-anime-render/SKILL.md.",
+    `Read, in order: ${reads.join(", ")}.`,
     "films/roof/index.html shows the file shape and the color-dip cut. Draw this sheet, not a remix of that film.",
+    ...(is3d
+      ? ["films/lantern/index.html shows the 3D layer: the two-tone shader, the ink outline, and drawing on hf-seek."]
+      : []),
     "Use only the hexes above. One sakuga shot.",
     "Done when `npx hyperframes lint` and `npx hyperframes validate` pass in that film's directory.",
     "",
@@ -247,5 +282,6 @@ export function compileBrief(input) {
     width: aspect.w,
     height: aspect.h,
     script: script.id,
+    medium,
   };
 }

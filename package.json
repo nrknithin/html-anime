@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node harness/compile.test.mjs"
+    "test": "node harness/compile.test.mjs",
+    "lab": "node harness/lab/shoot.mjs"
   }
 }
