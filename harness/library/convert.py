@@ -164,6 +164,29 @@ def clip_name(name, arms):
     return keep[-1] if keep else name
 
 
+def principled_everywhere():
+    """The glTF exporter reads colour from a Principled BSDF only. Older files colour materials with a Diffuse,
+    Emission or Glossy shader node (or no nodes at all), so they would all export as one grey and then be merged:
+    give each such material a Principled BSDF carrying its real flat colour."""
+    for m in bpy.data.materials:
+        if m.use_nodes and m.node_tree and any(n.type == "BSDF_PRINCIPLED" for n in m.node_tree.nodes):
+            continue
+        col = tuple(m.diffuse_color)
+        if m.use_nodes and m.node_tree:
+            for n in m.node_tree.nodes:
+                if n.type in {"BSDF_DIFFUSE", "EMISSION", "BSDF_GLOSSY", "BSDF_TOON"} and "Color" in n.inputs and not n.inputs["Color"].is_linked:
+                    col = tuple(n.inputs["Color"].default_value)
+                    break
+        m.use_nodes = True
+        nt = m.node_tree
+        nt.nodes.clear()
+        p = nt.nodes.new("ShaderNodeBsdfPrincipled")
+        o = nt.nodes.new("ShaderNodeOutputMaterial")
+        p.inputs["Base Color"].default_value = (*col[:3], 1.0)
+        nt.links.new(p.outputs[0], o.inputs["Surface"])
+        m.diffuse_color = (*col[:3], 1.0)
+
+
 def load(src):
     bpy.context.preferences.filepaths.use_scripts_auto_execute = False
     low = src.lower()
@@ -284,6 +307,7 @@ def main():
         actions.append({"name": act.name, "frames": [f0, f1], "seconds": round((f1 - f0) / scene.render.fps, 4)})
 
     split = split_textures(objs, a.max_colors)
+    principled_everywhere()
     mats = {}
     tris = 0
     for o in objs:
