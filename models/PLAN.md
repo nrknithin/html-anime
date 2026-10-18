@@ -137,9 +137,28 @@ Branches: the pipeline is `models/pipeline`; each model branch starts from it an
 
 Machine-readable: [`plan/wave1.json`](plan/wave1.json) has the exact download URL, licence, author, clips and batch of every wave-1 row; [`plan/candidates.json`](plan/candidates.json) has all 4,965 rows with their scores.
 
+### Wave 1 findings (sources actually used)
+
+Where the plan's source was unreachable, each model PR names the substitute and why in its `meta.json` (`source.note`). The pattern so far:
+
+| plan row | shipped as | source | note |
+|---|---|---|---|
+| 1 Horse | `horse` | Quaternius Farm Animals (OpenGameArt) | coarser than the Ultimate Animated Animals horse |
+| 2 Bull / Ox | `cow` | Quaternius Farm Animals | no free animated bull or ox anywhere; `ox.js` stays the bull |
+| 3 Wolf | `wolf` | "[Animated] Wolf" by CoinCoin (OpenGameArt, CC-BY 4.0) | stronger than the Quaternius Vol.2 wolf (2 clips, 1 material) |
+| 4 Fox | `fox` | Khronos glTF sample Fox (CC0 mesh, CC-BY 4.0 rig) | Animal Pack Vol.2 has no fox |
+| 5 Deer | `deer` | "Old Deer Male" by CDmir (OpenGameArt, CC0) | no reachable Quaternius deer |
+| 7, 9 Shiba / Dog | `dog` (a pug) | Quaternius Farm Animals `Pug.blend` | no free animated Shiba |
+| 10 Cat | `cat` | Quaternius Animal Pack Vol.2 (OpenGameArt) | two clips |
+| 58 T-Rex | `t-rex` | Quaternius Animated LowPoly Dinosaurs (itch.io) | the plan's pack, other route |
+| 64 Man | `man-casual` | Quaternius Ultimate Animated Character Pack (OpenGameArt) | chibi proportions, 11 clips, no run |
+| 144 Torii | gap | none free and verified | build as a code model (vermilion pillars, black caps, nuki, curved kasagi, ~4 m) |
+
+Not used yet, worth a later kitbash: Quaternius **Universal Base Characters** (itch.io, CC0) are realistic-proportion bodies, but unclothed "superhero" meshes with separate hair; their clips live in the separate **Universal Animation Library** GLB (same skeleton). Everyday people from them need outfits and a clip-merge step in the pipeline.
+
 ### Gaps: no library source, built in phase 4 as code or kitbash
 
-Schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (armour on a KayKit rig), Japanese house (the shoji walls and door plus a roof), school building (Kenney commercial blocks plus a clock tower), sakura tree (a recoloured round tree plus petals), bicycle, umbrella, airplane, helicopter, crow, butterfly, turtle, lizard or crocodile.
+Torii gate (no free verified model found in wave 1), schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (armour on a KayKit rig), Japanese house (the shoji walls and door plus a roof), school building (Kenney commercial blocks plus a clock tower), sakura tree (a recoloured round tree plus petals), bicycle, umbrella, airplane, helicopter, crow, butterfly, turtle, lizard or crocodile.
 
 ### Batches for wave 1 (8 agents in parallel)
 
