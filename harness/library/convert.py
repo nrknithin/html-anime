@@ -59,14 +59,15 @@ def material_color(mat):
 
 
 def base_image(mat):
-    """The image node feeding a material's Base Color (directly or through one node), or None."""
+    """The image feeding a material's colour (through up to three nodes), or None."""
     if not (mat and mat.use_nodes and mat.node_tree):
         return None
+    # Principled "Base Color", or "Color" on the older shaders (Diffuse, Emission, Toon, Glossy)
     for n in mat.node_tree.nodes:
-        if n.type == "BSDF_PRINCIPLED":
-            sock = n.inputs.get("Base Color")
+        if n.type in {"BSDF_PRINCIPLED", "BSDF_DIFFUSE", "EMISSION", "BSDF_TOON", "BSDF_GLOSSY"}:
+            sock = n.inputs.get("Base Color") or n.inputs.get("Color")
             if sock is None or not sock.is_linked:
-                return None
+                continue
             src = sock.links[0].from_node
             for _ in range(3):
                 if src.type == "TEX_IMAGE":
