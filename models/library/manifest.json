@@ -14,12 +14,12 @@
         "poultry",
         "farm"
       ],
-      "style": "mid-poly, realistic proportions (CDmir 2015); texture not used, flat material colours",
+      "style": "mid-poly, realistic proportions (CDmir 2015); photo texture flattened to flat colours",
       "height": 0.4,
-      "script": "noon",
+      "script": "indigo",
       "file": "models/library/chicken/model.glb",
-      "bytes": 233072,
-      "sha256": "7aed2fc27a929691f9fef8f217c7070311227fa0922053c98857daa99f2a34cd",
+      "bytes": 293576,
+      "sha256": "9994d1d39ffbe9875d883728517c8918235a524866ded4b1bd64c5b979a3fc1f",
       "triangles": 2724,
       "bones": 40,
       "clips": [
@@ -34,7 +34,7 @@
         "pack": "CDmir · Chicken (animated, Kelgar)",
         "page": "https://opengameart.org/content/chicken-animated",
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "note": "Wave-1 row 29 named the Quaternius animated chicken (poly.pizza, behind a Cloudflare challenge; its Google Drive is quota-blocked). The reachable Quaternius 'Chicken' (Textured Cute Monster Pack, OpenGameArt) was rendered and is a round big-eyed monster blob, not a farm chicken; no reachable Quaternius farm pack has one. This CC0 hen (license.txt in the zip: CC0, Čestmír Dammer) reads as a farm chicken at a glance and has idle, walk, eat, peck and death clips. Its .blend uses legacy Blender Internal materials, so the photo-derived texture is not read: body, beak and legs share one material (drawn as a white hen), the comb has its own. The sculpt base mesh ('Cylinder', a multires cage around the bird) is dropped. Height 0.4 m: a standing hen to the top of the comb."
+        "note": "Wave-1 row 29 named the Quaternius animated chicken (poly.pizza, behind a Cloudflare challenge; its Google Drive is quota-blocked). The reachable Quaternius 'Chicken' (Textured Cute Monster Pack, OpenGameArt) was rendered and is a round big-eyed monster blob, not a farm chicken; no reachable Quaternius farm pack has one. This CC0 hen (license.txt in the zip: CC0, Čestmír Dammer) reads as a farm chicken at a glance and has idle, walk, eat, peck and death clips. Its .blend uses legacy Blender Internal materials; the pipeline reads the one colour image (UV-Texture.png) and flattens it: the brown clusters draw as a buff hen, the pale foot/beak cluster as yellow legs, the pink comb clusters as a red comb (one pale cluster that also dots the body goes to the coat). The sculpt base mesh ('Cylinder', a multires cage around the bird) is dropped. Height 0.4 m: a standing hen to the top of the comb."
       }
     }
   ]
