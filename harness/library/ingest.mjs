@@ -256,6 +256,10 @@ async function main() {
     "--flatten", "false", "--join", "false", "--texture-compress", "false", "--texture-size", "512"], "gltf-transform", { cwd: tmp });
   const glb = await fsp.readFile(out);
 
+  // The clips as the exported file holds them: Blender splits node-animated sources into one action per object
+  // ("walk_body", "walk_leg-back-left", ...) that the exporter merges back into one clip per name.
+  const clips = glbClips(glb) ?? rep.actions;
+
   // 5. facts back into meta.json
   meta.file = meta.file || "model.glb";
   meta.sha256 = sha256(glb);
@@ -264,12 +268,25 @@ async function main() {
   meta.bones = rep.bones;
   meta.sourceMaterials = rep.materials;
   // Measured seconds; hand-set fields (loop, lift) survive a re-ingest.
-  meta.clipInfo = Object.fromEntries(rep.actions.map((a) => [a.name, { ...meta.clipInfo?.[a.name], seconds: a.seconds, loop: meta.clipInfo?.[a.name]?.loop ?? !/death|die|hit|jump|attack/i.test(a.name) }]));
+  meta.clipInfo = Object.fromEntries(clips.map((a) => [a.name, { ...meta.clipInfo?.[a.name], seconds: a.seconds, loop: meta.clipInfo?.[a.name]?.loop ?? !/death|die|hit|jump|attack/i.test(a.name) }]));
   if (meta.height && Math.abs(rep.height - meta.height) > 0.05 * meta.height) console.error(`[ingest] warn: meta.height ${meta.height} but the GLB is ${rep.height.toFixed(3)} m`);
   await fsp.writeFile(metaFile, JSON.stringify(meta, null, 2) + "\n");
   if (!args.includes("--keep-tmp")) await fsp.rm(tmp, { recursive: true, force: true });
   else console.error(`[ingest] kept ${tmp}`);
-  console.log(`${id}: ${(glb.length / 1024).toFixed(0)} KB, ${rep.triangles} tris, ${rep.bones} bones, clips ${rep.actions.map((a) => a.name).join(",") || "-"}, materials ${Object.entries(rep.materials).map(([k, v]) => `${k}=${v}`).join(" ")}`);
+  console.log(`${id}: ${(glb.length / 1024).toFixed(0)} KB, ${rep.triangles} tris, ${rep.bones} bones, clips ${clips.map((a) => a.name).join(",") || "-"}, materials ${Object.entries(rep.materials).map(([k, v]) => `${k}=${v}`).join(" ")}`);
+}
+
+/** GLB bytes -> [{name, seconds}] of its animations (seconds = the last key time), or null if they can't be read. */
+export function glbClips(buf) {
+  if (buf.readUInt32LE(0) !== 0x46546c67) return null;
+  const json = JSON.parse(buf.toString("utf8", 20, 20 + buf.readUInt32LE(12)));
+  const out = [];
+  for (const a of json.animations || []) {
+    const ends = a.samplers.map((s) => json.accessors[s.input]?.max?.[0]);
+    if (ends.some((t) => typeof t !== "number")) return null;
+    out.push({ name: a.name, seconds: Math.round(Math.max(0, ...ends) * 10000) / 10000 });
+  }
+  return out;
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))

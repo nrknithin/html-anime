@@ -5,7 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
-import { unzipMember, zipList } from "./ingest.mjs";
+import { unzipMember, zipList, glbClips } from "./ingest.mjs";
 import { render, entryProblems, readEntries } from "./catalog.mjs";
 import { scanSource } from "../lab/inspect.js";
 
@@ -55,6 +55,24 @@ assert.deepEqual(zipList(zip), ["Pack/License.txt", "Pack/FBX/Horse.fbx"]);
 assert.equal(unzipMember(zip, "Pack/License.txt").toString(), "CC0");
 assert.ok(unzipMember(zip, "Pack\\FBX\\Horse.fbx").equals(big), "backslash member paths work");
 assert.throws(() => unzipMember(zip, "Pack/FBX/Cow.fbx"), /Horse\.fbx/, "a missing member lists the near names");
+
+// Clip names and lengths come from the exported GLB (one clip per animation, length = last key time).
+const glbOf = (json) => {
+  let t = Buffer.from(JSON.stringify(json));
+  if (t.length % 4) t = Buffer.concat([t, Buffer.alloc(4 - (t.length % 4), 0x20)]);
+  const h = Buffer.alloc(20);
+  h.writeUInt32LE(0x46546c67, 0);
+  h.writeUInt32LE(2, 4);
+  h.writeUInt32LE(20 + t.length, 8);
+  h.writeUInt32LE(t.length, 12);
+  h.writeUInt32LE(0x4e4f534a, 16);
+  return Buffer.concat([h, t]);
+};
+assert.deepEqual(
+  glbClips(glbOf({ accessors: [{ max: [0.5] }, { max: [1.25] }], animations: [{ name: "walk", samplers: [{ input: 0 }, { input: 1 }] }] })),
+  [{ name: "walk", seconds: 1.25 }],
+);
+assert.equal(glbClips(glbOf({ accessors: [{}], animations: [{ name: "x", samplers: [{ input: 0 }] }] })), null);
 
 // Catalog: deterministic, sorted, credits only for attribution licences.
 const entry = (id, license) => ({
