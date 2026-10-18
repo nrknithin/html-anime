@@ -3,12 +3,13 @@
   "count": 1,
   "entries": [
     {
-      "id": "desk-school",
-      "name": "Classroom desk",
+      "id": "desk-teacher",
+      "name": "Teacher's desk",
       "category": "prop",
       "tags": [
         "furniture",
         "desk",
+        "teacher",
         "school",
         "classroom",
         "interior",
@@ -17,7 +18,7 @@
       "style": "low-poly, flat colours (Kenney Furniture Kit 2.0)",
       "height": 0.74,
       "script": "noon",
-      "file": "models/library/desk-school/model.glb",
+      "file": "models/library/desk-teacher/model.glb",
       "bytes": 6300,
       "sha256": "7d7625aa8e7290e2ed5382cded0a1ab0aaeefa967ac6a4466dbf81cc0edd2f99",
       "triangles": 198,
@@ -29,7 +30,7 @@
         "pack": "Kenney · Furniture Kit",
         "page": "https://kenney.nl/assets/furniture-kit",
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "note": "Kenney Furniture Kit 2.0 `desk` (GLB): the kit's only single desk (the other is the L-shaped `deskCorner`). It is an all-wood writing desk with one drawer and a knee hole, not a student desk with a metal frame, and its proportions are fixed: at student-desk height (0.74 m) it is 1.41 m wide and 0.76 m deep, the size of a teacher's desk. Use it as the teacher's desk, or scale it down (about 0.5x) as a stylized student desk. Front (drawer and knee hole, where one sits) faces +Z. Static, no clips. The kit's matching chair is `chair` (Models/GLTF format/chair.glb, a plain wooden slat-back chair); `chairDesk` is an office swivel chair."
+        "note": "Kenney Furniture Kit 2.0 `desk` (GLB): the kit's only single desk (the other is the L-shaped `deskCorner`). It is an all-wood writing desk with one drawer and a knee hole, not a student desk with a metal frame, and its proportions are fixed: at student-desk height (0.74 m) it is 1.41 m wide and 0.76 m deep, the size of a teacher's desk. This entry is the teacher's desk (plan row 175 asked for a classroom desk; no student desk with a metal frame exists in the kit). Scale it down (about 0.5x) as a stylized student desk. Front (drawer and knee hole, where one sits) faces +Z. Static, no clips. The kit's matching chair is `chair` (Models/GLTF format/chair.glb, a plain wooden slat-back chair); `chairDesk` is an office swivel chair."
       }
     }
   ]

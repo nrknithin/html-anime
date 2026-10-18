@@ -9,4 +9,4 @@
 
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| <img src="library/desk-school/preview.png" width="240"> | `desk-school` | Classroom desk<br>*low-poly, flat colours (Kenney Furniture Kit 2.0)* | 0.74 m | 198 | - | CC0 1.0 | [Kenney · Furniture Kit](https://kenney.nl/assets/furniture-kit) |
+| <img src="library/desk-teacher/preview.png" width="240"> | `desk-teacher` | Teacher's desk<br>*low-poly, flat colours (Kenney Furniture Kit 2.0)* | 0.74 m | 198 | - | CC0 1.0 | [Kenney · Furniture Kit](https://kenney.nl/assets/furniture-kit) |
