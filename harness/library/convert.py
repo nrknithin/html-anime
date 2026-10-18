@@ -41,6 +41,7 @@ def parse():
     p.add_argument("--drop", default="", help="comma list of object names to delete (cameras and lights always go)")
     p.add_argument("--keep-actions", default="", help="comma list: export only these actions (default all)")
     p.add_argument("--drop-materials", default="", help="comma list: delete every face using these materials (a hat on the body mesh)")
+    p.add_argument("--legacy-image", default="", help="old .blend with several colour images: the one its faces use")
     p.add_argument("--drop-backfaces", action="store_true", help="delete the inward copy of each triangle a source ships twice, back to back (double-sided kit models)")
     p.add_argument("--search", default="", help="folder searched by file name for images the source cannot find (a .blend expecting its texture beside it)")
     p.add_argument("--max-colors", type=int, default=12, help="textured materials: at most this many flat colours per material")
@@ -72,6 +73,9 @@ def material_color(mat):
     return hexof(mat.diffuse_color)
 
 
+LEGACY_IMAGE = ""  # --legacy-image: the image to use when an old file has several candidates
+
+
 def legacy_image():
     """The one colour image of an old Blender Internal file, or None. Those materials have no nodes and Blender 2.8+
     drops their texture slots, but the image textures survive in bpy.data.textures (or, older still, only as an image
@@ -91,6 +95,11 @@ def legacy_image():
         for img in bpy.data.images:
             if img.users and img.size[0] and img.type == "IMAGE" and "norm" not in (img.name + img.filepath).lower():
                 found.add(img.name)
+    if LEGACY_IMAGE:
+        img = bpy.data.images.get(LEGACY_IMAGE)
+        if img is None:
+            raise SystemExit(f"convert: --legacy-image {LEGACY_IMAGE!r} not found (images: {', '.join(i.name for i in bpy.data.images)})")
+        return img
     return bpy.data.images[found.pop()] if len(found) == 1 else None
 
 
@@ -536,6 +545,8 @@ def mesh_points(objs):
 
 def main():
     a = parse()
+    global LEGACY_IMAGE
+    LEGACY_IMAGE = a.legacy_image
     load(a.src)
     relink_images(a.search)
     scene = bpy.context.scene
