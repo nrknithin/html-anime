@@ -52,7 +52,8 @@ function main() {
   };
   if (Math.abs(qa.heightError) > 0.05) fails.push(`rest height ${top.toFixed(3)} m is ${(qa.heightError * 100).toFixed(1)} % off meta.height ${h}`);
   if (Math.abs(R.minY) > 0.02 * h) fails.push(`rest lowest point ${R.minY.toFixed(3)} m is not on y = 0 (2 % = ${(0.02 * h).toFixed(3)} m)`);
-  R.bbox.size.forEach((s, i) => {
+  // An entry centred on its body (ingest.centerOn) is off-centre overall by design: a held weapon sticks out.
+  if (!meta.ingest?.centerOn) R.bbox.size.forEach((s, i) => {
     if (i === 1) return;
     const c = qa.centre[i ? 1 : 0];
     if (Math.abs(c) > 0.05 * Math.max(s, 0.05)) fails.push(`rest bbox centre ${"xz"[i ? 1 : 0]} = ${c} m is off 0 by more than 5 % of the width`);
@@ -89,7 +90,10 @@ function main() {
   const info = JSON.parse(pv.out.split("\n").find((l) => l.startsWith("info {")).slice(5));
   qa.palette = info.palette ? info.palette.ratio : null;
   if (info.palette && info.palette.ratio < 0.99) fails.push(`palette: ${(info.palette.ratio * 100).toFixed(2)} % of non-edge pixels on the script (off: ${info.palette.offenders.map((o) => o[0]).join(" ")})`);
-  for (const w of info.warnings || []) if (!/non-edge pixels/.test(w)) fails.push(`lab: ${w}`);
+  for (const w of info.warnings || []) {
+    if (/non-edge pixels/.test(w) || (meta.ingest?.centerOn && /should be centered/.test(w))) continue;
+    fails.push(`lab: ${w}`);
+  }
 
   // 4. determinism
   if (stripClip) {
