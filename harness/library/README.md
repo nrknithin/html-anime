@@ -45,9 +45,10 @@ Look at every PNG. One model per branch and per PR; the PR carries `meta.json`, 
   "thresholds": { "skin": -0.2 },      // optional, per role (default 0.35)
   "noInk": [],                         // optional: roles drawn without a hull (eyes, decals)
   "smooth": true,                      // default: shade on per-position averaged normals (false keeps low-poly facets)
+  "doubleSided": ["cloth"],            // optional: roles drawn from both sides (one-sided capes, flags, leaves)
   "clips": { "idle": "Idle", "walk": "Walk", "run": "Run", "jump": "Jump", "death": "Death" },  // vocabulary -> source clip
   "poseDefs": { "gallop-a": ["run", 0.2] },          // optional named poses: [clip, seconds]
-  "preview": { "clip": "run" },                       // optional: which clip the preview strip shows
+  "preview": { "clip": "run", "pose": "idle@0" },     // optional: the strip's clip, and the views' pose (a T-pose rig)
   "source": {
     "license": "CC0",                  // CC0 | CC-BY-4.0 | CC-BY-3.0 (free licences only; CC-BY lands in CREDITS.md)
     "author": "Quaternius",
@@ -64,7 +65,7 @@ Look at every PNG. One model per branch and per PR; the PR carries `meta.json`, 
 }
 ```
 
-`clipInfo` is written by ingest (`seconds`, and `loop` guessed from the name: death, hit, jump and attack clamp, the rest wrap). Edit `loop` by hand when the guess is wrong, and add `lift` to a clip that sinks into the ground (a body lying down in a death clip): metres, or keys `[[seconds, metres], ...]` interpolated linearly and held past both ends, so a fall can stay planted while standing and lift only once it lies down. `npm run probe -- --model models/library/<id> --clip death --frames 16` gives the lowest point per frame to key from.
+`clipInfo` is written by ingest (`seconds`, and `loop` guessed from the name: death, hit, jump and attack clamp, the rest wrap). Edit `loop` by hand when the guess is wrong, and add `lift` to a clip that sinks into the ground (a body lying down in a death clip): metres, or keys `[[seconds, metres], ...]` interpolated linearly and held past both ends, so a fall can stay planted while standing and lift only once it lies down. `npm run probe -- --model models/library/<id> --clip death --frames 16` gives the lowest point per frame to key from. Simpler and usually better: `"ground": "clamp"` on a clip measures the posed model every frame and lifts it by exactly enough to keep its lowest point on y = 0 (never lowers it), so a toe strike or a fall never sinks and nothing floats; it costs one pass over the vertices per pose. Keyed `lift` stays for clips where clamping would be wrong. When only a thin part crosses the ground while the feet stay planted (a tail sweeping down in a howl), lifting would float the body: set `sinkAllowed: "<why>"` on that clip instead, and the check reports it as a note.
 
 Shared clip vocabulary: `idle`, `walk`, `run`, `jump`, `attack`, `hit`, `death`, `eat`, `sit`, `wave`, `dance`, `fly`, `swim`. Map the ones the source has; keep source names for the rest (they still play under their own name).
 
