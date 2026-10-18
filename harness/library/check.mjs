@@ -90,10 +90,7 @@ function main() {
   const info = JSON.parse(pv.out.split("\n").find((l) => l.startsWith("info {")).slice(5));
   qa.palette = info.palette ? info.palette.ratio : null;
   if (info.palette && info.palette.ratio < 0.99) fails.push(`palette: ${(info.palette.ratio * 100).toFixed(2)} % of non-edge pixels on the script (off: ${info.palette.offenders.map((o) => o[0]).join(" ")})`);
-  for (const w of info.warnings || []) {
-    if (/non-edge pixels/.test(w) || (meta.ingest?.centerOn && /should be centered/.test(w))) continue;
-    fails.push(`lab: ${w}`);
-  }
+  for (const w of info.warnings || []) if (!/non-edge pixels/.test(w)) fails.push(`lab: ${w}`);
 
   // 4. determinism
   if (stripClip) {
