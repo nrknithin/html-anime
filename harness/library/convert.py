@@ -330,21 +330,33 @@ def load(src):
         raise SystemExit(f"convert: unknown source type {src}")
 
 
+IMAGE_EXTS = (".png", ".jpg", ".jpeg", ".tga", ".bmp", ".tif", ".tiff", ".webp")
+
+
 def relink_images(root):
-    """Point every image whose file is missing at the file of the same name under root (the unpacked pack)."""
+    """Point every image whose file is missing at the file of the same name under root (the unpacked pack). When no
+    file has that name, an image with the same stem and another image extension stands in (a .blend that points at
+    chinese_cart-01.jpg while the pack ships chinese_cart-01.png), as long as only one such file exists."""
     if not root:
         return
     found = {}
+    stems = {}
     for d, _, files in os.walk(root):
         for f in files:
             found.setdefault(f.lower(), os.path.join(d, f))
+            stem, ext = os.path.splitext(f.lower())
+            if ext in IMAGE_EXTS:
+                stems.setdefault(stem, []).append(os.path.join(d, f))
     for img in bpy.data.images:
         if img.source != "FILE" or img.packed_file:
             continue
         cur = bpy.path.abspath(img.filepath)
         if cur and os.path.isfile(cur):
             continue
-        hit = found.get(bpy.path.basename(img.filepath.replace("\\", "/")).lower())
+        name = bpy.path.basename(img.filepath.replace("\\", "/")).lower()
+        hit = found.get(name)
+        if not hit and len(stems.get(os.path.splitext(name)[0], [])) == 1:
+            hit = stems[os.path.splitext(name)[0]][0]
         if hit:
             img.filepath = hit
             img.reload()
