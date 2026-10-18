@@ -15,6 +15,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { fixPath, resolveFromRoot } from "./paths.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..", "..");
@@ -40,19 +41,27 @@ const USAGE = `usage: node harness/lab/shoot.mjs --model <path> [options]
   --size <WxH>          window size                                    (default 1600x1000)
   --ref <image>         reference photo (file path or URL)
   --ref-view <view>     which cell gets the reference                  (default: first view)
-  --ref-mode <m>        overlay | beside                               (default overlay)
+  --ref-mode <m>        overlay | beside | edge                        (default overlay)
   --ref-opacity <0..1>  overlay opacity                                (default 0.5)
   --ref-crop <x,y,w,h>  box around the subject, fractions of the image (default 0,0,1,1)
   --ref-flip            mirror the reference
+  --ref-scale <s>       multiply the automatic reference scale          (default 1)
+  --ref-offset <dx,dy>  shift the reference, meters in the view plane (+x image-right, +y up)
+  --focus <joint>       frame that joint in every view [--radius <m>]   (radius default: subtree size x 1.15)
+  --light <x,y,z>       override the light direction (cel mode)
+  --hide <a,b>          hide objects/joints by name, with their subtrees
+  --only <joint>        show only that joint's subtree
+  --montage <p1,p2,..>  one cell per pose, first view, one shared scale
   --batch <shots.json>  JSON array of shots (same keys as flags, camelCase), one browser session
   --swiftshader         software GL (default: Chrome picks; falls back to it if WebGL fails)
   --lax                 contract violations (Math.random, imports ...) warn instead of fail
   --timeout <seconds>   how long to wait for the page                  (default 30)
   --joints              mark every joint pivot (yellow dots); --joint-names adds their names
   --cols <n> --mpp <m/px> --bg <#hex> --no-ref-box   page tweaks
-  --info                also print the page's __labInfo (bbox, mm/px, cell boxes, ref rect) as one JSON line
+  --info                also print the page's __labInfo (bbox, mm/px, cell boxes, ref rect, joint world positions) as one JSON line
   --verbose             print phase timings to stderr
   --serve [--port <n>]  just serve the lab and print its URL (open it in your own browser)
+paths: relative paths resolve against the repo root; /c/... (Git Bash) and backslash paths work on Windows.
 env: CHROME_PATH picks the browser; LAB_CDN_BASE swaps https://cdn.jsdelivr.net for a mirror.`;
 
 // ------------------------------------------------------------------ options
@@ -60,6 +69,7 @@ const BOOL = new Set(["refFlip", "swiftshader", "serve", "help", "lax", "noRefBo
 const KNOWN = new Set([
   "model", "views", "mode", "pose", "out", "size", "ref", "refView", "refMode", "refOpacity", "refCrop", "refFlip",
   "batch", "swiftshader", "lax", "cols", "mpp", "bg", "noRefBox", "serve", "port", "help", "verbose", "info", "timeout", "joints", "jointNames",
+  "refScale", "refOffset", "focus", "radius", "light", "hide", "only", "montage",
 ]);
 const camel = (s) => s.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
 
@@ -71,7 +81,7 @@ function parseArgs(argv) {
     const eq = a.indexOf("=");
     const key = camel(a.slice(2, eq < 0 ? undefined : eq));
     if (!KNOWN.has(key)) throw new Error(`unknown option ${a.split("=")[0]}\n\n${USAGE}`);
-    if (eq >= 0) out[key] = a.slice(eq + 1);
+    if (eq >= 0) out[key] = BOOL.has(key) ? truthy(a.slice(eq + 1)) : a.slice(eq + 1);
     else if (BOOL.has(key)) out[key] = true;
     else if (i + 1 < argv.length && !argv[i + 1].startsWith("--")) out[key] = argv[++i];
     else throw new Error(`--${a.slice(2)} needs a value`);
@@ -101,8 +111,13 @@ const inside = (dir, file) => {
   return rel !== "" && !rel.startsWith("..") && !path.isAbsolute(rel);
 };
 
+// Relative paths resolve against the repo root; --model, --ref and --batch also fall back to the current directory.
+function resolveOut(spec) {
+  return resolveFromRoot(ROOT, spec);
+}
 function resolveFile(spec, what) {
-  const tries = [...new Set([path.resolve(process.cwd(), spec), path.resolve(ROOT, spec.replace(/^[\\/]+/, ""))])];
+  spec = fixPath(spec);
+  const tries = [...new Set([path.resolve(ROOT, spec), path.resolve(process.cwd(), spec), path.resolve(ROOT, spec.replace(/^[\\/]+/, ""))])];
   const file = tries.find(isFile);
   if (!file) throw new Error(`${what} not found: ${spec}\n  tried ${tries.join("\n        ")}`);
   return file;
@@ -111,7 +126,7 @@ function resolveFile(spec, what) {
 // ------------------------------------------------------------------ the server
 function createServer(registry) {
   const inflight = new Map();
-  const state = { lastCdnError: null };
+  const state = { lastCdnError: null, inflight };
 
   async function cdnGet(rel) {
     const pinned = /@\d+\.\d+\.\d+[^/]*\//.test(rel);
@@ -125,9 +140,9 @@ function createServer(registry) {
     if (inflight.has(rel)) return inflight.get(rel);
     const job = (async () => {
       let lastErr;
-      for (let attempt = 0; attempt < 3; attempt++) {
+      for (let attempt = 0; attempt < 2; attempt++) {
         try {
-          const res = await fetch(`${CDN_BASE}/${rel}`, { signal: AbortSignal.timeout(30000) });
+          const res = await fetch(`${CDN_BASE}/${rel}`, { signal: AbortSignal.timeout(15000) });
           if (!res.ok) {
             const e = new Error(`${CDN_BASE}/${rel} answered HTTP ${res.status}`);
             e.status = res.status;
@@ -168,8 +183,18 @@ function createServer(registry) {
 
   const server = http.createServer(async (req, res) => {
     try {
+      // Only answer to our own address: a web page that rebinds a hostname to 127.0.0.1 must not read the repo or the refs.
+      const host = String(req.headers.host || "").toLowerCase();
+      const port = server.address() && server.address().port;
+      if (host !== `127.0.0.1:${port}` && host !== `localhost:${port}`) return void res.writeHead(403, { "Content-Type": "text/plain" }).end("bad host");
       const { pathname } = new URL(req.url, "http://lab");
-      const p = decodeURIComponent(pathname);
+      let p;
+      try {
+        p = decodeURIComponent(pathname);
+      } catch {
+        return void res.writeHead(400, { "Content-Type": "text/plain" }).end("bad request");
+      }
+      if (p.split("/").some((seg) => seg.startsWith("."))) return void res.writeHead(403, { "Content-Type": "text/plain" }).end("forbidden");
       if (p === "/favicon.ico") return void res.writeHead(204).end();
       let m;
       if ((m = /^\/__ref(?:\/(\d+))?$/.exec(p))) {
@@ -177,9 +202,8 @@ function createServer(registry) {
         return file ? sendFile(res, file) : void res.writeHead(404).end("no such ref");
       }
       if ((m = /^\/__m\/(\d+)\/(.+)$/.exec(p))) {
-        const dir = registry.mounts[Number(m[1])];
-        const file = dir && path.resolve(dir, m[2]);
-        return file && inside(dir, file) ? sendFile(res, file) : void res.writeHead(404).end("not found");
+        const file = registry.models[Number(m[1])]; // a model from outside the repo: only that one file is served
+        return file && path.basename(file) === m[2] ? sendFile(res, file) : void res.writeHead(404).end("not found");
       }
       if (p.startsWith("/cdn/")) {
         const rel = p.slice("/cdn/".length) + (new URL(req.url, "http://lab").search || "");
@@ -292,6 +316,8 @@ class Cdp {
   send(method, params = {}, sessionId) {
     const id = ++this.nextId;
     return new Promise((resolve, reject) => {
+      // undici drops a send() on a closed socket without a word: fail fast so a dead browser is noticed.
+      if (this.ws.readyState !== 1) return reject(new Error(`${method}: browser connection closed`));
       this.pending.set(id, { resolve, reject, method });
       try {
         this.ws.send(JSON.stringify(sessionId ? { id, method, params, sessionId } : { id, method, params }));
@@ -421,7 +447,7 @@ process.on("exit", cleanupNow);
 for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"])
   process.on(sig, () => {
     cleanupNow();
-    process.exit(130);
+    process.exit(sig === "SIGTERM" ? 143 : 130);
   });
 
 // ------------------------------------------------------------------ one shot
@@ -442,10 +468,18 @@ function pageUrl(origin, s) {
     set("refMode", s.refMode);
     set("refOpacity", s.refOpacity);
     set("refCrop", Array.isArray(s.refCrop) ? s.refCrop.join(",") : s.refCrop);
+    set("refScale", s.refScale);
+    set("refOffset", Array.isArray(s.refOffset) ? s.refOffset.join(",") : s.refOffset);
     if (truthy(s.refFlip)) q.set("refFlip", "1");
   }
   if (truthy(s.lax)) q.set("strict", "0");
   if (truthy(s.noRefBox) || (s.refBox !== undefined && !truthy(s.refBox))) q.set("refBox", "0");
+  set("focus", s.focus);
+  set("radius", s.radius);
+  set("light", Array.isArray(s.light) ? s.light.join(",") : s.light);
+  set("hide", Array.isArray(s.hide) ? s.hide.join(",") : s.hide);
+  set("only", s.only);
+  set("montage", Array.isArray(s.montage) ? s.montage.join(",") : s.montage);
   set("cols", s.cols);
   set("mpp", s.mpp);
   set("bg", s.bg);
@@ -517,7 +551,7 @@ async function shootOne(b, origin, s, log) {
     return { png, info, ms: performance.now() - t0 };
   } finally {
     off();
-    await cdp.send("Target.closeTarget", { targetId }).catch(() => {});
+    await withTimeout(cdp.send("Target.closeTarget", { targetId }), 3000, "closeTarget timed out").catch(() => {});
   }
 }
 
@@ -531,9 +565,8 @@ function normalizeShot(raw, index, registry) {
   const size = Array.isArray(s.size) ? s.size : String(s.size || "1600x1000").split(/[x,*]/i);
   s.size = size.map(Number);
   if (s.size.length !== 2 || s.size.some((n) => !(n >= 64 && n <= 8192))) throw new Error(`shot ${index + 1}: size must be WxH between 64 and 8192 (got ${raw.size})`);
-  s.out = path.resolve(
-    process.cwd(),
-    s.out || path.join(os.tmpdir(), "html-anime-lab-out", `${path.basename(String(s.model), path.extname(String(s.model)))}-${s.mode}-${s.pose}-${process.pid}-${index}.png`),
+  s.out = resolveOut(
+    s.out || path.join(os.tmpdir(), "html-anime-lab-out", `${path.basename(String(s.model).replace(/\\/g, "/"), path.extname(String(s.model)))}-${s.mode}-${s.pose}-${process.pid}-${index}.png`),
   );
   // Model: inside the repo it is served at its own path, anywhere else under /__m/<n>/
   if (remote(s.model)) s.modelUrl = s.model;
@@ -542,9 +575,8 @@ function normalizeShot(raw, index, registry) {
     s.modelFile = file;
     if (inside(ROOT, file)) s.modelUrl = "/" + path.relative(ROOT, file).split(path.sep).join("/");
     else {
-      const dir = path.dirname(file);
-      let n = registry.mounts.indexOf(dir);
-      if (n < 0) n = registry.mounts.push(dir) - 1;
+      let n = registry.models.indexOf(file);
+      if (n < 0) n = registry.models.push(file) - 1;
       s.modelUrl = `/__m/${n}/${encodeURIComponent(path.basename(file))}`;
     }
   }
@@ -578,7 +610,7 @@ function prettyError(msg, origin, registry) {
     .filter((line) => !(/^\s+at /.test(line) && line.includes("/harness/lab/index.html")))
     .map((line) =>
       line
-        .replace(mounted, (_, n, name) => path.join(registry.mounts[Number(n)] || "", decodeURIComponent(name)))
+        .replace(mounted, (_, n, name) => registry.models[Number(n)] || decodeURIComponent(name))
         .split(origin)
         .join("")
         .replace(/\?lab=1/g, ""),
@@ -593,7 +625,7 @@ async function main() {
     console.log(USAGE);
     return 0;
   }
-  const registry = { refs: [], mounts: [] };
+  const registry = { refs: [], models: [] };
   const { server, state: srvState, cdnGet } = createServer(registry);
   await new Promise((resolve, reject) => (server.once("error", reject), server.listen(Number(opts.port) || 0, "127.0.0.1", resolve)));
   const origin = `http://127.0.0.1:${server.address().port}`;
@@ -606,6 +638,15 @@ async function main() {
     if (batch) {
       const list = JSON.parse(await fsp.readFile(resolveFile(String(batch), "batch file"), "utf8"));
       if (!Array.isArray(list) || !list.length) throw new Error("--batch file must hold a non-empty JSON array of shots");
+      const flagOnly = new Set(["batch", "serve", "port", "help", "verbose", "swiftshader"]);
+      list.forEach((item, i) => {
+        if (!item || typeof item !== "object" || Array.isArray(item)) throw new Error(`batch item ${i + 1} must be an object of options`);
+        for (const k of Object.keys(item)) {
+          const key = camel(k);
+          if (flagOnly.has(key)) throw new Error(`batch item ${i + 1}: "${k}" is a command-line flag, not a per-shot key`);
+          if (!KNOWN.has(key) && key !== "refBox") throw new Error(`batch item ${i + 1}: unknown key "${k}" (per-shot keys: ${[...KNOWN].filter((x) => !flagOnly.has(x)).join(", ")}, refBox)`);
+        }
+      });
       raws = list.map((item) => ({ ...flags, ...Object.fromEntries(Object.entries(item).map(([k, v]) => [camel(k), v])) }));
     }
     if (opts.serve) {
@@ -659,7 +700,7 @@ async function main() {
           const ms = batchMode ? r.ms : performance.now() - T_START;
           console.log(`wrote ${s.out} ${w}x${h} ${Math.round(ms)}ms tris=${r.info.triangles} bbox=${fixed(bb.x)}x${fixed(bb.y)}x${fixed(bb.z)}m`);
           for (const warn of r.info.warnings || []) console.error(`[lab] warn: ${warn}`);
-          if (opts.info) console.log(`info ${JSON.stringify(r.info)}`);
+          if (truthy(s.info)) console.log(`info ${JSON.stringify(r.info)}`);
           vlog(`shot ${Math.round(r.ms)} ms (page draw ${r.info.ms} ms)`);
           break;
         } catch (e) {
@@ -679,6 +720,7 @@ async function main() {
           failed++;
           console.error(`error: ${batchMode ? `shot for ${s.out}: ` : ""}${e.lab ? prettyError(e.message, origin, registry) : e.message}`);
           if (srvState.lastCdnError) console.error(srvState.lastCdnError);
+          else if (srvState.inflight.size) console.error(`cdn proxy: still waiting on ${[...srvState.inflight.keys()].join(", ")} from ${CDN_BASE} (network blocked? LAB_CDN_BASE can point at a mirror)`);
           if (!e.lab) restart = true; // not a model error: do not trust this browser for the next shot
           break;
         }
@@ -687,7 +729,7 @@ async function main() {
     const tClose = performance.now();
     await closeBrowser(b);
     vlog(`browser close ${Math.round(performance.now() - tClose)} ms`);
-    if (batchMode) console.error(`batch: ${queue.length - failed} ok, ${failed} failed, browser start ${Math.round(launchMs)} ms, total ${Math.round(performance.now() - T_START)} ms`);
+    if (batchMode) console.error(`batch: ${shots.length - failed} ok, ${failed} failed, browser start ${Math.round(launchMs)} ms, total ${Math.round(performance.now() - T_START)} ms`);
     return failed ? 1 : 0;
   } finally {
     await closeServer();

@@ -24,14 +24,14 @@ Each shot owns an SVG clip and a 3D set. `draw` shows only that shot's set. The 
   window.THREE = THREE; // HyperFrames waits on THREE.DefaultLoadingManager
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
   renderer.setPixelRatio(1);
-  renderer.setSize(1920, 1080, false);
+  renderer.setSize(1920, 1080, false); // the sheet's width and height
   renderer.setClearColor(0x000000, 0);
   addEventListener("hf-seek", (e) => draw(e.detail.time));
   draw(window.__hfThreeTime || 0);
 </script>
 ```
 
-`draw(t)` is a pure function of `t`: pick the shot, place the camera, set the pose, render once. CSS stretches the canvas to the root. Build geometry in code. No loaders, textures, or models. The GSAP timeline stays in a classic script, built synchronously, as `skills/html-anime-render/SKILL.md` says.
+`draw(t)` is a pure function of `t`: pick the shot, place the camera, set the pose, render once. CSS stretches the canvas to the root. Build geometry in code. No loaders, textures, or downloaded model files: models are code (see Characters and props). The GSAP timeline stays in a classic script, built synchronously, as `skills/html-anime-render/SKILL.md` says.
 
 ## Two tones
 
@@ -103,13 +103,26 @@ from.lerp(subject, (1 - 1 / 1.06) * power1InOut(t / shotEnd));
 - Frame solids three-quarter on: a lit side, a shaded front, lit tops. A front faced square-on is one flat shade.
 - The painted SVG does not dolly. The parallax is the point.
 
+## Characters and props
+
+A character, creature, vehicle or prop is a model: build it in the model lab with `skills/html-anime-model/SKILL.md`, starting from `models/`, then paste it into the film. The thresholds the models settled on:
+
+| material | threshold |
+|---|---|
+| solids: coat, cloth, hide, panels | `0.35` |
+| skin | `-0.2` |
+| face, with normal transfer | `-0.25` |
+| polished steel | `0.45` |
+| heraldry that must keep its colour facing the camera | `0.05` |
+| glowing practical | `-0.25`; `-0.7` when it faces away from the light |
+
 ## Forbidden
 
 `requestAnimationFrame`, `setAnimationLoop`, `THREE.Clock`, `AnimationMixer`, `Date`, `performance.now`, `Math.random`, async loaders, post-processing, any pixel ratio other than 1.
 
 ## Done
 
-In the film directory, `npx hyperframes lint` and `npx hyperframes validate` pass. Lint warns over 300 lines, so keep the file under that.
+In the film directory, `npx hyperframes lint` and `npx hyperframes validate` pass. Lint warns over 300 lines. A film without models stays under it; a film that inlines models will not, so trim the copies (unused poses, comments, segments) and accept the warning.
 
 Then `npx hyperframes snapshot --at` one time per shot plus a smear frame, and look at every still. Check for a blank canvas, cracked corners, and a subject off its third. Count the pixel colors of a still: everything is a sheet hex or the sky gradient, except antialiased edges. `grep -nE "requestAnimationFrame|setAnimationLoop|Date\.|performance\.now|Math\.random" index.html` returns nothing.
 

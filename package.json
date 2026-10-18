@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "test": "node harness/compile.test.mjs",
-    "lab": "node harness/lab/shoot.mjs"
+    "lab": "node harness/lab/shoot.mjs",
+    "probe": "node harness/lab/probe.mjs"
   }
 }

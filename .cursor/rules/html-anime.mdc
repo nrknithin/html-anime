@@ -3,4 +3,4 @@ description: Draw an html-anime film in code when the user pastes a sheet or ask
 alwaysApply: true
 ---
 
-Follow AGENTS.md. Read the five skills in `skills/` before drawing. The sheet is the brief.
+Follow AGENTS.md. Read the skills in `skills/` that the sheet lists before drawing. The sheet is the brief.

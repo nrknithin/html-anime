@@ -94,6 +94,9 @@ console.log(sheet.ok ? sheet.markdown : sheet.error);
 - `skills/html-anime-3d/SKILL.md` — the 3D layer: two tones, ink hull, drawing on hf-seek
 - `films/roof/` — an 8 second reference. File shape and the color-dip cut, not a film to remix
 - `films/lantern/` — a 3D reference. The two-tone shader, the ink outline, drawing on `hf-seek`
+- `models/` — procedural three.js models for 3D films, with renders in `models/renders/`
+- `skills/html-anime-model/SKILL.md` — how a model is built, measured, rigged, and put in a film
+- `harness/lab/` — the model lab: shoots a model from fixed views in cel, clay, or silhouette
 - `AGENTS.md` — the contract
 
 ## 3D
@@ -101,6 +104,31 @@ console.log(sheet.ok ? sheet.markdown : sheet.error);
 Pick the 3D cel medium and the sheet adds a `## 3D` section. three.js draws the solid things on a transparent canvas. The background stays flat SVG. Every surface has two tones, and the outline is an ink hull.
 
 Poses step on twos. Frames are drawn from the `hf-seek` time and nothing else. [films/lantern/index.html](films/lantern/index.html) shows it. [skills/html-anime-3d/SKILL.md](skills/html-anime-3d/SKILL.md) owns the rules.
+
+## Models
+
+The solid subjects of a 3D film are code: lofted rings, tubes, and pivots, two tones and an ink hull, posed from literal tables. No meshes are downloaded. `models/` holds eight, each built against measured reference photos: a horse, an ox, a frog, a dragon, a knight, an anime heroine, an AE86, and a wolf (built from the model skill alone, to test it).
+
+<table>
+  <tr>
+    <td width="50%"><img src="models/renders/dragon-wings-up.png" alt="A red dragon with raised bat wings, hero and side views"></td>
+    <td width="50%"><img src="models/renders/heroine.png" alt="An anime heroine in a sailor uniform, four views"></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="models/renders/knight-guard.png" alt="A knight in plate armour in guard, with sword and heater shield"></td>
+    <td width="50%"><img src="models/renders/horse-gallop-b.png" alt="A chestnut horse mid-gallop"></td>
+  </tr>
+</table>
+
+The lab shoots a model from fixed views in `cel`, `clay`, or `sil`, against a reference photo if you give it one. The probe prints the numbers without a browser: bounding box, lowest point, triangles, joint positions, ground contacts.
+
+```
+npm run lab -- --model models/ox.js --views left,front,three4,top --mode cel --out renders/ox.png
+npm run lab -- --model models/ox.js --views right --mode sil --ref photo.jpg --ref-view right --ref-mode edge --ref-crop 0.1,0.05,0.85,0.88 --out renders/fit.png
+npm run probe -- --model models/ox.js --poses all
+```
+
+[skills/html-anime-model/SKILL.md](skills/html-anime-model/SKILL.md) owns the loop. [harness/lab/README.md](harness/lab/README.md) is the lab manual.
 
 ## Test
 

@@ -17,6 +17,7 @@ Root element:
 <div
   id="root"
   data-composition-id="film"
+  data-fps="24"
   data-start="0"
   data-duration="8"
   data-width="1920"

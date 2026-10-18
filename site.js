@@ -19,11 +19,11 @@ const CUT = 16;
 
 const AGENTS = {
   claude: {
-    note: "Claude Code reads CLAUDE.md, then the five skills.",
+    note: "Claude Code reads CLAUDE.md, then the skills the sheet lists.",
     command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\nclaude",
   },
   codex: {
-    note: "Codex reads AGENTS.md, then the five skills.",
+    note: "Codex reads AGENTS.md, then the skills the sheet lists.",
     command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\ncodex",
   },
   cursor: {
@@ -31,7 +31,7 @@ const AGENTS = {
     command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\ncursor .",
   },
   grok: {
-    note: "Grok reads AGENTS.md, then the five skills.",
+    note: "Grok reads AGENTS.md, then the skills the sheet lists.",
     command: "git clone https://github.com/blixvip/html-anime.git\ncd html-anime\ngrok",
   },
 };
