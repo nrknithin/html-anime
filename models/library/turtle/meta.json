@@ -1,0 +1,90 @@
+{
+  "id": "turtle",
+  "name": "Turtle",
+  "category": "reptile",
+  "tags": [
+    "animal",
+    "turtle",
+    "pond",
+    "reptile",
+    "shrine",
+    "quadruped"
+  ],
+  "style": "low-poly cartoon (Heathal 2016); painted texture flattened to shell and skin colours",
+  "height": 0.14,
+  "script": "noon",
+  "colors": {
+    "shell": "#5c3d32",
+    "shellShade": "#c4452d",
+    "skin": "#f2d7ae",
+    "skinShade": "#5c3d32"
+  },
+  "materials": {
+    "Material.001": "shell",
+    "Material.001#006f00": "shell",
+    "Material.001#74c433": "skin",
+    "Material.001#007200": "shell",
+    "Material.001#007400": "shell"
+  },
+  "clips": {
+    "walk": "Walking-loop"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Heathal",
+    "pack": "Heathal · Turtle",
+    "page": "https://opengameart.org/content/turtle-0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://opengameart.org/sites/default/files/Turtle.blend",
+      "sha256": "fd0b423698c141a42170fef5172a8c4e695562b7ebb1c6364604904e4d8c94e7",
+      "bytes": 1122116,
+      "resolved": "https://opengameart.org/sites/default/files/Turtle.blend"
+    },
+    "height": 0.14,
+    "yaw": 0,
+    "maxColors": 4
+  },
+  "file": "model.glb",
+  "sha256": "0728b7b004e24226be344584aee37aa93c5a76679260735163e966cd81f9888d",
+  "bytes": 34004,
+  "triangles": 373,
+  "bones": 19,
+  "sourceMaterials": {
+    "Material.001": "#e7e7e7",
+    "Material.001#006f00": "#006f00",
+    "Material.001#74c433": "#74c433",
+    "Material.001#007200": "#007200",
+    "Material.001#007400": "#007400"
+  },
+  "clipInfo": {
+    "Walking-loop": {
+      "seconds": 0.7917,
+      "loop": true,
+      "ground": "clamp"
+    }
+  },
+  "qa": {
+    "height": 0.14,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 373,
+    "clips": {
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.32
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
