@@ -9,4 +9,4 @@
 
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| <img src="library/computer/preview.png" width="240"> | `computer` | Computer<br>*low-poly, flat colours (Kenney Furniture Kit 2.0)* | 0.45 m | 72 | - | CC0 1.0 | [Kenney · Furniture Kit](https://kenney.nl/assets/furniture-kit) |
+| <img src="library/computer/preview.png" width="240"> | `computer` | Computer<br>*low-poly, flat colours (Kenney Furniture Kit 2.0)* | 0.45 m | 175 | - | CC0 1.0 | [Kenney · Furniture Kit](https://kenney.nl/assets/furniture-kit) |

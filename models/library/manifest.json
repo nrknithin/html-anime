@@ -11,6 +11,8 @@
         "monitor",
         "screen",
         "pc",
+        "keyboard",
+        "mouse",
         "office",
         "desk",
         "study",
@@ -21,9 +23,9 @@
       "height": 0.45,
       "script": "noon",
       "file": "models/library/computer/model.glb",
-      "bytes": 4044,
-      "sha256": "4a4742913cdf17a5146334cbaead00b0ec1ee11a4764034689c09be211769a56",
-      "triangles": 72,
+      "bytes": 8624,
+      "sha256": "7572e79bb2ab42527ae352250e6ddd5b3333e75a1fe0e668da5411cf8e9cf962",
+      "triangles": 175,
       "bones": 0,
       "clips": [],
       "source": {
@@ -32,7 +34,7 @@
         "pack": "Kenney · Furniture Kit",
         "page": "https://kenney.nl/assets/furniture-kit",
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "note": "Substitutes for the plan's Quaternius computer (poly.pizza static GLB, blocked by a Cloudflare challenge). Kenney Furniture Kit 2.0 `computerScreen` (GLB): a flat desk monitor on a short neck and a trapezoid foot, screen tilted back. The kit has no combined desk PC: its `computerKeyboard` and `computerMouse` are separate members (place them beside it in a scene) and the pipeline cannot merge static members; its `laptop` (screen and keyboard in one) was rendered as the alternative and reads clearly as a laptop, but the plan row is a desk computer. Quaternius's CC0 Furniture Pack on OpenGameArt (used for bookcase) has no computer. Sized to a real monitor, 0.45 m tall with its foot, 0.60 m wide (a 27-inch screen), 0.16 m deep; that is 0.79x the kit's own scale (where desk-teacher is 0.74 m), since at kit scale the monitor would stand 0.57 m tall and 0.76 m wide, oversized next to that desk. A debug render placed the source materials: bezel, sides, back shell and foot are `metalDark`, the screen face and the neck `metal`. As for the TV entry, the screen is the script's dark brown (`iris`, lighter than ink so the outline stays distinct) in one tone, and the case takes the pale paper pair (practical, sky shade), so the dark screen sits in a clear light frame; this reads as an off or dark screen, not a lit one. Front (screen) faces +Z. Static, no clips."
+        "note": "Substitutes for the plan's Quaternius computer (poly.pizza static GLB, blocked by a Cloudflare challenge). Kenney Furniture Kit 2.0, three kit pieces built into one static model with `ingest.attach` (no bone): `computerScreen` (a flat monitor on a short neck and a trapezoid foot, screen tilted back), `computerKeyboard` centred in front of it with a small gap (offset [0.0555, 0, 0.178] kit units: the keyboard file's origin is its back-left corner, the screen's its back-left too) and `computerMouse` to the keyboard's right, level with its middle (offset [0.39, 0, 0.1615]). The kit's `laptop` (screen and keyboard in one) was rendered as the alternative and reads clearly as a laptop, but the plan row is a desk computer. Quaternius's CC0 Furniture Pack on OpenGameArt (used for bookcase) has no computer. Normalised by the monitor: the model's height is the monitor's top, 0.45 m with its foot (keyboard and mouse are lower), so the screen is 0.60 m wide (a 27-inch screen), the keyboard 0.43 m wide and the whole set 0.63 m wide, 0.43 m deep; that is 0.79x the kit's own scale (where desk-teacher is 0.74 m), since at kit scale the monitor would stand 0.57 m tall and 0.76 m wide, oversized next to that desk. The set is centred on its bbox, so the monitor sits about 1.5 cm left of x = 0. A debug render placed the source materials: bezel, sides, back shell and foot are `metalDark`, the screen face and the neck `metal`; the keyboard body `metalDark@computerKeyboard`, its two key blocks `metalMedium`; the mouse `metalDark@computerMouse` (the optimizer merges the three identical `metalDark` materials into one, so they share a role anyway). The mouse's rounded back renders as a small ink-dark cap in the cel look (clay shows clean geometry and the source winding is consistent; `doubleSided` does not change it), which reads as a dark palm end at film sizes. Keyboard body and mouse take the case pair and the key blocks the screen's dark brown in one tone, so the keys read as two dark panels on a pale board. As for the TV entry, the screen is the script's dark brown (`iris`, lighter than ink so the outline stays distinct) in one tone, and the case takes the pale paper pair (practical, sky shade), so the dark screen sits in a clear light frame; this reads as an off or dark screen, not a lit one. Front (screen) faces +Z. Static, no clips."
       }
     }
   ]
