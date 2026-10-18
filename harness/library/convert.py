@@ -36,6 +36,8 @@ def parse():
     p.add_argument("--report", required=True)
     p.add_argument("--height", type=float, default=0.0, help="target rest height in metres (0 = keep the source scale)")
     p.add_argument("--yaw", type=float, default=0.0, help="degrees about up, applied before measuring")
+    p.add_argument("--pitch", type=float, default=0.0, help="degrees about +X (glTF axes), applied first: stands a prop modelled lying down")
+    p.add_argument("--roll", type=float, default=0.0, help="degrees about +Z (glTF, the facing axis), applied after pitch and before yaw")
     p.add_argument("--drop", default="", help="comma list of object names to delete (cameras and lights always go)")
     p.add_argument("--keep-actions", default="", help="comma list: export only these actions (default all)")
     p.add_argument("--drop-materials", default="", help="comma list: delete every face using these materials (a hat on the body mesh)")
@@ -503,7 +505,9 @@ def main():
             o.parent = root
             o.matrix_world = mw
     root.rotation_mode = "XYZ"
-    root.rotation_euler = (0.0, 0.0, math.radians(a.yaw))
+    # Blender XYZ Euler applies X, then Y, then Z about the world axes: pitch (X is X in both), roll (glTF +Z is
+    # Blender -Y), then yaw (glTF up is Blender Z).
+    root.rotation_euler = (math.radians(a.pitch), -math.radians(a.roll), math.radians(a.yaw))
     bpy.context.view_layer.update()
 
     objs = [o for o in scene.objects if o.type == "MESH"]
@@ -590,6 +594,8 @@ def main():
         "source": a.src,
         "scale": s,
         "yaw": a.yaw,
+        "pitch": a.pitch,
+        "roll": a.roll,
         "bbox_blender_zup": {"min": list(lo), "max": list(hi)},
         "height": hi.z - lo.z,
         "triangles": tris,
