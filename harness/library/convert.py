@@ -31,6 +31,7 @@ def parse():
     p.add_argument("--drop", default="", help="comma list of object names to delete (cameras and lights always go)")
     p.add_argument("--keep-actions", default="", help="comma list: export only these actions (default all)")
     p.add_argument("--drop-materials", default="", help="comma list: delete every face using these materials (a hat on the body mesh)")
+    p.add_argument("--search", default="", help="folder searched by file name for images the source cannot find (a .blend expecting its texture beside it)")
     p.add_argument("--max-colors", type=int, default=12, help="textured materials: at most this many flat colours per material")
     return p.parse_args(sys.argv[sys.argv.index("--") + 1 :] if "--" in sys.argv else sys.argv[1:])
 
@@ -224,6 +225,26 @@ def load(src):
         raise SystemExit(f"convert: unknown source type {src}")
 
 
+def relink_images(root):
+    """Point every image whose file is missing at the file of the same name under root (the unpacked pack)."""
+    if not root:
+        return
+    found = {}
+    for d, _, files in os.walk(root):
+        for f in files:
+            found.setdefault(f.lower(), os.path.join(d, f))
+    for img in bpy.data.images:
+        if img.source != "FILE" or img.packed_file:
+            continue
+        cur = bpy.path.abspath(img.filepath)
+        if cur and os.path.isfile(cur):
+            continue
+        hit = found.get(bpy.path.basename(img.filepath.replace("\\", "/")).lower())
+        if hit:
+            img.filepath = hit
+            img.reload()
+
+
 def mesh_points(objs):
     """World-space vertices of every mesh as evaluated now (armature modifiers included)."""
     dg = bpy.context.evaluated_depsgraph_get()
@@ -242,6 +263,7 @@ def mesh_points(objs):
 def main():
     a = parse()
     load(a.src)
+    relink_images(a.search)
     scene = bpy.context.scene
     drop = {s for s in a.drop.split(",") if s}
     # Bone display shapes (custom_shape) are rig widgets, not part of the model; render-hidden objects too.
