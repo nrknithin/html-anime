@@ -246,6 +246,7 @@ async function main() {
   if (ing.drop?.length) cargs.push("--drop", ing.drop.join(","));
   if (ing.keepActions?.length) cargs.push("--keep-actions", ing.keepActions.join(","));
   if (ing.maxColors) cargs.push("--max-colors", String(ing.maxColors));
+  if (ing.dropMaterials?.length) cargs.push("--drop-materials", ing.dropMaterials.join(","));
   if (ing.via !== "gltf") run(py, cargs, "convert.py", { cwd: tmp });
   const rep = JSON.parse(await fsp.readFile(report, "utf8"));
 

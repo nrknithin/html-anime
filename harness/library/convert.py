@@ -30,6 +30,7 @@ def parse():
     p.add_argument("--yaw", type=float, default=0.0, help="degrees about up, applied before measuring")
     p.add_argument("--drop", default="", help="comma list of object names to delete (cameras and lights always go)")
     p.add_argument("--keep-actions", default="", help="comma list: export only these actions (default all)")
+    p.add_argument("--drop-materials", default="", help="comma list: delete every face using these materials (a hat on the body mesh)")
     p.add_argument("--max-colors", type=int, default=12, help="textured materials: at most this many flat colours per material")
     return p.parse_args(sys.argv[sys.argv.index("--") + 1 :] if "--" in sys.argv else sys.argv[1:])
 
@@ -188,6 +189,24 @@ def principled_everywhere():
         m.diffuse_color = (*col[:3], 1.0)
 
 
+def drop_material_faces(objs, names):
+    """Delete the faces whose material is in names, then any loose vertices: removes a part (a hat, a prop) that
+    shares one mesh with the body, where ingest.drop (whole objects) cannot reach."""
+    import bmesh
+
+    for o in objs:
+        idx = {i for i, slot in enumerate(o.material_slots) if slot.material and slot.material.name in names}
+        if not idx:
+            continue
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        bmesh.ops.delete(bm, geom=[f for f in bm.faces if f.material_index in idx], context="FACES")
+        bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
+        bm.to_mesh(o.data)
+        bm.free()
+        o.data.update()
+
+
 def load(src):
     bpy.context.preferences.filepaths.use_scripts_auto_execute = False
     low = src.lower()
@@ -258,6 +277,9 @@ def main():
     bpy.context.view_layer.update()
 
     objs = [o for o in scene.objects if o.type == "MESH"]
+    dropm = {s for s in a.drop_materials.split(",") if s}
+    if dropm:
+        drop_material_faces(objs, dropm)
     pts = mesh_points(objs)
     if not pts:
         raise SystemExit("convert: no meshes")
