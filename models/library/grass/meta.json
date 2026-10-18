@@ -1,0 +1,74 @@
+{
+  "id": "grass",
+  "name": "Grass",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "grass",
+    "tuft",
+    "lawn",
+    "meadow",
+    "park",
+    "garden",
+    "ground cover",
+    "scatter",
+    "static"
+  ],
+  "style": "low-poly, flat colours, pointed blade cards (Quaternius 2019)",
+  "height": 0.25,
+  "script": "noon",
+  "colors": {
+    "leaves": "#c4452d",
+    "leavesShade": "#5c3d32"
+  },
+  "materials": {
+    "Green": "leaves"
+  },
+  "thresholds": {
+    "leaves": 0
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
+    "page": "https://opengameart.org/content/low-poly-nature-pack-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius static grass on poly.pizza) is behind a Cloudflare challenge; this is Grass_Short from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the bush and tree entries, so a garden reads as one set. Of the pack's three grasses, Grass and Grass_2 are tall, narrow reed bundles (about 0.1 m across for 0.3 m tall); Grass_Short has the same 12-blade layout but wider, shorter blades, so it reads as a low clump and scatters well. Each blade is a closed solid (a thin prism), not a one-sided card, so it is not double-sided. 192 triangles, cheap to instance. Height 0.25 m: a tuft of unmown lawn or verge grass is 0.2-0.3 m, ankle to mid-shin on a 1.6 m person; footprint about 0.2 x 0.27 m. Colours on noon (no green), as the bush and broadleaf tree: leaves vermilion (accent) shading to iris, with the leaves threshold lowered to 0 so the lit tips read vermilion over iris bases (at the default most of each thin blade fell into shade). Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip",
+      "sha256": "92daf8b532f60ac0fb53371144d0f8e9ec2f82a2fa408effdf1a64cb8fbaee09",
+      "bytes": 22990249,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip"
+    },
+    "member": "Ultimate Nature Pack - Jun 2019/FBX/Grass_Short.fbx",
+    "height": 0.25,
+    "yaw": 0,
+    "memberSha256": "7244d7d8a30eb51e11e454083714f39d3b7d1d2512dd395b2acca787c064a7fa"
+  },
+  "file": "model.glb",
+  "sha256": "6e58d57401cf870a982e007dde6b243836ef9bbceff03819020244ab84a92ae4",
+  "bytes": 4992,
+  "triangles": 192,
+  "bones": 0,
+  "sourceMaterials": {
+    "Green": "#536d45"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.25,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 192,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
