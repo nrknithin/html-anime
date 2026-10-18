@@ -1,0 +1,151 @@
+{
+  "id": "horse",
+  "name": "Horse",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "horse",
+    "farm",
+    "quadruped"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2018)",
+  "height": 1.7,
+  "script": "noon",
+  "colors": {
+    "coat": "#c4452d",
+    "coatShade": "#5c3d32",
+    "hair": "#241c16",
+    "hairShade": "#2c261f"
+  },
+  "materials": {
+    "Material.003": "coat",
+    "Material.006": "hair"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "jump": "Jump",
+    "death": "Death"
+  },
+  "preview": {
+    "clip": "run"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · LowPoly Animated Farm Animal Pack",
+    "page": "https://opengameart.org/content/lowpoly-animated-farm-animal-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 1 named the Ultimate Animated Animals horse (poly.pizza, now behind a Cloudflare challenge; its Google Drive is quota-blocked). This is the reachable Quaternius horse."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip",
+      "sha256": "9ff42b7e2445eaf259e4734c08172637db92e4b59a6145909ac56d946152c39b",
+      "bytes": 6965696,
+      "resolved": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip"
+    },
+    "member": "Farm Animals by @Quaternius/FBX/Horse.fbx",
+    "height": 1.7,
+    "memberSha256": "6db270ddc7591e9a013f96eab445031381fa6d5d68d2feba567f964e0fe68d90"
+  },
+  "file": "model.glb",
+  "sha256": "4ff21c028d345555eba0b917671e5c4610044c2aa4a5f85b97cb4292c51a02ec",
+  "bytes": 173780,
+  "triangles": 690,
+  "bones": 28,
+  "sourceMaterials": {
+    "Material.003": "#744d3d",
+    "Material.006": "#272727"
+  },
+  "clipInfo": {
+    "Death": {
+      "seconds": 1.0833,
+      "loop": false,
+      "lift": [
+        [
+          0,
+          0
+        ],
+        [
+          0.4219,
+          0.029
+        ],
+        [
+          0.5625,
+          0.03
+        ],
+        [
+          0.7031,
+          0.102
+        ],
+        [
+          0.8438,
+          0.103
+        ]
+      ]
+    },
+    "Idle": {
+      "seconds": 6.25,
+      "loop": true
+    },
+    "Jump": {
+      "seconds": 1.5,
+      "loop": false
+    },
+    "Run": {
+      "seconds": 0.8333,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 2.6667,
+      "loop": true
+    },
+    "WalkSlow": {
+      "seconds": 2,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.7,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 690,
+    "clips": {
+      "idle": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 2.3
+      },
+      "walk": {
+        "minY": -0.0133,
+        "touches": true,
+        "maxSize": 2.33
+      },
+      "run": {
+        "minY": -0.0188,
+        "touches": true,
+        "maxSize": 2.64
+      },
+      "jump": {
+        "minY": -0.0154,
+        "touches": true,
+        "maxSize": 2.65
+      },
+      "death": {
+        "minY": -0.0003,
+        "touches": true,
+        "maxSize": 2.27
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + run"
+  }
+}
