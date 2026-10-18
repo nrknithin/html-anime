@@ -253,8 +253,9 @@ def main():
             break
     taken = set()
     for act in list(bpy.data.actions):  # a copy: renaming re-sorts the collection
-        if act.id_root not in {"OBJECT"}:
+        if act.id_root not in {"OBJECT", "KEY"}:
             act.id_root = "OBJECT"  # FBX imports leave it unset, and the glTF exporter then skips the action
+            # (shape-key actions keep "KEY": the exporter pairs them with their mesh, and crashes if they look like objects)
         short = act.name.split("|")[-1] or act.name
         while short in taken:
             short += "_"
