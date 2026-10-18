@@ -1,0 +1,124 @@
+{
+  "id": "wall-shoji",
+  "name": "Shoji wall (window bay)",
+  "category": "building",
+  "tags": [
+    "building",
+    "wall",
+    "shoji",
+    "japanese",
+    "interior",
+    "room",
+    "window",
+    "school",
+    "static"
+  ],
+  "style": "low-poly, flat colours",
+  "height": 2.6,
+  "script": "noon",
+  "colors": {
+    "frame": "#5c3d32",
+    "frameShade": "#2c261f",
+    "board": "#241c16",
+    "boardShade": "#2c261f",
+    "paper": "#fffaf2",
+    "paperShade": "#f2d7ae"
+  },
+  "materials": {
+    "oldWood ": "frame",
+    "WoodPlanksOld": "board",
+    "paper": "paper",
+    "oldWood #634937": "frame",
+    "oldWood #312520": "frame",
+    "oldWood #715137": "frame",
+    "WoodPlanksOld#7c6651": "board",
+    "WoodPlanksOld#a2866e": "board",
+    "WoodPlanksOld#a88d72": "board",
+    "paper#8e958d": "paper"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC-BY-4.0",
+    "author": "herio",
+    "pack": "herio · japanese school",
+    "page": "https://opengameart.org/content/japanese-school",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "note": "Substitutes for plan row #146 (Quaternius Shoji Wall, poly.pizza static GLB, blocked by its Cloudflare challenge). herio's 'japanese school' on OpenGameArt is a small classroom wall kit in one .blend (opened with auto-run off). Kept: `windoWall inside`, a wall section with a 5 x 5 wooden lattice over paper panes above a wooden wainscot, with a dark header beam and baseboard. Dropped by object name: `door`, `door wall`, `door wall.001`, `floor`, `roof`, `wallA`, `wallB`, `colum` (a 5 cm post that adds nothing) and `windoWall inside.001` (a different variant: open lattice sashes with no paper, which read as holes beside the closed bay). The source textures are Textures.com photos (shipped in the zip under their own terms); they are fetched only to flatten each material into flat colours (maxColors 3) and no image reaches model.glb. Size: the source bay is 1.0 x 2.1 units; scaled to 2.6 m tall (a room's wall height, header top) it is 1.24 m wide and 0.14 m deep, one window bay; tile it side by side for a longer wall (bays meet at x = +-0.62 m). Room side (lattice in front of the paper) faces +Z after a 180 degree yaw; bottom on y = 0. From behind (-Z) it reads as a dark wall with one plain paper panel (the paper is a single sheet behind the lattice), so it works from both sides; every role is double-sided because the panes and frame are one-sided sheets. Look (noon): the whole wooden frame, lattice and wainscot (source `oldWood`, one material, so lattice and surround cannot be told apart) dark brown over ink-brown shade; header beam and baseboard (`WoodPlanksOld`) near-black; paper practical white over paper shade. There is no plaster on this piece: the source's wall is all wood. Thresholds 0 for every role so faces toward the room are lit under the high side light. Faceted (smooth false). A thin sliver at the bottom of the lower-left pane is in the source geometry. Static, no clips.",
+    "changes": "kept one wall object of the kit (`windoWall inside`) and dropped the rest; replaced the photo textures with flat colours; rescaled to 2.6 m, turned 180 degrees, recentred; recoloured to the noon script; meshopt-compressed GLB"
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/school2.zip",
+      "sha256": "e8f43223a967fcba3f72bcef78877a3ba85f09bb24274771ca69d844e3395a4a",
+      "bytes": 5428797,
+      "resolved": "https://opengameart.org/sites/default/files/school2.zip"
+    },
+    "member": "school2/school.blend",
+    "height": 2.6,
+    "drop": [
+      "door",
+      "door wall",
+      "door wall.001",
+      "floor",
+      "roof",
+      "wallA",
+      "wallB",
+      "windoWall inside.001",
+      "colum"
+    ],
+    "memberSha256": "65154e7bd92993bf15333253a417053d4692f7df4ac052a1a0a18ea108de811b",
+    "maxColors": 3,
+    "extraMembers": [
+      "school2/textures/TexturesCom_PaperCloseup0009_1_seamless_S.jpg",
+      "school2/textures/TexturesCom_PlasterWhite0147_1_seamless_S.jpg",
+      "school2/textures/TexturesCom_WoodPlanksBare0467_2_seamless_S.jpg",
+      "school2/textures/TexturesCom_WoodPlanksBeamed0044_1_seamless_S.jpg",
+      "school2/textures/TexturesCom_WoodPlanksFloors0047_3_seamless_S.jpg",
+      "school2/textures/TexturesCom_WoodPlanksOld0151_18_seamless_S.jpg"
+    ],
+    "yaw": 180
+  },
+  "file": "model.glb",
+  "sha256": "e9522f0fa503cf89bd46c38af3a185782a0334c2ac7b9a894cf68417b4e8b02d",
+  "bytes": 10008,
+  "triangles": 111,
+  "bones": 0,
+  "sourceMaterials": {
+    "oldWood ": "texture",
+    "WoodPlanksOld": "texture",
+    "paper": "texture",
+    "oldWood #634937": "#634937",
+    "oldWood #312520": "#312520",
+    "oldWood #715137": "#715137",
+    "WoodPlanksOld#7c6651": "#7c6651",
+    "WoodPlanksOld#a2866e": "#a2866e",
+    "WoodPlanksOld#a88d72": "#a88d72",
+    "paper#8e958d": "#8e958d"
+  },
+  "clipInfo": {},
+  "doubleSided": [
+    "frame",
+    "board",
+    "paper"
+  ],
+  "smooth": false,
+  "thresholds": {
+    "frame": 0,
+    "board": 0,
+    "paper": 0
+  },
+  "qa": {
+    "height": 2.6,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 111,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
