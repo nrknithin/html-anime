@@ -198,15 +198,19 @@ async function main() {
   await fsp.mkdir(srcDir);
   let src;
   if (ing.member) {
+    // The member and its extras keep their full zip paths under the scratch folder, so any relative reference
+    // resolves as in the pack: a GLB's "Textures/colormap.png", a .blend's "//../Textures/palette.png".
+    const inside = (rel) => {
+      const to = path.resolve(srcDir, rel.replace(/\\/g, "/"));
+      if (!to.startsWith(srcDir + path.sep)) throw new Error(`zip path ${rel} leaves the scratch folder`);
+      return to;
+    };
     const data = unzipMember(buf, ing.member);
-    src = path.join(srcDir, path.basename(ing.member));
+    src = inside(ing.member);
+    await fsp.mkdir(path.dirname(src), { recursive: true });
     await fsp.writeFile(src, data);
-    // .bin and textures keep their path relative to the member, so "Textures/colormap.png" in a GLB resolves.
-    const memberDir = path.posix.dirname(ing.member.replace(/\\/g, "/"));
     for (const extra of ing.extraMembers || []) {
-      const rel = path.posix.relative(memberDir, extra.replace(/\\/g, "/"));
-      const to = path.resolve(srcDir, rel.startsWith("..") ? path.posix.basename(extra) : rel);
-      if (!to.startsWith(srcDir + path.sep)) throw new Error(`extraMembers: ${extra} leaves the scratch folder`);
+      const to = inside(extra);
       await fsp.mkdir(path.dirname(to), { recursive: true });
       await fsp.writeFile(to, unzipMember(buf, extra));
     }
