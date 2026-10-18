@@ -14,9 +14,9 @@
   "height": 1.65,
   "script": "noon",
   "colors": {
-    "shirt": "#c4452d",
+    "shirt": "#fff6e4",
     "shirtShade": "#5c3d32",
-    "pants": "#f2d7ae",
+    "pants": "#c4452d",
     "pantsShade": "#5c3d32",
     "skin": "#f0c2ae",
     "skinShade": "#c4452d",
