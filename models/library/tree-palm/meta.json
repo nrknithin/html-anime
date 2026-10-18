@@ -1,0 +1,78 @@
+{
+  "id": "tree-palm",
+  "name": "Palm tree",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "tree",
+    "palm",
+    "tropical",
+    "beach",
+    "island",
+    "resort",
+    "background",
+    "static"
+  ],
+  "style": "low-poly, flat colours, curved segmented trunk under a crown of faceted fronds (Quaternius 2019)",
+  "height": 8,
+  "script": "noon",
+  "colors": {
+    "leaves": "#c4452d",
+    "leavesShade": "#5c3d32",
+    "trunk": "#f0c2ae",
+    "trunkShade": "#5c3d32"
+  },
+  "materials": {
+    "Wood": "trunk",
+    "Green": "leaves",
+    "DarkGreen": "leaves",
+    "Coconuts": "trunk"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
+    "page": "https://opengameart.org/content/low-poly-nature-pack-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius static palm tree on poly.pizza) is behind a Cloudflare challenge; this is PalmTree_1 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the tree, tree-pine, tree-autumn and bush entries, so they read as one set. Of the four palms in the pack it has the fullest crown (more than a dozen fronds, 5.2 x 4.7 m) on the classic S-curved coconut-palm trunk; PalmTree_3 is straighter and thinner-crowned, PalmTree_4 has only eight fronds, and PalmTree_2 leans so far that its base sits 3.5 m off the crown's centre. The fronds are closed shells (a doubleSided render was identical), so they are not double-sided. Its Coconuts material is buried in the crown and never shows, so it maps to trunk. Height 8 m: a coconut palm on a beach or resort promenade is 6-10 m when young to mid-age (old ones reach 20-30 m); at 8 m the fronds spring from about 7 m and droop to 5.5 m, high over a 1.6 m person, as in an anime beach or island background. Colours on noon (no green), as the broadleaf tree: fronds vermilion (accent) shading to iris, so the palm sits with the other trees as the same foliage; the trunk is pale skin-tan shading to iris, a light, distinct trunk against the near-black trunk of the broadleaf tree and the vermilion trunk of the pine. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip",
+      "sha256": "92daf8b532f60ac0fb53371144d0f8e9ec2f82a2fa408effdf1a64cb8fbaee09",
+      "bytes": 22990249,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip"
+    },
+    "member": "Ultimate Nature Pack - Jun 2019/FBX/PalmTree_1.fbx",
+    "height": 8,
+    "yaw": 0,
+    "memberSha256": "bcf142d8a1ceae00edcf4036de1b4cdb43239c578bbd693737b9ed5fa8818df6"
+  },
+  "file": "model.glb",
+  "sha256": "4cbc59080512804da5a4fe3fbca478f5e0b2adb17b31b7f5c59157d36508ee30",
+  "bytes": 28996,
+  "triangles": 1772,
+  "bones": 0,
+  "sourceMaterials": {
+    "Wood": "#6d4b45",
+    "Green": "#536d45",
+    "DarkGreen": "#415536",
+    "Coconuts": "#8a5f57"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1772,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
