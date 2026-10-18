@@ -252,6 +252,7 @@ async function main() {
   if (ing.maxColors) cargs.push("--max-colors", String(ing.maxColors));
   if (ing.dropMaterials?.length) cargs.push("--drop-materials", ing.dropMaterials.join(","));
   if (ing.dropBackfaces) cargs.push("--drop-backfaces");
+  if (ing.legacyImage) cargs.push("--legacy-image", ing.legacyImage);
   if (ing.attach?.length) {
     if (ing.via === "gltf") throw new Error(`${id}: ingest.attach needs the Blender path (drop "via": "gltf")`);
     cargs.push(...attachArgs(ing.attach, srcDir));
