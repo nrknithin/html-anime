@@ -1,0 +1,133 @@
+{
+  "id": "frog-quaternius",
+  "name": "Frog (Quaternius)",
+  "category": "reptile",
+  "tags": [
+    "animal",
+    "frog",
+    "amphibian",
+    "pond",
+    "enemy",
+    "cute"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2019)",
+  "height": 0.045,
+  "script": "noon",
+  "colors": {
+    "skin": "#f0c2ae",
+    "skinShade": "#5c3d32",
+    "belly": "#fffaf2",
+    "bellyShade": "#f2d7ae",
+    "iris": "#c4452d",
+    "irisShade": "#5c3d32",
+    "eye": "#241c16",
+    "eyeShade": "#5c3d32"
+  },
+  "materials": {
+    "Green": "skin",
+    "Yellow": "belly",
+    "Red": "iris",
+    "Black": "eye"
+  },
+  "thresholds": {
+    "skin": 0.1
+  },
+  "clips": {
+    "idle": "Frog_Idle",
+    "jump": "Frog_Jump",
+    "attack": "Frog_Attack",
+    "death": "Frog_Death"
+  },
+  "preview": {
+    "clip": "jump"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Easy Animated Enemy Pack (Jan 2019)",
+    "page": "https://quaternius.itch.io/animated-easy-enemies",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan row 47 names this frog as the poly.pizza Quaternius frog (clips Frog_Attack, Frog_Death, Frog_Idle, Frog_Jump); poly.pizza is behind a Cloudflare challenge, so it comes from the same author's Easy Animated Enemy Pack (Jan 2019) on itch.io, which carries exactly those four clips. The itch page states CC0; the zip ships no licence file. Id frog-quaternius because the procedural models/frog.js stays. It is a red-eyed tree frog, modelled realistically (no cartoon head), so the height is real size: 0.045 m at rest (snout-vent about 9 cm, like the procedural frog). Colours follow the procedural frog on the noon script: skin #f0c2ae with iris-brown shade (threshold 0.1 so the shade lands under the jaw and limbs), cream belly, accent-red eyes with near-black pupils. Ground: every clip is clamped (the take-off push in Frog_Jump sinks a toe 8 mm, the lunge in Frog_Attack 5 mm, the flip in Frog_Death 6 mm; Frog_Idle 1 mm)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/animated-easy-enemies",
+      "upload": "Easy Animated Enemy Pack - Jan 2019.zip",
+      "sha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+      "bytes": 3093543
+    },
+    "member": "Easy Animated Enemy Pack - Jan 2019/FBX/Frog.fbx",
+    "height": 0.045,
+    "yaw": 0,
+    "memberSha256": "76a40fb7400d43386e9a62c4af85e0a212d61a07aea4b34ccd6ad6d6943205f0"
+  },
+  "file": "model.glb",
+  "sha256": "f54860632406745eca68dd12c75b0f0d5964a401f8da981ea595f3f8d8000e4e",
+  "bytes": 178568,
+  "triangles": 4920,
+  "bones": 28,
+  "sourceMaterials": {
+    "Green": "#8ebb6b",
+    "Yellow": "#dabc79",
+    "Red": "#c53524",
+    "Black": "#222422"
+  },
+  "clipInfo": {
+    "Frog_Attack": {
+      "seconds": 0.7917,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Frog_Death": {
+      "seconds": 0.875,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Frog_Idle": {
+      "seconds": 2.5417,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Frog_Jump": {
+      "seconds": 0.9167,
+      "loop": false,
+      "ground": "clamp"
+    }
+  },
+  "qa": {
+    "height": 0.045,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 4920,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.11
+      },
+      "jump": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.15
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.14
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.22
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + jump"
+  }
+}
