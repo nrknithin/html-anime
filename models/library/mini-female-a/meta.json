@@ -1,0 +1,1588 @@
+{
+  "id": "mini-female-a",
+  "name": "Mini character female A",
+  "category": "people",
+  "tags": [
+    "person",
+    "woman",
+    "character",
+    "chibi",
+    "mini"
+  ],
+  "style": "chibi low-poly, flat colour map (Kenney 2024)",
+  "height": 1.1,
+  "script": "noon",
+  "colors": {
+    "skin": "#f0c2ae",
+    "skinShade": "#5c3d32",
+    "hair": "#241c16",
+    "hairShade": "#2c261f",
+    "shirt": "#c4452d",
+    "shirtShade": "#5c3d32",
+    "denim": "#5c3d32",
+    "denimShade": "#2c261f",
+    "trim": "#f2d7ae",
+    "trimShade": "#5c3d32",
+    "sole": "#fffaf2",
+    "soleShade": "#f2d7ae"
+  },
+  "materials": {
+    "colormap": "shirt",
+    "colormap#42424b": "hair",
+    "colormap#3a3a40": "hair",
+    "colormap#464650": "hair",
+    "colormap#353539": "hair",
+    "colormap#3f3f46": "hair",
+    "colormap#885541": "skin",
+    "colormap#af6143": "skin",
+    "colormap#995a41": "skin",
+    "colormap#6376c8": "denim",
+    "colormap#e39870": "trim",
+    "colormap#c7cae1": "sole",
+    "colormap#835ad1": "shirt"
+  },
+  "clips": {
+    "idle": "Animation Base Layer________________",
+    "walk": "Animation Base Layer________________________",
+    "run": "Animation Base Layer______________________",
+    "jump": "Animation Base Layer___________________",
+    "sit": "Animation Base Layer_____________________",
+    "death": "Animation Base Layer_____",
+    "attack": "Animation Base Layer___",
+    "attack-kick-left": "Animation Base Layer",
+    "attack-kick-right": "Animation Base Layer_",
+    "attack-melee-left": "Animation Base Layer__",
+    "crouch": "Animation Base Layer____",
+    "drive": "Animation Base Layer______",
+    "emote-no": "Animation Base Layer_______",
+    "emote-yes": "Animation Base Layer________",
+    "fall": "Animation Base Layer_________",
+    "holding-both-shoot": "Animation Base Layer__________",
+    "holding-both": "Animation Base Layer___________",
+    "holding-left-shoot": "Animation Base Layer____________",
+    "holding-left": "Animation Base Layer_____________",
+    "holding-right-shoot": "Animation Base Layer______________",
+    "holding-right": "Animation Base Layer_______________",
+    "interact-left": "Animation Base Layer_________________",
+    "interact-right": "Animation Base Layer__________________",
+    "pick-up": "Animation Base Layer____________________",
+    "static": "Animation Base Layer_______________________",
+    "wheelchair-look-left": "Animation Base Layer_________________________",
+    "wheelchair-look-right": "Animation Base Layer__________________________",
+    "wheelchair-move-back": "Animation Base Layer___________________________",
+    "wheelchair-move-forward": "Animation Base Layer____________________________",
+    "wheelchair-move-left": "Animation Base Layer_____________________________",
+    "wheelchair-move-right": "Animation Base Layer______________________________",
+    "wheelchair-sit": "Animation Base Layer_______________________________"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Mini Characters",
+    "page": "https://kenney.nl/assets/mini-characters",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "FBX member, not the GLB: the GLB points at Textures/colormap.png and extraMembers land flat beside it, so its colour map would not load. The FBX take names are root|<clip>|Animation Base Layer and ingest keeps the last segment, so the source clips are Animation Base Layer + n underscores in alphabetical take order (verified by duration); meta.clips maps all 32 back to Kenney names. The long arm stubs are authored (Kenney preview shows them) and reach below the soles when the arms hang, so standing clips carry a small lift (feet float at most ~2 cm); sit, drive and wheelchair clips are lifted onto the ground plane (set their lift to 0 to seat her on a chair or wheelchair at the authored height)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/mini-characters",
+      "sha256": "9e1d48e6d7b8479ebbe84df71eb5bd8e1b3f0da546dea641890dccc8a02d0999",
+      "bytes": 2403059,
+      "resolved": "https://kenney.nl/media/pages/assets/mini-characters/bfc7e272b4-1774770718/kenney_mini-characters.zip"
+    },
+    "member": "Models/FBX format/character-female-a.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 1.1,
+    "memberSha256": "961d8957c4ef36025b9ba1bdee13b3f0c8f860907cd1474dab74b42290e144cc"
+  },
+  "file": "model.glb",
+  "sha256": "882e0ca5fe4061c319bb757392ab87ad41eb6bf8a58c5fd5239670d788632c44",
+  "bytes": 140436,
+  "triangles": 876,
+  "bones": 6,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#42424b": "#42424b",
+    "colormap#3a3a40": "#3a3a40",
+    "colormap#464650": "#464650",
+    "colormap#353539": "#353539",
+    "colormap#3f3f46": "#3f3f46",
+    "colormap#885541": "#885541",
+    "colormap#af6143": "#af6143",
+    "colormap#995a41": "#995a41",
+    "colormap#6376c8": "#6376c8",
+    "colormap#e39870": "#e39870",
+    "colormap#c7cae1": "#c7cae1",
+    "colormap#835ad1": "#835ad1"
+  },
+  "clipInfo": {
+    "Animation Base Layer": {
+      "seconds": 0.55,
+      "loop": false,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0472,
+          0.055
+        ],
+        [
+          0.0826,
+          0.047
+        ],
+        [
+          0.0944,
+          0.042
+        ],
+        [
+          0.1062,
+          0.041
+        ],
+        [
+          0.1181,
+          0.034
+        ],
+        [
+          0.1299,
+          0.024
+        ],
+        [
+          0.1535,
+          0.012
+        ],
+        [
+          0.1771,
+          0.005
+        ],
+        [
+          0.1889,
+          0.019
+        ],
+        [
+          0.2007,
+          0.046
+        ],
+        [
+          0.2125,
+          0.062
+        ],
+        [
+          0.2243,
+          0.043
+        ],
+        [
+          0.2361,
+          0.046
+        ],
+        [
+          0.2479,
+          0.031
+        ],
+        [
+          0.2597,
+          0.038
+        ],
+        [
+          0.2951,
+          0.039
+        ],
+        [
+          0.3187,
+          0.037
+        ],
+        [
+          0.3542,
+          0.031
+        ],
+        [
+          0.4014,
+          0.016
+        ],
+        [
+          0.425,
+          0.033
+        ],
+        [
+          0.4722,
+          0.053
+        ],
+        [
+          0.4958,
+          0.055
+        ],
+        [
+          0.5549,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer_": {
+      "seconds": 0.55,
+      "loop": false,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0472,
+          0.055
+        ],
+        [
+          0.0826,
+          0.047
+        ],
+        [
+          0.0944,
+          0.042
+        ],
+        [
+          0.1062,
+          0.041
+        ],
+        [
+          0.1181,
+          0.034
+        ],
+        [
+          0.1299,
+          0.024
+        ],
+        [
+          0.1535,
+          0.012
+        ],
+        [
+          0.1771,
+          0.005
+        ],
+        [
+          0.1889,
+          0.019
+        ],
+        [
+          0.2007,
+          0.046
+        ],
+        [
+          0.2125,
+          0.062
+        ],
+        [
+          0.2243,
+          0.043
+        ],
+        [
+          0.2361,
+          0.046
+        ],
+        [
+          0.2479,
+          0.031
+        ],
+        [
+          0.2597,
+          0.038
+        ],
+        [
+          0.2951,
+          0.039
+        ],
+        [
+          0.3187,
+          0.037
+        ],
+        [
+          0.3542,
+          0.031
+        ],
+        [
+          0.4014,
+          0.016
+        ],
+        [
+          0.425,
+          0.033
+        ],
+        [
+          0.4722,
+          0.053
+        ],
+        [
+          0.4958,
+          0.055
+        ],
+        [
+          0.5549,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer__": {
+      "seconds": 0.4167,
+      "loop": false,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0181,
+          0.054
+        ],
+        [
+          0.0361,
+          0.048
+        ],
+        [
+          0.0542,
+          0.033
+        ],
+        [
+          0.0722,
+          0.007
+        ],
+        [
+          0.0813,
+          0
+        ],
+        [
+          0.0993,
+          0.002
+        ],
+        [
+          0.1535,
+          0.017
+        ],
+        [
+          0.1806,
+          0.02
+        ],
+        [
+          0.1986,
+          0.01
+        ],
+        [
+          0.2076,
+          0.001
+        ],
+        [
+          0.316,
+          0.001
+        ],
+        [
+          0.325,
+          0.033
+        ],
+        [
+          0.334,
+          0.077
+        ],
+        [
+          0.3431,
+          0.115
+        ],
+        [
+          0.3521,
+          0.146
+        ],
+        [
+          0.3611,
+          0.165
+        ],
+        [
+          0.3701,
+          0.172
+        ],
+        [
+          0.3792,
+          0.165
+        ],
+        [
+          0.3882,
+          0.15
+        ],
+        [
+          0.4153,
+          0.078
+        ],
+        [
+          0.4243,
+          0.065
+        ]
+      ]
+    },
+    "Animation Base Layer___": {
+      "seconds": 0.4167,
+      "loop": false,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0181,
+          0.054
+        ],
+        [
+          0.0361,
+          0.048
+        ],
+        [
+          0.0542,
+          0.033
+        ],
+        [
+          0.0722,
+          0.007
+        ],
+        [
+          0.0813,
+          0
+        ],
+        [
+          0.0993,
+          0.002
+        ],
+        [
+          0.1535,
+          0.017
+        ],
+        [
+          0.1806,
+          0.02
+        ],
+        [
+          0.1986,
+          0.01
+        ],
+        [
+          0.2076,
+          0.001
+        ],
+        [
+          0.316,
+          0.001
+        ],
+        [
+          0.325,
+          0.033
+        ],
+        [
+          0.334,
+          0.077
+        ],
+        [
+          0.3431,
+          0.115
+        ],
+        [
+          0.3521,
+          0.146
+        ],
+        [
+          0.3611,
+          0.165
+        ],
+        [
+          0.3701,
+          0.172
+        ],
+        [
+          0.3792,
+          0.165
+        ],
+        [
+          0.3882,
+          0.15
+        ],
+        [
+          0.4153,
+          0.078
+        ],
+        [
+          0.4243,
+          0.065
+        ]
+      ]
+    },
+    "Animation Base Layer____": {
+      "seconds": 0.1833,
+      "loop": true,
+      "lift": 0.003
+    },
+    "Animation Base Layer_____": {
+      "seconds": 0.35,
+      "loop": false,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0153,
+          0.054
+        ],
+        [
+          0.0229,
+          0.008
+        ],
+        [
+          0.0306,
+          0
+        ],
+        [
+          0.2292,
+          0
+        ],
+        [
+          0.2368,
+          0.004
+        ],
+        [
+          0.2444,
+          0.073
+        ],
+        [
+          0.2521,
+          0.133
+        ],
+        [
+          0.2597,
+          0.169
+        ],
+        [
+          0.2674,
+          0.202
+        ],
+        [
+          0.2903,
+          0.225
+        ],
+        [
+          0.3132,
+          0.241
+        ],
+        [
+          0.3361,
+          0.25
+        ],
+        [
+          0.359,
+          0.252
+        ]
+      ]
+    },
+    "Animation Base Layer______": {
+      "seconds": 0.1833,
+      "loop": true,
+      "lift": 0.139
+    },
+    "Animation Base Layer_______": {
+      "seconds": 0.6833,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.2771,
+          0.053
+        ],
+        [
+          0.4667,
+          0.056
+        ],
+        [
+          0.6833,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer________": {
+      "seconds": 0.6833,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.2771,
+          0.053
+        ],
+        [
+          0.4667,
+          0.056
+        ],
+        [
+          0.6833,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer_________": {
+      "seconds": 0.35,
+      "loop": true
+    },
+    "Animation Base Layer__________": {
+      "seconds": 0.2167,
+      "loop": true
+    },
+    "Animation Base Layer___________": {
+      "seconds": 0.1833,
+      "loop": true
+    },
+    "Animation Base Layer____________": {
+      "seconds": 0.2167,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0194,
+          0.054
+        ],
+        [
+          0.034,
+          0.05
+        ],
+        [
+          0.0486,
+          0.04
+        ],
+        [
+          0.0681,
+          0.032
+        ],
+        [
+          0.0826,
+          0.032
+        ],
+        [
+          0.1701,
+          0.051
+        ],
+        [
+          0.2167,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer_____________": {
+      "seconds": 0.1833,
+      "loop": true,
+      "lift": 0.074
+    },
+    "Animation Base Layer______________": {
+      "seconds": 0.2167,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0194,
+          0.054
+        ],
+        [
+          0.034,
+          0.05
+        ],
+        [
+          0.0486,
+          0.04
+        ],
+        [
+          0.0681,
+          0.032
+        ],
+        [
+          0.0826,
+          0.032
+        ],
+        [
+          0.1701,
+          0.051
+        ],
+        [
+          0.2167,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer_______________": {
+      "seconds": 0.1833,
+      "loop": true,
+      "lift": 0.074
+    },
+    "Animation Base Layer________________": {
+      "seconds": 1.35,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0285,
+          0.053
+        ],
+        [
+          0.0569,
+          0.049
+        ],
+        [
+          0.0854,
+          0.041
+        ],
+        [
+          0.1139,
+          0.03
+        ],
+        [
+          0.1708,
+          0
+        ],
+        [
+          0.5125,
+          0
+        ],
+        [
+          0.541,
+          0.006
+        ],
+        [
+          0.5979,
+          0.034
+        ],
+        [
+          0.6264,
+          0.044
+        ],
+        [
+          0.6549,
+          0.051
+        ],
+        [
+          0.6833,
+          0.054
+        ],
+        [
+          0.7118,
+          0.052
+        ],
+        [
+          0.7688,
+          0.037
+        ],
+        [
+          0.8257,
+          0.01
+        ],
+        [
+          0.8542,
+          0
+        ],
+        [
+          1.1674,
+          0
+        ],
+        [
+          1.1958,
+          0.004
+        ],
+        [
+          1.2528,
+          0.032
+        ],
+        [
+          1.2813,
+          0.042
+        ],
+        [
+          1.3097,
+          0.05
+        ],
+        [
+          1.35,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer_________________": {
+      "seconds": 0.6833,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0583,
+          0.055
+        ],
+        [
+          0.0875,
+          0.045
+        ],
+        [
+          0.1312,
+          0.036
+        ],
+        [
+          0.1604,
+          0.03
+        ],
+        [
+          0.1896,
+          0.028
+        ],
+        [
+          0.4375,
+          0.028
+        ],
+        [
+          0.525,
+          0.038
+        ],
+        [
+          0.6125,
+          0.055
+        ],
+        [
+          0.6833,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer__________________": {
+      "seconds": 0.6833,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0583,
+          0.055
+        ],
+        [
+          0.0875,
+          0.045
+        ],
+        [
+          0.1312,
+          0.036
+        ],
+        [
+          0.1604,
+          0.03
+        ],
+        [
+          0.1896,
+          0.028
+        ],
+        [
+          0.4375,
+          0.028
+        ],
+        [
+          0.525,
+          0.038
+        ],
+        [
+          0.6125,
+          0.055
+        ],
+        [
+          0.6833,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer___________________": {
+      "seconds": 0.5,
+      "loop": false
+    },
+    "Animation Base Layer____________________": {
+      "seconds": 0.35,
+      "loop": false,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0153,
+          0.054
+        ],
+        [
+          0.0306,
+          0.042
+        ],
+        [
+          0.0458,
+          0.012
+        ],
+        [
+          0.0535,
+          0
+        ],
+        [
+          0.1375,
+          0
+        ],
+        [
+          0.1451,
+          0.01
+        ],
+        [
+          0.1681,
+          0.05
+        ],
+        [
+          0.1833,
+          0.068
+        ],
+        [
+          0.1986,
+          0.07
+        ],
+        [
+          0.2139,
+          0.057
+        ],
+        [
+          0.2292,
+          0.031
+        ],
+        [
+          0.2444,
+          0
+        ],
+        [
+          0.359,
+          0
+        ]
+      ]
+    },
+    "Animation Base Layer_____________________": {
+      "seconds": 0.1833,
+      "loop": true,
+      "lift": 0.287
+    },
+    "Animation Base Layer______________________": {
+      "seconds": 0.5,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0108,
+          0.054
+        ],
+        [
+          0.0215,
+          0.042
+        ],
+        [
+          0.0323,
+          0.016
+        ],
+        [
+          0.0431,
+          0
+        ],
+        [
+          0.2476,
+          0
+        ],
+        [
+          0.2583,
+          0.028
+        ],
+        [
+          0.2691,
+          0.047
+        ],
+        [
+          0.2799,
+          0.019
+        ],
+        [
+          0.2906,
+          0
+        ],
+        [
+          0.4951,
+          0
+        ],
+        [
+          0.5059,
+          0.023
+        ],
+        [
+          0.5,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer_______________________": {
+      "seconds": 0.1,
+      "loop": true
+    },
+    "Animation Base Layer________________________": {
+      "seconds": 0.6833,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.054
+        ],
+        [
+          0.0146,
+          0.054
+        ],
+        [
+          0.0292,
+          0.044
+        ],
+        [
+          0.0437,
+          0.026
+        ],
+        [
+          0.0583,
+          0
+        ],
+        [
+          0.0729,
+          0.009
+        ],
+        [
+          0.0875,
+          0.011
+        ],
+        [
+          0.1167,
+          0
+        ],
+        [
+          0.3062,
+          0
+        ],
+        [
+          0.3354,
+          0.042
+        ],
+        [
+          0.35,
+          0.054
+        ],
+        [
+          0.3646,
+          0.042
+        ],
+        [
+          0.3792,
+          0.026
+        ],
+        [
+          0.3937,
+          0.023
+        ],
+        [
+          0.4083,
+          0.016
+        ],
+        [
+          0.4229,
+          0.006
+        ],
+        [
+          0.4375,
+          0
+        ],
+        [
+          0.6417,
+          0
+        ],
+        [
+          0.6562,
+          0.025
+        ],
+        [
+          0.6708,
+          0.044
+        ],
+        [
+          0.6854,
+          0.054
+        ],
+        [
+          0.6833,
+          0.054
+        ]
+      ]
+    },
+    "Animation Base Layer_________________________": {
+      "seconds": 0.35,
+      "loop": true,
+      "lift": 0.172
+    },
+    "Animation Base Layer__________________________": {
+      "seconds": 0.35,
+      "loop": true,
+      "lift": 0.172
+    },
+    "Animation Base Layer___________________________": {
+      "seconds": 0.5,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.152
+        ],
+        [
+          0.2045,
+          0.152
+        ],
+        [
+          0.2153,
+          0.156
+        ],
+        [
+          0.226,
+          0.174
+        ],
+        [
+          0.2368,
+          0.185
+        ],
+        [
+          0.2476,
+          0.189
+        ],
+        [
+          0.2583,
+          0.184
+        ],
+        [
+          0.2691,
+          0.172
+        ],
+        [
+          0.2799,
+          0.155
+        ],
+        [
+          0.2906,
+          0.152
+        ],
+        [
+          0.3983,
+          0.152
+        ],
+        [
+          0.4198,
+          0.164
+        ],
+        [
+          0.4413,
+          0.168
+        ],
+        [
+          0.4628,
+          0.163
+        ],
+        [
+          0.4844,
+          0.152
+        ],
+        [
+          0.5,
+          0.152
+        ]
+      ]
+    },
+    "Animation Base Layer____________________________": {
+      "seconds": 0.5,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.152
+        ],
+        [
+          0.1937,
+          0.152
+        ],
+        [
+          0.2045,
+          0.164
+        ],
+        [
+          0.2153,
+          0.186
+        ],
+        [
+          0.226,
+          0.204
+        ],
+        [
+          0.2368,
+          0.216
+        ],
+        [
+          0.2476,
+          0.221
+        ],
+        [
+          0.2583,
+          0.216
+        ],
+        [
+          0.2691,
+          0.204
+        ],
+        [
+          0.2799,
+          0.184
+        ],
+        [
+          0.2906,
+          0.161
+        ],
+        [
+          0.3014,
+          0.152
+        ],
+        [
+          0.5,
+          0.152
+        ]
+      ]
+    },
+    "Animation Base Layer_____________________________": {
+      "seconds": 0.5,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.152
+        ],
+        [
+          0.1937,
+          0.152
+        ],
+        [
+          0.2045,
+          0.164
+        ],
+        [
+          0.2153,
+          0.186
+        ],
+        [
+          0.226,
+          0.204
+        ],
+        [
+          0.2368,
+          0.216
+        ],
+        [
+          0.2476,
+          0.221
+        ],
+        [
+          0.2583,
+          0.216
+        ],
+        [
+          0.2691,
+          0.204
+        ],
+        [
+          0.2799,
+          0.184
+        ],
+        [
+          0.2906,
+          0.161
+        ],
+        [
+          0.3014,
+          0.152
+        ],
+        [
+          0.5,
+          0.152
+        ]
+      ]
+    },
+    "Animation Base Layer______________________________": {
+      "seconds": 0.5,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.152
+        ],
+        [
+          0.1937,
+          0.152
+        ],
+        [
+          0.2045,
+          0.164
+        ],
+        [
+          0.2153,
+          0.186
+        ],
+        [
+          0.226,
+          0.204
+        ],
+        [
+          0.2368,
+          0.216
+        ],
+        [
+          0.2476,
+          0.221
+        ],
+        [
+          0.2583,
+          0.216
+        ],
+        [
+          0.2691,
+          0.204
+        ],
+        [
+          0.2799,
+          0.184
+        ],
+        [
+          0.2906,
+          0.161
+        ],
+        [
+          0.3014,
+          0.152
+        ],
+        [
+          0.5,
+          0.152
+        ]
+      ]
+    },
+    "Animation Base Layer_______________________________": {
+      "seconds": 0.1833,
+      "loop": true,
+      "lift": 0.172
+    }
+  },
+  "thresholds": {
+    "skin": -0.2,
+    "shirt": 0,
+    "denim": 0,
+    "trim": 0,
+    "sole": 0,
+    "hair": 0.35
+  },
+  "smooth": false,
+  "preview": {
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 1.1,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 876,
+    "clips": {
+      "idle": {
+        "minY": -0.0202,
+        "touches": true,
+        "maxSize": 1.43
+      },
+      "walk": {
+        "minY": -0.0201,
+        "touches": true,
+        "maxSize": 1.37
+      },
+      "run": {
+        "minY": -0.0201,
+        "touches": true,
+        "maxSize": 1.3
+      },
+      "jump": {
+        "minY": 0.0155,
+        "touches": true,
+        "maxSize": 1.54
+      },
+      "sit": {
+        "minY": 0.0002,
+        "touches": true,
+        "maxSize": 1.25
+      },
+      "death": {
+        "minY": -0.0209,
+        "touches": true,
+        "maxSize": 1.56
+      },
+      "attack": {
+        "minY": -0.0205,
+        "touches": true,
+        "maxSize": 1.29
+      },
+      "attack-kick-left": {
+        "minY": -0.0207,
+        "touches": true,
+        "maxSize": 1.25
+      },
+      "attack-kick-right": {
+        "minY": -0.0207,
+        "touches": true,
+        "maxSize": 1.25
+      },
+      "attack-melee-left": {
+        "minY": -0.0205,
+        "touches": true,
+        "maxSize": 1.29
+      },
+      "crouch": {
+        "minY": -0.0003,
+        "touches": true,
+        "maxSize": 1.54
+      },
+      "drive": {
+        "minY": 0.0002,
+        "touches": true,
+        "maxSize": 1.03
+      },
+      "emote-no": {
+        "minY": -0.0206,
+        "touches": true,
+        "maxSize": 1.25
+      },
+      "emote-yes": {
+        "minY": -0.0206,
+        "touches": true,
+        "maxSize": 1.25
+      },
+      "fall": {
+        "minY": -0.0007,
+        "touches": true,
+        "maxSize": 1.41
+      },
+      "holding-both-shoot": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "holding-both": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "holding-left-shoot": {
+        "minY": -0.0206,
+        "touches": true,
+        "maxSize": 1.17
+      },
+      "holding-left": {
+        "minY": -0.0001,
+        "touches": true,
+        "maxSize": 1.17
+      },
+      "holding-right-shoot": {
+        "minY": -0.0206,
+        "touches": true,
+        "maxSize": 1.17
+      },
+      "holding-right": {
+        "minY": -0.0001,
+        "touches": true,
+        "maxSize": 1.17
+      },
+      "interact-left": {
+        "minY": -0.0203,
+        "touches": true,
+        "maxSize": 1.32
+      },
+      "interact-right": {
+        "minY": -0.0203,
+        "touches": true,
+        "maxSize": 1.32
+      },
+      "pick-up": {
+        "minY": -0.0204,
+        "touches": true,
+        "maxSize": 1.31
+      },
+      "static": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.56
+      },
+      "wheelchair-look-left": {
+        "minY": 0.0002,
+        "touches": true,
+        "maxSize": 1.43
+      },
+      "wheelchair-look-right": {
+        "minY": 0.0002,
+        "touches": true,
+        "maxSize": 1.43
+      },
+      "wheelchair-move-back": {
+        "minY": -0.021,
+        "touches": true,
+        "maxSize": 1.43
+      },
+      "wheelchair-move-forward": {
+        "minY": -0.0204,
+        "touches": true,
+        "maxSize": 1.43
+      },
+      "wheelchair-move-left": {
+        "minY": -0.0204,
+        "touches": true,
+        "maxSize": 1.43
+      },
+      "wheelchair-move-right": {
+        "minY": -0.0204,
+        "touches": true,
+        "maxSize": 1.43
+      },
+      "wheelchair-sit": {
+        "minY": 0.0002,
+        "touches": true,
+        "maxSize": 1.43
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
