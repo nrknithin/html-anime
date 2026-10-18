@@ -71,7 +71,10 @@ function main() {
     const lo = Math.min(...lows);
     const touch = lows.some((y) => Math.abs(y) <= 0.02 * h);
     qa.clips[name] = { minY: +lo.toFixed(4), touches: touch, maxSize: P.reduce((a, p) => Math.max(a, ...p.bbox.size), 0).toFixed(2) * 1 };
-    if (lo < -0.03 * h) fails.push(`clip ${name}: sinks ${(-lo * 1000).toFixed(0)} mm below the ground`);
+    // clipInfo[clip].sinkAllowed: "<why>" (a tail sweeping through the ground while the feet stay planted) turns the
+    // sink failure into a note; lifting such a clip would float the whole body.
+    const allowed = (meta.clipInfo || {})[meta.clips[name]]?.sinkAllowed;
+    if (lo < -0.03 * h) (allowed ? notes : fails).push(`clip ${name}: sinks ${(-lo * 1000).toFixed(0)} mm below the ground${allowed ? ` (allowed: ${allowed})` : ""}`);
     if (GROUND.has(name) && !touch) notes.push(`clip ${name}: never touches the ground in 8 frames (lowest ${lows.map((y) => y.toFixed(3)).join(" ")})`);
   }
 
