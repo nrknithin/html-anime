@@ -1,0 +1,101 @@
+{
+  "id": "bamboo",
+  "name": "Bamboo",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "bamboo",
+    "grove",
+    "japan",
+    "scenery",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Nature Kit)",
+  "height": 6,
+  "script": "noon",
+  "colors": {
+    "cane": "#f0c2ae",
+    "caneShade": "#5c3d32"
+  },
+  "materials": {
+    "grass": "cane",
+    "grass@crops_bambooStageA": "cane",
+    "grass@crops_bambooStageA.001": "cane"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Nature Kit",
+    "page": "https://kenney.nl/assets/nature-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius static bamboo on poly.pizza) is behind a Cloudflare challenge; this is Kenney's Nature Kit (the same sha256-pinned zip as mushroom-red). The kit's only bamboo members are `crops_bambooStageA` (three short culms, 0.55 units) and `crops_bambooStageB` (the same three culms grown taller, 0.89 units): a farm-crop growth stage with no leaves, three segmented hexagonal culms each. One lone crop reads as three posts, so the entry builds a grove clump from kit pieces: StageB plus two StageA copies placed by `ingest.attach` (offsets and turns chosen so that no two of the nine culms touch), giving nine culms of three heights in a 3.3 x 3.1 m footprint. Height 6 m: Japanese grove bamboo (madake, moso) stands 4-8 m in a managed grove; the tallest culms reach 6 m and the short ones 3.5 m. The culms are stylized thick (about 0.5 m across at this size, real madake is 0.1-0.15 m); uniform scaling cannot fix that, so it is a chunky low-poly clump, for mid and background. The alternative (OpenGameArt free-bamboo-v1 by yughues, CC0) has thin culms and leaves but ships as a 7z with alpha-card leaves, which the pipeline cannot unpack and the flat cel look would turn into solid quads. Colours on noon (no green): a pale cane, skin shading to iris, the same trunk pair as tree-palm. No leaves, so nothing is double-sided; kept faceted (`smooth: false`) like the other Kenney Nature Kit pieces. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/nature-kit",
+      "sha256": "fa7974a0d342bfe63c38664ba9f8ec1a4aab8ea25f099bdc56870e33588c4d9d",
+      "bytes": 10537521
+    },
+    "member": "Models/GLTF format/crops_bambooStageB.glb",
+    "height": 6,
+    "extraMembers": [
+      "Models/GLTF format/crops_bambooStageA.glb"
+    ],
+    "attach": [
+      {
+        "file": "Models/GLTF format/crops_bambooStageA.glb",
+        "offset": [
+          0.08,
+          0,
+          0.14
+        ],
+        "rotation": [
+          0,
+          270,
+          0
+        ]
+      },
+      {
+        "file": "Models/GLTF format/crops_bambooStageA.glb",
+        "offset": [
+          -0.12,
+          0,
+          0.1
+        ],
+        "rotation": [
+          0,
+          120,
+          0
+        ]
+      }
+    ],
+    "memberSha256": "238c4cbeedf747dea96d579cf63301d35bb8709310f0405596c8f988dcc366e6"
+  },
+  "file": "model.glb",
+  "sha256": "459f2a1252ead42433b906420042f9ba02e241109917036030b50a8f5d3e46bf",
+  "bytes": 15136,
+  "triangles": 1116,
+  "bones": 0,
+  "sourceMaterials": {
+    "grass": "#73eddd",
+    "grass@crops_bambooStageA": "#73eddd",
+    "grass@crops_bambooStageA.001": "#73eddd"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 6,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      -0.0001,
+      -0.0001
+    ],
+    "triangles": 1116,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
