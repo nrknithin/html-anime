@@ -82,7 +82,7 @@ The first fetch pins `ingest.fetch.sha256`; a later fetch that differs stops wit
 
 ### `ingest.via`: Blender or glTF as is
 
-By default every source goes through Blender (`"via": "blender"`). A GLB source can instead keep its own nodes, skins, morphs and clips untouched with `"via": "gltf"` (`normalize.mjs`): its rest pose is measured with three.js and the normalization is one added `root` node. Use it when Blender's round trip damages a rig. That happens with meshes parented rigidly to bones, which RobotExpressive has: after Blender its legs sank into its torso. Check the raw source in the lab first if a converted rig looks wrong. On this path textures are not flattened and clip names stay as the source wrote them.
+By default every source goes through Blender (`"via": "blender"`). A GLB source can instead keep its own nodes, skins, morphs and clips untouched with `"via": "gltf"` (`normalize.mjs`): its rest pose is measured with three.js and the normalization is one added `root` node. Use it when Blender's round trip damages a rig. That happens with meshes parented rigidly to bones, which RobotExpressive has: after Blender its legs sank into its torso. Check the raw source in the lab first if a converted rig looks wrong. On this path textures are not flattened and clip names stay as the source wrote them. Node-animated sources (Kenney Cube Pets: rigid parts moved by node tracks, no skin) work on both paths; Blender splits their clips into one action per object, so `clipInfo` is always read from the exported GLB, one entry per clip.
 
 ### Textured sources
 
