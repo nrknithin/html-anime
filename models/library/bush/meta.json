@@ -1,0 +1,72 @@
+{
+  "id": "bush",
+  "name": "Bush",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "bush",
+    "shrub",
+    "hedge",
+    "park",
+    "garden",
+    "forest",
+    "background",
+    "static"
+  ],
+  "style": "low-poly, flat colours, stacked faceted leaf mounds (Quaternius 2019)",
+  "height": 1,
+  "script": "noon",
+  "colors": {
+    "leaves": "#c4452d",
+    "leavesShade": "#5c3d32"
+  },
+  "materials": {
+    "Green": "leaves",
+    "Berry": "leaves"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
+    "page": "https://opengameart.org/content/low-poly-nature-pack-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius static bush on poly.pizza) is behind a Cloudflare challenge; this is Bush_2 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the tree, tree-pine and tree-autumn entries, so they read as one set. Of the four bushes in the pack (Bush_1, Bush_2, BushBerries_1, BushBerries_2) it has the roundest footprint (1.2 x 1.2 m; Bush_1 is an elongated 1.1 x 1.4 m) and no berries, so it works as a plain garden shrub or hedge piece. The mesh is a closed solid, so it is not double-sided. Height 1 m: a garden shrub, azalea or a clipped hedge clump along a park path is 0.8-1.2 m, about hip to waist on a 1.6 m person. Colours on noon (no green), as the broadleaf tree: leaves vermilion (accent) shading to iris, so the bush sits under the tree as the same foliage. Its unused Berry material (no faces in Bush_2) maps to leaves. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip",
+      "sha256": "92daf8b532f60ac0fb53371144d0f8e9ec2f82a2fa408effdf1a64cb8fbaee09",
+      "bytes": 22990249,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip"
+    },
+    "member": "Ultimate Nature Pack - Jun 2019/FBX/Bush_2.fbx",
+    "height": 1,
+    "yaw": 0,
+    "memberSha256": "73a9aa512b2967ad333451ffb4b4e460f400a7a17a73a0b90fc1656404273388"
+  },
+  "file": "model.glb",
+  "sha256": "e20ab9db4f1148f96eb123bce88b52bf149a4382ada239a97bc34ab10bdb360d",
+  "bytes": 6216,
+  "triangles": 268,
+  "bones": 0,
+  "sourceMaterials": {
+    "Green": "#536d45",
+    "Berry": "#b62e37"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 268,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
