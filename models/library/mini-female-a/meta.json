@@ -42,38 +42,38 @@
     "colormap#835ad1": "shirt"
   },
   "clips": {
-    "idle": "Animation Base Layer________________",
-    "walk": "Animation Base Layer________________________",
-    "run": "Animation Base Layer______________________",
-    "jump": "Animation Base Layer___________________",
-    "sit": "Animation Base Layer_____________________",
-    "death": "Animation Base Layer_____",
-    "attack": "Animation Base Layer___",
-    "attack-kick-left": "Animation Base Layer",
-    "attack-kick-right": "Animation Base Layer_",
-    "attack-melee-left": "Animation Base Layer__",
-    "crouch": "Animation Base Layer____",
-    "drive": "Animation Base Layer______",
-    "emote-no": "Animation Base Layer_______",
-    "emote-yes": "Animation Base Layer________",
-    "fall": "Animation Base Layer_________",
-    "holding-both-shoot": "Animation Base Layer__________",
-    "holding-both": "Animation Base Layer___________",
-    "holding-left-shoot": "Animation Base Layer____________",
-    "holding-left": "Animation Base Layer_____________",
-    "holding-right-shoot": "Animation Base Layer______________",
-    "holding-right": "Animation Base Layer_______________",
-    "interact-left": "Animation Base Layer_________________",
-    "interact-right": "Animation Base Layer__________________",
-    "pick-up": "Animation Base Layer____________________",
-    "static": "Animation Base Layer_______________________",
-    "wheelchair-look-left": "Animation Base Layer_________________________",
-    "wheelchair-look-right": "Animation Base Layer__________________________",
-    "wheelchair-move-back": "Animation Base Layer___________________________",
-    "wheelchair-move-forward": "Animation Base Layer____________________________",
-    "wheelchair-move-left": "Animation Base Layer_____________________________",
-    "wheelchair-move-right": "Animation Base Layer______________________________",
-    "wheelchair-sit": "Animation Base Layer_______________________________"
+    "idle": "idle",
+    "walk": "walk",
+    "run": "sprint",
+    "jump": "jump",
+    "sit": "sit",
+    "death": "die",
+    "attack": "attack-melee-right",
+    "attack-kick-left": "attack-kick-left",
+    "attack-kick-right": "attack-kick-right",
+    "attack-melee-left": "attack-melee-left",
+    "crouch": "crouch",
+    "drive": "drive",
+    "emote-no": "emote-no",
+    "emote-yes": "emote-yes",
+    "fall": "fall",
+    "holding-both": "holding-both",
+    "holding-both-shoot": "holding-both-shoot",
+    "holding-left": "holding-left",
+    "holding-left-shoot": "holding-left-shoot",
+    "holding-right": "holding-right",
+    "holding-right-shoot": "holding-right-shoot",
+    "interact-left": "interact-left",
+    "interact-right": "interact-right",
+    "pick-up": "pick-up",
+    "static": "static",
+    "wheelchair-look-left": "wheelchair-look-left",
+    "wheelchair-look-right": "wheelchair-look-right",
+    "wheelchair-move-back": "wheelchair-move-back",
+    "wheelchair-move-forward": "wheelchair-move-forward",
+    "wheelchair-move-left": "wheelchair-move-left",
+    "wheelchair-move-right": "wheelchair-move-right",
+    "wheelchair-sit": "wheelchair-sit"
   },
   "source": {
     "license": "CC0",
@@ -81,7 +81,7 @@
     "pack": "Kenney · Mini Characters",
     "page": "https://kenney.nl/assets/mini-characters",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "note": "FBX member, not the GLB: the GLB points at Textures/colormap.png and extraMembers land flat beside it, so its colour map would not load. The FBX take names are root|<clip>|Animation Base Layer and ingest keeps the last segment, so the source clips are Animation Base Layer + n underscores in alphabetical take order (verified by duration); meta.clips maps all 32 back to Kenney names. The long arm stubs are authored (Kenney preview shows them) and reach below the soles when the arms hang, so standing clips carry a small lift (feet float at most ~2 cm); sit, drive and wheelchair clips are lifted onto the ground plane (set their lift to 0 to seat her on a chair or wheelchair at the authored height)."
+    "note": "Kenney ships the same character as FBX and GLB; this entry uses the FBX (same mesh, colour map and 32 clips). The long arm stubs are authored (Kenney preview and the OBJ show them) and reach about 7 cm below the soles when the arms hang: standing gesture clips keep the feet planted and allow that dip (sinkAllowed); moving clips use ground clamp; sit, drive and the wheelchair poses are lifted onto the ground plane (set their lift to 0 to seat her on a chair or wheelchair at the authored height)."
   },
   "ingest": {
     "fetch": {
@@ -99,8 +99,8 @@
     "memberSha256": "961d8957c4ef36025b9ba1bdee13b3f0c8f860907cd1474dab74b42290e144cc"
   },
   "file": "model.glb",
-  "sha256": "882e0ca5fe4061c319bb757392ab87ad41eb6bf8a58c5fd5239670d788632c44",
-  "bytes": 140436,
+  "sha256": "8b5050cab3fefbd07b1cb174ec82820bf9c14faab00c6cd47d945433b84d9a50",
+  "bytes": 139696,
   "triangles": 876,
   "bones": 6,
   "sourceMaterials": {
@@ -119,1280 +119,157 @@
     "colormap#835ad1": "#835ad1"
   },
   "clipInfo": {
-    "Animation Base Layer": {
+    "attack-kick-left": {
       "seconds": 0.55,
       "loop": false,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0472,
-          0.055
-        ],
-        [
-          0.0826,
-          0.047
-        ],
-        [
-          0.0944,
-          0.042
-        ],
-        [
-          0.1062,
-          0.041
-        ],
-        [
-          0.1181,
-          0.034
-        ],
-        [
-          0.1299,
-          0.024
-        ],
-        [
-          0.1535,
-          0.012
-        ],
-        [
-          0.1771,
-          0.005
-        ],
-        [
-          0.1889,
-          0.019
-        ],
-        [
-          0.2007,
-          0.046
-        ],
-        [
-          0.2125,
-          0.062
-        ],
-        [
-          0.2243,
-          0.043
-        ],
-        [
-          0.2361,
-          0.046
-        ],
-        [
-          0.2479,
-          0.031
-        ],
-        [
-          0.2597,
-          0.038
-        ],
-        [
-          0.2951,
-          0.039
-        ],
-        [
-          0.3187,
-          0.037
-        ],
-        [
-          0.3542,
-          0.031
-        ],
-        [
-          0.4014,
-          0.016
-        ],
-        [
-          0.425,
-          0.033
-        ],
-        [
-          0.4722,
-          0.053
-        ],
-        [
-          0.4958,
-          0.055
-        ],
-        [
-          0.5549,
-          0.054
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer_": {
+    "attack-kick-right": {
       "seconds": 0.55,
       "loop": false,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0472,
-          0.055
-        ],
-        [
-          0.0826,
-          0.047
-        ],
-        [
-          0.0944,
-          0.042
-        ],
-        [
-          0.1062,
-          0.041
-        ],
-        [
-          0.1181,
-          0.034
-        ],
-        [
-          0.1299,
-          0.024
-        ],
-        [
-          0.1535,
-          0.012
-        ],
-        [
-          0.1771,
-          0.005
-        ],
-        [
-          0.1889,
-          0.019
-        ],
-        [
-          0.2007,
-          0.046
-        ],
-        [
-          0.2125,
-          0.062
-        ],
-        [
-          0.2243,
-          0.043
-        ],
-        [
-          0.2361,
-          0.046
-        ],
-        [
-          0.2479,
-          0.031
-        ],
-        [
-          0.2597,
-          0.038
-        ],
-        [
-          0.2951,
-          0.039
-        ],
-        [
-          0.3187,
-          0.037
-        ],
-        [
-          0.3542,
-          0.031
-        ],
-        [
-          0.4014,
-          0.016
-        ],
-        [
-          0.425,
-          0.033
-        ],
-        [
-          0.4722,
-          0.053
-        ],
-        [
-          0.4958,
-          0.055
-        ],
-        [
-          0.5549,
-          0.054
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer__": {
+    "attack-melee-left": {
       "seconds": 0.4167,
       "loop": false,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0181,
-          0.054
-        ],
-        [
-          0.0361,
-          0.048
-        ],
-        [
-          0.0542,
-          0.033
-        ],
-        [
-          0.0722,
-          0.007
-        ],
-        [
-          0.0813,
-          0
-        ],
-        [
-          0.0993,
-          0.002
-        ],
-        [
-          0.1535,
-          0.017
-        ],
-        [
-          0.1806,
-          0.02
-        ],
-        [
-          0.1986,
-          0.01
-        ],
-        [
-          0.2076,
-          0.001
-        ],
-        [
-          0.316,
-          0.001
-        ],
-        [
-          0.325,
-          0.033
-        ],
-        [
-          0.334,
-          0.077
-        ],
-        [
-          0.3431,
-          0.115
-        ],
-        [
-          0.3521,
-          0.146
-        ],
-        [
-          0.3611,
-          0.165
-        ],
-        [
-          0.3701,
-          0.172
-        ],
-        [
-          0.3792,
-          0.165
-        ],
-        [
-          0.3882,
-          0.15
-        ],
-        [
-          0.4153,
-          0.078
-        ],
-        [
-          0.4243,
-          0.065
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer___": {
+    "attack-melee-right": {
       "seconds": 0.4167,
       "loop": false,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0181,
-          0.054
-        ],
-        [
-          0.0361,
-          0.048
-        ],
-        [
-          0.0542,
-          0.033
-        ],
-        [
-          0.0722,
-          0.007
-        ],
-        [
-          0.0813,
-          0
-        ],
-        [
-          0.0993,
-          0.002
-        ],
-        [
-          0.1535,
-          0.017
-        ],
-        [
-          0.1806,
-          0.02
-        ],
-        [
-          0.1986,
-          0.01
-        ],
-        [
-          0.2076,
-          0.001
-        ],
-        [
-          0.316,
-          0.001
-        ],
-        [
-          0.325,
-          0.033
-        ],
-        [
-          0.334,
-          0.077
-        ],
-        [
-          0.3431,
-          0.115
-        ],
-        [
-          0.3521,
-          0.146
-        ],
-        [
-          0.3611,
-          0.165
-        ],
-        [
-          0.3701,
-          0.172
-        ],
-        [
-          0.3792,
-          0.165
-        ],
-        [
-          0.3882,
-          0.15
-        ],
-        [
-          0.4153,
-          0.078
-        ],
-        [
-          0.4243,
-          0.065
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer____": {
+    "crouch": {
       "seconds": 0.1833,
-      "loop": true,
-      "lift": 0.003
+      "loop": true
     },
-    "Animation Base Layer_____": {
+    "die": {
       "seconds": 0.35,
       "loop": false,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0153,
-          0.054
-        ],
-        [
-          0.0229,
-          0.008
-        ],
-        [
-          0.0306,
-          0
-        ],
-        [
-          0.2292,
-          0
-        ],
-        [
-          0.2368,
-          0.004
-        ],
-        [
-          0.2444,
-          0.073
-        ],
-        [
-          0.2521,
-          0.133
-        ],
-        [
-          0.2597,
-          0.169
-        ],
-        [
-          0.2674,
-          0.202
-        ],
-        [
-          0.2903,
-          0.225
-        ],
-        [
-          0.3132,
-          0.241
-        ],
-        [
-          0.3361,
-          0.25
-        ],
-        [
-          0.359,
-          0.252
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer______": {
+    "drive": {
       "seconds": 0.1833,
       "loop": true,
       "lift": 0.139
     },
-    "Animation Base Layer_______": {
+    "emote-no": {
       "seconds": 0.6833,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.2771,
-          0.053
-        ],
-        [
-          0.4667,
-          0.056
-        ],
-        [
-          0.6833,
-          0.054
-        ]
-      ]
+      "sinkAllowed": "only the long authored arm stubs dip below the soles while the feet stay planted"
     },
-    "Animation Base Layer________": {
+    "emote-yes": {
       "seconds": 0.6833,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.2771,
-          0.053
-        ],
-        [
-          0.4667,
-          0.056
-        ],
-        [
-          0.6833,
-          0.054
-        ]
-      ]
+      "sinkAllowed": "only the long authored arm stubs dip below the soles while the feet stay planted"
     },
-    "Animation Base Layer_________": {
+    "fall": {
       "seconds": 0.35,
       "loop": true
     },
-    "Animation Base Layer__________": {
-      "seconds": 0.2167,
-      "loop": true
-    },
-    "Animation Base Layer___________": {
+    "holding-both": {
       "seconds": 0.1833,
       "loop": true
     },
-    "Animation Base Layer____________": {
+    "holding-both-shoot": {
       "seconds": 0.2167,
-      "loop": true,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0194,
-          0.054
-        ],
-        [
-          0.034,
-          0.05
-        ],
-        [
-          0.0486,
-          0.04
-        ],
-        [
-          0.0681,
-          0.032
-        ],
-        [
-          0.0826,
-          0.032
-        ],
-        [
-          0.1701,
-          0.051
-        ],
-        [
-          0.2167,
-          0.054
-        ]
-      ]
+      "loop": true
     },
-    "Animation Base Layer_____________": {
+    "holding-left": {
       "seconds": 0.1833,
       "loop": true,
-      "lift": 0.074
+      "sinkAllowed": "only the long authored arm stubs dip below the soles while the feet stay planted"
     },
-    "Animation Base Layer______________": {
+    "holding-left-shoot": {
       "seconds": 0.2167,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0194,
-          0.054
-        ],
-        [
-          0.034,
-          0.05
-        ],
-        [
-          0.0486,
-          0.04
-        ],
-        [
-          0.0681,
-          0.032
-        ],
-        [
-          0.0826,
-          0.032
-        ],
-        [
-          0.1701,
-          0.051
-        ],
-        [
-          0.2167,
-          0.054
-        ]
-      ]
+      "sinkAllowed": "only the long authored arm stubs dip below the soles while the feet stay planted"
     },
-    "Animation Base Layer_______________": {
+    "holding-right": {
       "seconds": 0.1833,
       "loop": true,
-      "lift": 0.074
+      "sinkAllowed": "only the long authored arm stubs dip below the soles while the feet stay planted"
     },
-    "Animation Base Layer________________": {
+    "holding-right-shoot": {
+      "seconds": 0.2167,
+      "loop": true,
+      "sinkAllowed": "only the long authored arm stubs dip below the soles while the feet stay planted"
+    },
+    "idle": {
       "seconds": 1.35,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0285,
-          0.053
-        ],
-        [
-          0.0569,
-          0.049
-        ],
-        [
-          0.0854,
-          0.041
-        ],
-        [
-          0.1139,
-          0.03
-        ],
-        [
-          0.1708,
-          0
-        ],
-        [
-          0.5125,
-          0
-        ],
-        [
-          0.541,
-          0.006
-        ],
-        [
-          0.5979,
-          0.034
-        ],
-        [
-          0.6264,
-          0.044
-        ],
-        [
-          0.6549,
-          0.051
-        ],
-        [
-          0.6833,
-          0.054
-        ],
-        [
-          0.7118,
-          0.052
-        ],
-        [
-          0.7688,
-          0.037
-        ],
-        [
-          0.8257,
-          0.01
-        ],
-        [
-          0.8542,
-          0
-        ],
-        [
-          1.1674,
-          0
-        ],
-        [
-          1.1958,
-          0.004
-        ],
-        [
-          1.2528,
-          0.032
-        ],
-        [
-          1.2813,
-          0.042
-        ],
-        [
-          1.3097,
-          0.05
-        ],
-        [
-          1.35,
-          0.054
-        ]
-      ]
+      "sinkAllowed": "only the long authored arm stubs dip below the soles while the feet stay planted"
     },
-    "Animation Base Layer_________________": {
+    "interact-left": {
       "seconds": 0.6833,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0583,
-          0.055
-        ],
-        [
-          0.0875,
-          0.045
-        ],
-        [
-          0.1312,
-          0.036
-        ],
-        [
-          0.1604,
-          0.03
-        ],
-        [
-          0.1896,
-          0.028
-        ],
-        [
-          0.4375,
-          0.028
-        ],
-        [
-          0.525,
-          0.038
-        ],
-        [
-          0.6125,
-          0.055
-        ],
-        [
-          0.6833,
-          0.054
-        ]
-      ]
+      "sinkAllowed": "only the long authored arm stubs dip below the soles while the feet stay planted"
     },
-    "Animation Base Layer__________________": {
+    "interact-right": {
       "seconds": 0.6833,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0583,
-          0.055
-        ],
-        [
-          0.0875,
-          0.045
-        ],
-        [
-          0.1312,
-          0.036
-        ],
-        [
-          0.1604,
-          0.03
-        ],
-        [
-          0.1896,
-          0.028
-        ],
-        [
-          0.4375,
-          0.028
-        ],
-        [
-          0.525,
-          0.038
-        ],
-        [
-          0.6125,
-          0.055
-        ],
-        [
-          0.6833,
-          0.054
-        ]
-      ]
+      "sinkAllowed": "only the long authored arm stubs dip below the soles while the feet stay planted"
     },
-    "Animation Base Layer___________________": {
+    "jump": {
       "seconds": 0.5,
-      "loop": false
+      "loop": false,
+      "ground": "clamp"
     },
-    "Animation Base Layer____________________": {
+    "pick-up": {
       "seconds": 0.35,
       "loop": false,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0153,
-          0.054
-        ],
-        [
-          0.0306,
-          0.042
-        ],
-        [
-          0.0458,
-          0.012
-        ],
-        [
-          0.0535,
-          0
-        ],
-        [
-          0.1375,
-          0
-        ],
-        [
-          0.1451,
-          0.01
-        ],
-        [
-          0.1681,
-          0.05
-        ],
-        [
-          0.1833,
-          0.068
-        ],
-        [
-          0.1986,
-          0.07
-        ],
-        [
-          0.2139,
-          0.057
-        ],
-        [
-          0.2292,
-          0.031
-        ],
-        [
-          0.2444,
-          0
-        ],
-        [
-          0.359,
-          0
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer_____________________": {
+    "sit": {
       "seconds": 0.1833,
       "loop": true,
       "lift": 0.287
     },
-    "Animation Base Layer______________________": {
+    "sprint": {
       "seconds": 0.5,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0108,
-          0.054
-        ],
-        [
-          0.0215,
-          0.042
-        ],
-        [
-          0.0323,
-          0.016
-        ],
-        [
-          0.0431,
-          0
-        ],
-        [
-          0.2476,
-          0
-        ],
-        [
-          0.2583,
-          0.028
-        ],
-        [
-          0.2691,
-          0.047
-        ],
-        [
-          0.2799,
-          0.019
-        ],
-        [
-          0.2906,
-          0
-        ],
-        [
-          0.4951,
-          0
-        ],
-        [
-          0.5059,
-          0.023
-        ],
-        [
-          0.5,
-          0.054
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer_______________________": {
+    "static": {
       "seconds": 0.1,
       "loop": true
     },
-    "Animation Base Layer________________________": {
+    "walk": {
       "seconds": 0.6833,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.054
-        ],
-        [
-          0.0146,
-          0.054
-        ],
-        [
-          0.0292,
-          0.044
-        ],
-        [
-          0.0437,
-          0.026
-        ],
-        [
-          0.0583,
-          0
-        ],
-        [
-          0.0729,
-          0.009
-        ],
-        [
-          0.0875,
-          0.011
-        ],
-        [
-          0.1167,
-          0
-        ],
-        [
-          0.3062,
-          0
-        ],
-        [
-          0.3354,
-          0.042
-        ],
-        [
-          0.35,
-          0.054
-        ],
-        [
-          0.3646,
-          0.042
-        ],
-        [
-          0.3792,
-          0.026
-        ],
-        [
-          0.3937,
-          0.023
-        ],
-        [
-          0.4083,
-          0.016
-        ],
-        [
-          0.4229,
-          0.006
-        ],
-        [
-          0.4375,
-          0
-        ],
-        [
-          0.6417,
-          0
-        ],
-        [
-          0.6562,
-          0.025
-        ],
-        [
-          0.6708,
-          0.044
-        ],
-        [
-          0.6854,
-          0.054
-        ],
-        [
-          0.6833,
-          0.054
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer_________________________": {
+    "wheelchair-look-left": {
       "seconds": 0.35,
       "loop": true,
       "lift": 0.172
     },
-    "Animation Base Layer__________________________": {
+    "wheelchair-look-right": {
       "seconds": 0.35,
       "loop": true,
       "lift": 0.172
     },
-    "Animation Base Layer___________________________": {
+    "wheelchair-move-back": {
       "seconds": 0.5,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.152
-        ],
-        [
-          0.2045,
-          0.152
-        ],
-        [
-          0.2153,
-          0.156
-        ],
-        [
-          0.226,
-          0.174
-        ],
-        [
-          0.2368,
-          0.185
-        ],
-        [
-          0.2476,
-          0.189
-        ],
-        [
-          0.2583,
-          0.184
-        ],
-        [
-          0.2691,
-          0.172
-        ],
-        [
-          0.2799,
-          0.155
-        ],
-        [
-          0.2906,
-          0.152
-        ],
-        [
-          0.3983,
-          0.152
-        ],
-        [
-          0.4198,
-          0.164
-        ],
-        [
-          0.4413,
-          0.168
-        ],
-        [
-          0.4628,
-          0.163
-        ],
-        [
-          0.4844,
-          0.152
-        ],
-        [
-          0.5,
-          0.152
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer____________________________": {
+    "wheelchair-move-forward": {
       "seconds": 0.5,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.152
-        ],
-        [
-          0.1937,
-          0.152
-        ],
-        [
-          0.2045,
-          0.164
-        ],
-        [
-          0.2153,
-          0.186
-        ],
-        [
-          0.226,
-          0.204
-        ],
-        [
-          0.2368,
-          0.216
-        ],
-        [
-          0.2476,
-          0.221
-        ],
-        [
-          0.2583,
-          0.216
-        ],
-        [
-          0.2691,
-          0.204
-        ],
-        [
-          0.2799,
-          0.184
-        ],
-        [
-          0.2906,
-          0.161
-        ],
-        [
-          0.3014,
-          0.152
-        ],
-        [
-          0.5,
-          0.152
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer_____________________________": {
+    "wheelchair-move-left": {
       "seconds": 0.5,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.152
-        ],
-        [
-          0.1937,
-          0.152
-        ],
-        [
-          0.2045,
-          0.164
-        ],
-        [
-          0.2153,
-          0.186
-        ],
-        [
-          0.226,
-          0.204
-        ],
-        [
-          0.2368,
-          0.216
-        ],
-        [
-          0.2476,
-          0.221
-        ],
-        [
-          0.2583,
-          0.216
-        ],
-        [
-          0.2691,
-          0.204
-        ],
-        [
-          0.2799,
-          0.184
-        ],
-        [
-          0.2906,
-          0.161
-        ],
-        [
-          0.3014,
-          0.152
-        ],
-        [
-          0.5,
-          0.152
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer______________________________": {
+    "wheelchair-move-right": {
       "seconds": 0.5,
       "loop": true,
-      "lift": [
-        [
-          0,
-          0.152
-        ],
-        [
-          0.1937,
-          0.152
-        ],
-        [
-          0.2045,
-          0.164
-        ],
-        [
-          0.2153,
-          0.186
-        ],
-        [
-          0.226,
-          0.204
-        ],
-        [
-          0.2368,
-          0.216
-        ],
-        [
-          0.2476,
-          0.221
-        ],
-        [
-          0.2583,
-          0.216
-        ],
-        [
-          0.2691,
-          0.204
-        ],
-        [
-          0.2799,
-          0.184
-        ],
-        [
-          0.2906,
-          0.161
-        ],
-        [
-          0.3014,
-          0.152
-        ],
-        [
-          0.5,
-          0.152
-        ]
-      ]
+      "ground": "clamp"
     },
-    "Animation Base Layer_______________________________": {
+    "wheelchair-sit": {
       "seconds": 0.1833,
       "loop": true,
       "lift": 0.172
@@ -1421,17 +298,17 @@
     "triangles": 876,
     "clips": {
       "idle": {
-        "minY": -0.0202,
+        "minY": -0.0741,
         "touches": true,
         "maxSize": 1.43
       },
       "walk": {
-        "minY": -0.0201,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.37
       },
       "run": {
-        "minY": -0.0201,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.3
       },
@@ -1446,32 +323,32 @@
         "maxSize": 1.25
       },
       "death": {
-        "minY": -0.0209,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.56
       },
       "attack": {
-        "minY": -0.0205,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.29
       },
       "attack-kick-left": {
-        "minY": -0.0207,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.25
       },
       "attack-kick-right": {
-        "minY": -0.0207,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.25
       },
       "attack-melee-left": {
-        "minY": -0.0205,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.29
       },
       "crouch": {
-        "minY": -0.0003,
+        "minY": -0.0033,
         "touches": true,
         "maxSize": 1.54
       },
@@ -1481,13 +358,13 @@
         "maxSize": 1.03
       },
       "emote-no": {
-        "minY": -0.0206,
-        "touches": true,
+        "minY": -0.076,
+        "touches": false,
         "maxSize": 1.25
       },
       "emote-yes": {
-        "minY": -0.0206,
-        "touches": true,
+        "minY": -0.076,
+        "touches": false,
         "maxSize": 1.25
       },
       "fall": {
@@ -1495,48 +372,48 @@
         "touches": true,
         "maxSize": 1.41
       },
-      "holding-both-shoot": {
-        "minY": 0,
-        "touches": true,
-        "maxSize": 1.1
-      },
       "holding-both": {
         "minY": 0,
         "touches": true,
         "maxSize": 1.1
       },
-      "holding-left-shoot": {
-        "minY": -0.0206,
+      "holding-both-shoot": {
+        "minY": 0,
         "touches": true,
-        "maxSize": 1.17
+        "maxSize": 1.1
       },
       "holding-left": {
-        "minY": -0.0001,
-        "touches": true,
+        "minY": -0.0741,
+        "touches": false,
         "maxSize": 1.17
       },
-      "holding-right-shoot": {
-        "minY": -0.0206,
-        "touches": true,
+      "holding-left-shoot": {
+        "minY": -0.0741,
+        "touches": false,
         "maxSize": 1.17
       },
       "holding-right": {
-        "minY": -0.0001,
-        "touches": true,
+        "minY": -0.0741,
+        "touches": false,
+        "maxSize": 1.17
+      },
+      "holding-right-shoot": {
+        "minY": -0.0741,
+        "touches": false,
         "maxSize": 1.17
       },
       "interact-left": {
-        "minY": -0.0203,
-        "touches": true,
+        "minY": -0.0752,
+        "touches": false,
         "maxSize": 1.32
       },
       "interact-right": {
-        "minY": -0.0203,
-        "touches": true,
+        "minY": -0.0752,
+        "touches": false,
         "maxSize": 1.32
       },
       "pick-up": {
-        "minY": -0.0204,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.31
       },
@@ -1556,22 +433,22 @@
         "maxSize": 1.43
       },
       "wheelchair-move-back": {
-        "minY": -0.021,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.43
       },
       "wheelchair-move-forward": {
-        "minY": -0.0204,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.43
       },
       "wheelchair-move-left": {
-        "minY": -0.0204,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.43
       },
       "wheelchair-move-right": {
-        "minY": -0.0204,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.43
       },

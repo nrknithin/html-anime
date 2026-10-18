@@ -17,8 +17,8 @@
       "height": 1.1,
       "script": "noon",
       "file": "models/library/mini-female-a/model.glb",
-      "bytes": 140436,
-      "sha256": "882e0ca5fe4061c319bb757392ab87ad41eb6bf8a58c5fd5239670d788632c44",
+      "bytes": 139696,
+      "sha256": "8b5050cab3fefbd07b1cb174ec82820bf9c14faab00c6cd47d945433b84d9a50",
       "triangles": 876,
       "bones": 6,
       "clips": [
@@ -37,12 +37,12 @@
         "emote-no",
         "emote-yes",
         "fall",
-        "holding-both-shoot",
         "holding-both",
-        "holding-left-shoot",
+        "holding-both-shoot",
         "holding-left",
-        "holding-right-shoot",
+        "holding-left-shoot",
         "holding-right",
+        "holding-right-shoot",
         "interact-left",
         "interact-right",
         "pick-up",
@@ -61,7 +61,7 @@
         "pack": "Kenney · Mini Characters",
         "page": "https://kenney.nl/assets/mini-characters",
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "note": "FBX member, not the GLB: the GLB points at Textures/colormap.png and extraMembers land flat beside it, so its colour map would not load. The FBX take names are root|<clip>|Animation Base Layer and ingest keeps the last segment, so the source clips are Animation Base Layer + n underscores in alphabetical take order (verified by duration); meta.clips maps all 32 back to Kenney names. The long arm stubs are authored (Kenney preview shows them) and reach below the soles when the arms hang, so standing clips carry a small lift (feet float at most ~2 cm); sit, drive and wheelchair clips are lifted onto the ground plane (set their lift to 0 to seat her on a chair or wheelchair at the authored height)."
+        "note": "Kenney ships the same character as FBX and GLB; this entry uses the FBX (same mesh, colour map and 32 clips). The long arm stubs are authored (Kenney preview and the OBJ show them) and reach about 7 cm below the soles when the arms hang: standing gesture clips keep the feet planted and allow that dip (sinkAllowed); moving clips use ground clamp; sit, drive and the wheelchair poses are lifted onto the ground plane (set their lift to 0 to seat her on a chair or wheelchair at the authored height)."
       }
     }
   ]
