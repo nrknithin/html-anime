@@ -242,7 +242,7 @@ async function main() {
     await fsp.writeFile(raw, r.glb);
     await fsp.writeFile(report, JSON.stringify(r.report));
   } else if (ing.via && ing.via !== "blender") throw new Error(`ingest.via must be "blender" (default) or "gltf" (got ${ing.via})`);
-  const cargs = ["-I", path.join(HERE, "convert.py"), "--in", src, "--out", raw, "--report", report, "--height", String(ing.height || 0), "--yaw", String(ing.yaw || 0)];
+  const cargs = ["-I", path.join(HERE, "convert.py"), "--in", src, "--out", raw, "--report", report, "--height", String(ing.height || 0), "--yaw", String(ing.yaw || 0), "--search", srcDir];
   if (ing.drop?.length) cargs.push("--drop", ing.drop.join(","));
   if (ing.keepActions?.length) cargs.push("--keep-actions", ing.keepActions.join(","));
   if (ing.maxColors) cargs.push("--max-colors", String(ing.maxColors));
