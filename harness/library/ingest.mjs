@@ -40,7 +40,7 @@ async function get(url, opts = {}) {
   for (let i = 0; i < 4; i++) {
     try {
       const res = await fetch(url, { ...opts, headers: { "User-Agent": UA, ...(opts.headers || {}) }, signal: AbortSignal.timeout(120000) });
-      if (res.status >= 500) throw new Error(`HTTP ${res.status}`);
+      if (res.status >= 500 || res.status === 429) throw new Error(`HTTP ${res.status}`); // 429: rate limited, wait and retry
       return res;
     } catch (e) {
       last = e;
@@ -92,8 +92,13 @@ async function itchFile(page, upload) {
   const ups = [...dhtml.matchAll(/data-upload_id="(\d+)"[\s\S]*?title="([^"]+)"/g)].map((m) => ({ id: m[1], name: m[2] }));
   const up = ups.find((u) => u.name === upload);
   if (!up) throw new Error(`itch: no upload "${upload}" on ${page} (uploads: ${ups.map((u) => u.name).join(", ")})`);
-  const key = new URL(dl).pathname.split("/").pop();
-  const r2 = keep(await get(`${new URL(page).origin}/file/${up.id}?source=game_download&key=${key}`, { method: "POST", body: form(), headers: { ...xhr, Cookie: cookie() } }));
+  // The upload's file URL: posted from the download page with that page's token and cookies (no key parameter).
+  const dtoken = (dhtml.match(/name="csrf_token" value="([^"]+)"/) || [])[1] || token;
+  const r2 = keep(await get(`${page.replace(/\/$/, "")}/file/${up.id}?source=game_download`, {
+    method: "POST",
+    body: new URLSearchParams({ csrf_token: dtoken }),
+    headers: { ...xhr, Referer: dl, Cookie: cookie() },
+  }));
   const url = (await r2.json()).url;
   if (!url) throw new Error(`itch: no file URL for upload ${upload}`);
   return url;
