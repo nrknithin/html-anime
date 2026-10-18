@@ -196,7 +196,15 @@ async function main() {
     const data = unzipMember(buf, ing.member);
     src = path.join(srcDir, path.basename(ing.member));
     await fsp.writeFile(src, data);
-    for (const extra of ing.extraMembers || []) await fsp.writeFile(path.join(srcDir, path.basename(extra)), unzipMember(buf, extra)); // .bin, textures
+    // .bin and textures keep their path relative to the member, so "Textures/colormap.png" in a GLB resolves.
+    const memberDir = path.posix.dirname(ing.member.replace(/\\/g, "/"));
+    for (const extra of ing.extraMembers || []) {
+      const rel = path.posix.relative(memberDir, extra.replace(/\\/g, "/"));
+      const to = path.resolve(srcDir, rel.startsWith("..") ? path.posix.basename(extra) : rel);
+      if (!to.startsWith(srcDir + path.sep)) throw new Error(`extraMembers: ${extra} leaves the scratch folder`);
+      await fsp.mkdir(path.dirname(to), { recursive: true });
+      await fsp.writeFile(to, unzipMember(buf, extra));
+    }
     ing.memberSha256 = sha256(data);
   } else {
     src = path.join(srcDir, ing.filename || path.basename(new URL(url || ing.fetch.url).pathname));

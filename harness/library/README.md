@@ -73,7 +73,7 @@ Shared clip vocabulary: `idle`, `walk`, `run`, `jump`, `attack`, `hit`, `death`,
 | type | fields | used for |
 |---|---|---|
 | `file` | `url` | a GLB or file on a static host (GitHub raw, Poly Haven, jsdelivr) |
-| `zip` | `url`, `member`, `extraMembers` | OpenGameArt zips, any zip with a stable URL |
+| `zip` | `url`, `member`, `extraMembers` | OpenGameArt zips, any zip with a stable URL. `extraMembers` (a .bin, textures) land at their path relative to the member's folder, so a GLB's `Textures/colormap.png` resolves |
 | `kenney` | `page` (`https://kenney.nl/assets/<kit>`), `member` | Kenney kits: the zip link changes on every update, so it is read from the page |
 | `itch` | `page`, `upload` (the file name on the download page), `member` | free itch.io packs (KayKit, Quaternius): the same form posts as the "No thanks, just take me to the downloads" button |
 
