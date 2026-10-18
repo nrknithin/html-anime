@@ -3,6 +3,10 @@
 #
 #   python3.11 -I harness/library/convert.py --in <source> --out <file.glb> --report <file.json>
 #       [--height 1.6] [--yaw 0] [--drop name,name] [--keep-actions a,b]
+#       [--attach '{"file": "<prop>", "bone": "handslot.r", "offset": [x,y,z], "rotation": [x,y,z], "scale": 1}' ...]
+#
+# --attach (repeatable): a prop file (glTF/GLB, FBX or OBJ) imported at the rest pose and parented rigidly to a bone
+# before normalizing, so it is measured, exported and follows every clip (see attach()).
 #
 # Normalizing: every top-level object goes under one empty named "root" (exported as the glTF root node). Its scale
 # makes the rest-pose bbox --height metres tall, --yaw (degrees about up) turns the face to +Z, and its translation
@@ -33,6 +37,7 @@ def parse():
     p.add_argument("--drop-materials", default="", help="comma list: delete every face using these materials (a hat on the body mesh)")
     p.add_argument("--search", default="", help="folder searched by file name for images the source cannot find (a .blend expecting its texture beside it)")
     p.add_argument("--max-colors", type=int, default=12, help="textured materials: at most this many flat colours per material")
+    p.add_argument("--attach", action="append", default=[], help='JSON {"file", "bone", "offset", "rotation", "scale"}: a prop parented to a bone (repeatable)')
     return p.parse_args(sys.argv[sys.argv.index("--") + 1 :] if "--" in sys.argv else sys.argv[1:])
 
 
@@ -245,6 +250,64 @@ def relink_images(root):
             img.reload()
 
 
+# The importers turn a file's Y-up axes into Blender's Z-up; this turns them back, so a prop's own axes line up with
+# the bone's axes the way an engine attaches it (the prop's scene under the bone's node with an identity transform).
+ZUP_TO_FILE = Matrix(((1, 0, 0, 0), (0, 0, 1, 0), (0, -1, 0, 0), (0, 0, 0, 1)))
+
+
+def attach(spec, arms):
+    """Import one prop and parent its top-level objects to an armature bone at rest (bone parenting, rigid). The
+    prop's origin sits on the bone's head and its file axes on the bone's axes (KayKit's handslot bones are oriented
+    for weapons); then offset (in the bone's frame, source units), rotation (degrees XYZ about the bone's axes) and
+    scale apply. Materials keep their names; one that collides with a material already in the scene is named
+    "<name>@<file stem>" (instead of Blender's "<name>.001"), so meta.materials can map the prop on its own."""
+    path, bone_name = spec["file"], spec["bone"]
+    arm = next((o for o in arms if bone_name in o.data.bones), None)
+    if arm is None:
+        raise SystemExit(f"convert: --attach {os.path.basename(path)}: no armature has a bone {bone_name!r}")
+    scene = bpy.context.scene
+    before = set(scene.objects)
+    mats_before = set(bpy.data.materials)
+    names_before = {m.name for m in mats_before}
+    low = path.lower()
+    if low.endswith(".glb") or low.endswith(".gltf"):
+        bpy.ops.import_scene.gltf(filepath=path)
+    elif low.endswith(".fbx"):
+        bpy.ops.import_scene.fbx(filepath=path, ignore_leaf_bones=True, automatic_bone_orientation=False)
+    elif low.endswith(".obj"):
+        bpy.ops.wm.obj_import(filepath=path)
+    else:
+        raise SystemExit(f"convert: --attach: unknown prop type {path}")
+    stem = os.path.splitext(os.path.basename(path))[0]
+    for m in [m for m in bpy.data.materials if m not in mats_before]:
+        base = re.sub(r"\.\d{3}$", "", m.name)
+        if base != m.name and base in names_before:
+            m.name = f"{base}@{stem}"
+    new = [o for o in scene.objects if o not in before]
+    for o in [o for o in new if o.type in {"CAMERA", "LIGHT"} or o.hide_render]:
+        new.remove(o)
+        bpy.data.objects.remove(o, do_unlink=True)
+    meshes = sorted(o.name for o in new if o.type == "MESH")
+    if not meshes:
+        raise SystemExit(f"convert: --attach {os.path.basename(path)}: no meshes")
+    from mathutils import Euler
+
+    rot = Euler([math.radians(v) for v in (spec.get("rotation") or (0, 0, 0))], "XYZ")
+    local = Matrix.Translation(Vector(spec.get("offset") or (0, 0, 0))) @ rot.to_matrix().to_4x4() @ Matrix.Scale(float(spec.get("scale", 1)), 4)
+    head = arm.matrix_world @ arm.data.bones[bone_name].matrix_local  # the bone's head and axes at rest
+    bpy.context.view_layer.update()
+    for o in sorted((o for o in new if o.parent is None), key=lambda o: o.name):
+        world = head @ local @ ZUP_TO_FILE @ o.matrix_world
+        o.parent = arm
+        o.parent_type = "BONE"
+        o.parent_bone = bone_name
+        o.matrix_parent_inverse = Matrix.Identity(4)
+        bpy.context.view_layer.update()
+        o.matrix_world = world  # Blender keeps a bone child at the bone's tail; this puts it back on the head
+    bpy.context.view_layer.update()
+    return meshes
+
+
 def mesh_points(objs):
     """World-space vertices of every mesh as evaluated now (armature modifiers included)."""
     dg = bpy.context.evaluated_depsgraph_get()
@@ -285,6 +348,11 @@ def main():
             pb.scale = (1.0, 1.0, 1.0)
         arm.data.pose_position = "REST"
     bpy.context.view_layer.update()
+
+    # Props parented to bones (a sword in a hand slot), at rest and before measuring, so they count in the bbox.
+    attached = {}
+    for spec in map(json.loads, a.attach):
+        attached[os.path.basename(spec["file"])] = {"bone": spec["bone"], "meshes": attach(spec, arms)}
 
     # One root above everything, so the whole normalization is one node transform.
     root = bpy.data.objects.new("root", None)
@@ -393,6 +461,8 @@ def main():
         "actions": actions,
         "fps": scene.render.fps,
     }
+    if attached:
+        report["attached"] = attached
     with open(a.report, "w") as f:
         json.dump(report, f, indent=2)
     print(json.dumps({k: report[k] for k in ("height", "triangles", "bones")}))
