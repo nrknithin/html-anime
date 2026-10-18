@@ -226,7 +226,8 @@ async function main() {
   meta.triangles = rep.triangles;
   meta.bones = rep.bones;
   meta.sourceMaterials = rep.materials;
-  meta.clipInfo = Object.fromEntries(rep.actions.map((a) => [a.name, { seconds: a.seconds, loop: meta.clipInfo?.[a.name]?.loop ?? !/death|die|hit|jump|attack/i.test(a.name) }]));
+  // Measured seconds; hand-set fields (loop, lift) survive a re-ingest.
+  meta.clipInfo = Object.fromEntries(rep.actions.map((a) => [a.name, { ...meta.clipInfo?.[a.name], seconds: a.seconds, loop: meta.clipInfo?.[a.name]?.loop ?? !/death|die|hit|jump|attack/i.test(a.name) }]));
   if (meta.height && Math.abs(rep.height - meta.height) > 0.05 * meta.height) console.error(`[ingest] warn: meta.height ${meta.height} but the GLB is ${rep.height.toFixed(3)} m`);
   await fsp.writeFile(metaFile, JSON.stringify(meta, null, 2) + "\n");
   if (!args.includes("--keep-tmp")) await fsp.rm(tmp, { recursive: true, force: true });
