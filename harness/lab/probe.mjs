@@ -72,7 +72,7 @@ async function cdnBytes(rel) {
 }
 // The cache stores files under hashed names, but three.module.min.js imports "./three.core.js" (r186: or .min.js) by
 // name: lay the pair out under their real names in one directory and import from there.
-async function loadThree() {
+export async function loadThree() {
   const dir = path.join(CACHE_DIR, `probe-three-${THREE_VERSION}`);
   const entry = path.join(dir, "three.module.min.js");
   const ready = path.join(dir, "READY");
@@ -90,7 +90,7 @@ async function loadThree() {
 
 // GLTFLoader and the meshopt decoder for library models, from the same cache. Their bare "three" imports are pointed
 // at the cached three.module.min.js above, so the loader and the model share one THREE.
-async function loadGltfTools() {
+export async function loadGltfTools() {
   const dir = path.join(CACHE_DIR, `probe-three-${THREE_VERSION}`, "addons");
   const ready = path.join(dir, "READY");
   const files = ["loaders/GLTFLoader.js", "utils/BufferGeometryUtils.js", "utils/SkeletonUtils.js", "libs/meshopt_decoder.module.js"];
@@ -261,12 +261,14 @@ async function main() {
   return 0;
 }
 
-main().then(
-  (code) => {
-    process.exitCode = code;
-  },
-  (e) => {
-    console.error(`error: ${e.message}`);
-    process.exitCode = 1;
-  },
-);
+// Run only as a script: harness/library/normalize.mjs imports the loaders above.
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
+  main().then(
+    (code) => {
+      process.exitCode = code;
+    },
+    (e) => {
+      console.error(`error: ${e.message}`);
+      process.exitCode = 1;
+    },
+  );

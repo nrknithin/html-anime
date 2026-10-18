@@ -79,6 +79,10 @@ Shared clip vocabulary: `idle`, `walk`, `run`, `jump`, `attack`, `hit`, `death`,
 
 The first fetch pins `ingest.fetch.sha256`; a later fetch that differs stops with an error. Downloads are cached in `<tmp>/html-anime-library-cache` (`--refetch` skips the cache). Requests go one at a time with a pause. Never work around a bot check: `poly.pizza` (Cloudflare challenge) and Quaternius's Google Drive (quota) are off limits; find the pack on OpenGameArt or itch.io instead.
 
+### `ingest.via`: Blender or glTF as is
+
+By default every source goes through Blender (`"via": "blender"`). A GLB source can instead keep its own nodes, skins, morphs and clips untouched with `"via": "gltf"` (`normalize.mjs`): its rest pose is measured with three.js and the normalization is one added `root` node. Use it when Blender's round trip damages a rig. That happens with meshes parented rigidly to bones, which RobotExpressive has: after Blender its legs sank into its torso. Check the raw source in the lab first if a converted rig looks wrong. On this path textures are not flattened and clip names stay as the source wrote them.
+
 ### Textured sources
 
 KayKit's gradient atlas, Kenney's colour map and Poly Haven photos are textures, and the cel look has no textures. `convert.py` turns every textured material into flat ones: each face takes the texel at its UV centroid, the faces of one source material are clustered into at most `ingest.maxColors` colours (default 12, k-means, deterministic), and each cluster becomes a material named `<material>#rrggbb`. ingest lists them in `sourceMaterials`; map each to a role like any other material (several greys of one armour all go to `steel`).
