@@ -7,6 +7,10 @@ description: Build procedural three.js models for html-anime films (characters, 
 
 A model is code: rings, tubes and pivots, two tones and an ink hull, posed from literal tables. It is built against a measured reference photo in the lab, one shot at a time, until it reads as the subject at thumbnail size. Seven case studies (horse, ox, frog, dragon, knight, heroine, AE86) took 17-32 logged trials each. This skill is what they learned; a wolf built from it alone took 6 (`models/wolf.js`, references/subjects/quadrupeds.md).
 
+## Library first
+
+Most subjects already exist as artist-made, rigged models in `models/library/` (catalog: `models/CATALOG.md`; pipeline and contract: `harness/library/README.md`). Use one when it fits: it is sculpted and animated, and the pipeline gives it the same two tones and ink. Ingesting a new one (free licences only: CC0, or CC-BY credited in `CREDITS.md`) is a recipe in its `meta.json` and three commands, not a build. Build a code model, as below, for what no library has or for what code does best: morphs (the frog's puff), anime-specific subjects, a hero that must match a design.
+
 ## Model or paint
 
 Model it when the subject changes angle in the shot, takes a dolly, or poses in depth. If it always faces the lens, paint it flat in SVG (`skills/html-anime-cel/SKILL.md`). Start from `models/` when a model there is close: re-pose or re-colour it before building a new one. The 3D layer itself (canvas, shader, drawing on `hf-seek`) is `skills/html-anime-3d/SKILL.md`.

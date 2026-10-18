@@ -28,6 +28,7 @@ const USAGE = `usage: node harness/lab/probe.mjs --model <path> [--pose <name> |
   --model <path>   model module (repo-relative like models/ox.js, or any file path; relative paths resolve against the repo root)
   --pose <name>    one pose (default rest)
   --poses <list>   several poses, or "all" for every name in meta.poses
+  --clip <name>    library models: probe n frames of a clip [--frames n, default 8]
   --json           one JSON object instead of text
   --lax            contract violations (Math.random, imports ...) warn instead of fail
 
@@ -41,7 +42,7 @@ function parseArgs(argv) {
     if (!a.startsWith("--")) throw new Error(`unexpected argument "${a}" (flags start with --)`);
     const eq = a.indexOf("=");
     const key = a.slice(2, eq < 0 ? undefined : eq).replace(/-([a-z])/g, (_, c) => c.toUpperCase());
-    if (!["model", "pose", "poses", "json", "lax", "help"].includes(key)) throw new Error(`unknown option ${a.split("=")[0]}\n\n${USAGE}`);
+    if (!["model", "pose", "poses", "json", "lax", "help", "clip", "frames"].includes(key)) throw new Error(`unknown option ${a.split("=")[0]}\n\n${USAGE}`);
     if (["json", "lax", "help"].includes(key)) out[key] = eq < 0 ? true : !["0", "false", "no", "off"].includes(a.slice(eq + 1).toLowerCase());
     else if (eq >= 0) out[key] = a.slice(eq + 1);
     else if (i + 1 < argv.length && !argv[i + 1].startsWith("--")) out[key] = argv[++i];
@@ -85,6 +86,39 @@ async function loadThree() {
     await fsp.writeFile(ready, "ok");
   }
   return import(pathToFileURL(entry).href);
+}
+
+// GLTFLoader and the meshopt decoder for library models, from the same cache. Their bare "three" imports are pointed
+// at the cached three.module.min.js above, so the loader and the model share one THREE.
+async function loadGltfTools() {
+  const dir = path.join(CACHE_DIR, `probe-three-${THREE_VERSION}`, "addons");
+  const ready = path.join(dir, "READY");
+  const files = ["loaders/GLTFLoader.js", "utils/BufferGeometryUtils.js", "utils/SkeletonUtils.js", "libs/meshopt_decoder.module.js"];
+  if (!fs.existsSync(ready)) {
+    for (const f of files) {
+      const text = (await cdnBytes(`npm/three@${THREE_VERSION}/examples/jsm/${f}`)).toString("utf8");
+      const up = "../".repeat(f.split("/").length);
+      await fsp.mkdir(path.join(dir, path.dirname(f)), { recursive: true });
+      await fsp.writeFile(path.join(dir, f), text.replace(/from\s*(["'])three\1/g, `from "${up}three.module.min.js"`));
+    }
+    await fsp.writeFile(ready, "ok");
+  }
+  const [{ GLTFLoader }, { MeshoptDecoder }] = await Promise.all(files.slice(0, 1).concat(files[3]).map((f) => import(pathToFileURL(path.join(dir, f)).href)));
+  return { GLTFLoader, MeshoptDecoder };
+}
+
+// A library entry (models/library/<id>/meta.json + its GLB) as a module-shaped { meta, build }, like a code model.
+async function loadLibrary(metaFile) {
+  const lmeta = JSON.parse(await fsp.readFile(metaFile, "utf8"));
+  const glb = await fsp.readFile(path.join(path.dirname(metaFile), lmeta.file || "model.glb"));
+  const { GLTFLoader, MeshoptDecoder } = await loadGltfTools();
+  await MeshoptDecoder.ready;
+  const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
+  const gltf = await new Promise((resolve, reject) => loader.parse(glb.buffer.slice(glb.byteOffset, glb.byteOffset + glb.length), "", resolve, reject));
+  const { buildLibrary } = await import("./library.js");
+  const poses = [...new Set(["rest", ...(lmeta.poses || []), ...Object.keys(lmeta.poseDefs || {})])];
+  const meta = { ...lmeta, poses };
+  return { meta, build: (T, k, colors) => buildLibrary(T, k, gltf, meta, colors) };
 }
 
 // ---------------------------------------------------------------- the model
@@ -158,7 +192,8 @@ async function main() {
   if (!opts.model) throw new Error("--model is required");
   const t0 = performance.now();
   const tries = [resolveFromRoot(ROOT, opts.model), path.resolve(process.cwd(), fixPath(opts.model))];
-  const file = tries.find((f) => fs.existsSync(f) && fs.statSync(f).isFile());
+  const lib = tries.map((d) => path.join(d, "meta.json")).find((f) => fs.existsSync(f));
+  const file = lib || tries.find((f) => fs.existsSync(f) && fs.statSync(f).isFile());
   if (!file) throw new Error(`model not found: ${opts.model}\n  tried ${tries.join("\n        ")}`);
 
   const warnings = [];
@@ -172,7 +207,7 @@ async function main() {
     warnings.push("could not load harness/compile.js: script and color checks skipped");
   }
   const tLoad = performance.now() - t0;
-  const mod = await loadModel(file, !opts.lax, warnings);
+  const mod = /\.json$/i.test(file) ? await loadLibrary(file) : await loadModel(file, !opts.lax, warnings);
   const meta = checkMeta(mod, SCRIPTS, warnings);
   const ink = (SCRIPTS && SCRIPTS[meta.script] && SCRIPTS[meta.script].colors.ink) || "#101628";
   const kit = makeKit(THREE, { mode: "cel", ink });
@@ -190,6 +225,12 @@ async function main() {
 
   let names = [opts.pose || "rest"];
   if (opts.poses) names = opts.poses === "all" ? [...meta.poses] : String(opts.poses).split(",").map((s) => s.trim()).filter(Boolean);
+  if (opts.clip) {
+    // --clip <name> [--frames n]: n evenly spaced frames of a library clip (default 8)
+    if (!built.clips || !(opts.clip in built.clips)) throw new Error(`--clip: no clip "${opts.clip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (only library models have clips)"}`);
+    const n = Number(opts.frames) > 0 ? Number(opts.frames) : 8;
+    names = Array.from({ length: n }, (_, k) => `${opts.clip}@${+((built.clips[opts.clip] * k) / n).toFixed(4)}`);
+  }
   if (!names.length) throw new Error("--poses is empty");
 
   // Contract checks are against the rest pose, whatever poses are probed.
@@ -201,7 +242,7 @@ async function main() {
   }
   contractWarnings(measure(THREE, built.root), meta, warnings);
   const reports = names.map((n) => {
-    if (!meta.poses.includes(n)) warnings.push(`pose "${n}" is not listed in meta.poses (${meta.poses.join(", ")})`);
+    if (!meta.poses.includes(n) && !(built.clips && /@-?[\d.]+$/.test(n))) warnings.push(`pose "${n}" is not listed in meta.poses (${meta.poses.join(", ")})`);
     const r = probePose(THREE, built, n, meta.height);
     if (r.minY < -0.02 * meta.height) info.push(`pose "${n}" is sunk: lowest point ${(r.minY * 1000).toFixed(1)} mm (${(r.minY / meta.height * 100).toFixed(1)} % of meta.height) is below y=0`);
     return r;

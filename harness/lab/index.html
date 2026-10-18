@@ -517,6 +517,10 @@
           hide: str("hide"),
           only: str("only"),
           montage: str("montage"),
+          clip: str("clip"),
+          at: num("at", 0),
+          frames: num("frames", 0),
+          strip: str("strip"),
         };
         const list = (v) => (v || "").split(",").map((t) => t.trim()).filter(Boolean);
         const montage = list(P.montage);
@@ -569,20 +573,46 @@
         }
 
         // The model: fetch the source once to enforce the no-clock, no-import rules, then import it.
+        // A library model is its meta.json (models/library/<id>/meta.json): the GLB beside it goes through GLTFLoader
+        // and library.js, which returns the same { root, joints, pose } as a code model's build().
         const modelUrl = /^[a-z]+:\/\//i.test(P.model) ? P.model : "/" + P.model.replace(/^\/+/, "");
         const res = await fetch(modelUrl, { cache: "no-store" });
         if (!res.ok) throw new Error(`model not found: ${modelUrl} (HTTP ${res.status})`);
-        const found = scanSource(await res.text());
-        if (found.length) {
-          const text = `${modelUrl} uses ${found.join(", ")}: models are deterministic, procedural, and take THREE and kit as arguments`;
-          if (P.strict) throw new Error(text);
-          warnings.push(text);
-        }
+        const isLibrary = /\.json(\?|$)/i.test(modelUrl);
         let mod;
-        try {
-          mod = await import(modelUrl + (modelUrl.includes("?") ? "&" : "?") + "lab=1");
-        } catch (e) {
-          throw rethrow(e, "model failed to load: ");
+        if (isLibrary) {
+          let lmeta;
+          try {
+            lmeta = await res.json();
+          } catch (e) {
+            throw rethrow(e, `${modelUrl} is not valid JSON: `);
+          }
+          const [{ GLTFLoader }, { MeshoptDecoder }, { buildLibrary }] = await Promise.all([
+            import("three/addons/loaders/GLTFLoader.js"),
+            import("three/addons/libs/meshopt_decoder.module.js"),
+            import("./library.js"),
+          ]);
+          const glbUrl = new URL(lmeta.file || "model.glb", new URL(modelUrl, location.href)).href;
+          let gltf;
+          try {
+            gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(glbUrl);
+          } catch (e) {
+            throw rethrow(e, `could not load ${glbUrl}: `);
+          }
+          const poses = [...new Set(["rest", ...(lmeta.poses || []), ...Object.keys(lmeta.poseDefs || {})])];
+          mod = { meta: { ...lmeta, poses }, build: (T, k, colors) => buildLibrary(T, k, gltf, { ...lmeta, poses }, colors) };
+        } else {
+          const found = scanSource(await res.text());
+          if (found.length) {
+            const text = `${modelUrl} uses ${found.join(", ")}: models are deterministic, procedural, and take THREE and kit as arguments`;
+            if (P.strict) throw new Error(text);
+            warnings.push(text);
+          }
+          try {
+            mod = await import(modelUrl + (modelUrl.includes("?") ? "&" : "?") + "lab=1");
+          } catch (e) {
+            throw rethrow(e, "model failed to load: ");
+          }
         }
         const meta = checkMeta(mod, SCRIPTS, warnings);
 
@@ -618,12 +648,30 @@
         if (P.only && !(built.joints[P.only] && built.joints[P.only].isObject3D)) throw new Error(`--only: unknown joint "${P.only}". Valid joints: ${Object.keys(built.joints).join(", ")}`);
         if (P.focus && !(built.joints[P.focus] && built.joints[P.focus].isObject3D)) throw new Error(`--focus: unknown joint "${P.focus}". Valid joints: ${Object.keys(built.joints).join(", ")}`);
 
+        // --clip <name> [--at s]: one frame of a library clip; --frames n: a montage of n frames across the clip.
+        if (P.clip) {
+          if (!built.clips || !(P.clip in built.clips)) throw new Error(`--clip: no clip "${P.clip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (only library models have clips)"}`);
+          const d = built.clips[P.clip];
+          if (P.frames > 1) {
+            montage.length = 0;
+            for (let k = 0; k < P.frames; k++) montage.push(`${P.clip}@${+((d * k) / P.frames).toFixed(4)}`);
+            P.views = [P.views[0]];
+          } else P.pose = `${P.clip}@${P.at}`;
+        }
+        // --strip <clip>: after the views (in the asked pose), a row of --frames (default 4) frames of that clip in the
+        // `left` view, all at one scale: the library preview.png.
+        const strip = [];
+        if (P.strip && !montage.length) {
+          if (!built.clips || !(P.strip in built.clips)) throw new Error(`--strip: no clip "${P.strip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (only library models have clips)"}`);
+          const n = P.frames > 0 ? P.frames : 4;
+          for (let k = 0; k < n; k++) strip.push(`${P.strip}@${+((built.clips[P.strip] * k) / n).toFixed(4)}`);
+        }
         // Contract checks are against the rest pose with nothing hidden, whatever pose was asked for.
-        const poseList = montage.length ? montage : [P.pose];
+        const poseList = montage.length ? montage : [P.pose, ...strip];
         setPose(meta.poses.includes("rest") ? "rest" : poseList[0]);
         contractWarnings(measure(THREE, built.root), meta, warnings);
         const per = poseList.map((name) => {
-          if (!meta.poses.includes(name)) warnings.push(`pose "${name}" is not listed in meta.poses (${meta.poses.join(", ")})`);
+          if (!meta.poses.includes(name) && !(built.clips && /@-?[\d.]+$/.test(name))) warnings.push(`pose "${name}" is not listed in meta.poses (${meta.poses.join(", ")})`);
           doPose(name);
           const Mi = measure(THREE, built.root);
           const jp = jointPositions(THREE, built.joints);
@@ -656,7 +704,10 @@
         const edge = Boolean(img) && P.refMode === "edge";
         const items = montage.length
           ? per.map((p) => ({ kind: "view", name: P.views[0], pose: p.name, jpos: p.jpos, fc: P.focus ? p.jpos[P.focus] : null }))
-          : P.views.map((name) => ({ kind: "view", name, jpos: per[0].jpos, fc: P.focus ? per[0].jpos[P.focus] : null }));
+          : [
+              ...P.views.map((name) => ({ kind: "view", name, pose: P.pose, jpos: per[0].jpos, fc: P.focus ? per[0].jpos[P.focus] : null })),
+              ...strip.map((pose, i) => ({ kind: "view", name: "left", pose, strip: true, jpos: per[i + 1].jpos, fc: null })),
+            ];
         if (img && P.refMode === "beside") items.splice(P.views.indexOf(P.refView) + 1, 0, { kind: "ref", name: "ref" });
 
         const extras = [];
@@ -719,7 +770,7 @@
           renderer.setScissorTest(true);
           for (const c of cells) {
             if (c.kind !== "view" || (edge && c === refCell)) continue;
-            if (montage.length) doPose(c.pose);
+            if (montage.length || strip.length) doPose(c.pose);
             kit.resolution.set(c.w, c.h); // hull thickness stays in pixels per viewport
             const y = H - c.y - c.h;
             renderer.setViewport(c.x, y, c.w, c.h);
@@ -750,7 +801,7 @@
             if (c.kind === "view") {
               const refHere = img && P.refMode !== "beside" && c === refCell;
               const sub = refHere ? (edge ? "+ ref edge" : `+ ref ${fmt(P.refOpacity)}`) + (P.refFlip ? " flipped" : "") : "";
-              if (montage.length) paintLabel(fg, c, c.pose, c.name);
+              if (montage.length || c.strip) paintLabel(fg, c, c.pose, c.name);
               else paintLabel(fg, c, c.name, sub);
             } else paintLabel(fg, c, "ref", `${P.refView}${P.refFlip ? " flipped" : ""}`);
             if (c.frame) paintScaleBar(fg, c, mpp);
@@ -798,6 +849,31 @@
         };
 
         draw();
+        // Palette check (cel): of the model's non-edge pixels (opaque, with 4 identical neighbours), the share that are
+        // exact hexes of the script. Antialiased edges are left out; the plan's bar is 99 %.
+        if (P.mode === "cel" && SCRIPTS && SCRIPTS[meta.script]) {
+          const gl = renderer.getContext();
+          const [W, H] = [gl.drawingBufferWidth, gl.drawingBufferHeight];
+          const px = new Uint8Array(W * H * 4);
+          gl.readPixels(0, 0, W, H, gl.RGBA, gl.UNSIGNED_BYTE, px);
+          const allowed = new Set(Object.values(SCRIPTS[meta.script].colors).map((h) => parseInt(h.slice(1), 16)));
+          const at = (i) => (px[i * 4] << 16) | (px[i * 4 + 1] << 8) | px[i * 4 + 2];
+          const off = new Map();
+          let [checked, ok] = [0, 0];
+          for (let y = 1; y < H - 1; y++)
+            for (let x = 1; x < W - 1; x++) {
+              const i = y * W + x;
+              if (px[i * 4 + 3] !== 255) continue;
+              const c = at(i);
+              if ([i - 1, i + 1, i - W, i + W].some((j) => px[j * 4 + 3] !== 255 || at(j) !== c)) continue;
+              checked++;
+              if (allowed.has(c)) ok++;
+              else off.set(c, (off.get(c) || 0) + 1);
+            }
+          const offenders = [...off].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([c, n]) => [`#${c.toString(16).padStart(6, "0")}`, n]);
+          window.__labInfo.palette = { checked, onScript: ok, ratio: checked ? Math.round((ok / checked) * 10000) / 10000 : 1, offenders };
+          if (checked && ok / checked < 0.99) warnings.push(`only ${((ok / checked) * 100).toFixed(1)} % of non-edge pixels are script hexes (off: ${offenders.map((o) => o[0]).join(" ")})`);
+        }
         const shaderErrors = consoleErrors.filter((m) => /shader|program|webgl/i.test(m));
         if (shaderErrors.length) throw new Error("WebGL error while drawing:\n" + shaderErrors[0].slice(0, 600));
         window.__labInfo.ms = Math.round(performance.now() - t0);

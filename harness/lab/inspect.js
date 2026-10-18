@@ -115,6 +115,9 @@ export function jointWarning(joints) {
 
 // ---------------------------------------------------------------- measuring
 const isShown = (o) => o.isMesh && !o.userData.isHull && !o.userData.labHidden && o.geometry && o.geometry.attributes.position;
+// Vertex i of a mesh in world space. Skinned and morphed meshes (library models) are measured where they are drawn.
+const deformed = (o) => o.isSkinnedMesh || (o.morphTargetInfluences && o.morphTargetInfluences.some((w) => w));
+const worldVertex = (o, i, v) => (deformed(o) ? o.getVertexPosition(i, v) : v.fromBufferAttribute(o.geometry.attributes.position, i)).applyMatrix4(o.matrixWorld);
 
 /** World-space vertices of the visible, non-hull meshes: bbox, triangle count, projection fits. */
 export function measure(THREE, root) {
@@ -136,7 +139,7 @@ export function measure(THREE, root) {
   for (const o of list) {
     const pos = o.geometry.attributes.position;
     for (let i = 0; i < pos.count; i++) {
-      v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld);
+      worldVertex(o, i, v);
       pts[k++] = v.x;
       pts[k++] = v.y;
       pts[k++] = v.z;
@@ -197,7 +200,7 @@ export function meshStats(THREE, root) {
       const pos = g.attributes.position;
       let [lo, hi] = [Infinity, -Infinity];
       for (let i = 0; i < pos.count; i++) {
-        v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld);
+        worldVertex(o, i, v);
         if (v.y < lo) lo = v.y;
         if (v.y > hi) hi = v.y;
       }
@@ -273,7 +276,7 @@ export function subtreeRadius(THREE, joint) {
   joint.traverseVisible((o) => {
     if (!isShown(o)) return;
     const pos = o.geometry.attributes.position;
-    for (let i = 0; i < pos.count; i++) r = Math.max(r, v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld).distanceTo(c));
+    for (let i = 0; i < pos.count; i++) r = Math.max(r, worldVertex(o, i, v).distanceTo(c));
   });
   return r;
 }

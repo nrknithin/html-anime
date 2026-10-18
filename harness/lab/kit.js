@@ -25,11 +25,23 @@ export function makeKit(THREE, { mode = "cel", ink = "#101628", light = [0.62, 0
     return new THREE.Vector3(((h >> 16) & 255) / 255, ((h >> 8) & 255) / 255, (h & 255) / 255);
   };
 
+  // The three.js skinning and morph chunks are inert on a plain Mesh (no USE_SKINNING / USE_MORPHTARGETS define),
+  // so one shader serves code models and rigged library models (SkinnedMesh) alike.
   const TONE_VS = `
+    #include <common>
+    #include <morphtarget_pars_vertex>
+    #include <skinning_pars_vertex>
     varying vec3 vN;
     void main() {
-      vN = transpose(inverse(mat3(modelMatrix))) * normal;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      #include <beginnormal_vertex>
+      #include <morphnormal_vertex>
+      #include <skinbase_vertex>
+      #include <skinnormal_vertex>
+      vN = transpose(inverse(mat3(modelMatrix))) * objectNormal;
+      #include <begin_vertex>
+      #include <morphtarget_vertex>
+      #include <skinning_vertex>
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
     }`;
   const TONE_FS = `
     uniform vec3 base, shade, light;
@@ -37,13 +49,23 @@ export function makeKit(THREE, { mode = "cel", ink = "#101628", light = [0.62, 0
     varying vec3 vN;
     void main() { gl_FragColor = vec4(dot(normalize(vN), light) > threshold ? base : shade, 1.0); }`;
   // Inverted hull, pushed out a fixed number of pixels in clip space so near and far lines match.
+  // The hull normal goes through the same skinning as the surface, so the outline follows a walking leg.
   const HULL_VS = `
+    #include <common>
+    #include <morphtarget_pars_vertex>
+    #include <skinning_pars_vertex>
     attribute vec3 hullNormal;
     uniform float px;
     uniform vec2 res;
     void main() {
-      vec4 c = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      vec2 d = (projectionMatrix * vec4(normalMatrix * hullNormal, 0.0)).xy * res;
+      vec3 objectNormal = hullNormal;
+      #include <skinbase_vertex>
+      #include <skinnormal_vertex>
+      #include <begin_vertex>
+      #include <morphtarget_vertex>
+      #include <skinning_vertex>
+      vec4 c = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
+      vec2 d = (projectionMatrix * vec4(normalMatrix * objectNormal, 0.0)).xy * res;
       c.xy += d / max(length(d), 1e-4) * (2.0 * px / res) * c.w;
       gl_Position = c;
     }`;
@@ -124,7 +146,15 @@ export function makeKit(THREE, { mode = "cel", ink = "#101628", light = [0.62, 0
         side: THREE.BackSide,
         uniforms: { ink: { value: rgb(c) }, px: { value: px }, res: { value: resolution } },
       }));
-    const hull = new THREE.Mesh(hullNormals(mesh.geometry), mat);
+    let hull;
+    if (mesh.isSkinnedMesh) {
+      // Same skeleton and bind matrix: the hull deforms with the mesh it outlines.
+      hull = new THREE.SkinnedMesh(hullNormals(mesh.geometry), mat);
+      hull.bind(mesh.skeleton, mesh.bindMatrix);
+      hull.bindMode = mesh.bindMode;
+    } else hull = new THREE.Mesh(hullNormals(mesh.geometry), mat);
+    if (mesh.morphTargetInfluences) hull.morphTargetInfluences = mesh.morphTargetInfluences; // shared array: morphs move both
+    if (mesh.morphTargetDictionary) hull.morphTargetDictionary = mesh.morphTargetDictionary;
     hull.name = "hull";
     hull.userData.isHull = true; // the lab leaves hulls out of bbox, triangle counts and reference fits
     mesh.add(hull);

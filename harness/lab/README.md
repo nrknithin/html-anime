@@ -99,6 +99,10 @@ node harness/lab/shoot.mjs --model models/knight.js --views three4,front --only 
 node harness/lab/shoot.mjs --model models/frog.js --montage rest,puff-1,puff-2,puff-3 --out renders/puff.png
 ```
 
+## Library models
+
+`--model models/library/<id>` (the folder or its `meta.json`) loads a library entry: its GLB through GLTFLoader and `library.js`, cel-shaded with the kit's skinned shader and hull. Every flag works. Poses are `rest`, a `meta.poseDefs` name, or `<clip>@<seconds>`; `--clip run --at 0.4` is one frame, `--clip run --frames 6` a montage across the clip, `--strip run` adds a row of clip frames after the views. `--info` adds `palette` (share of non-edge pixels that are exact script hexes) for any cel shot. `probe.mjs` takes the same folder, plus `--clip <name> --frames n`. The pipeline that makes entries is `harness/library/README.md`.
+
 ## probe: numbers without a picture
 
 `node harness/lab/probe.mjs --model models/ox.js [--pose stomp | --poses all | --poses rest,walk-a] [--json] [--lax]` (or `npm run probe -- --model ...`). No browser: it loads three.js from the lab's CDN cache (fetching it there when missing), builds the model and applies each pose, about 0.2 s for the whole run. Per pose it prints the bbox (m), the lowest y, total triangles and the 10 heaviest meshes (by object path, `root>joint>...>Mesh#i`), every joint's world position (m, 3 decimals), the contacts (meshes whose lowest point is within 5 mm of y=0), then the same contract warnings the lab prints on stderr. `--json` prints one JSON object (`poses[]` with `bbox`, `minY`, `triangles`, `topMeshes`, `joints`, `contacts`, plus `warnings`). Exit code 1 on a contract error.
@@ -138,7 +142,7 @@ Rules the lab enforces:
 
 - Errors (exit 1, message on stderr and on the page, `window.__labError`): `meta` or `build` missing or malformed; `meta.script` not in SCRIPTS; the source uses `Math.random`, `Date`, `performance.now`, `requestAnimationFrame`, `Clock`, or any `import` (comments are ignored; `--lax` makes this a warning); `build` or `pose` throws; no meshes.
 - Warnings: a color that is not on the script; `meta.height` more than 2% (or 1 cm) off the top of the rest pose; the model does not stand on y=0; it is more than 15% off x=0 or z=0; the pose is not in `meta.poses`; no `rest` pose.
-- Build with plain `Mesh` objects (no `InstancedMesh`, `SkinnedMesh`, morph targets): the lab measures their vertices for bbox, fits and the reference match.
+- Build with plain `Mesh` objects (no `InstancedMesh`, `SkinnedMesh`, morph targets) in code models. (Library models are skinned; the lab measures skinned and morphed vertices where they are drawn.)
 - `pose(name)` must set every joint it uses, absolutely (a table per pose, a rest table underneath), so poses do not depend on call order. When `meta.poses` lists `rest`, the lab applies it first (the height, ground and centering checks are against it), then the pose you asked for.
 - Colors are raw sRGB hex, exact in the PNG. Shade pairs both come from the script. Hull pixels are 5 at any cell size; `kit.resolution` is updated per cell.
 

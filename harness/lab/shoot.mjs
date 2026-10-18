@@ -33,7 +33,8 @@ function withTimeout(promise, ms, message) {
 
 const USAGE = `usage: node harness/lab/shoot.mjs --model <path> [options]
 
-  --model <path>        model module (repo-relative like models/horse.js, or any file path)
+  --model <path>        model module (repo-relative like models/horse.js, or any file path), or a library
+                        entry: its folder or meta.json (models/library/horse)
   --views <list>        front,back,left,right,top,three4,hero          (default front,left,three4,top)
   --mode <m>            cel | clay | sil                               (default cel)
   --pose <name>         a pose from the model's meta.poses             (default rest)
@@ -52,6 +53,9 @@ const USAGE = `usage: node harness/lab/shoot.mjs --model <path> [options]
   --hide <a,b>          hide objects/joints by name, with their subtrees
   --only <joint>        show only that joint's subtree
   --montage <p1,p2,..>  one cell per pose, first view, one shared scale
+  --clip <name>         library models: pose the model at one frame of a clip [--at <seconds>, default 0]
+  --frames <n>          with --clip: a montage of n frames across the clip (first view, one scale)
+  --strip <clip>        after the views, a row of --frames (default 4) frames of that clip in the left view
   --batch <shots.json>  JSON array of shots (same keys as flags, camelCase), one browser session
   --swiftshader         software GL (default: Chrome picks; falls back to it if WebGL fails)
   --lax                 contract violations (Math.random, imports ...) warn instead of fail
@@ -69,7 +73,7 @@ const BOOL = new Set(["refFlip", "swiftshader", "serve", "help", "lax", "noRefBo
 const KNOWN = new Set([
   "model", "views", "mode", "pose", "out", "size", "ref", "refView", "refMode", "refOpacity", "refCrop", "refFlip",
   "batch", "swiftshader", "lax", "cols", "mpp", "bg", "noRefBox", "serve", "port", "help", "verbose", "info", "timeout", "joints", "jointNames",
-  "refScale", "refOffset", "focus", "radius", "light", "hide", "only", "montage",
+  "refScale", "refOffset", "focus", "radius", "light", "hide", "only", "montage", "clip", "at", "frames", "strip",
 ]);
 const camel = (s) => s.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
 
@@ -93,7 +97,7 @@ const truthy = (v) => v === true || ["1", "true", "yes", "on"].includes(String(v
 // ------------------------------------------------------------------ files, mounts, refs
 const MIME = {
   ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8",
-  ".json": "application/json; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml",
+  ".json": "application/json; charset=utf-8", ".glb": "model/gltf-binary", ".bin": "application/octet-stream", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml",
   ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".gif": "image/gif",
   ".avif": "image/avif", ".bmp": "image/bmp", ".txt": "text/plain; charset=utf-8", ".map": "application/json",
   ".woff": "font/woff", ".woff2": "font/woff2", ".wasm": "application/wasm",
@@ -114,6 +118,13 @@ const inside = (dir, file) => {
 // Relative paths resolve against the repo root; --model, --ref and --batch also fall back to the current directory.
 function resolveOut(spec) {
   return resolveFromRoot(ROOT, spec);
+}
+// A library entry is a folder with meta.json (and its GLB): the page loads the meta.json.
+function resolveModel(spec) {
+  const fixed = fixPath(spec);
+  for (const dir of [path.resolve(ROOT, fixed), path.resolve(process.cwd(), fixed)])
+    if (isFile(path.join(dir, "meta.json"))) return path.join(dir, "meta.json");
+  return resolveFile(spec, "model");
 }
 function resolveFile(spec, what) {
   spec = fixPath(spec);
@@ -202,8 +213,11 @@ function createServer(registry) {
         return file ? sendFile(res, file) : void res.writeHead(404).end("no such ref");
       }
       if ((m = /^\/__m\/(\d+)\/(.+)$/.exec(p))) {
-        const file = registry.models[Number(m[1])]; // a model from outside the repo: only that one file is served
-        return file && path.basename(file) === m[2] ? sendFile(res, file) : void res.writeHead(404).end("not found");
+        const file = registry.models[Number(m[1])]; // a model from outside the repo: only that one file is served,
+        if (file && path.basename(file) === m[2]) return sendFile(res, file);
+        // or, for a library entry (meta.json), the files directly beside it (its GLB)
+        if (file && path.basename(file) === "meta.json" && !m[2].includes("/")) return sendFile(res, path.join(path.dirname(file), m[2]));
+        return void res.writeHead(404).end("not found");
       }
       if (p.startsWith("/cdn/")) {
         const rel = p.slice("/cdn/".length) + (new URL(req.url, "http://lab").search || "");
@@ -253,6 +267,17 @@ async function warmCdn(cdnGet) {
 }
 
 // ------------------------------------------------------------------ the browser
+// Playwright's Chromium (PLAYWRIGHT_BROWSERS_PATH, e.g. /opt/pw-browsers/chromium-1194/chrome-linux/chrome), newest first.
+function playwrightChromium() {
+  const dir = process.env.PLAYWRIGHT_BROWSERS_PATH || "/opt/pw-browsers";
+  try {
+    return fs.readdirSync(dir).filter((d) => /^chromium-\d+$/.test(d)).sort((a, b) => parseInt(b.slice(9)) - parseInt(a.slice(9)))
+      .flatMap((d) => [path.join(dir, d, "chrome-linux64", "chrome"), path.join(dir, d, "chrome-linux", "chrome")]);
+  } catch {
+    return [];
+  }
+}
+
 function findBrowser() {
   const env = process.env.CHROME_PATH;
   if (env) {
@@ -277,6 +302,7 @@ function findBrowser() {
   }[process.platform] || [
     ...["google-chrome", "google-chrome-stable", "chromium", "chromium-browser", "microsoft-edge", "microsoft-edge-stable"].map(onPath),
     "/usr/bin/google-chrome", "/usr/bin/chromium", "/usr/bin/chromium-browser", "/snap/bin/chromium", "/usr/bin/microsoft-edge",
+    ...playwrightChromium(),
   ];
   const found = list.filter(Boolean).find(isFile);
   if (!found) throw new Error("no Chrome or Edge found: install one or set CHROME_PATH to its executable");
@@ -383,6 +409,7 @@ async function launchBrowser({ swiftshader = false } = {}) {
     "--hide-scrollbars", "--mute-audio", "--force-device-scale-factor=1", "--ignore-gpu-blocklist", "--password-store=basic",
   ];
   if (swiftshader) args.push("--use-angle=swiftshader", "--enable-unsafe-swiftshader");
+  if (process.getuid?.() === 0) args.push("--no-sandbox"); // Chrome refuses to start as root (containers, CI) with its sandbox on
   args.push("about:blank");
   const child = spawn(exe, args, { stdio: ["ignore", "ignore", "pipe"], windowsHide: true });
   const b = { child, profile, exe, cdp: null, closed: false, swiftshader, tail: "" };
@@ -480,6 +507,10 @@ function pageUrl(origin, s) {
   set("hide", Array.isArray(s.hide) ? s.hide.join(",") : s.hide);
   set("only", s.only);
   set("montage", Array.isArray(s.montage) ? s.montage.join(",") : s.montage);
+  set("clip", s.clip);
+  set("at", s.at);
+  set("frames", s.frames);
+  set("strip", s.strip);
   set("cols", s.cols);
   set("mpp", s.mpp);
   set("bg", s.bg);
@@ -571,7 +602,7 @@ function normalizeShot(raw, index, registry) {
   // Model: inside the repo it is served at its own path, anywhere else under /__m/<n>/
   if (remote(s.model)) s.modelUrl = s.model;
   else {
-    const file = resolveFile(String(s.model), "model");
+    const file = resolveModel(String(s.model));
     s.modelFile = file;
     if (inside(ROOT, file)) s.modelUrl = "/" + path.relative(ROOT, file).split(path.sep).join("/");
     else {
@@ -662,7 +693,7 @@ async function main() {
     let failed = 0;
     const checked = new Map();
     for (const s of shots) {
-      if (s.modelFile) {
+      if (s.modelFile && /\.m?js$/i.test(s.modelFile)) {
         if (!checked.has(s.modelFile)) checked.set(s.modelFile, syntaxCheck(s.modelFile));
         const err = checked.get(s.modelFile);
         if (err) {
