@@ -59,7 +59,8 @@ Look at every PNG. One model per branch and per PR; the PR carries `meta.json`, 
   "ingest": {
     "fetch": { "type": "zip", "url": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip" },
     "member": "Farm Animals by @Quaternius/FBX/Horse.fbx",
-    "height": 1.7, "yaw": 0, "drop": [], "keepActions": []
+    "height": 1.7, "yaw": 0, "drop": [], "keepActions": [],
+    "attach": []                       // optional: props parented to bones, see "Props on bones"
   }
   // written by the scripts: file, sha256, bytes, triangles, bones, sourceMaterials, clipInfo, ingest.fetch.sha256, qa
 }
@@ -91,6 +92,23 @@ KayKit's gradient atlas, Kenney's colour map and Poly Haven photos are textures,
 ### Normalizing
 
 `convert.py` puts everything under one `root` node: scaled so the rest pose is `ingest.height` metres tall, turned by `ingest.yaw` degrees (about up) so the face points +Z, the lowest rest point on y = 0 and the bbox centred on x = z = 0. Find the yaw once per pack: shoot the `left` view; the face must point to the image's left. Clip names lose their `Armature|` prefixes and a suffix they all share with the armature's name (`Idle_Rig` -> `Idle`). Before measuring, any action an importer assigned is unassigned and every pose bone cleared, so the exported bones are the measured rest pose; bone display shapes (rig widgets) and render-hidden objects are deleted. Alternative props a pack ships on the rig (KayKit's four shields and three swords) go with `ingest.drop` by object name. A part that shares one mesh with the body (a witch's hat) goes with `ingest.dropMaterials`: every face using those source materials is deleted before measuring.
+
+### Props on bones: `ingest.attach`
+
+Some packs ship a character without what it holds: KayKit's Skeletons rigs come empty-handed, and the blades and shields are separate files meant for the `handslot.r` / `handslot.l` bones. `ingest.attach` puts them on:
+
+```jsonc
+"fetch": { "type": "file", "url": ".../Characters/gltf/Skeleton_Warrior.glb", "extraFiles": [
+  { "url": ".../Assets/gltf/Skeleton_Blade.gltf", "path": "Assets/gltf/Skeleton_Blade.gltf" },
+  { "url": ".../Assets/gltf/Skeleton_Blade.bin", "path": "Assets/gltf/Skeleton_Blade.bin" },
+  { "url": ".../Assets/gltf/skeleton_texture.png", "path": "Assets/gltf/skeleton_texture.png" } ] },
+"attach": [
+  { "file": "Assets/gltf/Skeleton_Blade.gltf", "bone": "handslot.r" },
+  { "file": "Assets/gltf/Skeleton_Shield_Small_A.gltf", "bone": "handslot.l", "offset": [0, 0, 0], "rotation": [0, 0, 0], "scale": 1 }
+]
+```
+
+`file` is a file the entry already fetches, so every prop is sha256-pinned like the model: an `extraFiles` `path` (with its `.bin` and textures), or an `extraMembers` path for a zip. ingest stops on a file it did not fetch. `convert.py` imports each prop (glTF, FBX or OBJ) at the rest pose, before anything is measured, and parents its objects rigidly to the bone (bone parenting, no weights): the prop's origin on the bone's head and the prop file's own axes on the bone's axes, the way an engine hangs a weapon on a hand slot (KayKit's slots are already oriented for it). `offset` (the bone's frame, source units), `rotation` (degrees about the bone's X, Y, Z) and `scale` adjust it. The prop follows every clip, counts in the rest bbox (the height, the ground and the centring include it) and exports with the model. Its materials keep their names, except that one sharing a name with a material already in the model becomes `<name>@<file stem>` (the Skeleton blade's atlas material `skeleton` becomes `skeleton@Skeleton_Blade`, split as usual into `skeleton@Skeleton_Blade#rrggbb`), so its colours map to roles apart from the body's. Look at the attack clip in the `left` and `right` views: the grip sits in the fist and the blade follows the swing. Not on the `"via": "gltf"` path.
 
 ## In the lab
 
@@ -129,9 +147,9 @@ Things only eyes catch, so look at the preview and a `--clip <c> --frames 8` mon
 | file | what |
 |---|---|
 | `ingest.mjs` | fetch, pin, unzip, convert, compress, write facts |
-| `convert.py` | Blender: import FBX / .blend / glTF / OBJ, normalize, export GLB, report |
+| `convert.py` | Blender: import FBX / .blend / glTF / OBJ, attach props to bones, normalize, export GLB, report |
 | `check.mjs` | acceptance checks, `preview.png`, `meta.qa` |
 | `catalog.mjs` | `manifest.json`, `CATALOG.md`, `CREDITS.md`; `--check` fails on stale files or incomplete entries |
-| `library.test.mjs` | zip reader, catalog, entry completeness, no clock in pasted files (`npm test`) |
+| `library.test.mjs` | zip reader, attach arguments, catalog, entry completeness, no clock in pasted files (`npm test`) |
 | `../lab/library.js` | runtime: glTF -> cel model with `pose()` (lab, probe and films share it) |
 | `../lab/kit.js` | the cel and hull shaders, skinning- and morph-aware |
