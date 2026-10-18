@@ -14,6 +14,7 @@ import argparse
 import json
 import math
 import os
+import re
 import sys
 
 import bpy
@@ -153,6 +154,16 @@ def split_textures(objs, max_colors):
     return made
 
 
+def clip_name(name, arms):
+    """'Armature|Armature|Run' -> 'Run'; 'root|idle|Animation Base Layer' (FBX take|layer) -> 'idle'. Drops layer
+    names and leading armature/object names, keeps the last segment that is left."""
+    parts = [p for p in name.split("|") if p]
+    parts = [p for p in parts if not re.fullmatch(r"(animation\s*)?base\s*layer(\.\d+)?", p, re.I)] or parts
+    skip = {"armature", "root", "rig"} | {a.name.lower() for a in arms}
+    keep = [p for p in parts if p.lower() not in skip] or parts
+    return keep[-1] if keep else name
+
+
 def load(src):
     bpy.context.preferences.filepaths.use_scripts_auto_execute = False
     low = src.lower()
@@ -243,7 +254,7 @@ def main():
 
     # "Armature|Armature|Run" (FBX import) -> "Run": clip names are the last segment, kept unique. A suffix every
     # action shares that is an armature's name ("Idle_Rig", glTF import) goes too.
-    names = [act.name.split("|")[-1] for act in bpy.data.actions]
+    names = [clip_name(act.name, arms) for act in bpy.data.actions]
     for arm in arms:
         suf = "_" + arm.name
         if names and all(n.endswith(suf) for n in names):
@@ -253,9 +264,10 @@ def main():
             break
     taken = set()
     for act in list(bpy.data.actions):  # a copy: renaming re-sorts the collection
-        if act.id_root not in {"OBJECT"}:
+        if act.id_root not in {"OBJECT", "KEY"}:
             act.id_root = "OBJECT"  # FBX imports leave it unset, and the glTF exporter then skips the action
-        short = act.name.split("|")[-1] or act.name
+            # (shape-key actions keep "KEY": the exporter pairs them with their mesh, and crashes if they look like objects)
+        short = clip_name(act.name, arms)
         while short in taken:
             short += "_"
         taken.add(short)
