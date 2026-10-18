@@ -189,60 +189,7 @@
     "Death_B": {
       "seconds": 2.6333,
       "loop": false,
-      "lift": [
-        [
-          0,
-          0
-        ],
-        [
-          0.082,
-          0.009
-        ],
-        [
-          0.1641,
-          0.03
-        ],
-        [
-          0.3691,
-          0.123
-        ],
-        [
-          0.4512,
-          0.147
-        ],
-        [
-          0.4922,
-          0.149
-        ],
-        [
-          0.6563,
-          0.123
-        ],
-        [
-          0.8203,
-          0.087
-        ],
-        [
-          1.4355,
-          0.08
-        ],
-        [
-          1.5176,
-          0.099
-        ],
-        [
-          1.7637,
-          0.098
-        ],
-        [
-          1.8867,
-          0.054
-        ],
-        [
-          2.584,
-          0.052
-        ]
-      ]
+      "ground": "clamp"
     },
     "Dodge_Backward": {
       "seconds": 0.4,
@@ -290,7 +237,8 @@
     },
     "Running_A": {
       "seconds": 0.8,
-      "loop": true
+      "loop": true,
+      "ground": "clamp"
     },
     "Sit_Chair_Idle": {
       "seconds": 3.6,
@@ -302,7 +250,8 @@
     },
     "Walking_A": {
       "seconds": 1.0667,
-      "loop": true
+      "loop": true,
+      "ground": "clamp"
     },
     "Walking_Backwards": {
       "seconds": 1.0667,
@@ -325,12 +274,12 @@
         "maxSize": 1.59
       },
       "walk": {
-        "minY": -0.0334,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.59
       },
       "run": {
-        "minY": -0.0223,
+        "minY": 0,
         "touches": true,
         "maxSize": 1.56
       },
@@ -350,7 +299,7 @@
         "maxSize": 1.59
       },
       "death": {
-        "minY": -0.0014,
+        "minY": 0,
         "touches": true,
         "maxSize": 2.44
       },
