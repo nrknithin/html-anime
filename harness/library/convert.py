@@ -270,6 +270,29 @@ def drop_backfaces(objs):
     return gone
 
 
+def keep_materials_apart(objs):
+    """gltf-transform's dedup merges materials whose properties match, names aside, so two parts a source paints
+    the same grey (FBX exports that lose their colours, a kit piece attached beside the body) would end up one
+    material and could not take separate roles. Nudge each repeat's base colour by 1e-4 (invisible, the same hex)
+    so every named material survives; roles map by name, so the colour itself never shows."""
+    seen = {}
+    for o in objs:
+        for slot in o.material_slots:
+            m = slot.material
+            if not m or m.name in seen.values() or not (m.use_nodes and m.node_tree):
+                continue
+            p = next((n for n in m.node_tree.nodes if n.type == "BSDF_PRINCIPLED"), None)
+            if p is None or p.inputs["Base Color"].is_linked:
+                continue
+            col = tuple(p.inputs["Base Color"].default_value)
+            key = tuple(round(c, 6) for c in col)
+            n = sum(1 for k in seen if k[:4] == key)
+            seen[key + (n,)] = m.name
+            if n:
+                r = col[0] + 1e-4 * n if col[0] < 0.5 else col[0] - 1e-4 * n
+                p.inputs["Base Color"].default_value = (r, *col[1:])
+
+
 def load(src):
     bpy.context.preferences.filepaths.use_scripts_auto_execute = False
     low = src.lower()
@@ -610,6 +633,7 @@ def main():
 
     split = split_textures(objs, a.max_colors)
     principled_everywhere()
+    keep_materials_apart(objs)
     mats = {}
     tris = 0
     for o in objs:
