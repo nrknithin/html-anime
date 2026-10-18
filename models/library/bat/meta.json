@@ -1,0 +1,157 @@
+{
+  "id": "bat",
+  "name": "Bat",
+  "category": "creature",
+  "tags": [
+    "animal",
+    "bat",
+    "flying",
+    "night",
+    "monster",
+    "cute",
+    "halloween"
+  ],
+  "style": "low-poly chibi, painted texture flattened to flat colours (Quaternius 2020)",
+  "height": 0.2,
+  "script": "indigo",
+  "colors": {
+    "fur": "#d5e2ff",
+    "furShade": "#1b2d6b",
+    "dark": "#16141c",
+    "darkShade": "#1b2d6b",
+    "glint": "#f6f3ee",
+    "glintShade": "#f6f3ee",
+    "teeth": "#f6f3ee",
+    "teethShade": "#e7eefc",
+    "mouth": "#e23b4a",
+    "mouthShade": "#1b2d6b"
+  },
+  "materials": {
+    "Texture": "glint",
+    "Texture#0d0d10": "dark",
+    "Texture#383c41": "fur",
+    "Texture#434549": "fur",
+    "Texture#2d3036": "fur",
+    "Texture#2f3339": "fur",
+    "Texture#32353b": "fur",
+    "Texture#313439": "fur",
+    "Texture#34383e": "fur",
+    "Texture#292c31": "fur",
+    "Texture#7a7462": "teeth",
+    "Texture#3a0c1d": "mouth",
+    "Texture#24262a": "fur"
+  },
+  "clips": {
+    "idle": "Flying",
+    "fly": "Flying",
+    "attack": "Bite_Front",
+    "hit": "HitRecieve",
+    "death": "Death"
+  },
+  "preview": {
+    "clip": "fly"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Textured Cute Monster Pack (Aug 2020)",
+    "page": "https://opengameart.org/content/textured-cute-monster-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 18 named the Ultimate Animated Animals bat (poly.pizza, behind a Cloudflare challenge; its Google Drive is quota-blocked). Two reachable Quaternius CC0 bats were tried. The 2018 Animated Monster Pack bat (https://opengameart.org/content/lowpoly-animated-monsters) has the stronger bat silhouette, but its eyes hang on a second armature held to the Face bone by a Child Of constraint; with two armatures Blender's glTF exporter writes no actions, and dropping the eye rig leaves the eyes on the floor, so it cannot ship without a pipeline change. This chibi bat from the 2020 Cute Monster Pack comes through whole: a round head-body with bat ears, small wings and fangs. Height 0.2 m puts its wingspan at about 0.37 m, the span of a mid-size real bat (a noctule's is 0.32-0.40 m); the body is chibi-large for that span. The pack has no idle: a bat hovers, so idle and fly both play the Flying flap loop. Ground: Flying only bobs up from its rest low point (0 to 15 mm), so it never sinks and needs no lift (a film raises the bat to its flight height); Death rolls onto its back and sank 10 mm, so it is clamped. Every grey of the painted fur maps to one fur role: the ear-interior greys are speckled across the body too and only added noise."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/cute_animated_monsters_-_aug_2020.zip",
+      "sha256": "844824c04936a9af954ee82011f98ad8c14ba291a20a0dd0b83c172764ba0eb2",
+      "bytes": 10181866,
+      "resolved": "https://opengameart.org/sites/default/files/cute_animated_monsters_-_aug_2020.zip"
+    },
+    "member": "Cute Animated Monsters - Aug 2020/Blends/Bat.blend",
+    "extraMembers": [
+      "Cute Animated Monsters - Aug 2020/Textures/Bat_Texture.png"
+    ],
+    "height": 0.2,
+    "yaw": 0,
+    "memberSha256": "a697ffbc45455336fbee0985391551a9841e14ab2d32b1f4312d1d0cea324684"
+  },
+  "file": "model.glb",
+  "sha256": "b40833cb14a66672cf871415cab2440c841052977189d37391e5305f8a626316",
+  "bytes": 79476,
+  "triangles": 1200,
+  "bones": 15,
+  "sourceMaterials": {
+    "Texture": "#e7e7e7",
+    "Texture#0d0d10": "#0d0d10",
+    "Texture#383c41": "#383c41",
+    "Texture#434549": "#434549",
+    "Texture#2d3036": "#2d3036",
+    "Texture#2f3339": "#2f3339",
+    "Texture#32353b": "#32353b",
+    "Texture#313439": "#313439",
+    "Texture#34383e": "#34383e",
+    "Texture#292c31": "#292c31",
+    "Texture#7a7462": "#7a7462",
+    "Texture#3a0c1d": "#3a0c1d",
+    "Texture#24262a": "#24262a"
+  },
+  "clipInfo": {
+    "Bite_Front": {
+      "seconds": 1.125,
+      "loop": false
+    },
+    "Death": {
+      "seconds": 1.125,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Flying": {
+      "seconds": 1.125,
+      "loop": true
+    },
+    "HitRecieve": {
+      "seconds": 1.125,
+      "loop": false
+    }
+  },
+  "qa": {
+    "height": 0.2,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1200,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.37
+      },
+      "fly": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.37
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.37
+      },
+      "hit": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.37
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.37
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + fly"
+  }
+}
