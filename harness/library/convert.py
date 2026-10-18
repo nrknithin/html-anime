@@ -41,6 +41,7 @@ def parse():
     p.add_argument("--drop", default="", help="comma list of object names to delete (cameras and lights always go)")
     p.add_argument("--keep-actions", default="", help="comma list: export only these actions (default all)")
     p.add_argument("--drop-materials", default="", help="comma list: delete every face using these materials (a hat on the body mesh)")
+    p.add_argument("--drop-backfaces", action="store_true", help="delete the inward copy of each triangle a source ships twice, back to back (double-sided kit models)")
     p.add_argument("--search", default="", help="folder searched by file name for images the source cannot find (a .blend expecting its texture beside it)")
     p.add_argument("--max-colors", type=int, default=12, help="textured materials: at most this many flat colours per material")
     p.add_argument("--attach", action="append", default=[], help='JSON {"file", "bone", "offset", "rotation", "scale"}: a prop parented to a bone (repeatable)')
@@ -236,6 +237,37 @@ def drop_material_faces(objs, names):
         bm.to_mesh(o.data)
         bm.free()
         o.data.update()
+
+
+def drop_backfaces(objs):
+    """Some kits (Kenney's Tower Defense saucers) ship every triangle twice: the same corners, once wound each way, so
+    the model shows from inside too. The ink hull of the inward copy lands on the visible surface and paints it
+    black. Delete one face of each such pair, then wind the mesh outward again. Returns the number of faces deleted."""
+    import bmesh
+
+    gone = 0
+    for o in objs:
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        seen = {}
+        dup = []
+        for f in bm.faces:
+            key = tuple(sorted(tuple(round(c, 5) for c in v.co) for v in f.verts))
+            other = seen.get(key)
+            if other is not None and other.normal.dot(f.normal) < -0.99:
+                dup.append(f)
+                del seen[key]
+            else:
+                seen[key] = f
+        if dup:
+            bmesh.ops.delete(bm, geom=dup, context="FACES")
+            bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
+            bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+            bm.to_mesh(o.data)
+            o.data.update()
+            gone += len(dup)
+        bm.free()
+    return gone
 
 
 def load(src):
@@ -524,6 +556,9 @@ def main():
     dropm = {s for s in a.drop_materials.split(",") if s}
     if dropm:
         drop_material_faces(objs, dropm)
+    backfaces = drop_backfaces(objs) if a.drop_backfaces else 0
+    if a.drop_backfaces:
+        print(f"convert: dropped {backfaces} back-to-back duplicate faces")
     pts = mesh_points(objs)
     if not pts:
         raise SystemExit("convert: no meshes")
@@ -604,6 +639,7 @@ def main():
         "source": a.src,
         "scale": s,
         "yaw": a.yaw,
+        "droppedBackfaces": backfaces,
         "pitch": a.pitch,
         "roll": a.roll,
         "bbox_blender_zup": {"min": list(lo), "max": list(hi)},
