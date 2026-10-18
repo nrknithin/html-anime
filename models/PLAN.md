@@ -1,6 +1,6 @@
 # Model library plan
 
-> **Status: plan only.** Nothing is downloaded, converted or built until the owner approves this plan.
+> **Status: approved; pipeline built.** The owner's decisions are in [section 8](#8-decisions-owner-answered). The pipeline is `harness/library/` (manual: [harness/library/README.md](../harness/library/README.md)); models land one per branch and PR in `models/library/<id>/`.
 > Every candidate we found (all sources, ranked high to low priority): [CANDIDATES.md](CANDIDATES.md).
 > Wave 1, the first ~200 models to build: [section 10](#10-wave-1-the-first-200-models).
 
@@ -24,18 +24,7 @@ The eight models in `models/*.js` (horse, ox, frog, dragon, knight, heroine, AE8
 
 ### What happens to the current eight
 
-| model | decision | why |
-|---|---|---|
-| `horse.js` | replace with Quaternius Horse (26 clips) | artist anatomy; gallop, jump, eat, attack clips |
-| `ox.js` | replace with Quaternius Bull (25 clips) | same; the fable's ox can be re-shot with it |
-| `wolf.js` | replace with Quaternius Wolf (24 clips) | same |
-| `knight.js` | replace with KayKit Knight (76 clips) | full sword-and-shield combat set |
-| `frog.js` | keep (code) | its puff morph exists in no library frog |
-| `dragon.js` | keep (code) for a hero dragon | the library dragon is a small cute flyer, fine for backgrounds |
-| `heroine.js` | keep (code) | no anime heroine in any CC0 library |
-| `ae86.js` | keep (code) | no AE86 anywhere; Kenney's sports sedan is a background stand-in |
-
-A replaced file stays in the repo until its library version passes the checks in section 6.
+**Owner's decision: none are replaced.** All eight code models stay; a library horse, ox, wolf or knight is added beside them, not instead of them. A code model is improved where there is a real opportunity (a pipeline feature it can use, a flaw the library version exposes), in its own PR.
 
 ## 3. Where the models come from (verified)
 
@@ -51,6 +40,16 @@ Three research agents checked every source end to end (a real download, the lice
 | **three.js examples** | CC0 | GitHub raw | 1 (RobotExpressive, 14 clips) | yes | low-poly |
 | **Open Source Avatars** | CC0 per the registry | URLs listed in `ToxSam/open-source-avatars` | 318 fetchable VRMs | rigged humanoids, no clips | cute low-poly avatars |
 | **Universal Animation Library 1 + 2** (Quaternius) | CC0 | OpenGameArt zips with GLBs | 89 clips (not models) | — | for retargeting onto rigged humans |
+
+**Verified again from the cloud container when the pipeline was built (Oct 2026), and it changes the routes:**
+
+- `static.poly.pizza` and `poly.pizza` now answer with a Cloudflare bot challenge (403), and the Poly Pizza API needs a key. The plan's route for the 130 wave-1 Quaternius rows is gone; we do not work around the challenge.
+- Quaternius's own Google Drive folders answer "Quota exceeded" for every file, even the 1 KB licence, from this network.
+- **Quaternius packs come from OpenGameArt** (zip files with FBX, OBJ and .blend, CC0), for example the Farm Animals, Animal Pack Vol.2, Animated Fish, Animated Monsters, Animated Human, Animated Knight, Universal Animation Library 1 and 2, Animated Mech, RPG Characters, Food, Furniture, Cars, Houses, Nature, Stylized Nature MegaKit, Medieval Weapons and Ultimate Space Kit packs, and **from itch.io**. The itch.io free download is three plain requests (the page's form token, the download page, the upload's signed URL), not a bot check. `ingest.mjs` does both. FBX and .blend go through Blender's Python module.
+- **itch.io also unblocks the 1,170 KayKit itch.io rows** marked X in CANDIDATES.md; they move to their scored tier as they are ingested.
+- **Not reachable: Quaternius "Ultimate Animated Animals"** (horse, bull, wolf, fox, deer, stag, Shiba Inu, husky, cow, donkey, alpaca) and the other Drive-only packs. Wave-1 rows from them are substituted with the nearest reachable Quaternius pack (Farm Animals for horse and cow, Animal Pack Vol.2 for wolf, fox, deer and others), and the swap is written in the entry's `meta.json` and its PR. `plan/wave1.json` keeps the original rows as the record of intent; an entry's `meta.json` is the truth.
+- Poly Haven's katana is `antique_katana_01` (`katana` and `katana_01` do not exist).
+- Licences (owner): CC0, CC-BY with `CREDITS.md`, and free avatars. Nothing paid, nothing NC or ND.
 
 Excluded, with reasons (they appear at the bottom of [CANDIDATES.md](CANDIDATES.md)): KayKit's itch.io packs (downloads go through a browser handshake; can be downloaded by hand), Kenney's FBX-only animated characters (need conversion), the Smithsonian scans (licence not verified per item), IPFS avatar collections (rate-limited, unverified), OpenGameArt .blend/FBX archives (need Blender), three.js examples credited to mirada or Mixamo (no licence or not redistributable), Poly Haven trees and cliffs (215–958 MB), and the Poly Pizza API (needs a key).
 
@@ -70,16 +69,27 @@ Each step becomes a script or a lab command in phase 1, so most of the work is a
 
 This changes two rules written earlier: the 3D skill's "no loaders, no model files" and the model contract's "plain Mesh only, no SkinnedMesh". Library models get their own contract (`meta.json` + GLB); code models keep theirs.
 
+### As built
+
+| step | command / file | notes |
+|---|---|---|
+| 1-3 | `npm run library:ingest -- <id>` (`harness/library/ingest.mjs`, `convert.py`) | recipe in the entry's `meta.json` (`ingest`); fetch types `file`, `zip`, `kenney`, `itch`; download sha256 pinned on first fetch; zips read in Node; Blender 4.2 (`pip install bpy==4.2.0`, Python 3.11) imports FBX/.blend/glTF/OBJ, normalizes under one `root` node and exports GLB with every action; `gltf-transform optimize` 4.5.1 with meshopt, no simplify, no palette, materials and meshes kept |
+| 4-5 | `harness/lab/library.js` + `harness/lab/kit.js` | material name -> role -> two-tone pair, as code models; the kit's cel and hull shaders now carry three.js's skinning and morph chunks (code models render byte-identical); smooth shading normals by default, so faceted low-poly sources read as clean tone shapes |
+| 6 | `model.pose("run@0.25")` | absolute: stops all actions, restores the rest pose, sets one action's time; loops wrap, one-shot clips clamp; `clipInfo[clip].lift` corrects a clip that sinks |
+| 7 | `npm run lab -- --model models/library/<id> --clip/--frames/--strip`, `npm run probe -- ... --clip`, `npm run library:check -- <id>` | the check runs section 6 and writes `preview.png` (four views at rest plus a clip strip) and `meta.qa` |
+| 8 | `npm run library:catalog` | `models/library/manifest.json`, `models/CATALOG.md`, `CREDITS.md`; `npm test` fails on an incomplete entry |
+| 9 | `harness/library/README.md` "Into a film" | verified with a scratch film: GLB loaded through GLTFLoader before the first frame, lint and validate 0 errors |
+
 ## 5. Phases and agents (at most 8 at a time)
 
 | phase | agents | what | gate before the next phase |
 |---|---|---|---|
-| **1. Pipeline + pilot** | 2 (1 for lab v3, the skinned cel shader, hull and loader; 1 for the fetch, normalize, compress and catalog scripts) | build the pipeline, then run 6 pilot models end to end: a Quaternius wolf (animated), a Quaternius horse, the KayKit Knight (76 clips), a Kenney mini-character, a Kenney car, a Poly Haven sofa (photoreal → toon) | **The owner approves the pilot renders**, side by side with the current procedural wolf and horse. If the look isn't right, we fix the pipeline before ingesting 200. |
-| **2. Wave 1** | 8 in parallel, one per batch (B1, B2, B3a, B3b, B4, B5, B7, B8; 17–34 models each) | fetch → normalize → cel-ify → QA → catalog for every P1 model | every model passes the checks in section 6; independent reviewer pass on the catalog |
+| **1. Pipeline** | 1 | build the pipeline on its own branch and PR (`harness/library/`, lab v3, the skinned cel shader and hull) | none: the owner waived the pilot sign-off; models start as soon as the pipeline PR is open |
+| **2. Wave 1** | up to 8 in parallel, **one model per agent, branch and PR** (each in its own git worktree), P1 first in the order of section 10 | fetch → normalize → cel-ify → QA → catalog for one model; its PR carries `meta.json`, `model.glb`, `preview.png` and the regenerated catalog files | every model passes the checks in section 6; the owner merges each PR |
 | **3. Waves 2+** | up to 8 | P2 next, then P3, in chunks (~50 per agent), on request | same checks |
 | **4. Wrap-up** | 2 | skill update (how to pick and use library models), README, one demo film using library models, decide on the procedural eight, final review | reviewer approves |
 
-Routing: batch agents start on `sonnet`; a batch that fails its checks twice moves to `opus`.
+Branches: the pipeline is `models/pipeline`; each model branch starts from it and its PR targets it, so a model PR shows only that model. When the pipeline PR merges into `main` and its branch is deleted, GitHub retargets the open model PRs to `main`. The batch labels below still group the work; they are no longer one agent each.
 
 ## 6. Acceptance checks (every library model)
 
@@ -103,13 +113,13 @@ Routing: batch agents start on `sonnet`; a batch that fails its checks twice mov
 | Skinned outlines and many characters slow a render | probe reports triangles; budget per film |
 | Licences | CC0 by default; CC-BY only with `CREDITS.md`; nothing NC, ND or unverified |
 
-## 8. Decisions needed from the owner
+## 8. Decisions (owner answered)
 
-1. **Approach.** Library-first, code models for morphs and gaps, and lifting the "geometry in code only" rule for library models. *Recommended: yes.*
-2. **Storage.** (a) Commit the compressed GLBs (wave 1 estimated at tens of MB) or (b) commit only the manifest plus a fetch script. *Recommended: (a), so a fresh clone can render films.*
-3. **Licences.** CC0 only, or also CC-BY with a `CREDITS.md`? The CC0 VRM avatars carry a creator request not to resell them unmodified; include them or not? *Recommended: CC0 plus the few CC-BY models that fill a gap; avatars only if you're comfortable with that request.*
-4. **The current procedural eight.** Replace where a library model is better, keep the frog (puff morph) and the AE86 (no library equivalent)? See section 2.
-5. **Pilot sign-off.** Approve the look on six pilot models before wave 1.
+1. **Approach: library-first**, with real artist-made models; the "geometry in code only" rule is lifted for library models. The goal is quality: models that look properly modelled and good when rendered.
+2. **Storage: commit the compressed model files.** One model at a time per branch; several agents may run in parallel, each in its own git worktree and branch, one model each; each finished model is a PR to `nrknithin/html-anime`. The owner merges by hand.
+3. **Licences: free only.** CC0, CC-BY with `CREDITS.md`, and free avatars. Nothing paid.
+4. **The procedural eight stay.** Do not replace them; improve them where there is a real opportunity.
+5. **No pilot sign-off.** Start one model at a time; fix this plan in a PR when it is missing something or wrong.
 
 ## 9. Totals and batches
 
@@ -249,47 +259,47 @@ Grouped by category. *Pri* is the order inside wave 1 (P1 first). *Batch* is the
 
 | # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
 |---|---|---|---|---|---|---|---|
-| 64 | Man (casual) | Quaternius · Animated Man/Woman | 11 (Man_Death, Man_Idle, Man_Jump, Man_Punch) | CC0 | 500 KB | P1 | B3 |
-| 65 | Woman (casual) | Quaternius · Animated Man/Woman | 11 (Female_Death, Female_Idle, Female_Jump, Female_Punch) | CC0 | 590 KB | P1 | B3 |
-| 66 | Woman in dress | Quaternius · Animated Man/Woman | 11 (Female_Death, Female_Idle, Female_Jump, Female_Punch) | CC0 | 480 KB | P1 | B3 |
-| 67 | Man in suit | Quaternius · Animated Man/Woman | 11 (Man_Death, Man_Idle, Man_Jump, Man_Punch) | CC0 | 580 KB | P2 | B3 |
-| 68 | Character Shaun | Quaternius · Animated models (misc) | 20 (Death, Idle, Idle_Gun, Jump) | CC0 | 860 KB | P2 | B3 |
-| 69 | Character Sam | Quaternius · Animated models (misc) | 20 (Death, Idle, Idle_Gun, Jump) | CC0 | 730 KB | P3 | B3 |
-| 70 | Character Matt | Quaternius · Animated models (misc) | 20 (Death, Idle, Idle_Gun, Jump) | CC0 | 670 KB | P3 | B3 |
-| 71 | Adventurer | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.6 MB | P2 | B3 |
-| 72 | Animated Woman | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.5 MB | P1 | B3 |
-| 73 | Punk | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.5 MB | P3 | B3 |
-| 74 | Business man | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.5 MB | P2 | B3 |
-| 75 | Farmer | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.4 MB | P3 | B3 |
-| 76 | SWAT | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.6 MB | P3 | B3 |
-| 77 | Worker | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.3 MB | P3 | B3 |
-| 78 | Casual character | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.4 MB | P2 | B3 |
-| 79 | Astronaut | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.9 MB | P3 | B3 |
-| 80 | Mini character female A | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 270 KB | P1 | B3 |
-| 81 | Mini character female B | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 250 KB | P2 | B3 |
-| 82 | Mini character female C | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 250 KB | P3 | B3 |
-| 83 | Mini character male A | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 240 KB | P1 | B3 |
-| 84 | Mini character male B | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 240 KB | P2 | B3 |
-| 85 | Mini character male C | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 260 KB | P3 | B3 |
-| 86 | Blocky character A | Kenney · Blocky Characters | 27 (idle, walk, sit, sprint) | CC0 | 110 KB | P3 | B3 |
+| 64 | Man (casual) | Quaternius · Animated Man/Woman | 11 (Man_Death, Man_Idle, Man_Jump, Man_Punch) | CC0 | 500 KB | P1 | B3b |
+| 65 | Woman (casual) | Quaternius · Animated Man/Woman | 11 (Female_Death, Female_Idle, Female_Jump, Female_Punch) | CC0 | 590 KB | P1 | B3b |
+| 66 | Woman in dress | Quaternius · Animated Man/Woman | 11 (Female_Death, Female_Idle, Female_Jump, Female_Punch) | CC0 | 480 KB | P1 | B3b |
+| 67 | Man in suit | Quaternius · Animated Man/Woman | 11 (Man_Death, Man_Idle, Man_Jump, Man_Punch) | CC0 | 580 KB | P2 | B3b |
+| 68 | Character Shaun | Quaternius · Animated models (misc) | 20 (Death, Idle, Idle_Gun, Jump) | CC0 | 860 KB | P2 | B3b |
+| 69 | Character Sam | Quaternius · Animated models (misc) | 20 (Death, Idle, Idle_Gun, Jump) | CC0 | 730 KB | P3 | B3b |
+| 70 | Character Matt | Quaternius · Animated models (misc) | 20 (Death, Idle, Idle_Gun, Jump) | CC0 | 670 KB | P3 | B3b |
+| 71 | Adventurer | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.6 MB | P2 | B3b |
+| 72 | Animated Woman | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.5 MB | P1 | B3b |
+| 73 | Punk | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.5 MB | P3 | B3b |
+| 74 | Business man | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.5 MB | P2 | B3b |
+| 75 | Farmer | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.4 MB | P3 | B3b |
+| 76 | SWAT | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.6 MB | P3 | B3b |
+| 77 | Worker | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.3 MB | P3 | B3b |
+| 78 | Casual character | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.4 MB | P2 | B3b |
+| 79 | Astronaut | Quaternius · Animated Characters (24-clip rig) | 24 (Death, Idle, Idle_Gun, Idle_Gun_Pointing) | CC0 | 1.9 MB | P3 | B3b |
+| 80 | Mini character female A | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 270 KB | P1 | B3a |
+| 81 | Mini character female B | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 250 KB | P2 | B3a |
+| 82 | Mini character female C | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 250 KB | P3 | B3a |
+| 83 | Mini character male A | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 240 KB | P1 | B3a |
+| 84 | Mini character male B | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 240 KB | P2 | B3a |
+| 85 | Mini character male C | Kenney · Mini Characters | 32 (idle, walk, jump, sit) | CC0 | 260 KB | P3 | B3a |
+| 86 | Blocky character A | Kenney · Blocky Characters | 27 (idle, walk, sit, sprint) | CC0 | 110 KB | P3 | B3a |
 | 87 | Schoolgirl | gap | - | - | - | P1 | B8 |
 | 88 | Schoolboy | gap | - | - | - | P1 | B8 |
-| 89 | VRoid anime girl (pixiv sample) | pixiv three-vrm examples | - | VRM 1.0 (pending licence decision) | 10.8 MB | P3 | B3 |
-| 90 | Olivia (VRM) | VRM · 100avatars-r1 | - | CC0 (pending licence decision) | 1.7 MB | P3 | B3 |
-| 91 | Shiro (VRM) | VRM · 100avatars-r1 | - | CC0 (pending licence decision) | 1.3 MB | P3 | B3 |
+| 89 | VRoid anime girl (pixiv sample) | pixiv three-vrm examples | - | VRM 1.0 (pending licence decision) | 10.8 MB | P3 | B3a |
+| 90 | Olivia (VRM) | VRM · 100avatars-r1 | - | CC0 (pending licence decision) | 1.7 MB | P3 | B3a |
+| 91 | Shiro (VRM) | VRM · 100avatars-r1 | - | CC0 (pending licence decision) | 1.3 MB | P3 | B3a |
 | 92 | Heroine (procedural heroine.js) | procedural (code) | yes | project | - | P1 | B8 |
 
 ### Fantasy & monsters (19)
 
 | # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
 |---|---|---|---|---|---|---|---|
-| 93 | Knight | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.7 MB | P1 | B3 |
-| 94 | Barbarian | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P2 | B3 |
-| 95 | Mage | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P2 | B3 |
-| 96 | Rogue | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P3 | B3 |
-| 97 | Rogue (hooded) | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P3 | B3 |
-| 98 | Skeleton warrior | KayKit · Character Pack Skeletons | 95 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Jump_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal) | CC0 | 4.9 MB | P2 | B3 |
-| 99 | Ninja | Quaternius · Animated models (misc) | 14 (Death, Idle, Jump, Jump_Idle) | CC0 | 460 KB | P1 | B3 |
+| 93 | Knight | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.7 MB | P1 | B3a |
+| 94 | Barbarian | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P2 | B3a |
+| 95 | Mage | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P2 | B3a |
+| 96 | Rogue | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P3 | B3a |
+| 97 | Rogue (hooded) | KayKit · Character Pack Adventures | 76 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal, 1H_Melee_Attack_Stab) | CC0 | 3.6 MB | P3 | B3a |
+| 98 | Skeleton warrior | KayKit · Character Pack Skeletons | 95 (1H_Melee_Attack_Chop, 1H_Melee_Attack_Jump_Chop, 1H_Melee_Attack_Slice_Diagonal, 1H_Melee_Attack_Slice_Horizontal) | CC0 | 4.9 MB | P2 | B3a |
+| 99 | Ninja | Quaternius · Animated models (misc) | 14 (Death, Idle, Jump, Jump_Idle) | CC0 | 460 KB | P1 | B3b |
 | 100 | Samurai | gap | - | - | - | P1 | B8 |
 | 101 | Goblin | Quaternius · Animated models (misc) | 7 (Attack, Death, Idle, Jump) | CC0 | 220 KB | P3 | B2 |
 | 102 | Orc | Quaternius · Animated models (misc) | 14 (Death, Idle, Jump, Jump_Idle) | CC0 | 510 KB | P3 | B2 |
@@ -297,7 +307,7 @@ Grouped by category. *Pri* is the order inside wave 1 (P1 first). *Batch* is the
 | 104 | Zombie | Quaternius · Animated models (misc) | 32 (Death, Idle, Idle_Attack, Jump) | CC0 | 980 KB | P3 | B2 |
 | 105 | Demon (oni stand-in) | Quaternius · Animated models (misc) | 14 (Death, Idle, Jump, Jump_Idle) | CC0 | 490 KB | P2 | B2 |
 | 106 | Slime | Quaternius · Animated Creatures/Dinosaurs | (Slime_Attack, Slime_Death, Slime_Idle, Slime_Walk) | CC0 | 170 KB | P3 | B2 |
-| 107 | Robot (RobotExpressive) | three.js examples | 14 (Dance, Death, Idle, Jump) | CC0 | 450 KB | P1 | B3 |
+| 107 | Robot (RobotExpressive) | three.js examples | 14 (Dance, Death, Idle, Jump) | CC0 | 450 KB | P1 | B3a |
 | 108 | Mech | Quaternius · Robots & Mechs | 17 (Dance, Death, Idle, Jump) | CC0 | 670 KB | P2 | B2 |
 | 109 | Dragon | Quaternius · Cute Monsters | 8 (Death, Fast_Flying, Flying_Idle, Punch) | CC0 | 250 KB | P2 | B2 |
 | 110 | Dragon (procedural dragon.js) | procedural (code) | yes | project | - | P2 | B8 |
@@ -370,21 +380,21 @@ Grouped by category. *Pri* is the order inside wave 1 (P1 first). *Batch* is the
 | # | Model | Source · pack | Animated (key clips) | Licence | Size | Pri | Batch |
 |---|---|---|---|---|---|---|---|
 | 159 | Cherry blossom (sakura) tree | gap | - | - | - | P1 | B8 |
-| 160 | Tree | Quaternius · Static models | - | CC0 | 50 KB | P1 | B6 |
-| 161 | Pine tree | Quaternius · Static models | - | CC0 | 90 KB | P2 | B6 |
-| 162 | Autumn tree | Quaternius · Static models | - | CC0 | 160 KB | P2 | B6 |
-| 163 | Bamboo | Quaternius · Static models | - | CC0 | 30 KB | P1 | B6 |
-| 164 | Palm tree | Quaternius · Static models | - | CC0 | 120 KB | P3 | B6 |
-| 165 | Willow | Quaternius · Static models | - | CC0 | 150 KB | P3 | B6 |
-| 166 | Dead tree | Quaternius · Static models | - | CC0 | 40 KB | P3 | B6 |
-| 167 | Flower group | Quaternius · Static models | - | CC0 | 1.3 MB | P2 | B6 |
-| 168 | Grass | Quaternius · Static models | - | CC0 | 20 KB | P2 | B6 |
-| 169 | Bush | Quaternius · Static models | - | CC0 | 80 KB | P2 | B6 |
-| 170 | Mushroom | Kenney · Nature Kit | - | CC0 | 10 KB | P3 | B6 |
-| 171 | Rock | Quaternius · Static models | - | CC0 | 30 KB | P2 | B6 |
-| 172 | Lily pad | Quaternius · Static models | - | CC0 | 20 KB | P3 | B6 |
-| 173 | Cactus | Quaternius · Static models | - | CC0 | 20 KB | P3 | B6 |
-| 174 | Cloud | Quaternius · Static models | - | CC0 | 30 KB | P2 | B6 |
+| 160 | Tree | Quaternius · Static models | - | CC0 | 50 KB | P1 | B5 |
+| 161 | Pine tree | Quaternius · Static models | - | CC0 | 90 KB | P2 | B5 |
+| 162 | Autumn tree | Quaternius · Static models | - | CC0 | 160 KB | P2 | B5 |
+| 163 | Bamboo | Quaternius · Static models | - | CC0 | 30 KB | P1 | B5 |
+| 164 | Palm tree | Quaternius · Static models | - | CC0 | 120 KB | P3 | B5 |
+| 165 | Willow | Quaternius · Static models | - | CC0 | 150 KB | P3 | B5 |
+| 166 | Dead tree | Quaternius · Static models | - | CC0 | 40 KB | P3 | B5 |
+| 167 | Flower group | Quaternius · Static models | - | CC0 | 1.3 MB | P2 | B5 |
+| 168 | Grass | Quaternius · Static models | - | CC0 | 20 KB | P2 | B5 |
+| 169 | Bush | Quaternius · Static models | - | CC0 | 80 KB | P2 | B5 |
+| 170 | Mushroom | Kenney · Nature Kit | - | CC0 | 10 KB | P3 | B5 |
+| 171 | Rock | Quaternius · Static models | - | CC0 | 30 KB | P2 | B5 |
+| 172 | Lily pad | Quaternius · Static models | - | CC0 | 20 KB | P3 | B5 |
+| 173 | Cactus | Quaternius · Static models | - | CC0 | 20 KB | P3 | B5 |
+| 174 | Cloud | Quaternius · Static models | - | CC0 | 30 KB | P2 | B5 |
 
 ### Household props (12)
 

@@ -1,0 +1,128 @@
+# Model library pipeline
+
+An artist-made model (free licence, see below) becomes a film-ready cel model in `models/library/<id>/`: a normalized, compressed `model.glb`, a `meta.json` that maps its materials to two-tone colour roles and its clips to a shared vocabulary, and a `preview.png`. Code models (`models/*.js`) are unchanged; both kinds load in the same lab.
+
+```
+models/library/<id>/meta.json     recipe + colours + clips + source + measured facts (hand-written, then filled by the scripts)
+models/library/<id>/model.glb     normalized and meshopt-compressed (written by ingest)
+models/library/<id>/preview.png   cel, four views at rest + a clip strip (written by check)
+models/library/manifest.json      every entry (generated)
+models/CATALOG.md                 thumbnails, clips, licences (generated)
+CREDITS.md                        attribution for CC-BY entries (generated)
+```
+
+## One model, start to finish
+
+```
+npm run library:ingest -- horse        # fetch (sha256-pinned) -> unzip -> Blender convert + normalize -> gltf-transform
+npm run lab -- --model models/library/horse --strip run --cols 4 --out renders/horse.png   # look; fix meta.json; repeat
+npm run library:check -- horse         # acceptance checks + preview.png + meta.qa
+npm run library:catalog                # manifest.json, CATALOG.md, CREDITS.md
+npm test                               # includes: every committed entry is complete
+```
+
+Look at every PNG. One model per branch and per PR; the PR carries `meta.json`, `model.glb`, `preview.png` and the regenerated catalog files.
+
+### Tools
+
+- **Node 22+** for everything; no npm install. `gltf-transform` runs through `npx @gltf-transform/cli@4.5.1` (pinned).
+- **Blender's Python module** for conversion: `python3.11 -m venv bpyenv && bpyenv/bin/pip install bpy==4.2.0`, then `LIBRARY_PYTHON=bpyenv/bin/python` (default `python3.11`). Keep the venv outside the repo. `convert.py` is run with `-I` from a scratch folder: downloads are data, nothing inside them runs (and `.blend` auto-run scripts stay off).
+- **Chrome/Chromium** for the lab (Playwright's `/opt/pw-browsers` is found automatically; as root the lab adds `--no-sandbox`).
+
+## meta.json
+
+```jsonc
+{
+  "id": "horse",                       // = folder name
+  "name": "Horse",
+  "category": "mammal",                // catalog section
+  "tags": ["animal", "farm"],
+  "style": "low-poly, flat colours",
+  "height": 1.7,                       // m, top of the rest pose (checked within 5 %)
+  "script": "noon",                    // default colour script, as code models
+  "colors": { "coat": "#c4452d", "coatShade": "#5c3d32", "hair": "#241c16", "hairShade": "#2c261f" },
+  "materials": { "Material.003": "coat", "Material.006": "hair" },   // source material -> role (every material needs one)
+  "thresholds": { "skin": -0.2 },      // optional, per role (default 0.35)
+  "noInk": [],                         // optional: roles drawn without a hull (eyes, decals)
+  "smooth": true,                      // default: shade on per-position averaged normals (false keeps low-poly facets)
+  "clips": { "idle": "Idle", "walk": "Walk", "run": "Run", "jump": "Jump", "death": "Death" },  // vocabulary -> source clip
+  "poseDefs": { "gallop-a": ["run", 0.2] },          // optional named poses: [clip, seconds]
+  "preview": { "clip": "run" },                       // optional: which clip the preview strip shows
+  "source": {
+    "license": "CC0",                  // CC0 | CC-BY-4.0 | CC-BY-3.0 (free licences only; CC-BY lands in CREDITS.md)
+    "author": "Quaternius",
+    "pack": "Quaternius · Farm Animals",
+    "page": "https://opengameart.org/content/lowpoly-animated-farm-animal-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "ingest": {
+    "fetch": { "type": "zip", "url": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip" },
+    "member": "Farm Animals by @Quaternius/FBX/Horse.fbx",
+    "height": 1.7, "yaw": 0, "drop": [], "keepActions": []
+  }
+  // written by the scripts: file, sha256, bytes, triangles, bones, sourceMaterials, clipInfo, ingest.fetch.sha256, qa
+}
+```
+
+`clipInfo` is written by ingest (`seconds`, and `loop` guessed from the name: death, hit, jump and attack clamp, the rest wrap). Edit `loop` by hand when the guess is wrong, and add `lift` (metres) to a clip that sinks into the ground (a body lying down in a death clip): the check reports how far.
+
+Shared clip vocabulary: `idle`, `walk`, `run`, `jump`, `attack`, `hit`, `death`, `eat`, `sit`, `wave`, `dance`, `fly`, `swim`. Map the ones the source has; keep source names for the rest (they still play under their own name).
+
+### Fetch types
+
+| type | fields | used for |
+|---|---|---|
+| `file` | `url` | a GLB or file on a static host (GitHub raw, Poly Haven, jsdelivr) |
+| `zip` | `url`, `member`, `extraMembers` | OpenGameArt zips, any zip with a stable URL |
+| `kenney` | `page` (`https://kenney.nl/assets/<kit>`), `member` | Kenney kits: the zip link changes on every update, so it is read from the page |
+| `itch` | `page`, `upload` (the file name on the download page), `member` | free itch.io packs (KayKit, Quaternius): the same form posts as the "No thanks, just take me to the downloads" button |
+
+The first fetch pins `ingest.fetch.sha256`; a later fetch that differs stops with an error. Downloads are cached in `<tmp>/html-anime-library-cache` (`--refetch` skips the cache). Requests go one at a time with a pause. Never work around a bot check: `poly.pizza` (Cloudflare challenge) and Quaternius's Google Drive (quota) are off limits; find the pack on OpenGameArt or itch.io instead.
+
+### Normalizing
+
+`convert.py` puts everything under one `root` node: scaled so the rest pose is `ingest.height` metres tall, turned by `ingest.yaw` degrees (about up) so the face points +Z, the lowest rest point on y = 0 and the bbox centred on x = z = 0. Find the yaw once per pack: shoot the `left` view; the face must point to the image's left. Clip names lose their `Armature|` prefixes.
+
+## In the lab
+
+Library entries take every lab flag. `--model` is the entry's folder (or its `meta.json`). The pose is `rest`, a `poseDefs` name, or `<clip>@<seconds>`.
+
+| flag | meaning |
+|---|---|
+| `--clip run [--at 0.4]` | one frame of a clip |
+| `--clip run --frames 6` | a montage of 6 frames across the clip, one scale |
+| `--strip run [--frames 4]` | the views at rest, then a row of clip frames in the `left` view (the preview layout; add `--cols 4`) |
+| `--info` | also reports `palette`: the share of non-edge pixels that are exact script hexes (cel mode, code models too) |
+
+`npm run probe -- --model models/library/horse --clip run --frames 8` prints the lowest point and contacts per frame without a browser.
+
+## Acceptance (`npm run library:check -- <id>`)
+
+From `models/PLAN.md` section 6. The checker writes `meta.qa` and `preview.png`, and fails on:
+
+- rest top more than 5 % off `meta.height`; lowest rest point more than 2 % of the height off y = 0; bbox centre more than 5 % of the width off x = 0 or z = 0;
+- a clip frame sinking more than 3 % of the height below the ground (notes, not failures: a ground clip that never touches the ground);
+- under 99 % of non-edge pixels on the script in the cel preview; any lab warning;
+- one clip frame rendered twice differing by a byte.
+
+Things only eyes catch, so look at the preview and a `--clip <c> --frames 8` montage of every clip: the face turned the wrong way, exploded or missing parts, ink holes, two tones that do not land on forms, colours that make the subject unreadable.
+
+## Into a film
+
+1. Copy `model.glb` to `films/<slug>/models/<id>.glb`, next to the film like its font.
+2. Add `"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"` to the importmap, import `GLTFLoader` and `MeshoptDecoder`, paste `makeKit` (`harness/lab/kit.js`) and `buildLibrary` (`harness/lab/library.js`) with their `export`s stripped, and inline the entry's `name`, `colors`, `materials`, `clips` and `clipInfo` as a constant (map the roles to the sheet's hexes when the film's script differs).
+3. Load before the first frame: `new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(url, (gltf) => { horse = buildLibrary(THREE, kit, gltf, META); scene.add(horse.root); draw(window.__hfThreeTime || 0); })`. GLTFLoader goes through `THREE.DefaultLoadingManager`, which HyperFrames waits on; `draw` returns early until the model exists.
+4. Animate only from `hf-seek`: `const f = Math.floor(t * 24 + 1e-6); horse.pose("run@" + (f - (f % 2)) / 24);` (acting on twos). `pose` is absolute, so seeking anywhere is exact.
+5. `npx hyperframes lint` and `validate` in the film folder, then snapshot and look, as `skills/html-anime-3d/SKILL.md` says.
+
+## Files
+
+| file | what |
+|---|---|
+| `ingest.mjs` | fetch, pin, unzip, convert, compress, write facts |
+| `convert.py` | Blender: import FBX / .blend / glTF / OBJ, normalize, export GLB, report |
+| `check.mjs` | acceptance checks, `preview.png`, `meta.qa` |
+| `catalog.mjs` | `manifest.json`, `CATALOG.md`, `CREDITS.md`; `--check` fails on stale files or incomplete entries |
+| `library.test.mjs` | zip reader, catalog, entry completeness, no clock in pasted files (`npm test`) |
+| `../lab/library.js` | runtime: glTF -> cel model with `pose()` (lab, probe and films share it) |
+| `../lab/kit.js` | the cel and hull shaders, skinning- and morph-aware |

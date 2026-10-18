@@ -31,7 +31,7 @@ Each shot owns an SVG clip and a 3D set. `draw` shows only that shot's set. The 
 </script>
 ```
 
-`draw(t)` is a pure function of `t`: pick the shot, place the camera, set the pose, render once. CSS stretches the canvas to the root. Build geometry in code. No loaders, textures, or downloaded model files: models are code (see Characters and props). The GSAP timeline stays in a classic script, built synchronously, as `skills/html-anime-render/SKILL.md` says.
+`draw(t)` is a pure function of `t`: pick the shot, place the camera, set the pose, render once. CSS stretches the canvas to the root. Sets and props are geometry in code. Characters and props come from `models/`: code models are pasted in; library models (`models/library/`) are GLB files next to the film, loaded once with `GLTFLoader` before the first frame (see Characters and props). No textures. The GSAP timeline stays in a classic script, built synchronously, as `skills/html-anime-render/SKILL.md` says.
 
 ## Two tones
 
@@ -105,7 +105,7 @@ from.lerp(subject, (1 - 1 / 1.06) * power1InOut(t / shotEnd));
 
 ## Characters and props
 
-A character, creature, vehicle or prop is a model: build it in the model lab with `skills/html-anime-model/SKILL.md`, starting from `models/`, then paste it into the film. The thresholds the models settled on:
+A character, creature, vehicle or prop is a model. Pick from `models/CATALOG.md` (library: artist-made, rigged, with clips) or `models/*.js` (code: morphs, the hero dragon, the heroine, the AE86). A library model goes in by `harness/library/README.md` "Into a film": the GLB next to the film, `makeKit` and `buildLibrary` pasted, loaded through `GLTFLoader` (HyperFrames waits on `THREE.DefaultLoadingManager`), posed from `hf-seek` with `model.pose("run@" + heldSeconds)`. A code model is pasted in by `skills/html-anime-model/SKILL.md`. The thresholds the models settled on:
 
 | material | threshold |
 |---|---|
@@ -118,7 +118,7 @@ A character, creature, vehicle or prop is a model: build it in the model lab wit
 
 ## Forbidden
 
-`requestAnimationFrame`, `setAnimationLoop`, `THREE.Clock`, `AnimationMixer`, `Date`, `performance.now`, `Math.random`, async loaders, post-processing, any pixel ratio other than 1.
+`requestAnimationFrame`, `setAnimationLoop`, `THREE.Clock`, `Date`, `performance.now`, `Math.random`, post-processing, any pixel ratio other than 1. `AnimationMixer.update` with a delta and any loader other than the library's one `GLTFLoader` pass: a library model's clips play only through `pose("<clip>@<seconds>")`, which sets the time absolutely.
 
 ## Done
 
