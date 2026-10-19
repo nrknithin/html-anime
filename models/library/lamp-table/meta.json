@@ -1,0 +1,76 @@
+{
+  "id": "lamp-table",
+  "name": "Table lamp",
+  "category": "prop",
+  "tags": [
+    "furniture",
+    "lamp",
+    "table lamp",
+    "light",
+    "bedroom",
+    "apartment",
+    "interior",
+    "night",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Furniture Kit 2.0)",
+  "height": 0.61,
+  "script": "indigo",
+  "colors": {
+    "base": "#e7eefc",
+    "baseShade": "#d5e2ff",
+    "glow": "#f0c36a",
+    "glowShade": "#e7a04a"
+  },
+  "thresholds": {
+    "glow": -0.25
+  },
+  "materials": {
+    "metal": "base",
+    "lamp": "glow"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Furniture Kit",
+    "page": "https://kenney.nl/assets/furniture-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Substitutes for the plan's Quaternius table lamp (poly.pizza static GLB, blocked by a Cloudflare challenge). Kenney Furniture Kit 2.0 `lampRoundTable` (GLB): a tapered hexagonal shade on a thin stem and a square stepped foot. Chosen over the kit's `lampSquareTable` (a boxy cube shade, 0.56 m tall at this scale), which reads less clearly as a lamp at a glance; the kit's other lamps are floor, ceiling and wall lamps. Kept at the kit's own scale, the same as sofa, tv and desk-teacher (0.384 kit units = 0.74 m): 0.61 m tall, shade 0.30 m across and 0.33 m tall, foot 0.23 m square (a big bedside or desk lamp). The shade (source `lamp`, pale yellow) is the script's warm `practical` glow with an `iris` rim at threshold -0.25, like the lantern and street-light; the stem and foot (source `metal`, pale grey) take the pale `line`/`moon` pair, so the shade is the one warm shape. Indigo (night) script, since a lit lamp is a night prop; map the roles to the sheet's hexes for a day film. The shade is open at top and bottom. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+      "bytes": 5130729
+    },
+    "member": "Models/GLTF format/lampRoundTable.glb",
+    "height": 0.61,
+    "memberSha256": "75bb644caaa3da003b4fcad7a931722dd61cd2858aab70cf660021d5061fa1b2"
+  },
+  "file": "model.glb",
+  "sha256": "3b5d293491d65a2256a586771fa81854f97c96a7b0f862067ed3a243cfd73bd1",
+  "bytes": 4052,
+  "triangles": 76,
+  "bones": 0,
+  "sourceMaterials": {
+    "metal": "#dfeaec",
+    "lamp": "#fff5ca"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.61,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 76,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
