@@ -1,0 +1,93 @@
+{
+  "id": "songbird",
+  "name": "Songbird",
+  "category": "bird",
+  "tags": [
+    "animal",
+    "bird",
+    "songbird",
+    "sparrow",
+    "small",
+    "flying",
+    "sky"
+  ],
+  "style": "very low-poly (158 tris), flat colours, faceted origami-like shapes (Quaternius 2016); 0.07 m tall in its rest pose with the wings half raised, 0.16 m beak to tail tip, a house sparrow's length (14-16 cm); the tail is longer and slimmer than a sparrow's",
+  "height": 0.07,
+  "script": "noon",
+  "colors": {
+    "plumage": "#c4452d",
+    "plumageShade": "#5c3d32",
+    "breast": "#fff6e4",
+    "breastShade": "#f2d7ae"
+  },
+  "thresholds": {
+    "plumage": 0.7
+  },
+  "materials": {
+    "Material.002": "plumage",
+    "Material.006": "breast"
+  },
+  "clips": {
+    "fly": "ArmatureAction"
+  },
+  "preview": {
+    "clip": "fly"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animals Pack (5 Low poly animals)",
+    "page": "https://opengameart.org/content/5-low-poly-animals",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Fills the 'small songbird' gap in PLAN.md (no wave-1 row). The source is a blue-and-yellow tit; it is recoloured as a sparrow: Material.002 (back, wings, tail, cap) -> plumage, chestnut over a brown shade with a high threshold so brown dominates; Material.006 (face, breast, belly) -> cream breast. Ingested from Blends/Bird.blend: the pack's FBX loses both material colours. The Asset Quest Free Lowpoly Pond Kit birds (CC0) were the alternative, but they are static round chibi birds and their FBX files point at 'BaseColor.png' while the zip ships 'Pond_Props_BaseColor.png', so the texture cannot be relinked and flattened. One clip, a flight loop with a full wingbeat and a tail bob; it has no perch, hop or idle, and the rest pose holds the wings half open. The fly clip is lifted 0.04 m so it reads airborne."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Animals%20Pack%20by%20Quaternius.zip",
+      "sha256": "b3268015beed5d1e1d745e004a37ca2ec215e6ac1bf37541f91c1908c58a2e39",
+      "bytes": 787893,
+      "resolved": "https://opengameart.org/sites/default/files/Animals%20Pack%20by%20Quaternius.zip"
+    },
+    "member": "Animals Pack by Quaternius/Blends/Bird.blend",
+    "height": 0.07,
+    "yaw": 0,
+    "memberSha256": "c1559e90008328a77bbc9b07e6982d86388c70df87ac543ddeb4f0483bd549c8"
+  },
+  "file": "model.glb",
+  "sha256": "4ef7a7017ceee21c0d9f2349f050135181f37b696448aa3b0cdfb2dbf9e1e3f3",
+  "bytes": 19252,
+  "triangles": 158,
+  "bones": 10,
+  "sourceMaterials": {
+    "Material.002": "#333c7f",
+    "Material.006": "#e7ce60"
+  },
+  "clipInfo": {
+    "ArmatureAction": {
+      "seconds": 0.666,
+      "loop": true,
+      "lift": 0.04
+    }
+  },
+  "qa": {
+    "height": 0.07,
+    "heightError": -0.0001,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 158,
+    "clips": {
+      "fly": {
+        "minY": 0.04,
+        "touches": false,
+        "maxSize": 0.16
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + fly"
+  }
+}
