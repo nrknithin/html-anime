@@ -1,11 +1,11 @@
 // library.test.mjs — the model library's pipeline pieces that run without a browser, Blender or the network:
-// the zip reader, the catalog render, the entry checks, and the no-clock rule for the files a film pastes.
+// the zip reader, the attach arguments, the catalog render, the entry checks, and the no-clock rule for the files a film pastes.
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
-import { unzipMember, zipList, glbClips } from "./ingest.mjs";
+import { unzipMember, zipList, glbClips, attachArgs } from "./ingest.mjs";
 import { render, entryProblems, readEntries } from "./catalog.mjs";
 import { scanSource } from "../lab/inspect.js";
 
@@ -73,6 +73,21 @@ assert.deepEqual(
   [{ name: "walk", seconds: 1.25 }],
 );
 assert.equal(glbClips(glbOf({ accessors: [{}], animations: [{ name: "x", samplers: [{ input: 0 }] }] })), null);
+
+// ingest.attach -> convert.py arguments: fetched files only, inside the scratch folder, defaults filled in.
+const srcDir = path.resolve("/scratch/src");
+const fetched = new Set([path.join(srcDir, "Assets/gltf/Blade.gltf")]);
+const has = (f) => fetched.has(f);
+assert.deepEqual(attachArgs([], srcDir, has), []);
+const [flag, spec] = attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "handslot.r", offset: [0, 0.1, 0] }], srcDir, has);
+assert.equal(flag, "--attach");
+assert.deepEqual(JSON.parse(spec), { file: path.join(srcDir, "Assets/gltf/Blade.gltf"), bone: "handslot.r", offset: [0, 0.1, 0], rotation: [0, 0, 0], scale: 1 });
+assert.throws(() => attachArgs([{ file: "Assets/gltf/Shield.gltf", bone: "handslot.l" }], srcDir, has), /was not fetched/);
+assert.throws(() => attachArgs([{ file: "../../etc/passwd", bone: "x" }], srcDir, () => true), /leaves the scratch folder/);
+assert.deepEqual(JSON.parse(attachArgs([{ file: "Assets/gltf/Blade.gltf", offset: [0.3, 0, 0] }], srcDir, has)[1]), { file: path.join(srcDir, "Assets/gltf/Blade.gltf"), offset: [0.3, 0, 0], rotation: [0, 0, 0], scale: 1 });
+assert.throws(() => attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "" }], srcDir, has), /bone must be/);
+assert.throws(() => attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "b", rotation: [0, 90] }], srcDir, has), /rotation must be/);
+assert.throws(() => attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "b", scale: 0 }], srcDir, has), /scale must be/);
 
 // Catalog: deterministic, sorted, credits only for attribution licences.
 const entry = (id, license) => ({
