@@ -1,0 +1,87 @@
+{
+  "id": "shark",
+  "name": "Shark",
+  "category": "fish",
+  "tags": [
+    "animal",
+    "fish",
+    "shark",
+    "sea",
+    "ocean",
+    "predator",
+    "water",
+    "swim"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2018)",
+  "height": 0.5,
+  "script": "indigo",
+  "colors": {
+    "back": "#1b2d6b",
+    "backShade": "#16141c",
+    "belly": "#f6f3ee",
+    "bellyShade": "#d5e2ff"
+  },
+  "materials": {
+    "Top": "back",
+    "Bottom": "belly"
+  },
+  "clips": {
+    "swim": "Swim"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated Fish",
+    "page": "https://opengameart.org/content/animated-fish",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 37 named the Quaternius Ultimate Fish shark (poly.pizza, behind a Cloudflare challenge; six clips). This is the OpenGameArt copy of the plan's source: Shark from Quaternius's Animated Fish pack (CC0; the same zip the koi uses, the same mesh family as itch.io 'LowPoly Animated Fish'). It ships one clip, Swim (a lateral body and tail wag), so Attack, Death, the fast and impulse swims and Out_Of_Water are not available. Coloured in the indigo script as a navy back over a white belly, so it reads as a shark at a glance. Height 0.5 m (to the dorsal fin tip) gives a 1.53 m body, a reef-shark size. A fish has no ground: like every entry its lowest rest point is at y = 0; films lift it into the water, so the swim keeps no ground clamp (its pectoral fin tips dip at most 13 mm, 2.6 %, below y = 0)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Animated%20Fish%20Pack%20by%20%40Quaternius.zip",
+      "sha256": "c56a4bf3468e900ed9d881037334152dc203f93b656373347c8a7fc3dedb1855",
+      "bytes": 1024233,
+      "resolved": "https://opengameart.org/sites/default/files/Animated%20Fish%20Pack%20by%20%40Quaternius.zip"
+    },
+    "member": "Animated Fish Pack by @Quaternius/FBX/Shark.fbx",
+    "height": 0.5,
+    "yaw": 0,
+    "memberSha256": "fee1cfe578643cefb06457332b5d323f4883eba2515eb255ae0f2abb497a75c9"
+  },
+  "file": "model.glb",
+  "sha256": "105b2bb5bb2ea4f02b8ca6d4f37ae656e6bbc97938ee96a7e9b9821a86ab8a6a",
+  "bytes": 27384,
+  "triangles": 644,
+  "bones": 8,
+  "sourceMaterials": {
+    "Top": "#5b7f9c",
+    "Bottom": "#d8d8d8"
+  },
+  "clipInfo": {
+    "Swim": {
+      "seconds": 1.25,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 0.5,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 644,
+    "clips": {
+      "swim": {
+        "minY": -0.0128,
+        "touches": true,
+        "maxSize": 1.53
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + swim"
+  }
+}
