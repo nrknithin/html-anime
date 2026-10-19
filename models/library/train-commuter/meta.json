@@ -1,0 +1,116 @@
+{
+  "id": "train-commuter",
+  "name": "City commuter train",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "train",
+    "commuter train",
+    "electric train",
+    "railway",
+    "city"
+  ],
+  "style": "low-poly, flat colours (Kenney Train Kit)",
+  "height": 3.8,
+  "script": "indigo",
+  "colors": {
+    "body": "#e7eefc",
+    "bodyShade": "#d5e2ff",
+    "livery": "#e23b4a",
+    "liveryShade": "#1b2d6b",
+    "glass": "#16141c",
+    "glassShade": "#16141c",
+    "chassis": "#1b2d6b",
+    "chassisShade": "#16141c"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#f3f3f7": "body",
+    "colormap#e9e9f0": "body",
+    "colormap#b7bdd8": "body",
+    "colormap#a8a8c0": "body",
+    "colormap#9c9eb9": "body",
+    "colormap#9498b5": "chassis",
+    "colormap#de5654": "livery",
+    "colormap#cb4248": "livery",
+    "colormap#a0b2da": "glass",
+    "colormap#80859d": "chassis",
+    "colormap#7c8199": "chassis",
+    "colormap#757a92": "chassis",
+    "colormap#5c6179": "chassis",
+    "colormap#626880": "chassis",
+    "colormap#6b7088": "chassis",
+    "colormap#37373b": "chassis",
+    "colormap#3b3b41": "chassis",
+    "colormap#3e3e46": "chassis",
+    "colormap#42424a": "chassis",
+    "colormap#454652": "chassis"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Train Kit",
+    "page": "https://kenney.nl/assets/train-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney train-electric-city-a (the front/cab car of the city electric train; the kit also has train-electric-city-b and -c, the middle and rear cars, not shipped here). FBX member plus its colormap texture, flattened to 20 colours, as train-bullet. Scaled with the same factor as train-bullet (kit units x 2.26), which puts the roof 3.8 m above the rail, a real commuter car height. Stylized proportions: 5.42 m long and 2.48 m wide (a real commuter car is ~20 m by 2.8-2.95 m). Silver-white body with a red line and a navy underframe, so it pairs with the white-and-navy bullet train. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/train-kit",
+      "sha256": "cf50d77e8cbacbf38dd50826d4bce5392db8e4f67373d3c4e583b0ed0e474475",
+      "bytes": 5266588
+    },
+    "member": "Models/FBX format/train-electric-city-a.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 3.8,
+    "yaw": 0,
+    "maxColors": 20,
+    "memberSha256": "215d430316ebe8935625be08e5ed5256e7904ea47d2a7f47e1449ab767e86eaa"
+  },
+  "file": "model.glb",
+  "sha256": "71b69a27393c928e6f90dc32c5cf5cef99572180db15ed5ebc4512311f1458a9",
+  "bytes": 47920,
+  "triangles": 1130,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#80859d": "#80859d",
+    "colormap#5c6179": "#5c6179",
+    "colormap#7c8199": "#7c8199",
+    "colormap#757a92": "#757a92",
+    "colormap#626880": "#626880",
+    "colormap#6b7088": "#6b7088",
+    "colormap#9c9eb9": "#9c9eb9",
+    "colormap#9498b5": "#9498b5",
+    "colormap#a0b2da": "#a0b2da",
+    "colormap#37373b": "#37373b",
+    "colormap#3b3b41": "#3b3b41",
+    "colormap#3e3e46": "#3e3e46",
+    "colormap#42424a": "#42424a",
+    "colormap#454652": "#454652",
+    "colormap#b7bdd8": "#b7bdd8",
+    "colormap#a8a8c0": "#a8a8c0",
+    "colormap#f3f3f7": "#f3f3f7",
+    "colormap#e9e9f0": "#e9e9f0",
+    "colormap#de5654": "#de5654",
+    "colormap#cb4248": "#cb4248"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 3.8,
+    "heightError": 0,
+    "minY": -0.0001,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1130,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

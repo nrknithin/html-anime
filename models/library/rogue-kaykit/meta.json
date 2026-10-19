@@ -1,0 +1,371 @@
+{
+  "id": "rogue-kaykit",
+  "name": "Rogue (KayKit)",
+  "category": "character",
+  "tags": [
+    "human",
+    "rogue",
+    "thief",
+    "assassin",
+    "fantasy",
+    "hood",
+    "cloak",
+    "dagger",
+    "dual-wield",
+    "chibi"
+  ],
+  "style": "chibi low-poly, gradient atlas flattened (KayKit 2023)",
+  "height": 1.46,
+  "script": "eclipse",
+  "colors": {
+    "cloak": "#ff3b3b",
+    "cloakShade": "#2a1016",
+    "tunic": "#2a1016",
+    "tunicShade": "#1a1014",
+    "leather": "#2a1016",
+    "leatherShade": "#1a1014",
+    "strap": "#e8b8a8",
+    "strapShade": "#2a1016",
+    "steel": "#f3f6ff",
+    "steelShade": "#2a1016",
+    "skin": "#e8b8a8",
+    "skinShade": "#ff5a4a",
+    "eye": "#1a1014",
+    "eyeShade": "#1a1014"
+  },
+  "materials": {
+    "rogue_texture": "cloak",
+    "rogue_texture#068869": "tunic",
+    "rogue_texture#8f5240": "leather",
+    "rogue_texture#077960": "tunic",
+    "rogue_texture#08705b": "tunic",
+    "rogue_texture#086656": "tunic",
+    "rogue_texture#0b4f48": "eye",
+    "rogue_texture#b57354": "strap",
+    "rogue_texture#009657": "cloak",
+    "rogue_texture#009257": "cloak",
+    "rogue_texture#008f56": "cloak",
+    "rogue_texture#009f5a": "cloak",
+    "rogue_texture#008d55": "cloak",
+    "rogue_texture#008a55": "cloak",
+    "rogue_texture#008654": "cloak",
+    "rogue_texture#008454": "cloak",
+    "rogue_texture#008955": "cloak",
+    "rogue_texture#89959a": "steel",
+    "rogue_texture#007d52": "cloak",
+    "rogue_texture#008153": "cloak",
+    "rogue_texture#f3b089": "skin",
+    "rogue_texture#008053": "cloak",
+    "rogue_texture#007c52": "cloak",
+    "rogue_texture#007951": "cloak",
+    "rogue_texture#007550": "cloak",
+    "rogue_texture#007751": "cloak",
+    "rogue_texture#00704f": "cloak"
+  },
+  "thresholds": {
+    "skin": -0.5,
+    "cloak": -0.3
+  },
+  "smooth": false,
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walking_A",
+    "run": "Running_A",
+    "jump": "Jump_Full_Short",
+    "attack": "Dualwield_Melee_Attack_Slice",
+    "hit": "Hit_A",
+    "death": "Death_B",
+    "sit": "Sit_Chair_Idle",
+    "block": "Blocking"
+  },
+  "poseDefs": {
+    "guard": [
+      "block",
+      0.5
+    ],
+    "strike": [
+      "attack",
+      0.45
+    ]
+  },
+  "preview": {
+    "pose": "idle@0",
+    "clip": "attack"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kay Lousberg",
+    "pack": "KayKit · Character Pack Adventures 1.0",
+    "page": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Rogue_Hooded.glb from the pack's GitHub mirror, pinned to commit 672074b (LICENSE.txt: CC0, Kay Lousberg). Chosen over the bare-headed Rogue.glb (#97 over #96): the hood and cape give a rogue silhouette at a glance, where the plain head reads as a generic villager. The rig carries every alternative prop; kept Knife + Knife_Offhand (dual daggers), dropped 1H_Crossbow, 2H_Crossbow and Throwable. maxColors 26 because the hood and cape are a long green gradient that otherwise swallows the skin and blade clusters (at 12 the face merged with the crossbow grey). 30 of 76 clips kept (the knight's locomotion, hit, death, block, dodge, sit and interact set, with the three Dualwield clips, 1H stab and diagonal slice, Throw and the kick in place of the sword-and-shield set; ranged, 2H, spellcast, unarmed-idle and lie-down clips dropped). attack is Dualwield_Melee_Attack_Slice (raise both daggers, slash down), the clearest of the dual-wield clips side on. Height 1.46 m to the hood top: the same body scale as the knight (same rig; head bone 0.882 m at 1.6 m vs the knight's 0.805 m, so x0.912); the hood sits lower than the knight's helmet. KayKit characters are chibi, and this keeps the head near a real size next to realistic props. Coloured on eclipse (vermilion hood, cape and scarf over near-black tunic and leathers, tan straps and boots, white blades) so it reads apart from the indigo knight, the noon barbarian and the festival mage."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Characters/gltf/Rogue_Hooded.glb",
+      "sha256": "93e6e25213009952276d9cf34f5d96a243767334c66f280db0433ddfabb91545",
+      "bytes": 3597652,
+      "resolved": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Characters/gltf/Rogue_Hooded.glb"
+    },
+    "height": 1.46,
+    "maxColors": 26,
+    "drop": [
+      "1H_Crossbow",
+      "2H_Crossbow",
+      "Throwable"
+    ],
+    "keepActions": [
+      "Idle",
+      "Walking_A",
+      "Walking_Backwards",
+      "Running_A",
+      "Jump_Full_Short",
+      "Jump_Full_Long",
+      "Dualwield_Melee_Attack_Slice",
+      "Dualwield_Melee_Attack_Chop",
+      "Dualwield_Melee_Attack_Stab",
+      "1H_Melee_Attack_Stab",
+      "1H_Melee_Attack_Slice_Diagonal",
+      "Throw",
+      "Block",
+      "Blocking",
+      "Block_Hit",
+      "Hit_A",
+      "Hit_B",
+      "Death_A",
+      "Death_B",
+      "Dodge_Forward",
+      "Dodge_Backward",
+      "Dodge_Left",
+      "Dodge_Right",
+      "Sit_Chair_Idle",
+      "Sit_Floor_Idle",
+      "Cheer",
+      "Interact",
+      "PickUp",
+      "Use_Item",
+      "Unarmed_Melee_Attack_Kick"
+    ]
+  },
+  "file": "model.glb",
+  "sha256": "421f5622e7ad184b8f1c79ea3ee0dc6356e1c047ffaa044e60530b42253c7a0b",
+  "bytes": 1022520,
+  "triangles": 4349,
+  "bones": 41,
+  "sourceMaterials": {
+    "rogue_texture": "texture",
+    "rogue_texture#068869": "#068869",
+    "rogue_texture#8f5240": "#8f5240",
+    "rogue_texture#077960": "#077960",
+    "rogue_texture#08705b": "#08705b",
+    "rogue_texture#086656": "#086656",
+    "rogue_texture#0b4f48": "#0b4f48",
+    "rogue_texture#b57354": "#b57354",
+    "rogue_texture#009657": "#009657",
+    "rogue_texture#009257": "#009257",
+    "rogue_texture#008f56": "#008f56",
+    "rogue_texture#009f5a": "#009f5a",
+    "rogue_texture#008d55": "#008d55",
+    "rogue_texture#008a55": "#008a55",
+    "rogue_texture#008654": "#008654",
+    "rogue_texture#008454": "#008454",
+    "rogue_texture#008955": "#008955",
+    "rogue_texture#89959a": "#89959a",
+    "rogue_texture#007d52": "#007d52",
+    "rogue_texture#008153": "#008153",
+    "rogue_texture#f3b089": "#f3b089",
+    "rogue_texture#008053": "#008053",
+    "rogue_texture#007c52": "#007c52",
+    "rogue_texture#007951": "#007951",
+    "rogue_texture#007550": "#007550",
+    "rogue_texture#007751": "#007751",
+    "rogue_texture#00704f": "#00704f"
+  },
+  "clipInfo": {
+    "1H_Melee_Attack_Slice_Diagonal": {
+      "seconds": 1,
+      "loop": false
+    },
+    "1H_Melee_Attack_Stab": {
+      "seconds": 1.6,
+      "loop": false
+    },
+    "Block": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "Block_Hit": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "Blocking": {
+      "seconds": 1.0667,
+      "loop": true
+    },
+    "Cheer": {
+      "seconds": 1.6667,
+      "loop": true
+    },
+    "Death_A": {
+      "seconds": 0.8,
+      "loop": false
+    },
+    "Death_B": {
+      "seconds": 2.6333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Dodge_Backward": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Dodge_Forward": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Dodge_Left": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Dodge_Right": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Dualwield_Melee_Attack_Chop": {
+      "seconds": 1.2667,
+      "loop": false
+    },
+    "Dualwield_Melee_Attack_Slice": {
+      "seconds": 1.1667,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Dualwield_Melee_Attack_Stab": {
+      "seconds": 1.6,
+      "loop": false
+    },
+    "Hit_A": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Hit_B": {
+      "seconds": 0.8667,
+      "loop": false
+    },
+    "Idle": {
+      "seconds": 1.0667,
+      "loop": true
+    },
+    "Interact": {
+      "seconds": 1.3,
+      "loop": false
+    },
+    "Jump_Full_Long": {
+      "seconds": 2.3333,
+      "loop": false
+    },
+    "Jump_Full_Short": {
+      "seconds": 1.1667,
+      "loop": false
+    },
+    "PickUp": {
+      "seconds": 1.3,
+      "loop": false
+    },
+    "Running_A": {
+      "seconds": 0.8,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Sit_Chair_Idle": {
+      "seconds": 3.6,
+      "loop": true
+    },
+    "Sit_Floor_Idle": {
+      "seconds": 4,
+      "loop": true
+    },
+    "Throw": {
+      "seconds": 1.3667,
+      "loop": false
+    },
+    "Unarmed_Melee_Attack_Kick": {
+      "seconds": 0.9333,
+      "loop": false
+    },
+    "Use_Item": {
+      "seconds": 1.6,
+      "loop": false
+    },
+    "Walking_A": {
+      "seconds": 1.0667,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Walking_Backwards": {
+      "seconds": 1.0667,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.46,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 4349,
+    "clips": {
+      "idle": {
+        "minY": -0.0006,
+        "touches": true,
+        "maxSize": 1.45
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.45
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.45
+      },
+      "jump": {
+        "minY": -0.0006,
+        "touches": true,
+        "maxSize": 1.5
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.19
+      },
+      "hit": {
+        "minY": -0.001,
+        "touches": true,
+        "maxSize": 1.46
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2
+      },
+      "sit": {
+        "minY": 0.103,
+        "touches": false,
+        "maxSize": 1.41
+      },
+      "block": {
+        "minY": -0.0006,
+        "touches": true,
+        "maxSize": 1.44
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + attack"
+  }
+}
