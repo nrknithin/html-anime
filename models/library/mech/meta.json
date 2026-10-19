@@ -1,0 +1,246 @@
+{
+  "id": "mech",
+  "name": "Mech",
+  "category": "character",
+  "tags": [
+    "robot",
+    "mech",
+    "sci-fi",
+    "humanoid",
+    "walker"
+  ],
+  "style": "low-poly, hard-surface, rusty painted texture flattened to flat colours (Quaternius 2021)",
+  "height": 3,
+  "script": "indigo",
+  "colors": {
+    "armor": "#e23b4a",
+    "armorShade": "#1b2d6b",
+    "frame": "#d5e2ff",
+    "frameShade": "#1b2d6b",
+    "joint": "#16141c",
+    "jointShade": "#1b2d6b",
+    "stripe": "#f0c36a",
+    "stripeShade": "#e7a04a"
+  },
+  "materials": {
+    "Stan_Texture": "frame",
+    "Stan_Texture#8f9190": "frame",
+    "Stan_Texture#bbbbbb": "frame",
+    "Stan_Texture#3c2c0e": "joint",
+    "Stan_Texture#895823": "stripe",
+    "Stan_Texture#4d4f4c": "joint",
+    "Stan_Texture#59857b": "armor",
+    "Stan_Texture#7f7f7f": "frame",
+    "Stan_Texture#337d69": "armor",
+    "Stan_Texture#2e715e": "armor",
+    "Stan_Texture#448d78": "armor",
+    "Stan_Texture#38846e": "armor",
+    "Stan_Texture#428974": "armor"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "jump": "Jump",
+    "attack": "Punch",
+    "hit": "HitRecieve_1",
+    "death": "Death",
+    "wave": "Hello",
+    "dance": "Dance"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated Mech Pack",
+    "page": "https://opengameart.org/content/animated-mech-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Animated Mech Pack ships four mechs (George, Leela, Mike, Stan); Stan, the armed humanoid with a boxy head and blade feet, reads most clearly as a mech. Built from the pack .blend (the FBX has no texture link and doubles every action). The source is teal with orange stripes and rust; indigo has no teal, so the armour is recoloured accent red with pale frame and gold stripes. Height 3 m: a small walker mech, about 1.7 x human height."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/animated_mech_pack_-_march_2021.zip",
+      "sha256": "14102eade586a04191fc96a4bf52bc511b91d3e90d76a87e8e621095b8d0ea26",
+      "bytes": 26379703,
+      "resolved": "https://opengameart.org/sites/default/files/animated_mech_pack_-_march_2021.zip"
+    },
+    "member": "Animated Mech Pack - March 2021/Blends/Stan.blend",
+    "height": 3,
+    "extraMembers": [
+      "Animated Mech Pack - March 2021/Textures/Stan_Texture.png"
+    ],
+    "memberSha256": "87cedba8cc5c7d515de85c06ea57c0c717adbc96ce8c8e09ba559c69a13b694b"
+  },
+  "file": "model.glb",
+  "sha256": "c555875b17ffe700f9de5ae518a41973c6347ca67df5390c5c01a0c423c87633",
+  "bytes": 490200,
+  "triangles": 6110,
+  "bones": 43,
+  "sourceMaterials": {
+    "Stan_Texture": "texture",
+    "Stan_Texture#8f9190": "#8f9190",
+    "Stan_Texture#bbbbbb": "#bbbbbb",
+    "Stan_Texture#3c2c0e": "#3c2c0e",
+    "Stan_Texture#895823": "#895823",
+    "Stan_Texture#4d4f4c": "#4d4f4c",
+    "Stan_Texture#59857b": "#59857b",
+    "Stan_Texture#7f7f7f": "#7f7f7f",
+    "Stan_Texture#337d69": "#337d69",
+    "Stan_Texture#2e715e": "#2e715e",
+    "Stan_Texture#448d78": "#448d78",
+    "Stan_Texture#38846e": "#38846e",
+    "Stan_Texture#428974": "#428974"
+  },
+  "clipInfo": {
+    "Dance": {
+      "seconds": 1,
+      "loop": true
+    },
+    "Death": {
+      "seconds": 1.7917,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Hello": {
+      "seconds": 1.875,
+      "loop": false
+    },
+    "HitRecieve_1": {
+      "seconds": 0.5833,
+      "loop": false
+    },
+    "HitRecieve_2": {
+      "seconds": 0.5833,
+      "loop": false
+    },
+    "Idle": {
+      "seconds": 4.1667,
+      "loop": true
+    },
+    "Jump": {
+      "seconds": 1.0833,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Kick": {
+      "seconds": 0.75,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "No": {
+      "seconds": 1.75,
+      "loop": false
+    },
+    "Pickup": {
+      "seconds": 1.75,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.7083,
+      "loop": false
+    },
+    "Run": {
+      "seconds": 1.0417,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Run_Holding": {
+      "seconds": 1.0417,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Shoot": {
+      "seconds": 0.625,
+      "loop": false
+    },
+    "SwordSlash": {
+      "seconds": 0.75,
+      "loop": false
+    },
+    "Walk": {
+      "seconds": 1.0417,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Walk_Holding": {
+      "seconds": 1.0417,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Yes": {
+      "seconds": 1.75,
+      "loop": false
+    }
+  },
+  "thresholds": {
+    "armor": -0.3,
+    "frame": -0.3,
+    "stripe": -0.5,
+    "joint": 0.1
+  },
+  "smooth": false,
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 3.0002,
+    "heightError": 0.0001,
+    "minY": -0.0002,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 6110,
+    "clips": {
+      "idle": {
+        "minY": -0.0032,
+        "touches": true,
+        "maxSize": 2.98
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.92
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.82
+      },
+      "jump": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 3.01
+      },
+      "attack": {
+        "minY": -0.0035,
+        "touches": true,
+        "maxSize": 3.02
+      },
+      "hit": {
+        "minY": -0.0027,
+        "touches": true,
+        "maxSize": 2.98
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.98
+      },
+      "wave": {
+        "minY": -0.0038,
+        "touches": true,
+        "maxSize": 3.38
+      },
+      "dance": {
+        "minY": -0.0065,
+        "touches": true,
+        "maxSize": 2.94
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
