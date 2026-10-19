@@ -1,0 +1,150 @@
+{
+  "id": "parasaurolophus",
+  "name": "Parasaurolophus",
+  "category": "dinosaur",
+  "tags": [
+    "animal",
+    "dinosaur",
+    "parasaurolophus",
+    "hadrosaur",
+    "herbivore",
+    "prehistoric",
+    "crest"
+  ],
+  "style": "low-poly, flat colours",
+  "height": 4.5,
+  "script": "indigo",
+  "colors": {
+    "hide": "#d5e2ff",
+    "hideShade": "#1b2d6b",
+    "crest": "#e23b4a",
+    "crestShade": "#1b2d6b",
+    "belly": "#f0c36a",
+    "bellyShade": "#e7a04a",
+    "claw": "#f6f3ee",
+    "clawShade": "#e7eefc"
+  },
+  "materials": {
+    "Green": "hide",
+    "LightGreen": "claw",
+    "LightYellow": "belly",
+    "Red": "crest"
+  },
+  "thresholds": {
+    "hide": 0.5
+  },
+  "clips": {
+    "idle": "Parasaurolophus_Idle",
+    "walk": "Parasaurolophus_Walk",
+    "run": "Parasaurolophus_Run",
+    "attack": "Parasaurolophus_Attack",
+    "jump": "Parasaurolophus_Jump",
+    "death": "Parasaurolophus_Death"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated LowPoly Dinosaurs",
+    "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 63 named the Quaternius Animated Creatures/Dinosaurs Parasaurolophus on poly.pizza (Cloudflare challenge). This is the same Quaternius dinosaur pack (Dec 2018) from its itch.io page, CC0, the same zip as the t-rex, velociraptor and triceratops. Height 4.5 m to the crest tip in the rest pose (head raised, hips ~2.4 m), an adult Parasaurolophus standing about 4-5 m at the crest; the model is 9.4 m long against a real 9-10 m. Indigo script: pale moon-blue hide with indigo shade, a red crest and a gold throat and belly, so it stays apart from the red t-rex, the sand raptor and the amber triceratops."
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+      "upload": "Dinosaur Animated Pack - Dec 2018.zip",
+      "sha256": "d9ca7d3568bd98b323b0be9a82b546af66d77c2a18e355c1bee5c50061b8931c",
+      "bytes": 10849959
+    },
+    "member": "Dinosaur Animated Pack - Dec 2018/FBX/Parasaurolophus.fbx",
+    "height": 4.5,
+    "memberSha256": "ad36fd5ba88ee96600fd7c286c8d9e7cb8810a408336fda4995b0caacb4e7f16"
+  },
+  "file": "model.glb",
+  "sha256": "9ec8d705ea66b0a0704ec31f72281f81d59b410a2350e7e4410f7af3e939c38c",
+  "bytes": 180236,
+  "triangles": 1414,
+  "bones": 29,
+  "sourceMaterials": {
+    "Green": "#5f6658",
+    "LightGreen": "#839083",
+    "LightYellow": "#8f907b",
+    "Red": "#e7e7e7"
+  },
+  "clipInfo": {
+    "Parasaurolophus_Attack": {
+      "seconds": 0.875,
+      "loop": false
+    },
+    "Parasaurolophus_Death": {
+      "seconds": 1.3333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Parasaurolophus_Idle": {
+      "seconds": 2.5417,
+      "loop": true
+    },
+    "Parasaurolophus_Jump": {
+      "seconds": 1.375,
+      "loop": false
+    },
+    "Parasaurolophus_Run": {
+      "seconds": 0.5833,
+      "loop": true
+    },
+    "Parasaurolophus_Walk": {
+      "seconds": 1.2083,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 4.4998,
+    "heightError": 0,
+    "minY": 0.0001,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1414,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 9.64
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 9.79
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 9.84
+      },
+      "attack": {
+        "minY": -0.002,
+        "touches": true,
+        "maxSize": 9.65
+      },
+      "jump": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 9.68
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 9.21
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}

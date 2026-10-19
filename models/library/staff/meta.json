@@ -1,0 +1,74 @@
+{
+  "id": "staff",
+  "name": "Wooden staff (crook)",
+  "category": "prop",
+  "tags": [
+    "prop",
+    "weapon",
+    "staff",
+    "quarterstaff",
+    "crook",
+    "walking stick",
+    "fantasy",
+    "medieval",
+    "wizard",
+    "shepherd",
+    "pilgrim",
+    "monk"
+  ],
+  "style": "low-poly, hard-surface, flat colours (Quaternius 2017)",
+  "height": 1.7,
+  "script": "indigo",
+  "colors": {
+    "wood": "#e7a04a",
+    "woodShade": "#1b2d6b"
+  },
+  "materials": {
+    "Wood": "wood"
+  },
+  "clips": {},
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Lowpoly RPG Pack (2017)",
+    "page": "https://opengameart.org/content/lowpoly-rpg",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan row 201 (Quaternius static Staff via poly.pizza) is blocked, so this is WoodenStaff.fbx from Quaternius's own CC0 Lowpoly RPG Pack on OpenGameArt (same author, licence CC0 on the page). Three candidates were rendered: this one (a plain unpainted wooden staff with a squared crook at the top), umplix's CC0 'Low-poly Staffs' Wooden Staff (a thick square shaft with a kink and a claw holding a floating crystal; with the crystal dropped the claw reads as broken) and KayKit Adventurers staff.gltf (an ornate mage staff with a ring head and bands). None is a straight bo; this crook is the plainest well-modelled wooden staff and matches the sword, axe and spear author. Height 1.7 m is the whole staff, foot to the top of the crook (a quarterstaff or walking staff is 1.5-1.8 m); the shaft is stylized thick, about 7.5 cm across. Rest pose (ingest.yaw 90): upright, foot on y = 0, the crook flat in the XY plane: the shaft bends out to x = -0.20 m at y 1.45 m, the crook tops out at y 1.70 m and its tip curls back toward +X (to x = +0.20 m at y 1.35-1.60 m); about 9 cm thick along Z. The pipeline centres the bounding box; the shaft axis runs at about x = 0.00 to +0.015 m, z = 0 (the stylized shaft wobbles: about +0.02 m at y 0.35 m, 0.00 at 0.60 m, +0.015 m at 0.95-1.05 m). Two-hand quarterstaff grip: lower hand at about y 0.55 m, upper hand at about y 1.05 m. To put it in hands: parent to the lower hand, offset by (0, -0.55, 0) m in the staff's frame (or (-0.015, -1.05, 0) for the upper hand), then rotate so Y runs along the fist's thumb direction; as a walking staff in one hand use the upper-hand offset with the foot planted. Colours match the sword, axe and spear wood: amber over sky."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/RPG%20Pack.zip",
+      "sha256": "bebf197b6a49abf65cbe6ad1896f6ef06cc84bd7091349d8a3151ed84be58134",
+      "bytes": 2625328,
+      "resolved": "https://opengameart.org/sites/default/files/RPG%20Pack.zip"
+    },
+    "member": "RPG Pack/FBX/WoodenStaff.fbx",
+    "height": 1.7,
+    "memberSha256": "9e708e8bdbab0eccf65f50213724dcb669246f22c6c51398666c9879eb6a4e07",
+    "yaw": 90
+  },
+  "file": "model.glb",
+  "sha256": "ea520445fe8e5d5b975e25e2c6f0c0fe7fe388de86ed021a5be96135de779bb9",
+  "bytes": 5092,
+  "triangles": 220,
+  "bones": 0,
+  "sourceMaterials": {
+    "Wood": "#e7e7e7"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.7,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 220,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
