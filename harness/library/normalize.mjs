@@ -35,7 +35,24 @@ export async function normalizeGlb(buf, { height = 0, yaw = 0 } = {}) {
   const THREE = await loadThree();
   const { GLTFLoader, MeshoptDecoder } = await loadGltfTools();
   await MeshoptDecoder.ready;
-  const ab = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.length);
+  // Measure a copy without images: an external texture (a .png beside the GLB) can't load in Node, and the size
+  // doesn't depend on it.
+  const bare = readGlb(buf);
+  delete bare.json.images;
+  delete bare.json.textures;
+  delete bare.json.samplers;
+  for (const m of bare.json.materials || []) {
+    if (m.pbrMetallicRoughness) {
+      delete m.pbrMetallicRoughness.baseColorTexture;
+      delete m.pbrMetallicRoughness.metallicRoughnessTexture;
+    }
+    delete m.normalTexture;
+    delete m.occlusionTexture;
+    delete m.emissiveTexture;
+    delete m.extensions;
+  }
+  const measured = writeGlb(bare.json, bare.rest);
+  const ab = measured.buffer.slice(measured.byteOffset, measured.byteOffset + measured.length);
   const gltf = await new Promise((resolve, reject) => new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parse(ab, "", resolve, reject));
 
   // Measure the rest pose (node transforms as stored), turned by the yaw.
