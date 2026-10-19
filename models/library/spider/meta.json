@@ -1,0 +1,136 @@
+{
+  "id": "spider",
+  "name": "Spider",
+  "category": "insect",
+  "tags": [
+    "animal",
+    "spider",
+    "tarantula",
+    "arachnid",
+    "enemy",
+    "creepy"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2019), realistic tarantula anatomy",
+  "height": 0.05,
+  "script": "noon",
+  "colors": {
+    "body": "#5c3d32",
+    "bodyShade": "#241c16",
+    "mark": "#c4452d",
+    "markShade": "#5c3d32"
+  },
+  "thresholds": {
+    "body": 0
+  },
+  "materials": {
+    "Material": "body",
+    "Material.001": "mark"
+  },
+  "clips": {
+    "idle": "Spider_Idle",
+    "walk": "Spider_Walk",
+    "jump": "Spider_Jump",
+    "attack": "Spider_Attack",
+    "death": "Spider_Death"
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Easy Animated Enemy Pack (Jan 2019)",
+    "page": "https://quaternius.itch.io/animated-easy-enemies",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan row 55 names the spider from Quaternius's Animated Creatures/Dinosaurs pack on poly.pizza (clips Spider_Attack, Spider_Death, Spider_Idle, Spider_Jump); poly.pizza is behind a Cloudflare challenge, so it comes from the same author's Easy Animated Enemy Pack (Jan 2019) on itch.io, which carries those clips plus Spider_Walk. The itch page states CC0; the zip ships no licence file. It is a realistic spider, not a giant monster: tarantula anatomy (eight eyes, chelicerae, pedipalps, bulky abdomen) at natural proportions, so the height is real size: 0.05 m at rest, a leg span of about 15 cm, a large tarantula. Scale it up in a film if it should be a monster. Colours on the noon script: brown body #5c3d32 with near-black shade (threshold 0 so the shade sits on the underside and leg undersides only), accent-red eyes. Ground: every clip is clamped (Spider_Walk and the flip onto the back in Spider_Death sink a leg tip 1 mm; the rest never sink)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/animated-easy-enemies",
+      "upload": "Easy Animated Enemy Pack - Jan 2019.zip",
+      "sha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+      "bytes": 3093543
+    },
+    "member": "Easy Animated Enemy Pack - Jan 2019/FBX/Spider.fbx",
+    "height": 0.05,
+    "yaw": 0,
+    "memberSha256": "4337f167f59ad5cf590e38c76176210f96a2c7eab62f743110f783694ee0d2c0"
+  },
+  "file": "model.glb",
+  "sha256": "9f2bf0b0740abf3625cfaa74b1df593b0ea5da92d6be9c65944fd733426ed6b8",
+  "bytes": 192868,
+  "triangles": 2712,
+  "bones": 39,
+  "sourceMaterials": {
+    "Material": "#414141",
+    "Material.001": "#a32c2c"
+  },
+  "clipInfo": {
+    "Spider_Attack": {
+      "seconds": 0.7917,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Spider_Death": {
+      "seconds": 1.0833,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Spider_Idle": {
+      "seconds": 4.2083,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Spider_Jump": {
+      "seconds": 0.75,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Spider_Walk": {
+      "seconds": 0.875,
+      "loop": true,
+      "ground": "clamp"
+    }
+  },
+  "qa": {
+    "height": 0.05,
+    "heightError": -0.0001,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2712,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.15
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.15
+      },
+      "jump": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.15
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.15
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.16
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}

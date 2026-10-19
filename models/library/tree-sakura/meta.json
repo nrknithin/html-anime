@@ -1,0 +1,77 @@
+{
+  "id": "tree-sakura",
+  "name": "Cherry blossom tree",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "tree",
+    "sakura",
+    "cherry blossom",
+    "japan",
+    "spring",
+    "park",
+    "school",
+    "background",
+    "static"
+  ],
+  "style": "low-poly, flat colours, rounded faceted canopy (Quaternius 2019), recoloured pink",
+  "height": 6,
+  "script": "festival",
+  "colors": {
+    "blossom": "#f0c2ae",
+    "blossomShade": "#ff4d6d",
+    "trunk": "#24143a",
+    "trunkShade": "#1a1020"
+  },
+  "materials": {
+    "Wood": "trunk",
+    "Green": "blossom",
+    "DarkGreen": "blossom"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
+    "page": "https://opengameart.org/content/low-poly-nature-pack-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row #159 was a gap. The first candidate, light-game-studio's \"Lowpoly Sakura Tree\" (https://opengameart.org/content/lowpoly-sakura-tree, Tree2.blend, CC0 on the page, sha256 af470d739591b83179be29b843133996b77b686e6579502a52f5851646a1f40a), was ingested and rendered but read badly: six small blossom balls on a thick, bent trunk, a claw-like silhouette at hero size. This is Quaternius's CommonTree_1 from the Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), whose wide, flat, two-lobed canopy on a forked trunk is the classic spreading sakura shape; both leaf materials are recoloured to the festival script's pale pink with a rose shade. Height 6 m: a mature Somei-yoshino in a park or school yard is 5-8 m and wider than tall; here the canopy is about 6.7 x 4.6 m and starts at 3.5 m, so a 1.6 m person walks under it. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip",
+      "sha256": "92daf8b532f60ac0fb53371144d0f8e9ec2f82a2fa408effdf1a64cb8fbaee09",
+      "bytes": 22990249,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip"
+    },
+    "member": "Ultimate Nature Pack - Jun 2019/FBX/CommonTree_1.fbx",
+    "height": 6,
+    "yaw": 0,
+    "memberSha256": "0b744c9092a09bfb7228d5ecce26c665363e0f22725d3d89e356dc13789498c3"
+  },
+  "file": "model.glb",
+  "sha256": "a6c45d7c7165f3a5514f2e4c6b954dc3a9faaedcfe54b05d0ca116fd2824f24c",
+  "bytes": 40404,
+  "triangles": 2888,
+  "bones": 0,
+  "sourceMaterials": {
+    "Wood": "#6d4b45",
+    "Green": "#536d45",
+    "DarkGreen": "#415536"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 6.0001,
+    "heightError": 0,
+    "minY": -0.0001,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2888,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
