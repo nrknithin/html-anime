@@ -1,0 +1,94 @@
+{
+  "id": "katana",
+  "name": "Katana",
+  "category": "prop",
+  "tags": [
+    "prop",
+    "weapon",
+    "sword",
+    "katana",
+    "japan",
+    "samurai"
+  ],
+  "style": "photoscan-detail mesh (Poly Haven); texture flattened to a few flat colours",
+  "height": 1,
+  "script": "indigo",
+  "colors": {
+    "steel": "#d5e2ff",
+    "steelShade": "#1b2d6b",
+    "brass": "#f0c36a",
+    "brassShade": "#1b2d6b",
+    "grip": "#16141c",
+    "gripShade": "#1b2d6b"
+  },
+  "thresholds": {
+    "steel": -0.4
+  },
+  "materials": {
+    "antique_katana_01": "steel",
+    "antique_katana_01#989796": "steel",
+    "antique_katana_01#9a9a9a": "steel",
+    "antique_katana_01#b3b3b3": "steel",
+    "antique_katana_01#8a755e": "brass",
+    "antique_katana_01#2d1914": "grip"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Tal Swicegood",
+    "pack": "Poly Haven · Antique Katana 01",
+    "page": "https://polyhaven.com/a/antique_katana_01",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/antique_katana_01/antique_katana_01_1k.gltf",
+      "extraFiles": [
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/antique_katana_01/antique_katana_01.bin",
+          "path": "antique_katana_01.bin",
+          "sha256": "8ad394f302068d4d639bc611335e396f97e2cc551beb42c7ab004b79d19b8a6c"
+        },
+        {
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/antique_katana_01/antique_katana_01_diff_1k.jpg",
+          "path": "textures/antique_katana_01_diff_1k.jpg",
+          "sha256": "f6d7662ee955b27376f6f34954d289da477618d20ba8d1d6316656272463717a"
+        }
+      ],
+      "sha256": "e54b4d289b86c8f61b13bd5ea64da0d8ef9a5f6a8225726ea0777832a49ef881",
+      "bytes": 2718,
+      "resolved": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/antique_katana_01/antique_katana_01_1k.gltf"
+    },
+    "height": 1,
+    "yaw": 90,
+    "maxColors": 5
+  },
+  "file": "model.glb",
+  "sha256": "084d51229ed46699cc04ed45d866bf6d1ffa14926bb71dbb769bbebee2a08b5d",
+  "bytes": 47776,
+  "triangles": 6670,
+  "bones": 0,
+  "sourceMaterials": {
+    "antique_katana_01": "texture",
+    "antique_katana_01#989796": "#989796",
+    "antique_katana_01#9a9a9a": "#9a9a9a",
+    "antique_katana_01#b3b3b3": "#b3b3b3",
+    "antique_katana_01#8a755e": "#8a755e",
+    "antique_katana_01#2d1914": "#2d1914"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 6670,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

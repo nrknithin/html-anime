@@ -1,0 +1,200 @@
+{
+  "id": "caterpillar",
+  "name": "Caterpillar",
+  "category": "insect",
+  "tags": [
+    "animal",
+    "caterpillar",
+    "insect",
+    "bug",
+    "garden",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets): one round, cube-like segment with four stubby feet, two knobbed antennae, white mandibles and a raised band across the back; coloured as a yellow caterpillar with a red back band (the cel scripts have no green); stylized size: 0.3 m to the top of the antennae, half the cube-pet monkey (0.6 m) and about knee-high on it, so in a garden two-shot the face and antennae still read while it stays clearly the small creature (a real caterpillar is about 5 cm, which would be a speck beside the monkey); rigid parts moved by node tracks, no skin; colour map flattened to flat colours",
+  "height": 0.3,
+  "script": "indigo",
+  "colors": {
+    "body": "#f0c36a",
+    "bodyShade": "#e7a04a",
+    "stripe": "#e23b4a",
+    "stripeShade": "#f0c2ae",
+    "eye": "#f6f3ee",
+    "eyeShade": "#e7eefc",
+    "dark": "#16141c",
+    "darkShade": "#16141c"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#2f9873": "body",
+    "colormap#3fa87a": "body",
+    "colormap#52bc84": "body",
+    "colormap#56c086": "body",
+    "colormap#218a6b": "body",
+    "colormap#5ac487": "body",
+    "colormap#248d6d": "body",
+    "colormap#299270": "body",
+    "colormap#2c9571": "body",
+    "colormap#57c186": "body",
+    "colormap#51ba83": "body",
+    "colormap#4eb882": "body",
+    "colormap#38a177": "body",
+    "colormap#44ae7d": "body",
+    "colormap#42ab7c": "body",
+    "colormap#e4e4ee": "eye",
+    "colormap#ffc85a": "stripe",
+    "colormap#ffc759": "stripe",
+    "colormap#ffc457": "stripe",
+    "colormap#ffcb5d": "stripe",
+    "colormap#ffce5f": "stripe",
+    "colormap#ffc356": "stripe",
+    "colormap#ffc255": "stripe",
+    "colormap#4b4e5c": "dark"
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "thresholds": {
+    "body": 0
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "dance": "dance",
+    "eat": "eat"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (wave-1 row 57). Same zip, pin and route as the panda and monkey: ingested through Blender, with Textures/colormap.png as an extra member; the colour map flattens to 24 clusters: the 15 green clusters (a baked gradient on the body, legs and antennae) -> body, the 7 yellow clusters of the raised band across the back -> stripe, #e4e4ee -> eye (eye whites and mandibles), #4b4e5c -> dark (pupils, mouth). Recoloured from Kenney's green caterpillar with a yellow back band to a yellow caterpillar with a red band on the indigo script, which has no green. Ground: run hops and clamps so its landings never sink; walk is a bouncy trot that never sinks and is left as authored; eat lets the mandibles dip (sinkAllowed)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-caterpillar.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.3,
+    "yaw": 0,
+    "maxColors": 24,
+    "memberSha256": "470d2481ba246ff957da0164707326e805c54dde553468a104e83ad9c7281723"
+  },
+  "file": "model.glb",
+  "sha256": "69fb8910931feb2dee910f04453e4d261a54d8b15de9dc8f59fb5c5c9ff9f6f2",
+  "bytes": 74916,
+  "triangles": 578,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#2f9873": "#2f9873",
+    "colormap#3fa87a": "#3fa87a",
+    "colormap#52bc84": "#52bc84",
+    "colormap#56c086": "#56c086",
+    "colormap#218a6b": "#218a6b",
+    "colormap#5ac487": "#5ac487",
+    "colormap#248d6d": "#248d6d",
+    "colormap#299270": "#299270",
+    "colormap#2c9571": "#2c9571",
+    "colormap#57c186": "#57c186",
+    "colormap#51ba83": "#51ba83",
+    "colormap#4eb882": "#4eb882",
+    "colormap#38a177": "#38a177",
+    "colormap#44ae7d": "#44ae7d",
+    "colormap#42ab7c": "#42ab7c",
+    "colormap#e4e4ee": "#e4e4ee",
+    "colormap#ffc85a": "#ffc85a",
+    "colormap#ffc759": "#ffc759",
+    "colormap#ffc457": "#ffc457",
+    "colormap#ffcb5d": "#ffcb5d",
+    "colormap#ffce5f": "#ffce5f",
+    "colormap#ffc356": "#ffc356",
+    "colormap#ffc255": "#ffc255",
+    "colormap#4b4e5c": "#4b4e5c"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the caterpillar tips forward to nibble and the front lower edge of its face (the mandibles) dips 7 mm through the ground while the back feet stay planted (clamping would lift the back feet off the ground)"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "static": {
+      "seconds": 0.0833,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 0.3,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 578,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.3
+      },
+      "walk": {
+        "minY": 0.0006,
+        "touches": true,
+        "maxSize": 0.3
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.31
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.32
+      },
+      "eat": {
+        "minY": -0.0069,
+        "touches": true,
+        "maxSize": 0.33
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
