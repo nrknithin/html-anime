@@ -1,0 +1,120 @@
+{
+  "id": "building-apartment",
+  "name": "Apartment block",
+  "category": "building",
+  "tags": [
+    "building",
+    "apartment",
+    "mansion",
+    "office",
+    "city",
+    "street",
+    "balcony",
+    "japan"
+  ],
+  "style": "low-poly, flat colours (Kenney City Kit Commercial)",
+  "height": 12.8,
+  "script": "indigo",
+  "colors": {
+    "wall": "#f6f3ee",
+    "wallShade": "#d5e2ff",
+    "trim": "#1b2d6b",
+    "trimShade": "#1b2d6b",
+    "balcony": "#16141c",
+    "balconyShade": "#16141c",
+    "window": "#f0c36a",
+    "windowShade": "#e7a04a",
+    "plant": "#1b2d6b",
+    "plantShade": "#16141c"
+  },
+  "materials": {
+    "colormap": "wall",
+    "colormap#73788f": "trim",
+    "colormap#7f849a": "trim",
+    "colormap#676c84": "trim",
+    "colormap#5a6078": "trim",
+    "colormap#60667d": "trim",
+    "colormap#5c627a": "trim",
+    "colormap#3d3f4b": "balcony",
+    "colormap#4b4e5b": "balcony",
+    "colormap#464957": "balcony",
+    "colormap#424551": "balcony",
+    "colormap#494c5a": "balcony",
+    "colormap#454856": "balcony",
+    "colormap#f2f2f7": "wall",
+    "colormap#e8e8f0": "wall",
+    "colormap#d8d8e6": "wall",
+    "colormap#e6e6ef": "wall",
+    "colormap#cbcbdf": "wall",
+    "colormap#82aae3": "window",
+    "colormap#d5805a": "trim",
+    "colormap#3ea87a": "plant"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · City Kit Commercial",
+    "page": "https://kenney.nl/assets/city-kit-commercial",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney building-j (the plan named building-a, a squat 3-storey block with few windows; building-j is the kit's 4-storey block with a regular 5-bay window grid, four stacked balconies and a central entrance, the closest to a Japanese mid-rise mansion). FBX member plus its colormap texture, flattened to 20 colours. Height: 4 storeys at ~3 m plus the roof parapet = 12.8 m; it is then 15.75 m wide and 10.13 m deep. Front (entrance, balconies) faces +Z. Static, no clips. Indigo script: lit windows (practical/iris) on pale walls, sky-blue trim and frames, near-black balconies and roof deck."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/city-kit-commercial",
+      "sha256": "f8b09b081c2bb88bcc126e2dec1cb40fd0dad7e7e591b6c26aaefe96fb35276b",
+      "bytes": 4096974,
+      "resolved": "https://kenney.nl/media/pages/assets/city-kit-commercial/a742d900eb-1753115042/kenney_city-kit-commercial_2.1.zip"
+    },
+    "member": "Models/FBX format/building-j.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 12.8,
+    "maxColors": 20,
+    "memberSha256": "8f71730317760a9d8cd7d91a940c0f0b18dfbb14e081edcd8694264bad232040"
+  },
+  "file": "model.glb",
+  "sha256": "32dbb05428fa58266cdf623c5f13b27095a900823ea822302a21b1cd7df4fd16",
+  "bytes": 82176,
+  "triangles": 5242,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#73788f": "#73788f",
+    "colormap#7f849a": "#7f849a",
+    "colormap#676c84": "#676c84",
+    "colormap#5a6078": "#5a6078",
+    "colormap#60667d": "#60667d",
+    "colormap#5c627a": "#5c627a",
+    "colormap#3d3f4b": "#3d3f4b",
+    "colormap#4b4e5b": "#4b4e5b",
+    "colormap#464957": "#464957",
+    "colormap#424551": "#424551",
+    "colormap#494c5a": "#494c5a",
+    "colormap#454856": "#454856",
+    "colormap#f2f2f7": "#f2f2f7",
+    "colormap#e8e8f0": "#e8e8f0",
+    "colormap#d8d8e6": "#d8d8e6",
+    "colormap#e6e6ef": "#e6e6ef",
+    "colormap#cbcbdf": "#cbcbdf",
+    "colormap#82aae3": "#82aae3",
+    "colormap#d5805a": "#d5805a",
+    "colormap#3ea87a": "#3ea87a"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 12.8006,
+    "heightError": 0,
+    "minY": -0.0006,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 5242,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
