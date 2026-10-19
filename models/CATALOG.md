@@ -9,4 +9,4 @@
 
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| <img src="library/car-suv/preview.png" width="240"> | `car-suv` | SUV<br>*low-poly, flat colours (Kenney Car Kit)* | 1.45 m | 2474 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
+| <img src="library/car-suv/preview.png" width="240"> | `car-suv` | SUV<br>*low-poly, flat colours (Kenney Car Kit)* | 1.7 m | 2474 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |

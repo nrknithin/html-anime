@@ -10,7 +10,7 @@
     "street"
   ],
   "style": "low-poly, flat colours (Kenney Car Kit)",
-  "height": 1.45,
+  "height": 1.7,
   "script": "indigo",
   "colors": {
     "body": "#e7a04a",
@@ -50,7 +50,7 @@
     "pack": "Kenney · Car Kit",
     "page": "https://kenney.nl/assets/car-kit",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "note": "Kenney suv (FBX like car-sedan, car-taxi and car-police from the same kit and pin; the plan named the GLB member, which references Textures/colormap.png). Same scale as car-sedan: both are 1.3 units tall in the source, so the SUV also gets 1.45 m, which makes it 3.01 m long and 1.67 m wide (the sedan is 2.84 m long); stylized toy proportions (a real compact SUV is about 4.4 x 1.8 x 1.7 m). Kenney's green body is recoloured to the indigo script's amber-orange iris with the accent red as its shade (a colour no other library car uses; the shade stays clear of the ink outline), with the grey roof and rims in paper white, the grey rear quarter, grille and wheel-arch flares in near-black like tinted glass and trim, lamps in paper white and the practical. Wheels are separate nodes in the source; static, no clips."
+    "note": "Kenney suv (FBX like car-sedan, car-taxi and car-police from the same kit and pin; the plan named the GLB member, which references Textures/colormap.png). Real size: the kit models every car about 1.3 units tall, so the scale is set per car. This one is a boxy two-door off-roader whose length is only 2.08x its height (a 4.6 m mid-size SUV is about 2.7x), so it cannot match a typical SUV in both height and length; it is matched to a short two-door 4x4 such as a Suzuki Jimny (about 3.5-3.65 x 1.65 x 1.72 m): 1.7 m tall, which makes it 3.53 m long with the rear spare wheel and 1.96 m wide across the mirrors (body about 1.7 m). Scaling to a 4.6 m length would make it 2.2 m tall. Kenney's green body is recoloured to the indigo script's amber-orange iris with the accent red as its shade (a colour no other library car uses; the shade stays clear of the ink outline), with the grey roof and rims in paper white, the grey rear quarter, grille and wheel-arch flares in near-black like tinted glass and trim, lamps in paper white and the practical. Wheels are separate nodes in the source; static, no clips."
   },
   "ingest": {
     "fetch": {
@@ -63,13 +63,13 @@
     "extraMembers": [
       "Models/FBX format/Textures/colormap.png"
     ],
-    "height": 1.45,
+    "height": 1.7,
     "maxColors": 12,
     "memberSha256": "d44b0558458fea1f51de83c62f5c21bf82e1feebcf1fca396a73a989bb6afb12"
   },
   "file": "model.glb",
-  "sha256": "0ec48a3d38e61aea802a7df4202080c48b0b9c05edc9ffe59627a3697e05abd4",
-  "bytes": 49384,
+  "sha256": "5577b2e29275a61bddf68d2436e0a77c022f10d7c30503cd75f2cc2ecd0af87b",
+  "bytes": 49356,
   "triangles": 2474,
   "bones": 0,
   "sourceMaterials": {
@@ -89,7 +89,7 @@
   },
   "clipInfo": {},
   "qa": {
-    "height": 1.4499,
+    "height": 1.6999,
     "heightError": -0.0001,
     "minY": 0,
     "centre": [
