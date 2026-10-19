@@ -1,0 +1,412 @@
+{
+  "id": "skeleton-warrior",
+  "name": "Skeleton Warrior (KayKit)",
+  "category": "creature-monster",
+  "tags": [
+    "skeleton",
+    "undead",
+    "warrior",
+    "fantasy",
+    "monster",
+    "chibi"
+  ],
+  "style": "chibi low-poly, hard-surface, gradient atlas flattened (KayKit 2024)",
+  "height": 1.6,
+  "script": "indigo",
+  "colors": {
+    "bone": "#f6f3ee",
+    "boneShade": "#d5e2ff",
+    "iron": "#1b2d6b",
+    "ironShade": "#16141c",
+    "under": "#16141c",
+    "underShade": "#1b2d6b",
+    "cloth": "#e23b4a",
+    "clothShade": "#1b2d6b",
+    "glow": "#f0c36a",
+    "glowShade": "#f0c36a",
+    "steel": "#d5e2ff",
+    "steelShade": "#16141c",
+    "wood": "#e7a04a",
+    "woodShade": "#1b2d6b"
+  },
+  "materials": {
+    "skeleton": "bone",
+    "skeleton#626567": "iron",
+    "skeleton#d1a377": "bone",
+    "skeleton#e2c2a3": "bone",
+    "skeleton#f0e0d0": "bone",
+    "skeleton#777b7d": "iron",
+    "skeleton#4e4f50": "under",
+    "skeleton#955a43": "under",
+    "skeleton#6b233c": "cloth",
+    "skeleton#8c9193": "iron",
+    "skeleton#261e27": "under",
+    "Glow": "glow",
+    "skeleton#6d5e55": "iron",
+    "skeleton#42474b": "under",
+    "skeleton@Skeleton_Blade": "steel",
+    "skeleton@Skeleton_Blade#9aa7ac": "steel",
+    "skeleton@Skeleton_Blade#68605a": "under",
+    "skeleton@Skeleton_Blade#74787a": "steel",
+    "skeleton@Skeleton_Blade#7c8488": "steel",
+    "skeleton@Skeleton_Blade#9a5944": "steel",
+    "skeleton@Skeleton_Blade#945440": "steel",
+    "skeleton@Skeleton_Blade#a16049": "steel",
+    "skeleton@Skeleton_Blade#94533f": "steel",
+    "skeleton@Skeleton_Blade#8f9aa0": "steel",
+    "skeleton@Skeleton_Blade#899499": "steel",
+    "skeleton@Skeleton_Blade#818b90": "steel",
+    "skeleton@Skeleton_Blade#7b6b5f": "wood",
+    "skeleton@Skeleton_Shield_Small_A": "steel",
+    "skeleton@Skeleton_Shield_Small_A#757f83": "steel",
+    "skeleton@Skeleton_Shield_Small_A#919da2": "steel",
+    "skeleton@Skeleton_Shield_Small_A#848f94": "steel",
+    "skeleton@Skeleton_Shield_Small_A#7c868b": "steel",
+    "skeleton@Skeleton_Shield_Small_A#6b7478": "steel",
+    "skeleton@Skeleton_Shield_Small_A#5f676b": "steel",
+    "skeleton@Skeleton_Shield_Small_A#a0adb3": "steel",
+    "skeleton@Skeleton_Shield_Small_A#955540": "wood",
+    "skeleton@Skeleton_Shield_Small_A#a5644b": "wood",
+    "skeleton@Skeleton_Shield_Small_A#884835": "wood",
+    "skeleton@Skeleton_Shield_Small_A#9b5a45": "wood",
+    "skeleton@Skeleton_Shield_Small_A#904f3b": "wood"
+  },
+  "smooth": false,
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walking_D_Skeletons",
+    "run": "Running_A",
+    "jump": "Jump_Full_Short",
+    "attack": "1H_Melee_Attack_Chop",
+    "hit": "Hit_A",
+    "death": "Death_A",
+    "sit": "Sit_Chair_Idle",
+    "block": "Blocking"
+  },
+  "poseDefs": {
+    "guard": [
+      "block",
+      0.5
+    ],
+    "strike": [
+      "attack",
+      0.65
+    ]
+  },
+  "preview": {
+    "pose": "idle@0",
+    "clip": "attack"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kay Lousberg",
+    "pack": "KayKit · Character Pack Skeletons 1.0",
+    "page": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Skeletons-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Skeleton_Warrior.glb from the pack's GitHub mirror, pinned to commit 15b62b9 (LICENSE.txt: CC0, Kay Lousberg); the gradient atlas is embedded in the GLB. Unlike the Adventurers rigs, this GLB carries no weapons: the pack ships them as separate asset files, so Skeleton_Blade.gltf and Skeleton_Shield_Small_A.gltf (same commit, with their .bin files and skeleton_texture.png) are attached with ingest.attach to handslot.r and handslot.l. 26 of 95 clips kept (1H melee set, block, hits, deaths, the skeleton-only shamble, collapse/resurrect and awaken/spawn clips, taunt, cheer, sit; ranged, 2H, dual-wield, spellcast, lie-down and pose clips dropped). death is Death_A; Death_C_Skeletons (falls apart: the body tumbles about 1.5 m back and one leg is left standing, as authored) and Death_C_Skeletons_Resurrect stay under their own names. Height 1.6 m like the KayKit knight: KayKit characters are chibi (head about a third of the body), so 1.6 m keeps the helmeted skull near a real head size. Colours: the bones stay bone-white as the main read; the grey iron armour and helmet go navy (sky over near-black); the blade is pale steel (moon over near-black) so it reads apart from the navy armour in both tones; the shield has a steel rim and an amber wooden face."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Skeletons-1.0/15b62b9bad122f72926c10fb14d622c73819fa54/addons/kaykit_character_pack_skeletons/Characters/gltf/Skeleton_Warrior.glb",
+      "sha256": "178b6fda810b814c250d8a2010c24dfd9b458b9006dd323353e620b7ff118bbe",
+      "bytes": 4863620,
+      "resolved": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Skeletons-1.0/15b62b9bad122f72926c10fb14d622c73819fa54/addons/kaykit_character_pack_skeletons/Characters/gltf/Skeleton_Warrior.glb",
+      "extraFiles": [
+        {
+          "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Skeletons-1.0/15b62b9bad122f72926c10fb14d622c73819fa54/addons/kaykit_character_pack_skeletons/Assets/gltf/Skeleton_Blade.gltf",
+          "path": "Assets/gltf/Skeleton_Blade.gltf",
+          "sha256": "682a1df2eecb93dea35de628d6b93ca40d1b83586422356f3c1956741f2abf76"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Skeletons-1.0/15b62b9bad122f72926c10fb14d622c73819fa54/addons/kaykit_character_pack_skeletons/Assets/gltf/Skeleton_Blade.bin",
+          "path": "Assets/gltf/Skeleton_Blade.bin",
+          "sha256": "ccf4f6642130d11650400fa649669ccdb784280eef235fac3a12a197cbc7debe"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Skeletons-1.0/15b62b9bad122f72926c10fb14d622c73819fa54/addons/kaykit_character_pack_skeletons/Assets/gltf/Skeleton_Shield_Small_A.gltf",
+          "path": "Assets/gltf/Skeleton_Shield_Small_A.gltf",
+          "sha256": "9d1d5acb0d945d36aebc57ffb9b64ad016967973e4353a632246e5c7e07346e2"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Skeletons-1.0/15b62b9bad122f72926c10fb14d622c73819fa54/addons/kaykit_character_pack_skeletons/Assets/gltf/Skeleton_Shield_Small_A.bin",
+          "path": "Assets/gltf/Skeleton_Shield_Small_A.bin",
+          "sha256": "0a56f31d33ec36483163aa680279884b1b488cd634fe73541089d7032fac7962"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Skeletons-1.0/15b62b9bad122f72926c10fb14d622c73819fa54/addons/kaykit_character_pack_skeletons/Assets/gltf/skeleton_texture.png",
+          "path": "Assets/gltf/skeleton_texture.png",
+          "sha256": "15741a25c53e04fa9bf3beac3bc0de442359404b1ff9be863b892cb551ad3657"
+        }
+      ]
+    },
+    "height": 1.6,
+    "keepActions": [
+      "Idle",
+      "Idle_Combat",
+      "Walking_A",
+      "Walking_D_Skeletons",
+      "Walking_Backwards",
+      "Running_A",
+      "Running_B",
+      "Jump_Full_Short",
+      "1H_Melee_Attack_Chop",
+      "1H_Melee_Attack_Slice_Diagonal",
+      "1H_Melee_Attack_Stab",
+      "1H_Melee_Attack_Jump_Chop",
+      "Unarmed_Melee_Attack_Punch_A",
+      "Block",
+      "Blocking",
+      "Hit_A",
+      "Hit_B",
+      "Death_A",
+      "Death_C_Skeletons",
+      "Death_C_Skeletons_Resurrect",
+      "Skeletons_Awaken_Floor",
+      "Skeletons_Awaken_Standing",
+      "Spawn_Ground_Skeletons",
+      "Taunt",
+      "Cheer",
+      "Sit_Chair_Idle"
+    ],
+    "attach": [
+      {
+        "file": "Assets/gltf/Skeleton_Blade.gltf",
+        "bone": "handslot.r"
+      },
+      {
+        "file": "Assets/gltf/Skeleton_Shield_Small_A.gltf",
+        "bone": "handslot.l"
+      }
+    ]
+  },
+  "file": "model.glb",
+  "sha256": "2aaf5ed2c865a4c2af03a0100f9a6757f70191962394423672a2cdd45bcf457e",
+  "bytes": 1012308,
+  "triangles": 6891,
+  "bones": 41,
+  "sourceMaterials": {
+    "skeleton": "texture",
+    "skeleton#626567": "#626567",
+    "skeleton#d1a377": "#d1a377",
+    "skeleton#e2c2a3": "#e2c2a3",
+    "skeleton#f0e0d0": "#f0e0d0",
+    "skeleton#777b7d": "#777b7d",
+    "skeleton#4e4f50": "#4e4f50",
+    "skeleton#955a43": "#955a43",
+    "skeleton#6b233c": "#6b233c",
+    "skeleton#8c9193": "#8c9193",
+    "skeleton#261e27": "#261e27",
+    "Glow": "#ffffff",
+    "skeleton#6d5e55": "#6d5e55",
+    "skeleton#42474b": "#42474b",
+    "skeleton@Skeleton_Blade": "texture",
+    "skeleton@Skeleton_Blade#9aa7ac": "#9aa7ac",
+    "skeleton@Skeleton_Blade#68605a": "#68605a",
+    "skeleton@Skeleton_Blade#74787a": "#74787a",
+    "skeleton@Skeleton_Blade#7c8488": "#7c8488",
+    "skeleton@Skeleton_Blade#9a5944": "#9a5944",
+    "skeleton@Skeleton_Blade#945440": "#945440",
+    "skeleton@Skeleton_Blade#a16049": "#a16049",
+    "skeleton@Skeleton_Blade#94533f": "#94533f",
+    "skeleton@Skeleton_Blade#8f9aa0": "#8f9aa0",
+    "skeleton@Skeleton_Blade#899499": "#899499",
+    "skeleton@Skeleton_Blade#818b90": "#818b90",
+    "skeleton@Skeleton_Blade#7b6b5f": "#7b6b5f",
+    "skeleton@Skeleton_Shield_Small_A": "texture",
+    "skeleton@Skeleton_Shield_Small_A#757f83": "#757f83",
+    "skeleton@Skeleton_Shield_Small_A#919da2": "#919da2",
+    "skeleton@Skeleton_Shield_Small_A#848f94": "#848f94",
+    "skeleton@Skeleton_Shield_Small_A#7c868b": "#7c868b",
+    "skeleton@Skeleton_Shield_Small_A#6b7478": "#6b7478",
+    "skeleton@Skeleton_Shield_Small_A#5f676b": "#5f676b",
+    "skeleton@Skeleton_Shield_Small_A#a0adb3": "#a0adb3",
+    "skeleton@Skeleton_Shield_Small_A#955540": "#955540",
+    "skeleton@Skeleton_Shield_Small_A#a5644b": "#a5644b",
+    "skeleton@Skeleton_Shield_Small_A#884835": "#884835",
+    "skeleton@Skeleton_Shield_Small_A#9b5a45": "#9b5a45",
+    "skeleton@Skeleton_Shield_Small_A#904f3b": "#904f3b"
+  },
+  "clipInfo": {
+    "1H_Melee_Attack_Chop": {
+      "seconds": 1.0417,
+      "loop": false
+    },
+    "1H_Melee_Attack_Jump_Chop": {
+      "seconds": 1.3333,
+      "loop": false
+    },
+    "1H_Melee_Attack_Slice_Diagonal": {
+      "seconds": 1,
+      "loop": false
+    },
+    "1H_Melee_Attack_Stab": {
+      "seconds": 1.5833,
+      "loop": false
+    },
+    "Block": {
+      "seconds": 1.0417,
+      "loop": false
+    },
+    "Blocking": {
+      "seconds": 1.0417,
+      "loop": true
+    },
+    "Cheer": {
+      "seconds": 1.6667,
+      "loop": true
+    },
+    "Death_A": {
+      "seconds": 0.7917,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Death_C_Skeletons": {
+      "seconds": 2,
+      "loop": false
+    },
+    "Death_C_Skeletons_Resurrect": {
+      "seconds": 2.6667,
+      "loop": false
+    },
+    "Hit_A": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Hit_B": {
+      "seconds": 0.8333,
+      "loop": false
+    },
+    "Idle": {
+      "seconds": 1.0417,
+      "loop": true
+    },
+    "Idle_Combat": {
+      "seconds": 4.25,
+      "loop": true
+    },
+    "Jump_Full_Short": {
+      "seconds": 1.1667,
+      "loop": false
+    },
+    "Running_A": {
+      "seconds": 0.7917,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Running_B": {
+      "seconds": 1.0417,
+      "loop": true
+    },
+    "Sit_Chair_Idle": {
+      "seconds": 3.5833,
+      "loop": true
+    },
+    "Skeletons_Awaken_Floor": {
+      "seconds": 2.2917,
+      "loop": false
+    },
+    "Skeletons_Awaken_Standing": {
+      "seconds": 1,
+      "loop": false
+    },
+    "Spawn_Ground_Skeletons": {
+      "seconds": 3.5417,
+      "loop": false
+    },
+    "Taunt": {
+      "seconds": 1,
+      "loop": false
+    },
+    "Unarmed_Melee_Attack_Punch_A": {
+      "seconds": 1.4583,
+      "loop": false
+    },
+    "Walking_A": {
+      "seconds": 1.0417,
+      "loop": true
+    },
+    "Walking_Backwards": {
+      "seconds": 1.0417,
+      "loop": true
+    },
+    "Walking_D_Skeletons": {
+      "seconds": 1.5833,
+      "loop": true,
+      "ground": "clamp"
+    }
+  },
+  "noInk": [
+    "glow"
+  ],
+  "doubleSided": [
+    "cloth"
+  ],
+  "thresholds": {
+    "cloth": -0.6,
+    "bone": -0.2,
+    "iron": -0.1,
+    "steel": 0,
+    "wood": -0.2
+  },
+  "qa": {
+    "height": 1.6,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 6891,
+    "clips": {
+      "idle": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.59
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.67
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.6
+      },
+      "jump": {
+        "minY": -0.0024,
+        "touches": true,
+        "maxSize": 1.64
+      },
+      "attack": {
+        "minY": -0.0045,
+        "touches": true,
+        "maxSize": 1.61
+      },
+      "hit": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.6
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.7
+      },
+      "sit": {
+        "minY": 0.1462,
+        "touches": false,
+        "maxSize": 1.52
+      },
+      "block": {
+        "minY": -0.0003,
+        "touches": true,
+        "maxSize": 1.58
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + attack"
+  }
+}
