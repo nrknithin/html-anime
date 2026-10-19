@@ -1,0 +1,175 @@
+{
+  "id": "apatosaurus",
+  "name": "Apatosaurus",
+  "category": "dinosaur",
+  "tags": [
+    "animal",
+    "dinosaur",
+    "apatosaurus",
+    "sauropod",
+    "long-neck",
+    "herbivore",
+    "prehistoric",
+    "quadruped"
+  ],
+  "style": "low-poly, flat colours",
+  "height": 5.4,
+  "script": "indigo",
+  "colors": {
+    "hide": "#d5e2ff",
+    "hideShade": "#1b2d6b",
+    "belly": "#f6f3ee",
+    "bellyShade": "#d5e2ff",
+    "nail": "#f6f3ee",
+    "nailShade": "#d5e2ff",
+    "eye": "#16141c",
+    "eyeShade": "#1b2d6b"
+  },
+  "materials": {
+    "Brown": "hide",
+    "LightBrown": "belly",
+    "Material": "nail",
+    "Black": "eye"
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "clips": {
+    "idle": "Apatosaurus_Idle",
+    "walk": "Apatosaurus_Walk",
+    "run": "Apatosaurus_Run",
+    "attack": "Apatosaurus_Attack",
+    "jump": "Apatosaurus_Jump",
+    "death": "Stegosaurus_Death"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated LowPoly Dinosaurs",
+    "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 62 named the Quaternius Animated Creatures/Dinosaurs Apatosaurus on poly.pizza (Cloudflare challenge). This is the same Quaternius dinosaur pack (Dec 2018) from its itch.io page, CC0, fetched as for the t-rex and velociraptor. Height: the rest pose carries the neck about level, so its top (the head, 5.4 m) sits just above the back; at 5.4 m the back over the hips is ~4.6 m and the length 23 m, an adult Apatosaurus (21-23 m long, ~4.5 m at the hips). The neck raised high (~9 m head height) is not a pose the rig rests in. The pack ships this rig's death clip under the name Stegosaurus_Death; it is keyed for this skeleton and plays correctly."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+      "upload": "Dinosaur Animated Pack - Dec 2018.zip",
+      "sha256": "d9ca7d3568bd98b323b0be9a82b546af66d77c2a18e355c1bee5c50061b8931c",
+      "bytes": 10849959
+    },
+    "member": "Dinosaur Animated Pack - Dec 2018/FBX/Apatosaurus.fbx",
+    "height": 5.4,
+    "memberSha256": "e09a1c62f282cf5470d297c6a67f5acb51b09edd1a26af35d2f7fa30fedda2b4"
+  },
+  "file": "model.glb",
+  "sha256": "304580e21ed0b70c6187015c241acd5d7b76d1594462bcd1d5b98f0a54c54880",
+  "bytes": 201320,
+  "triangles": 1442,
+  "bones": 29,
+  "sourceMaterials": {
+    "Brown": "#4c5347",
+    "Black": "#111111",
+    "Material": "#6d624f",
+    "LightBrown": "#665742"
+  },
+  "clipInfo": {
+    "Apatosaurus_Attack": {
+      "seconds": 1.9167,
+      "loop": false
+    },
+    "Apatosaurus_Idle": {
+      "seconds": 4.2917,
+      "loop": true
+    },
+    "Apatosaurus_Jump": {
+      "seconds": 1.875,
+      "loop": false
+    },
+    "Apatosaurus_Run": {
+      "seconds": 1.5,
+      "loop": true
+    },
+    "Apatosaurus_Walk": {
+      "seconds": 5.25,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Stegosaurus_Death": {
+      "seconds": 1.625,
+      "loop": false,
+      "lift": [
+        [
+          0.88,
+          0
+        ],
+        [
+          1.0341,
+          0.86
+        ],
+        [
+          1.0833,
+          0.69
+        ],
+        [
+          1.1326,
+          0.57
+        ],
+        [
+          1.1818,
+          0.51
+        ],
+        [
+          1.2311,
+          0.497
+        ]
+      ],
+      "sinkAllowed": "rearing and toppling, the long tail sweeps through the ground (up to 1.7 m) while the feet stay planted; once the body lies down it is lifted onto y = 0"
+    }
+  },
+  "qa": {
+    "height": 5.3994,
+    "heightError": -0.0001,
+    "minY": 0.0006,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1442,
+    "clips": {
+      "idle": {
+        "minY": -0.0013,
+        "touches": true,
+        "maxSize": 22.92
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 22.78
+      },
+      "run": {
+        "minY": -0.0166,
+        "touches": true,
+        "maxSize": 23.16
+      },
+      "attack": {
+        "minY": -0.0194,
+        "touches": true,
+        "maxSize": 19.3
+      },
+      "jump": {
+        "minY": -0.0106,
+        "touches": true,
+        "maxSize": 22.19
+      },
+      "death": {
+        "minY": -1.7072,
+        "touches": true,
+        "maxSize": 21.47
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
