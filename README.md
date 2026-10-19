@@ -1,0 +1,169 @@
+<h1 align="center">html-anime</h1>
+
+<p align="center">
+  <b>Prompt an anime. Your coding agent draws it in code.</b>
+</p>
+
+<p align="center">
+  <a href="https://github.com/blixvip/html-anime/stargazers"><img src="https://img.shields.io/github/stars/blixvip/html-anime?style=flat-square&color=e8434b" alt="GitHub stars"></a>
+  <a href="https://blixvip.github.io/html-anime/"><img src="https://img.shields.io/badge/site-blixvip.github.io%2Fhtml--anime-111?style=flat-square" alt="Site"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111?style=flat-square" alt="MIT license"></a>
+  <img src="https://img.shields.io/badge/render-HyperFrames-111?style=flat-square" alt="HyperFrames">
+  <img src="https://img.shields.io/badge/agents-Claude%20%C2%B7%20Codex%20%C2%B7%20Cursor%20%C2%B7%20Grok-111?style=flat-square" alt="Claude, Codex, Cursor, Grok">
+  <a href="https://discord.gg/zEB4VjmfSb"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord"></a>
+</p>
+
+<p align="center">
+  <a href="https://blixvip.github.io/html-anime/"><img src="media/city.jpg" width="860" alt="A moon over the night city, a still from Kokuyō"></a>
+</p>
+
+<p align="center">
+  <sub>A still from <i>Kokuyō</i>, drawn entirely in HTML. <a href="https://blixvip.github.io/html-anime/">Watch it on the site</a> · <a href="media/film.mp4">media/film.mp4</a></sub>
+</p>
+
+An anime, written as HTML. You write a scene. [The site](https://blixvip.github.io/html-anime/) turns it into a shot sheet: holds, one expensive shot, a closed color script. Paste that sheet into Claude, Codex, Cursor, or Grok. The agent draws the frames.
+
+The pictures are HTML, timed for [HyperFrames](https://github.com/heygen-com/hyperframes). Nothing here calls a video model.
+
+## The film
+
+Kokuyō. Watch it on [the site](https://blixvip.github.io/html-anime/) or open [media/film.mp4](media/film.mp4).
+
+<table>
+  <tr>
+    <td width="50%"><img src="media/moon.jpg" alt="A cracked moon falling through rain"></td>
+    <td width="50%"><img src="media/fight.jpg" alt="Two figures crossing blades in front of the moon"></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="media/helm.jpg" alt="A dark helm with a red crescent"></td>
+    <td width="50%"><img src="media/ren.jpg" alt="A close-up washed in white light"></td>
+  </tr>
+</table>
+
+## Start
+
+```
+git clone https://github.com/blixvip/html-anime.git
+cd html-anime
+```
+
+Open the folder in the agent you already use and paste a sheet as the first message. The site builds the sheet in the browser. `harness/compile.js` builds the same sheet in Node.
+
+Serve the site from this folder, then open the address it prints:
+
+```
+python -m http.server
+```
+
+Opening `index.html` as a file shows that same instruction. The sheet will not run until the folder is served.
+
+Or build a sheet in Node (no dependencies):
+
+```js
+import { compileBrief } from "./harness/compile.js";
+
+const sheet = compileBrief({
+  logline: "On a roof in the rain, a red moon opens and a line of light falls.",
+  seconds: 8,          // 8, 12, or 20
+  aspect: "16:9",      // or "9:16"
+  script: "indigo",    // indigo, eclipse, noon, festival, or meadow
+  medium: "cel",       // optional: "cel" (default) or "3d"
+  dialogue: "The rain hid the sound of the blade.",
+});
+console.log(sheet.ok ? sheet.markdown : sheet.error);
+```
+
+| Agent | What it reads | Open |
+| --- | --- | --- |
+| Claude Code | `CLAUDE.md` | `claude` |
+| Codex | `AGENTS.md` | `codex` |
+| Cursor | `.cursor/rules/html-anime.mdc` | `cursor .` |
+| Grok | `AGENTS.md` | `grok` |
+
+## What is in the repo
+
+- `index.html` — the site
+- `skills/html-anime-direct/SKILL.md` — which shots exist
+- `skills/html-anime-cel/SKILL.md` — how a frame is painted
+- `skills/html-anime-timing/SKILL.md` — twos, holds, the smear
+- `skills/html-anime-camera/SKILL.md` — the cut and the frame
+- `skills/html-anime-render/SKILL.md` — the HyperFrames file
+- `harness/compile.js` — logline to sheet
+- `media/film.mp4` — Kokuyō, the film
+- `media/city.jpg`, `media/moon.jpg`, `media/fight.jpg`, `media/helm.jpg`, `media/ren.jpg` — stills from it
+- `skills/html-anime-3d/SKILL.md` — the 3D layer: two tones, ink hull, drawing on hf-seek
+- `films/roof/` — an 8 second reference. File shape and the color-dip cut, not a film to remix
+- `films/lantern/` — a 3D reference. The two-tone shader, the ink outline, drawing on `hf-seek`
+- `models/` — procedural three.js models for 3D films, with renders in `models/renders/`
+- `skills/html-anime-model/SKILL.md` — how a model is built, measured, rigged, and put in a film
+- `harness/lab/` — the model lab: shoots a model from fixed views in cel, clay, or silhouette
+- `AGENTS.md` — the contract
+
+## 3D
+
+Pick the 3D cel medium and the sheet adds a `## 3D` section. three.js draws the solid things on a transparent canvas. The background stays flat SVG. Every surface has two tones, and the outline is an ink hull.
+
+Poses step on twos. Frames are drawn from the `hf-seek` time and nothing else. [films/lantern/index.html](films/lantern/index.html) shows it. [skills/html-anime-3d/SKILL.md](skills/html-anime-3d/SKILL.md) owns the rules.
+
+## Models
+
+The solid subjects of a 3D film are code: lofted rings, tubes, and pivots, two tones and an ink hull, posed from literal tables. No meshes are downloaded. `models/` holds eight, each built against measured reference photos: a horse, an ox, a frog, a dragon, a knight, an anime heroine, an AE86, and a wolf (built from the model skill alone, to test it).
+
+<table>
+  <tr>
+    <td width="50%"><img src="models/renders/dragon-wings-up.png" alt="A red dragon with raised bat wings, hero and side views"></td>
+    <td width="50%"><img src="models/renders/heroine.png" alt="An anime heroine in a sailor uniform, four views"></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="models/renders/knight-guard.png" alt="A knight in plate armour in guard, with sword and heater shield"></td>
+    <td width="50%"><img src="models/renders/horse-gallop-b.png" alt="A chestnut horse mid-gallop"></td>
+  </tr>
+</table>
+
+The lab shoots a model from fixed views in `cel`, `clay`, or `sil`, against a reference photo if you give it one. The probe prints the numbers without a browser: bounding box, lowest point, triangles, joint positions, ground contacts.
+
+```
+npm run lab -- --model models/ox.js --views left,front,three4,top --mode cel --out renders/ox.png
+npm run lab -- --model models/ox.js --views right --mode sil --ref photo.jpg --ref-view right --ref-mode edge --ref-crop 0.1,0.05,0.85,0.88 --out renders/fit.png
+npm run probe -- --model models/ox.js --poses all
+```
+
+[skills/html-anime-model/SKILL.md](skills/html-anime-model/SKILL.md) owns the loop. [harness/lab/README.md](harness/lab/README.md) is the lab manual.
+
+## Test
+
+```
+npm test
+```
+
+Checks that every runtime sums exactly and has one sakuga shot, and that the sheet carries the size, frame count, and dialogue.
+
+## Render the reference
+
+```
+cd films/roof
+npx hyperframes preview
+```
+
+Lint before you trust a new film:
+
+```
+npx hyperframes lint
+npx hyperframes validate
+```
+
+## Sheet rules the agent is not allowed to break
+
+- Shot times sum to 8, 12, or 20 seconds
+- One sakuga shot. The others stay on three drawings
+- Acting on twos. Rain and a blade on ones
+- Only the hexes printed on the sheet
+- The line you wrote, verbatim, or no dialogue at all
+
+## Community
+
+💬 [Join the Discord](https://discord.gg/zEB4VjmfSb) for questions, help, feedback, and updates.
+
+## License
+
+[MIT](LICENSE). The reference film's font keeps its own license: see [films/roof/fonts/NOTICE.txt](films/roof/fonts/NOTICE.txt).

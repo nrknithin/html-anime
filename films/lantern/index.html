@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Lantern — html-anime</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #101628;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #101628;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .paint {
+        width: 1920px;
+        height: 1080px;
+      }
+      #stage {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #dip {
+        background: #e23b4a;
+      }
+      #end {
+        background: #101628;
+      }
+      #dip,
+      #end,
+      #speed {
+        opacity: 0;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.min.js" } }
+    </script>
+  </head>
+  <body>
+    <div id="root" data-composition-id="lantern" data-fps="24" data-start="0" data-duration="8" data-width="1920" data-height="1080">
+      <!-- Layer 1, flat SVG paint behind the canvas. Shot 1 · Establish · 0.00–2.40 -->
+      <div id="s1" class="clip" data-start="0" data-duration="2.4" data-track-index="1">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <defs>
+            <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#101628" />
+              <stop offset="0.55" stop-color="#1b2d6b" />
+            </linearGradient>
+          </defs>
+          <rect width="1920" height="1080" fill="url(#sky1)" />
+          <path stroke="#e7eefc" stroke-linecap="round" stroke-width="6" d="M210,96h0M760,70h0M1760,120h0" />
+          <path stroke="#e7eefc" stroke-linecap="round" stroke-width="4" d="M470,190h0M1010,150h0M1190,60h0M1840,290h0M90,300h0" />
+          <circle cx="1450" cy="190" r="58" fill="#d5e2ff" />
+          <path fill="#101628" d="M0,1080 L0,470 L60,470 L60,420 L150,420 L150,452 L230,452 L230,380 L262,380 L262,352 L292,352 L292,380 L330,380 L330,468 L430,468 L430,430 L520,430 L520,486 L640,486 L640,404 L700,404 L700,372 L760,372 L760,404 L800,404 L800,474 L930,474 L930,448 L1040,448 L1040,410 L1110,410 L1110,462 L1240,462 L1240,392 L1270,392 L1270,330 L1284,330 L1284,392 L1330,392 L1330,456 L1460,456 L1460,420 L1560,420 L1560,476 L1680,476 L1680,398 L1760,398 L1760,444 L1920,444 L1920,1080 Z" />
+          <path fill="#f0c36a" d="M96,440h10v14h-10zM248,400h9v13h-9zM676,390h9v12h-9zM1060,428h10v13h-10zM1700,414h9v13h-9z" />
+        </svg>
+      </div>
+      <!-- Shot 2 · Sakuga · 2.40–6.00 -->
+      <div id="s2" class="clip" data-start="2.4" data-duration="3.6" data-track-index="1">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <defs>
+            <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#101628" />
+              <stop offset="1" stop-color="#1b2d6b" />
+            </linearGradient>
+          </defs>
+          <rect width="1920" height="1080" fill="url(#sky2)" />
+          <path stroke="#e7eefc" stroke-linecap="round" stroke-width="6" d="M300,140h0M1560,110h0" />
+          <path stroke="#e7eefc" stroke-linecap="round" stroke-width="4" d="M640,80h0M1780,260h0M140,380h0" />
+        </svg>
+      </div>
+      <!-- Shot 3 · Button · 6.00–8.00 -->
+      <div id="s3" class="clip" data-start="6" data-duration="2" data-track-index="1">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <defs>
+            <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#101628" />
+              <stop offset="1" stop-color="#1b2d6b" />
+            </linearGradient>
+          </defs>
+          <rect width="1920" height="1080" fill="url(#sky3)" />
+          <path stroke="#e7eefc" stroke-linecap="round" stroke-width="6" d="M260,180h0M1720,860h0" />
+          <path stroke="#e7eefc" stroke-linecap="round" stroke-width="4" d="M520,90h0M380,640h0M1820,160h0" />
+          <circle cx="1190" cy="430" r="320" fill="#d5e2ff" />
+        </svg>
+      </div>
+      <!-- Layer 2, the solids: one transparent canvas for the whole film -->
+      <div id="gl" class="clip" data-start="0" data-duration="8" data-track-index="2">
+        <canvas id="stage" width="1920" height="1080"></canvas>
+      </div>
+      <!-- Layer 3, DOM on top: speed lines that cross the solids, the dip, the fade -->
+      <div id="fx" class="clip" data-start="2.4" data-duration="3.6" data-track-index="3">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <path id="speed" stroke="#e7eefc" stroke-width="5" stroke-linecap="round" d="M600,840 L760,690 M700,890 L900,702 M830,860 L944,754 M640,744 L716,672" />
+        </svg>
+      </div>
+      <div id="dip" class="clip" data-start="2.1" data-duration="4.3" data-track-index="4"></div>
+      <div id="end" class="clip" data-start="7.6" data-duration="0.4" data-track-index="5"></div>
+    </div>
+
+    <script>
+      const F = 1 / 24;
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#dip", { opacity: 0 }, 2.1);
+      tl.to("#dip", { opacity: 1, duration: 0.25, ease: "power2.in" }, 2.15);
+      tl.to("#dip", { opacity: 0, duration: 0.35, ease: "power2.out" }, 2.45);
+      tl.set("#speed", { opacity: 1 }, 78 * F);
+      tl.set("#speed", { opacity: 0 }, 80 * F);
+      tl.to("#dip", { opacity: 1, duration: 0.25, ease: "power2.in" }, 5.75);
+      tl.to("#dip", { opacity: 0, duration: 0.35, ease: "power2.out" }, 6.05);
+      tl.to("#end", { opacity: 1, duration: 8 * F, ease: "power1.in" }, 184 * F);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["lantern"] = tl;
+    </script>
+
+    <script type="module">
+      // Two-tone pairs, base / shade, all from the "Indigo moon" script:
+      //   buildings, tanks, antennas  sky #1b2d6b / ink #101628
+      //   parapet caps               line #e7eefc / sky #1b2d6b
+      //   lantern paper              practical #f0c36a / iris #e7a04a
+      //   lantern ribs               iris #e7a04a / accent #e23b4a
+      //   lantern wire               hair #16141c / ink #101628
+      //   flame                      line #e7eefc / practical #f0c36a
+      //   ink hull                   ink #101628
+      import * as THREE from "three";
+      window.THREE = THREE;
+
+      const [W, H] = [1920, 1080];
+      const [INK, SKY, LINE, PRACTICAL, IRIS, ACCENT, HAIR] = [0x101628, 0x1b2d6b, 0xe7eefc, 0xf0c36a, 0xe7a04a, 0xe23b4a, 0x16141c];
+      const LIGHT = new THREE.Vector3(0.62, 0.72, 0.3).normalize(); // the moon: up, right, a little front
+
+      // Raw sRGB, straight to the framebuffer: no colorspace or tonemapping chunk, so pixels equal the sheet hex.
+      const rgb = (h) => new THREE.Vector3(((h >> 16) & 255) / 255, ((h >> 8) & 255) / 255, (h & 255) / 255);
+      const TONE_VS = `
+        varying vec3 vN;
+        void main() {
+          vN = transpose(inverse(mat3(modelMatrix))) * normal;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }`;
+      const TONE_FS = `
+        uniform vec3 base, shade, light;
+        uniform float threshold;
+        varying vec3 vN;
+        void main() { gl_FragColor = vec4(dot(normalize(vN), light) > threshold ? base : shade, 1.0); }`;
+      // Inverted hull, pushed out a fixed number of pixels in clip space so near and far lines match.
+      const HULL_VS = `
+        attribute vec3 hullNormal;
+        uniform float px;
+        uniform vec2 res;
+        void main() {
+          vec4 c = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          vec2 d = (projectionMatrix * vec4(normalMatrix * hullNormal, 0.0)).xy * res;
+          c.xy += d / max(length(d), 1e-4) * (2.0 * px / res) * c.w;
+          gl_Position = c;
+        }`;
+      const HULL_FS = `uniform vec3 ink; void main() { gl_FragColor = vec4(ink, 1.0); }`;
+
+      const tones = {};
+      const tone = (base, shade, threshold = 0.35) =>
+        (tones[[base, shade, threshold]] ||= new THREE.ShaderMaterial({
+          uniforms: { base: { value: rgb(base) }, shade: { value: rgb(shade) }, light: { value: LIGHT }, threshold: { value: threshold } },
+          vertexShader: TONE_VS,
+          fragmentShader: TONE_FS,
+        }));
+      const hull = new THREE.ShaderMaterial({ vertexShader: HULL_VS, fragmentShader: HULL_FS, side: THREE.BackSide,
+        uniforms: { ink: { value: rgb(INK) }, px: { value: 5 }, res: { value: new THREE.Vector2(W, H) } } });
+
+      // Boxes and cylinder caps have split normals. Average them per position so the hull closes at corners.
+      function hullNormals(g) {
+        const p = g.attributes.position;
+        const n = g.attributes.normal;
+        const key = (i) => [p.getX(i), p.getY(i), p.getZ(i)].map((v) => v.toFixed(4)).join();
+        const sum = new Map();
+        for (let i = 0; i < p.count; i++) {
+          const s = sum.get(key(i)) || [0, 0, 0];
+          sum.set(key(i), [s[0] + n.getX(i), s[1] + n.getY(i), s[2] + n.getZ(i)]);
+        }
+        const out = new Float32Array(p.count * 3);
+        for (let i = 0; i < p.count; i++) {
+          const s = sum.get(key(i));
+          const l = Math.hypot(...s) || 1;
+          out.set([s[0] / l, s[1] / l, s[2] / l], i * 3);
+        }
+        g.setAttribute("hullNormal", new THREE.BufferAttribute(out, 3));
+        return g;
+      }
+
+      function solid(parent, geo, mat, x, y, z, inked = true) {
+        const m = new THREE.Mesh(geo, mat);
+        if (inked) m.add(new THREE.Mesh(hullNormals(geo), hull));
+        m.position.set(x, y, z);
+        parent.add(m);
+        return m;
+      }
+      const block = (parent, x0, x1, y0, y1, z0, z1, mat = tone(SKY, INK), inked = true) =>
+        solid(parent, new THREE.BoxGeometry(x1 - x0, y1 - y0, z1 - z0), mat, (x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2, inked);
+
+      function building(parent, x0, x1, z0, z1, top) {
+        const [t, h, cap] = [0.24, 0.55, tone(LINE, SKY)];
+        block(parent, x0, x1, top - 40, top, z0, z1);
+        block(parent, x0, x1, top, top + h, z1 - t, z1, cap);
+        block(parent, x0, x1, top, top + h, z0, z0 + t, cap);
+        block(parent, x0, x0 + t, top, top + h, z0 + t, z1 - t, cap);
+        block(parent, x1 - t, x1, top, top + h, z0 + t, z1 - t, cap);
+      }
+      function tank(parent, x, y, z, r) {
+        const legs = 1.1;
+        for (const [dx, dz] of [[-0.6, -0.6], [0.6, -0.6], [-0.6, 0.6], [0.6, 0.6]]) block(parent, x + dx * r - 0.09, x + dx * r + 0.09, y, y + legs, z + dz * r - 0.09, z + dz * r + 0.09);
+        solid(parent, new THREE.CylinderGeometry(r, r, r * 1.7, 24), tone(SKY, INK), x, y + legs + r * 0.85, z);
+        solid(parent, new THREE.ConeGeometry(r * 1.08, r * 0.6, 24), tone(SKY, INK), x, y + legs + r * 2, z);
+      }
+      function antenna(parent, x, y, z, h) {
+        solid(parent, new THREE.CylinderGeometry(0.07, 0.07, h, 8), tone(SKY, INK), x, y + h / 2, z);
+        for (const [at, w] of [[0.62, 1.6], [0.8, 1.1], [0.94, 0.6]]) block(parent, x - w / 2, x + w / 2, y + h * at - 0.05, y + h * at + 0.05, z - 0.05, z + 0.05);
+      }
+
+      // The lantern: a sky lantern, open at the bottom, built up from y = 0 so it squashes from its base.
+      const PROFILE = [[0.5, 0], [0.56, 0.18], [0.68, 0.55], [0.78, 0.95], [0.84, 1.3], [0.83, 1.55], [0.74, 1.78], [0.52, 1.95], [0.24, 2.03], [0.001, 2.05]];
+      function makeLantern() {
+        const g = new THREE.Group();
+        const curve = new THREE.SplineCurve(PROFILE.map(([r, y]) => new THREE.Vector2(r, y)));
+        solid(g, new THREE.LatheGeometry(curve.getPoints(48), 48), tone(PRACTICAL, IRIS, -0.25), 0, 0, 0); // it glows: thin shade
+        for (const [y, r] of [[0.62, 0.7], [1.42, 0.84]]) {
+          solid(g, new THREE.TorusGeometry(r, 0.028, 6, 48), tone(IRIS, ACCENT, -0.25), 0, y, 0, false).rotation.x = Math.PI / 2;
+        }
+        solid(g, new THREE.TorusGeometry(0.5, 0.04, 6, 40), tone(HAIR, INK), 0, 0, 0, false).rotation.x = Math.PI / 2;
+        block(g, -0.5, 0.5, -0.02, 0.02, -0.02, 0.02, tone(HAIR, INK), false);
+        block(g, -0.02, 0.02, -0.02, 0.02, -0.5, 0.5, tone(HAIR, INK), false);
+        solid(g, new THREE.ConeGeometry(0.1, 0.3, 12), tone(LINE, PRACTICAL, -0.25), 0, 0.17, 0, false);
+        return g;
+      }
+
+      // Three sets, one per shot. Each shot owns its layout; the lantern visits all three.
+      const scene = new THREE.Scene();
+      const sets = [new THREE.Group(), new THREE.Group(), new THREE.Group()];
+      scene.add(...sets);
+      {
+        const s = sets[0]; // rooftops from just above the roofline, three-quarter so the moon side lights
+        building(s, -30, -18, -34, -22, 6.0);
+        building(s, 8, 20, -44, -30, 4.0);
+        building(s, -6, 4, -18, -8, 4.5);
+        antenna(s, -2.5, 4.5, -13, 6.5);
+        building(s, 12, 22, -14, -2, 3.0);
+        building(s, -20, -8, -4, 8, 2.2);
+        tank(s, -13, 2.2, 1, 1.6);
+        building(s, 0, 10, 0, 10, 0);
+        block(s, 1.2, 3.8, 0, 2.0, 1.2, 3.8);
+      }
+      {
+        const s = sets[1]; // low angle from the roof floor, over the parapet, into open sky
+        building(s, -18, -4, -26, -14, 4.6);
+        tank(s, 6, 7.2, -27, 1.8);
+        building(s, 3, 15, -36, -22, 7.2);
+        antenna(s, 11, 7.2, -30, 8);
+        building(s, 16, 30, -30, -18, 3.4);
+        block(s, -14, 14, -1.0, 1.0, -0.4, 0.4);
+        block(s, -14, 14, 1.0, 1.18, -0.5, 0.5, tone(LINE, SKY));
+      }
+      antenna(sets[2], -5.6, -9, -4, 7.6); // the moon set: only antenna tips cross the bottom
+      antenna(sets[2], 6.4, -9, -8, 6.2);
+      const lantern = makeLantern();
+      scene.add(lantern);
+
+      // Camera setups. Shot 1 dollies in, on ones. Shots 2 and 3 are locked.
+      const camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 400);
+      const SETUPS = [
+        { fov: 30, from: [24, 9, 34], at: [4.7, 2.2, -2.6] },
+        { fov: 36, from: [-4, 0.5, 10], at: [0.8, 3.2, 0] },
+        { fov: 30, from: [0, 0, 16], at: [0, 1.4, 0] },
+      ];
+      const ANCHOR = [[7.2, 0.55, 9.88, 0.7], [-1.0, 1.18, 0, 0.7], [0.5, 0.35, 0, 0.78]]; // lantern x, y, z, scale
+      // Poses: [start frame, dx, dy, sx, sy, tilt°]. Each holds until the next. No in-betweens.
+      const POSES = [
+        [[0, 0, 0, 1, 1, 0], [26, 0, 0.02, 0.95, 1.07, 0], [42, 0, 0.06, 1, 1, -3]],
+        [
+          [58, 0, 0, 1, 1, 0], // rest on the parapet
+          [74, 0, 0, 1.2, 0.76, 0], // anticipation: 4 frames of squash
+          [78, 0.4, 0.9, 0.7, 1.8, -12], // smear, on ones
+          [79, 1.7, 2.3, 0.78, 1.5, -14], // smear, on ones
+          [80, 3.0, 3.5, 1.08, 0.9, 5], // overshoot
+          [82, 3.0, 3.35, 1, 1, -3], // settle, then drift
+          [94, 3.3, 3.6, 1, 1, 3],
+          [106, 3.6, 3.85, 1, 1, -2],
+        ],
+        [[144, 0, 0, 1, 1, -3], [162, 0.06, 0.14, 1, 1, 2], [178, 0.12, 0.26, 1, 1, -1]],
+      ];
+      const CUTS = [2.4, 6.0];
+      const DOLLY = 1 - 1 / 1.06; // move this share of the distance and the subject grows 6%
+      const power1InOut = (p) => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
+
+      const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("stage"), antialias: true, alpha: true, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(W, H, false);
+      renderer.setClearColor(0x000000, 0);
+      const [from, subject] = [new THREE.Vector3(), new THREE.Vector3()];
+
+      function draw(t) {
+        const shot = t < CUTS[0] ? 0 : t < CUTS[1] ? 1 : 2;
+        const frame = Math.floor(t * 24 + 1e-6);
+        const held = shot === 1 ? frame : frame - (frame % 2); // twos; the sakuga shot may step on ones
+        sets.forEach((s, i) => (s.visible = i === shot));
+
+        const cam = SETUPS[shot];
+        from.fromArray(cam.from);
+        if (shot === 0) from.lerp(subject.fromArray(ANCHOR[0]), DOLLY * power1InOut(Math.min(t / CUTS[0], 1)));
+        camera.fov = cam.fov;
+        camera.position.copy(from);
+        camera.lookAt(...cam.at);
+        camera.updateProjectionMatrix();
+
+        let pose = POSES[shot][0];
+        for (const p of POSES[shot]) if (p[0] <= held) pose = p;
+        const [x, y, z, k] = ANCHOR[shot];
+        lantern.position.set(x + pose[1], y + pose[2], z);
+        lantern.scale.set(k * pose[3], k * pose[4], k * pose[3]);
+        lantern.rotation.set(0, 0, (pose[5] * Math.PI) / 180);
+        renderer.render(scene, camera);
+      }
+
+      addEventListener("hf-seek", (e) => draw(e.detail.time));
+      draw(window.__hfThreeTime || 0);
+    </script>
+  </body>
+</html>

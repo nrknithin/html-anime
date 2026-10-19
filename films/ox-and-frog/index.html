@@ -1,0 +1,1468 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>The Ox and the Frog — html-anime</title>
+    <style>
+      @font-face {
+        font-family: "Shippori Mincho";
+        src: url("fonts/shippori-mincho-500.woff2") format("woff2");
+        font-weight: 500;
+        font-style: normal;
+        font-display: block;
+      }
+      html,
+      body {
+        margin: 0;
+        background: #f2d7ae;
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #f2d7ae;
+      }
+      .clip {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .paint {
+        width: 1920px;
+        height: 1080px;
+      }
+      #stage {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #dip,
+      #end {
+        background: #2c261f;
+      }
+      #dip,
+      #end,
+      .burst {
+        opacity: 0;
+      }
+      #line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 880px;
+        padding-right: 150px;
+        text-align: right;
+        font-family: "Shippori Mincho", Palatino, serif;
+        font-size: 76px;
+        font-weight: 500;
+        color: #241c16;
+        opacity: 0;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script type="importmap">
+      { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.min.js" } }
+    </script>
+  </head>
+  <body>
+    <!-- The far bank, painted once: baseline y = 0 is the horizon. The module moves each shot's copy onto its horizon. -->
+    <svg width="0" height="0" style="position: absolute">
+      <defs>
+        <g id="bank">
+          <path fill="#f0c2ae" d="M-500,60 L-500,-70 C-300,-130 -60,-150 180,-112 C400,-78 560,-170 820,-176 C1080,-182 1230,-96 1430,-104 C1650,-112 1820,-196 2060,-166 C2240,-144 2420,-96 2420,-70 L2420,60 Z" />
+          <path fill="#5c3d32" d="M-500,60 L-500,-24 C-200,-34 200,-18 600,-28 C1000,-38 1400,-20 1800,-30 C2100,-36 2300,-26 2420,-24 L2420,60 Z" />
+          <path fill="#5c3d32" d="M-420,-22 l7,-84 l7,84 Z M-380,-24 l6,-62 l6,62 Z M-60,-20 l7,-96 l7,96 Z M-30,-22 l6,-70 l6,70 Z M300,-24 l7,-80 l7,80 Z M330,-26 l6,-58 l6,58 Z M690,-30 l7,-90 l7,90 Z M720,-30 l6,-66 l6,66 Z M1110,-30 l7,-86 l7,86 Z M1140,-28 l6,-60 l6,60 Z M1500,-24 l7,-94 l7,94 Z M1530,-26 l6,-68 l6,68 Z M1880,-30 l7,-82 l7,82 Z M1910,-30 l6,-58 l6,58 Z M2250,-26 l7,-88 l7,88 Z" />
+        </g>
+      </defs>
+    </svg>
+    <div id="root" data-composition-id="ox-and-frog" data-fps="24" data-start="0" data-duration="20" data-width="1920" data-height="1080">
+      <!-- Layer 1, flat SVG paint behind the canvas: sky, sun, far bank. Shot 1 · Establish · 0.00–3.00 -->
+      <div id="s1" class="clip" data-start="0" data-duration="3" data-track-index="1">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <rect width="1920" height="1080" fill="#f2d7ae" />
+          <circle cx="1530" cy="150" r="96" fill="#fff6e4" />
+          <circle cx="1530" cy="150" r="66" fill="#fffaf2" />
+          <g id="bank1"><use href="#bank" /></g>
+        </svg>
+      </div>
+      <!-- Shot 2 · Approach · 3.00–6.00 -->
+      <div id="s2" class="clip" data-start="3" data-duration="3" data-track-index="1">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <rect width="1920" height="1080" fill="#f2d7ae" />
+          <g id="bank2"><use href="#bank" x="-300" /></g>
+        </svg>
+      </div>
+      <!-- Shot 3 · Turn · 6.00–9.00 -->
+      <div id="s3" class="clip" data-start="6" data-duration="3" data-track-index="1">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <rect width="1920" height="1080" fill="#f2d7ae" />
+          <g id="bank3"><use href="#bank" x="200" /></g>
+        </svg>
+      </div>
+      <!-- Shot 4 · Sakuga · 9.00–14.00 -->
+      <div id="s4" class="clip" data-start="9" data-duration="5" data-track-index="1">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <rect width="1920" height="1080" fill="#f2d7ae" />
+          <g id="bank4"><use href="#bank" x="-150" /></g>
+        </svg>
+      </div>
+      <!-- Shot 5 · Aftermath · 14.00–17.50 -->
+      <div id="s5" class="clip" data-start="14" data-duration="3.5" data-track-index="1">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <rect width="1920" height="1080" fill="#f2d7ae" />
+          <g id="bank5"><use href="#bank" x="400" /></g>
+        </svg>
+      </div>
+      <!-- Shot 6 · Button · 17.50–20.00 -->
+      <div id="s6" class="clip" data-start="17.5" data-duration="2.5" data-track-index="1">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <rect width="1920" height="1080" fill="#f2d7ae" />
+          <circle cx="1610" cy="170" r="96" fill="#fff6e4" />
+          <circle cx="1610" cy="170" r="66" fill="#fffaf2" />
+          <g id="bank6"><use href="#bank" x="-100" /></g>
+        </svg>
+      </div>
+      <!-- Layer 2, the solids: one transparent canvas for the whole film -->
+      <div id="gl" class="clip" data-start="0" data-duration="20" data-track-index="2">
+        <canvas id="stage" width="1920" height="1080"></canvas>
+      </div>
+      <!-- Layer 3, DOM on top. The burst, four drawings on ones and twos; the module centres it on the frog. -->
+      <div id="fx" class="clip" data-start="9" data-duration="5" data-track-index="3">
+        <svg class="paint" viewBox="0 0 1920 1080">
+          <g id="burst" transform="translate(960 540)">
+            <g id="b1" class="burst">
+              <path fill="none" stroke="#241c16" stroke-width="8" stroke-linecap="round" d="M268,33 L427,52 M188,106 L299,169 M166,213 L265,339 M72,260 L115,414 M-26,214 L-42,341 M-133,235 L-212,374 M-213,166 L-339,265 M-208,58 L-331,92 M-268,-33 L-427,-52 M-235,-133 L-374,-212 M-133,-170 L-212,-271 M-72,-260 L-115,-414 M33,-268 L52,-427 M106,-188 L169,-299 M213,-166 L339,-265 M260,-72 L414,-115" />
+              <path fill="#c4452d" stroke="#2c261f" stroke-width="6" stroke-linejoin="round" d="M0,-230 L27,-101 L115,-199 L74,-74 L199,-115 L101,-27 L230,0 L101,27 L199,115 L74,74 L115,199 L27,101 L0,230 L-27,101 L-115,199 L-74,74 L-199,115 L-101,27 L-230,0 L-101,-27 L-199,-115 L-74,-74 L-115,-199 L-27,-101 Z" />
+              <path fill="#fff6e4" d="M36,-135 L35,-61 L99,-99 L61,-35 L135,-36 L70,0 L135,36 L61,35 L99,99 L35,61 L36,135 L0,70 L-36,135 L-35,61 L-99,99 L-61,35 L-135,36 L-70,0 L-135,-36 L-61,-35 L-99,-99 L-35,-61 L-36,-135 L0,-70 Z" />
+            </g>
+            <g id="b2" class="burst">
+              <path fill="none" stroke="#241c16" stroke-width="7" stroke-linecap="round" d="M360,19 L619,32 M260,124 L448,214 M241,268 L415,461 M120,339 L207,584 M-15,288 L-26,495 M-155,325 L-267,560 M-268,241 L-461,415 M-271,96 L-468,166 M-360,-19 L-619,-32 M-325,-155 L-560,-267 M-193,-214 L-332,-369 M-120,-339 L-207,-584 M19,-360 L32,-619 M124,-260 L214,-448 M268,-241 L461,-415 M339,-120 L584,-207" />
+              <path fill="#c4452d" stroke="#2c261f" stroke-width="6" stroke-linejoin="round" d="M85,-319 L75,-130 L233,-233 L130,-75 L319,-85 L150,0 L319,85 L130,75 L233,233 L75,130 L85,319 L0,150 L-85,319 L-75,130 L-233,233 L-130,75 L-319,85 L-150,0 L-319,-85 L-130,-75 L-233,-233 L-75,-130 L-85,-319 L0,-150 Z" />
+              <circle r="150" fill="none" stroke="#2c261f" stroke-width="46" />
+              <circle r="150" fill="#fff6e4" stroke="#fffaf2" stroke-width="34" />
+            </g>
+            <g id="b3" class="burst">
+              <circle r="260" fill="none" stroke="#2c261f" stroke-width="30" />
+              <circle r="260" fill="none" stroke="#fffaf2" stroke-width="20" />
+              <path fill="#fffaf2" stroke="#2c261f" stroke-width="6" d="M256,0 a44,44 0 1,0 88,0 a44,44 0 1,0 -88,0 M168,212 a44,44 0 1,0 88,0 a44,44 0 1,0 -88,0 M-44,300 a44,44 0 1,0 88,0 a44,44 0 1,0 -88,0 M-256,212 a44,44 0 1,0 88,0 a44,44 0 1,0 -88,0 M-344,0 a44,44 0 1,0 88,0 a44,44 0 1,0 -88,0 M-256,-212 a44,44 0 1,0 88,0 a44,44 0 1,0 -88,0 M-44,-300 a44,44 0 1,0 88,0 a44,44 0 1,0 -88,0 M168,-212 a44,44 0 1,0 88,0 a44,44 0 1,0 -88,0" />
+              <path fill="#c4452d" d="M352,116 L361,142 L352,168 L343,142 Z M148,324 L157,350 L148,376 L139,350 Z M-142,326 L-133,352 L-142,378 L-151,352 Z M-350,122 L-341,148 L-350,174 L-359,148 Z M-352,-168 L-343,-142 L-352,-116 L-361,-142 Z M-148,-376 L-139,-350 L-148,-324 L-157,-350 Z M142,-378 L151,-352 L142,-326 L133,-352 Z M350,-174 L359,-148 L350,-122 L341,-148 Z" />
+            </g>
+            <g id="b4" class="burst">
+              <circle r="340" fill="none" stroke="#2c261f" stroke-width="16" />
+              <circle r="340" fill="none" stroke="#fffaf2" stroke-width="8" />
+              <path fill="#fffaf2" stroke="#2c261f" stroke-width="5" d="M356,68 a28,28 0 1,0 56,0 a28,28 0 1,0 -56,0 M196,319 a28,28 0 1,0 56,0 a28,28 0 1,0 -56,0 M-96,384 a28,28 0 1,0 56,0 a28,28 0 1,0 -56,0 M-347,224 a28,28 0 1,0 56,0 a28,28 0 1,0 -56,0 M-412,-68 a28,28 0 1,0 56,0 a28,28 0 1,0 -56,0 M-252,-319 a28,28 0 1,0 56,0 a28,28 0 1,0 -56,0 M40,-384 a28,28 0 1,0 56,0 a28,28 0 1,0 -56,0 M291,-224 a28,28 0 1,0 56,0 a28,28 0 1,0 -56,0" />
+              <path fill="#c4452d" d="M407,219 L413,235 L407,251 L401,235 Z M122,438 L128,454 L122,470 L116,454 Z M-235,391 L-229,407 L-235,423 L-241,407 Z M-454,106 L-448,122 L-454,138 L-460,122 Z M-407,-251 L-401,-235 L-407,-219 L-413,-235 Z M-122,-470 L-116,-454 L-122,-438 L-128,-454 Z M235,-423 L241,-407 L235,-391 L229,-407 Z M454,-138 L460,-122 L454,-106 L448,-122 Z" />
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div id="type" class="clip" data-start="17.5" data-duration="2.5" data-track-index="4">
+        <div id="line">Oh, much bigger!</div>
+      </div>
+      <div id="dip" class="clip" data-start="2.75" data-duration="15.15" data-track-index="5"></div>
+      <div id="end" class="clip" data-start="19.6" data-duration="0.4" data-track-index="6"></div>
+    </div>
+
+    <script>
+      const F = 1 / 24;
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#dip", { opacity: 0 }, 2.75);
+      for (const cut of [3, 6, 9, 14, 17.5]) {
+        tl.to("#dip", { opacity: 1, duration: 0.25, ease: "power2.in" }, cut - 0.25);
+        tl.to("#dip", { opacity: 0, duration: 0.35, ease: "power2.out" }, cut + 0.05);
+      }
+      // the burst: four drawings, frames 324–339
+      for (const [id, on, off] of [["#b1", 324, 326], ["#b2", 326, 328], ["#b3", 328, 332], ["#b4", 332, 340]]) {
+        tl.set(id, { opacity: 1 }, on * F);
+        tl.set(id, { opacity: 0 }, off * F);
+      }
+      tl.fromTo("#line", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" }, 428 * F);
+      tl.to("#end", { opacity: 1, duration: 8 * F, ease: "power1.in" }, 471 * F); // frames 472–479 fade; 479 is ink
+      window.__timelines = window.__timelines || {};
+      window.__timelines["ox-and-frog"] = tl;
+    </script>
+
+    <script type="module">
+      // Two-tone pairs, base / shade, all from the "Paper noon" script:
+      //   water (flat, faces +Y, so it shows its base)   sclera #f6f3ee / sky #f2d7ae
+      //   lily pads                                       iris #5c3d32 / hair #241c16
+      //   reeds                                           iris #5c3d32 / hair #241c16
+      //   cattail heads                                   hair #241c16 / ink #2c261f
+      //   splash crown and drops                          practical #fffaf2 / sky #f2d7ae
+      //   ripples (flat)                                  iris #5c3d32 / iris #5c3d32
+      //   the hoof's shadow (flat)                        hair #241c16 / hair #241c16
+      //   frog, ox                                        their own pairs, listed in each model's header below
+      //   ink hull                                        ink #2c261f
+      import * as THREE from "three";
+      window.THREE = THREE;
+
+      const [W, H, F] = [1920, 1080, 24];
+      const [INK, SKY, PRACTICAL, IRIS, HAIR, SCLERA] = ["#2c261f", "#f2d7ae", "#fffaf2", "#5c3d32", "#241c16", "#f6f3ee"];
+
+      // ---- the kit (harness/lab/kit.js, pasted whole) -------------------------------------------------------------
+      // kit.js — the model lab's materials and ink. ES module, no imports: THREE is passed in, so this file
+      // can be pasted into a film. The "cel" mode is the film look, copied from films/lantern/index.html:
+      //   two-tone ShaderMaterial, raw sRGB hex/255 straight to the framebuffer (no colorspace or tonemapping
+      //   chunk, so a pixel equals the sheet hex), one world-space light, and an ink hull pushed out in clip space.
+      // "clay" (smooth gray, no ink) judges form; "sil" (flat black, no ink) judges silhouette on white.
+      // Models only call kit.cel / kit.outline / kit.toon, so they render in any mode unchanged.
+
+      function makeKit(THREE, { mode = "cel", ink = "#101628", light = [0.62, 0.72, 0.3], hullPx = 5 } = {}) {
+        if (!["cel", "clay", "sil"].includes(mode)) throw new Error(`kit: mode must be cel, clay or sil (got ${mode})`);
+
+        const LIGHT = new THREE.Vector3(...light).normalize(); // the moon: up, right, a little front
+        const resolution = new THREE.Vector2(1920, 1080); // viewport size in pixels, shared by every hull; the lab sets it per cell
+
+        // "#rrggbb", "#rgb" or 0xrrggbb -> 0xrrggbb
+        const toInt = (h) => {
+          if (typeof h === "number") return h;
+          let s = String(h).trim().replace(/^#/, "");
+          if (s.length === 3) s = s.replace(/./g, "$&$&");
+          if (!/^[0-9a-f]{6}$/i.test(s)) throw new Error(`kit: not a hex color: ${h}`);
+          return parseInt(s, 16);
+        };
+        // Raw sRGB, straight to the framebuffer: pixels equal the sheet hex.
+        const rgb = (h) => {
+          h = toInt(h);
+          return new THREE.Vector3(((h >> 16) & 255) / 255, ((h >> 8) & 255) / 255, (h & 255) / 255);
+        };
+
+        const TONE_VS = `
+          varying vec3 vN;
+          void main() {
+            vN = transpose(inverse(mat3(modelMatrix))) * normal;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }`;
+        const TONE_FS = `
+          uniform vec3 base, shade, light;
+          uniform float threshold;
+          varying vec3 vN;
+          void main() { gl_FragColor = vec4(dot(normalize(vN), light) > threshold ? base : shade, 1.0); }`;
+        // Inverted hull, pushed out a fixed number of pixels in clip space so near and far lines match.
+        const HULL_VS = `
+          attribute vec3 hullNormal;
+          uniform float px;
+          uniform vec2 res;
+          void main() {
+            vec4 c = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            vec2 d = (projectionMatrix * vec4(normalMatrix * hullNormal, 0.0)).xy * res;
+            c.xy += d / max(length(d), 1e-4) * (2.0 * px / res) * c.w;
+            gl_Position = c;
+          }`;
+        const HULL_FS = `uniform vec3 ink; void main() { gl_FragColor = vec4(ink, 1.0); }`;
+        // Clay: smooth, light gray, lit from the upper right and front of the camera so every view reads.
+        const CLAY_VS = `
+          varying vec3 vV;
+          void main() {
+            vV = normalMatrix * normal;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }`;
+        const CLAY_FS = `
+          varying vec3 vV;
+          void main() {
+            vec3 n = normalize(vV);
+            float key = max(dot(n, normalize(vec3(0.45, 0.7, 0.55))), 0.0);
+            float fill = max(dot(n, normalize(vec3(-0.8, -0.1, 0.4))), 0.0);
+            float sky = 0.5 + 0.5 * n.y;
+            float rim = 1.0 - clamp(n.z, 0.0, 1.0);
+            float l = 0.36 + 0.46 * key + 0.08 * fill + 0.10 * sky;
+            l *= 1.0 - 0.3 * rim * rim;
+            gl_FragColor = vec4(vec3(l), 1.0);
+          }`;
+        // Silhouette: flat black, no ink, no shading.
+        const SIL_VS = `void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
+        const SIL_FS = `void main() { gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); }`;
+
+        const cache = new Map();
+        const memo = (key, make) => cache.get(key) ?? (cache.set(key, make()), cache.get(key));
+
+        /** Two-tone material (cel), smooth gray (clay) or flat black (sil). Cached, so meshes share it. */
+        function cel(base, shade, { threshold = 0.35 } = {}) {
+          if (mode === "sil") return memo("sil", () => new THREE.ShaderMaterial({ vertexShader: SIL_VS, fragmentShader: SIL_FS }));
+          if (mode === "clay") return memo("clay", () => new THREE.ShaderMaterial({ vertexShader: CLAY_VS, fragmentShader: CLAY_FS }));
+          const [b, s] = [toInt(base), toInt(shade)];
+          return memo(`cel|${b}|${s}|${threshold}`, () =>
+            new THREE.ShaderMaterial({
+              uniforms: { base: { value: rgb(b) }, shade: { value: rgb(s) }, light: { value: LIGHT }, threshold: { value: threshold } },
+              vertexShader: TONE_VS,
+              fragmentShader: TONE_FS,
+            }));
+        }
+
+        /** Boxes and cylinder caps have split normals. Average them per position so the hull closes at corners. */
+        function hullNormals(g) {
+          if (g.attributes.hullNormal) return g;
+          if (!g.attributes.normal) g.computeVertexNormals();
+          const p = g.attributes.position;
+          const n = g.attributes.normal;
+          const [slot, ids, sum] = [new Int32Array(p.count), new Map(), []];
+          for (let i = 0; i < p.count; i++) {
+            const key = `${Math.round(p.getX(i) * 1e4)},${Math.round(p.getY(i) * 1e4)},${Math.round(p.getZ(i) * 1e4)}`;
+            let s = ids.get(key);
+            if (s === undefined) (ids.set(key, (s = sum.length / 3)), sum.push(0, 0, 0));
+            slot[i] = s;
+            sum[s * 3] += n.getX(i);
+            sum[s * 3 + 1] += n.getY(i);
+            sum[s * 3 + 2] += n.getZ(i);
+          }
+          const out = new Float32Array(p.count * 3);
+          for (let i = 0; i < p.count; i++) {
+            const s = slot[i] * 3;
+            const l = Math.hypot(sum[s], sum[s + 1], sum[s + 2]) || 1;
+            out.set([sum[s] / l, sum[s + 1] / l, sum[s + 2] / l], i * 3);
+          }
+          g.setAttribute("hullNormal", new THREE.BufferAttribute(out, 3));
+          return g;
+        }
+
+        /** Add the inked BackSide hull to a mesh as a child; returns the mesh. Nothing happens in clay or sil. */
+        function outline(mesh, { px = hullPx, ink: color = ink } = {}) {
+          if (mode !== "cel") return mesh;
+          const c = toInt(color);
+          const mat = memo(`hull|${c}|${px}`, () =>
+            new THREE.ShaderMaterial({
+              vertexShader: HULL_VS,
+              fragmentShader: HULL_FS,
+              side: THREE.BackSide,
+              uniforms: { ink: { value: rgb(c) }, px: { value: px }, res: { value: resolution } },
+            }));
+          const hull = new THREE.Mesh(hullNormals(mesh.geometry), mat);
+          hull.name = "hull";
+          hull.userData.isHull = true; // the lab leaves hulls out of bbox, triangle counts and reference fits
+          mesh.add(hull);
+          return mesh;
+        }
+
+        /** Mesh + hull. opts: { threshold, px, ink, outline: false } (outline: false for interior lines and glow). */
+        function toon(geometry, base, shade, opts = {}) {
+          const mesh = new THREE.Mesh(geometry, cel(base, shade, opts));
+          return opts.outline === false ? mesh : outline(mesh, opts);
+        }
+
+        return { mode, LIGHT, resolution, ink, hullPx, rgb, cel, hullNormals, outline, toon };
+      }
+
+      // ---- the frog (models/frog.js, pasted whole) ----------------------------------------------------------------
+      const FROG = (() => {
+        // frog.js — procedural three.js frog for the html-anime model lab (contract: harness/lab/README.md).
+        //
+        // CONSTRUCTION. One continuous lofted body: head + trunk are a single skin (no neck), 36 rings of 24 points. Each ring
+        // has a REST cross-section (14 hand-placed stations read off the Rana temporaria side photo, Catmull-Rom spline) and
+        // a BALLOON cross-section (a sphere, radius 0.065, sitting on the ground). puff(a) lerps every ring (z, centre y,
+        // half width, top, bottom) and the superellipse exponent (2.4 -> 2.0) from rest to balloon, rewrites the skin
+        // vertices in place and recomputes the ink-hull normals. Rings keep their index, so a point on the skin is addressed
+        // by (u, theta): u = ring index (float), theta 0 = top, 90deg = +X flank, 180deg = belly.
+        // Pale belly strip = second loft (no ink: the colour change is the line). Mouth line and dorsal folds are thin
+        // tubes regenerated on every puff(). Eyes (bulging globe in a skin socket), dark temporal mask, tympanum, blush,
+        // nostrils and 8 dorsal blotches are decals: flat ellipsoids that ride the skin and are re-oriented to its normal.
+        // Limbs are tapered capsules (LatheGeometry) in Group pivots. Hind leg = thigh, shin, tarsus, webbed foot with 5
+        // toes (folded Z at rest); forearm hand has 4 splayed fingers (joint hand* closes the fan when scaled in x).
+        // PROPORTIONS (metres; snout-vent length 0.09): snout z=+0.049, rump z=-0.042, back peak 0.046 high, eye globe
+        // r=0.0063 (socket 0.0072) at the skull line, hind foot ~0.6 SVL, front arm ~0.3 SVL, extended hind limb ~1.5 SVL.
+        //
+        // RIG. root > body (pitch/position) > belly (skin, belly strip, tubes: geometry is rewritten, never scaled).
+        // Eyes, shoulders, hips and every decal are siblings of belly under body. Each has two anchors, REST and BALLOON
+        // ({u, theta, depth}); puff(a) lerps the anchor, seats the joint on the live skin (point - normal*depth) and, for
+        // decals, aligns it to the normal. Nothing is ever a child of a scaled node, so nothing shears.
+        //
+        // puff(amount 0..1) is returned from build() next to pose(): it sets the whole inflation state (body shape, eye
+        // size/bulge, decal growth, arm and leg angles lerped from the current pose's table toward PUFF_ROT) and may be
+        // called after pose() for any in-between drawing. pose("puff-1/2/3") = rest + puff(0.33 / 0.66 / 1.0). pose(name)
+        // is absolute: it resets everything, then applies its own puff (default 0).
+        // POSE TABLE keys: rot (joint -> [rx,ry,rz] deg), p (body position), puff (0..1), scl (extra joint scale: shoulder
+        // reach, hand.x closes the finger fan for pointing). Rotation convention: limbs hang along -Y, negative rx swings
+        // them forward (+Z), body rx negative = nose up; angles accumulate down a chain.
+        // COLOURS (script "noon"): skin #f0c2ae / shade iris #5c3d32; belly strip sky #f2d7ae (lit side practical #fffaf2);
+        //   eye sclera #f6f3ee / sky; iris sky #f2d7ae / iris; pupil hair #241c16; mask iris #5c3d32 / hair; blush accent #c4452d / iris.
+
+        const meta = {
+          name: "frog",
+          height: 0.0485,
+          script: "noon",
+          colors: {
+            skin: "#f0c2ae", skinShade: "#5c3d32",
+            belly: "#fffaf2", bellyShade: "#f2d7ae",
+            sclera: "#f6f3ee", scleraShade: "#f2d7ae",
+            iris: "#f2d7ae", irisShade: "#5c3d32",
+            pupil: "#241c16",
+            mask: "#5c3d32", maskShade: "#241c16",
+            accent: "#c4452d", accentShade: "#5c3d32",
+          },
+          poses: ["rest", "crouch", "leap", "point", "puff-1", "puff-2", "puff-3"],
+        };
+
+        const DEG = Math.PI / 180;
+
+        function build(THREE, kit, colors = meta.colors) {
+          const c = colors;
+          const root = new THREE.Group();
+          root.name = "frog";
+          const joints = {};
+
+          const joint = (name, parent, x, y, z) => {
+            const g = new THREE.Group();
+            g.name = name;
+            g.position.set(x, y, z);
+            parent.add(g);
+            joints[name] = g;
+            return g;
+          };
+          const put = (parent, mesh, x = 0, y = 0, z = 0) => {
+            mesh.position.set(x, y, z);
+            parent.add(mesh);
+            return mesh;
+          };
+          const lerp = (a, b, t) => a + (b - a) * t;
+          const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
+
+          // ---- geometry helpers -------------------------------------------------------------------------------------
+          // Tapered capsule hanging from y=0 (radius r0) down to y=-len (radius r1), rounded at both ends.
+          function limb(len, r0, r1, seg = 8) {
+            const pts = [];
+            for (let i = 0; i <= 2; i++) { const a = (i / 2) * (Math.PI / 2); pts.push(new THREE.Vector2(Math.sin(a) * r1, -len - Math.cos(a) * r1)); }
+            for (let i = 0; i <= 2; i++) { const a = (i / 2) * (Math.PI / 2); pts.push(new THREE.Vector2(Math.cos(a) * r0, Math.sin(a) * r0)); }
+            return new THREE.LatheGeometry(pts, seg);
+          }
+          const ball = (r, w = 14, h = 10) => new THREE.SphereGeometry(r, w, h);
+
+          // ---- ring tables: rest profile and balloon profile --------------------------------------------------------
+          // station = [z, centre y, half width, top height above centre, bottom height below centre]
+          const STATIONS = [
+            [0.0489, 0.0358, 0.0000, 0.0000, 0.0000],
+            [0.0476, 0.0360, 0.0065, 0.0026, 0.0024],
+            [0.0440, 0.0351, 0.0105, 0.0052, 0.0051],
+            [0.0380, 0.0349, 0.0165, 0.0082, 0.0081],
+            [0.0300, 0.0346, 0.0215, 0.0106, 0.0106],
+            [0.0200, 0.0305, 0.0250, 0.0128, 0.0150],
+            [0.0100, 0.0262, 0.0268, 0.0176, 0.0206],
+            [0.0000, 0.0257, 0.0275, 0.0201, 0.0201],
+            [-0.0100, 0.0258, 0.0280, 0.0214, 0.0208],
+            [-0.0200, 0.0252, 0.0278, 0.0206, 0.0202],
+            [-0.0300, 0.0230, 0.0262, 0.0170, 0.0170],
+            [-0.0370, 0.0210, 0.0210, 0.0110, 0.0110],
+            [-0.0412, 0.0235, 0.0105, 0.0035, 0.0035],
+            [-0.0424, 0.0235, 0.0000, 0.0000, 0.0000],
+          ];
+          const N = 36, EXP_REST = 2 / 2.4, EXP_BAL = 1;
+          const curveA = new THREE.CatmullRomCurve3(STATIONS.map((s) => new THREE.Vector3(s[0], s[1], s[2])), false, "centripetal");
+          const curveB = new THREE.CatmullRomCurve3(STATIONS.map((s) => new THREE.Vector3(s[3], s[4], 0)), false, "centripetal");
+          const REST_RINGS = [], BAL_RINGS = [], RINGS = [];
+          const BR = 0.065, BY = 0.0655, BZ = 0.002; // balloon radius, centre height, centre z
+          for (let i = 0; i <= N; i++) {
+            const t = i / N, a = curveA.getPoint(t), b = curveB.getPoint(t);
+            REST_RINGS.push({ z: a.x, cy: a.y, hw: Math.max(a.z, 0), ht: Math.max(b.x, 0), hb: Math.max(b.y, 0) });
+            const phi = Math.PI * t, sn = Math.sin(phi);
+            BAL_RINGS.push({ z: BZ + BR * Math.cos(phi), cy: BY, hw: BR * sn, ht: BR * sn, hb: BR * sn * 0.92 });
+            RINGS.push({ ...REST_RINGS[i] });
+          }
+          let curExp = EXP_REST;
+          const sgnpow = (v, e) => Math.sign(v) * Math.pow(Math.abs(v), e);
+          const ringPoint = (r, th) => new THREE.Vector3(r.hw * sgnpow(Math.sin(th), curExp), r.cy + (Math.cos(th) >= 0 ? r.ht : r.hb) * sgnpow(Math.cos(th), curExp), r.z);
+          // u (float ring index) of a rest z
+          function uOfZ(z) {
+            let i = 0;
+            while (i < N - 1 && REST_RINGS[i + 1].z > z) i++;
+            const a = REST_RINGS[i], b = REST_RINGS[i + 1];
+            return i + clamp01((a.z - z) / (a.z - b.z));
+          }
+          function ringAt(u) {
+            u = Math.min(Math.max(u, 0), N - 1e-6);
+            const i = Math.floor(u), f = u - i, a = RINGS[i], b = RINGS[i + 1];
+            return { z: lerp(a.z, b.z, f), cy: lerp(a.cy, b.cy, f), hw: lerp(a.hw, b.hw, f), ht: lerp(a.ht, b.ht, f), hb: lerp(a.hb, b.hb, f) };
+          }
+          const surf = (u, th) => ringPoint(ringAt(u), th);
+          function surfNormal(u, th) {
+            u = Math.min(Math.max(u, 0.3), N - 0.3);
+            const du = surf(u + 0.25, th).sub(surf(u - 0.25, th));
+            const dv = surf(u, th + 0.02).sub(surf(u, th - 0.02));
+            const n = du.cross(dv).normalize();
+            const r = ringAt(u);
+            if (n.dot(surf(u, th).sub(new THREE.Vector3(0, r.cy, r.z))) < 0) n.negate();
+            return n;
+          }
+
+          // Loft strip over rings i0..i1, theta range per ring from thRange(i), pushed off the skin by offset.
+          function loftGeo(i0, i1, M) {
+            const nr = i1 - i0 + 1, idx = [];
+            for (let i = 0; i < nr - 1; i++) for (let j = 0; j < M; j++) {
+              const a = i * (M + 1) + j, b = a + 1, d = a + M + 1, e = d + 1;
+              idx.push(a, b, d, b, e, d);
+            }
+            const g = new THREE.BufferGeometry();
+            g.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array(nr * (M + 1) * 3), 3));
+            g.setIndex(idx);
+            return g;
+          }
+          function fillLoft(g, i0, i1, M, thRange, offset = 0) {
+            const p = g.attributes.position;
+            let k = 0;
+            for (let i = i0; i <= i1; i++) {
+              const [a0, a1] = thRange(i);
+              for (let j = 0; j <= M; j++) { const v = ringPoint(RINGS[i], a0 + ((a1 - a0) * j) / M); p.setXYZ(k++, v.x, v.y, v.z); }
+            }
+            g.computeVertexNormals();
+            if (offset) {
+              const n = g.attributes.normal;
+              for (let i = 0; i < p.count; i++) p.setXYZ(i, p.getX(i) + n.getX(i) * offset, p.getY(i) + n.getY(i) * offset, p.getZ(i) + n.getZ(i) * offset);
+            }
+            p.needsUpdate = true;
+            if (g.attributes.hullNormal) { g.deleteAttribute("hullNormal"); kit.hullNormals(g); } // ink hull follows the new shape
+            g.computeBoundingSphere();
+          }
+
+          // ---- rig --------------------------------------------------------------------------------------------------
+          const body = joint("body", root, 0, 0, 0);
+          const belly = joint("belly", body, 0, 0, 0);
+
+          const SKIN_M = 24, BELLY_M = 10;
+          const skinGeo = loftGeo(0, N, SKIN_M);
+          belly.add(kit.toon(skinGeo, c.skin, c.skinShade));
+          // Pale belly and throat strip; narrows to a point at the rump (rings uFull..uZero).
+          const B0 = Math.ceil(uOfZ(0.046)), B1 = Math.floor(uOfZ(-0.037)), UFULL = uOfZ(-0.017), UZERO = uOfZ(-0.037);
+          const bellyGeo = loftGeo(B0, B1, BELLY_M);
+          let puffAmt = 0;
+          const bellyRange = (i) => {
+            const f = clamp01((UZERO - i) / (UZERO - UFULL)), w = f * f * (3 - 2 * f), t0 = lerp(125, 108, puffAmt);
+            return [(180 - (180 - t0) * w) * DEG, (180 + (180 - t0) * w) * DEG];
+          };
+          belly.add(kit.toon(bellyGeo, c.belly, c.bellyShade, { outline: false }));
+          const bellyMesh = belly.children[1];
+
+          // Thin tubes on the skin (mouth line, dorsal folds): points are {rest:[z,th], bal:[u,th]|null}, regenerated per puff.
+          const tubes = [];
+          function addTube(pts, side, radius, base, shade, grow) {
+            const mesh = kit.toon(new THREE.BufferGeometry(), base, shade, { outline: false });
+            belly.add(mesh);
+            tubes.push({ mesh, side, radius, grow, pts: pts.map(([z, th, bu, bth]) => ({ u: uOfZ(z), th, bu: bu ?? uOfZ(z), bth: bth ?? th })) });
+          }
+          function refreshTube(t, a) {
+            const pts = t.pts.map((p) => {
+              const u = lerp(p.u, p.bu, a), th = t.side * lerp(p.th, p.bth, a) * DEG;
+              return surf(u, th).addScaledVector(surfNormal(u, th), 0.0003);
+            });
+            t.mesh.geometry.dispose();
+            t.mesh.geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 16, t.radius * lerp(1, t.grow, a), 4, false);
+          }
+          // Mouth: rest line (z, theta) and its balloon version (u, theta) = a wide grin around the front of the sphere.
+          for (const s of [1, -1]) {
+            addTube([[0.0472, 104, 0.6, 106], [0.0420, 108, 2.2, 108], [0.0340, 109, 5.5, 108], [0.0260, 100, 9.5, 102], [0.0205, 84, 13.5, 86]], s, 0.00055, c.pupil, c.pupil, 1.8);
+            addTube([[0.0250, 38], [0.0150, 36], [0.0040, 38], [-0.0080, 42], [-0.0190, 47], [-0.0290, 52]], s, 0.00055, c.mask, c.mask, 1.8);
+          }
+
+          // Riders: things seated on the live skin. anchor = { u, th (rad, >=0), depth (under the skin, negative = outside) }.
+          const riders = [];
+          function anchorOf(p0) {
+            const u = uOfZ(p0[2]);
+            let best = null;
+            for (let t = 0; t <= 180; t += 1) {
+              const q = surf(u, t * DEG), n = surfNormal(u, t * DEG);
+              const d = new THREE.Vector3(...p0).sub(q);
+              if (!best || d.lengthSq() < best.score) best = { score: d.lengthSq(), th: t * DEG, u, depth: -d.dot(n) };
+            }
+            return best;
+          }
+          const anchor = (u, thDeg, depth) => ({ u, th: thDeg * DEG, depth });
+          function ride(joint, rest, bal, side, extra = {}) {
+            const r = { joint, rest, bal, side, ...extra };
+            riders.push(r);
+            return r;
+          }
+          const _z = new THREE.Vector3(0, 0, 1);
+          function seat(r, a) {
+            const u = lerp(r.rest.u, r.bal.u, a), th = r.side * lerp(r.rest.th, r.bal.th, a), depth = lerp(r.rest.depth, r.bal.depth, a);
+            const n = surfNormal(u, th);
+            r.joint.position.copy(surf(u, th)).addScaledVector(n, -depth);
+            if (r.orient) r.joint.quaternion.setFromUnitVectors(_z, n);
+            if (r.kMax) r.joint.scale.setScalar(lerp(1, r.kMax, a));
+          }
+          // Flat ellipsoid decal riding the skin. rest = [z, thetaDeg]; bal = [u, thetaDeg] (null = same u, theta).
+          function decal(geo, base, shade, rest, bal, side, sx, sy, sz, lift, kMax) {
+            const m = kit.toon(geo, base, shade, { outline: false });
+            m.scale.set(sx, sy, sz);
+            const g = new THREE.Group();
+            g.add(m);
+            body.add(g);
+            const ru = uOfZ(rest[0]);
+            ride(g, anchor(ru, rest[1], -lift), anchor(bal ? bal[0] : ru, bal ? bal[1] : rest[1], -lift), side, { orient: true, kMax });
+          }
+          for (const s of [1, -1]) {
+            decal(ball(1, 10, 7), c.mask, c.maskShade, [0.0215, 90], [12.5, 92], s, 0.0058, 0.0068, 0.0008, 0.0001, 1.45); // temporal mask
+            decal(ball(1, 8, 6), c.iris, c.irisShade, [0.0215, 90], [12.5, 92], s, 0.0032, 0.0032, 0.0008, 0.0003, 1.45); // tympanum
+            decal(ball(1, 8, 6), c.accent, c.accentShade, [0.0262, 74], [10.5, 74], s, 0.0034, 0.0022, 0.0008, 0.0001, 1.45); // blush
+            decal(ball(1, 6, 4), c.pupil, c.pupil, [0.0452, 24], [1.6, 26], s, 0.0009, 0.0007, 0.0005, 0.0001, 1.4); // nostril
+          }
+          for (const [z, th, r] of [[0.0160, -16, 0.0034], [0.0100, 22, 0.0040], [0.0020, -26, 0.0046], [-0.0060, 12, 0.0042], [-0.0120, -22, 0.0038], [-0.0200, 26, 0.0040], [-0.0240, -10, 0.0034], [-0.0300, 16, 0.0030]])
+            decal(ball(1, 8, 5), c.mask, c.maskShade, [z, Math.abs(th)], null, Math.sign(th), r, r * 0.8, 0.0007, 0.0001, 1.7); // dorsal blotches
+
+          // Eyes (bulging, at the skull line). The bulge grows with puff: eye scale up, depth factor down.
+          const EYE_REST = [0.0140, 0.0412, 0.0320];
+          const eyes = {};
+          for (const [name, s] of [["eyeL", 1], ["eyeR", -1]]) {
+            const e = joint(name, body, s * EYE_REST[0], EYE_REST[1], EYE_REST[2]);
+            put(e, kit.toon(ball(0.0072, 12, 8), c.skin, c.skinShade));
+            const globe = put(e, kit.toon(ball(0.0063, 12, 8), c.sclera, c.scleraShade), s * 0.0010, 0.0006, 0.0013);
+            // iris, pupil and glint are flattened discs on the globe, facing out-and-forward so they read from front and side
+            const dir = new THREE.Vector3(s * 0.55, 0.22, 0.8).normalize();
+            const disc = (r, h, dist, base, shade, dx = 0, dy = 0) => {
+              const m = kit.toon(ball(1, 10, 6), base, shade, { outline: false });
+              m.scale.set(r, r, h);
+              m.quaternion.setFromUnitVectors(_z, dir);
+              m.position.copy(dir).multiplyScalar(dist).add(new THREE.Vector3(dx, dy, 0));
+              globe.add(m);
+            };
+            disc(0.0044, 0.0008, 0.0054, c.iris, c.irisShade);
+            disc(0.0030, 0.0008, 0.0061, c.pupil, c.pupil);
+            disc(0.0010, 0.0006, 0.0065, c.sclera, c.sclera, s * 0.0012, 0.0014);
+            eyes[name] = e;
+            const rest = anchorOf([EYE_REST[0], EYE_REST[1], EYE_REST[2]]);
+            ride(e, rest, anchor(8, 48, -0.0015), s, { eyeMax: 1.5 });
+          }
+
+          // Limbs
+          const SHOULDER_REST = [0.0225, 0.0285, 0.0090];
+          const HIP_REST = [0.0270, 0.0270, -0.0270];
+          function hand(wrist, s, side) {
+            const hj = joint(`hand${side}`, wrist, 0, 0, 0); // scaling hand.x closes the fan of fingers (pointing)
+            const palm = put(hj, kit.toon(ball(0.0040, 8, 6), c.skin, c.skinShade), 0, -0.0010, 0.0005);
+            palm.scale.set(1.2, 1, 0.65);
+            for (const [ang, len] of [[-34, 0.0098], [-12, 0.0128], [12, 0.0128], [34, 0.0098]]) {
+              const f = new THREE.Group();
+              f.rotation.z = ang * DEG * s;
+              hj.add(f);
+              put(f, kit.toon(limb(len, 0.0021, 0.0017, 5), c.skin, c.skinShade), 0, -0.0030, 0);
+            }
+          }
+          for (const [side, s] of [["L", 1], ["R", -1]]) {
+            const sh = joint(`shoulder${side}`, body, s * SHOULDER_REST[0], SHOULDER_REST[1], SHOULDER_REST[2]);
+            ride(sh, anchorOf(SHOULDER_REST), anchor(10, 135, 0), s);
+            put(sh, kit.toon(limb(0.0145, 0.0062, 0.0050), c.skin, c.skinShade));
+            const el = joint(`elbow${side}`, sh, 0, -0.0145, 0);
+            put(el, kit.toon(limb(0.0150, 0.0048, 0.0040), c.skin, c.skinShade));
+            const wr = joint(`wrist${side}`, el, 0, -0.0150, 0);
+            hand(wr, s, side);
+
+            const hp = joint(`hip${side}`, body, s * HIP_REST[0], HIP_REST[1], HIP_REST[2]);
+            ride(hp, anchorOf(HIP_REST), anchor(27, 122, 0), s);
+            const thigh = put(hp, kit.toon(limb(0.0340, 0.0112, 0.0082), c.skin, c.skinShade));
+            thigh.scale.set(0.85, 1, 1);
+            const kn = joint(`knee${side}`, hp, 0, -0.0340, 0);
+            const shin = put(kn, kit.toon(limb(0.0420, 0.0080, 0.0054), c.skin, c.skinShade));
+            shin.scale.set(0.8, 1, 1);
+            const an = joint(`ankle${side}`, kn, 0, -0.0420, 0);
+            put(an, kit.toon(limb(0.0240, 0.0048, 0.0040, 8), c.skin, c.skinShade));
+            const ft = joint(`foot${side}`, an, 0, -0.0240, 0);
+            // webbed foot: a flat fan + 5 toes along -Y of the foot pivot
+            const toes = [[-30, 0.0210], [-15, 0.0280], [0, 0.0320], [15, 0.0350], [30, 0.0270]];
+            const shape = new THREE.Shape();
+            shape.moveTo(0, 0);
+            toes.forEach(([a, l], i) => {
+              const x = Math.sin(a * DEG * s) * l * 0.9, y = -Math.cos(a * DEG) * l * 0.9;
+              i === 0 ? shape.lineTo(x, y) : shape.quadraticCurveTo(x * 0.55, y * 0.6, x, y);
+            });
+            shape.lineTo(0, 0);
+            const web = new THREE.ExtrudeGeometry(shape, { depth: 0.0008, bevelEnabled: false, curveSegments: 4 });
+            web.translate(0, 0, -0.0004);
+            ft.add(kit.toon(web, c.bellyShade, c.skinShade, { outline: false }));
+            toes.forEach(([a, l]) => {
+              const t = new THREE.Group();
+              t.rotation.z = a * DEG * s;
+              ft.add(t);
+              put(t, kit.toon(limb(l, 0.0027, 0.0020, 5), c.skin, c.skinShade), 0, -0.0020, 0);
+            });
+          }
+
+          // ---- poses ------------------------------------------------------------------------------------------------
+          const REST = {
+            body: [0, 0, 0],
+            eyeL: [0, 0, 0], eyeR: [0, 0, 0],
+            shoulderL: [30, 0, 12], elbowL: [-62, 0, 0], wristL: [-58, 0, 0],
+            shoulderR: [30, 0, -12], elbowR: [-62, 0, 0], wristR: [-58, 0, 0],
+            hipL: [-63, 0, 12], kneeL: [146, 0, -8], ankleL: [-171, 0, 0], footL: [0, 0, 0],
+            hipR: [-63, 0, -12], kneeR: [146, 0, 8], ankleR: [-171, 0, 0], footR: [0, 0, 0],
+          };
+          // Limb angles at full puff (a=1); at a<1 each is lerped from the pose's own table (hand flat: shoulder+elbow+wrist=-90).
+          const PUFF_ROT = {
+            body: [0, 0, 0],
+            shoulderL: [15, 0, 38], elbowL: [-55, 0, 0], wristL: [-50, 0, 0],
+            shoulderR: [15, 0, -38], elbowR: [-55, 0, 0], wristR: [-50, 0, 0],
+            hipL: [-38, 0, 30], kneeL: [115, 0, -12], ankleL: [-160, 0, 0],
+            hipR: [-38, 0, -30], kneeR: [115, 0, 12], ankleR: [-160, 0, 0],
+          };
+          const BASE = { p: [0, 0, 0], puff: 0 };
+          const POSES = {
+            rest: { ...BASE, rot: {} },
+            crouch: {
+              ...BASE, p: [0, -0.003, 0],
+              rot: { body: [-14, 0, 0], shoulderL: [-10, 0, 10], shoulderR: [-10, 0, -10], elbowL: [-50, 0, 0], elbowR: [-50, 0, 0], wristL: [-16, 0, 0], wristR: [-16, 0, 0],
+                hipL: [-82, 0, 10], hipR: [-82, 0, -10], kneeL: [170, 0, -6], kneeR: [170, 0, 6], ankleL: [-158, 0, 0], ankleR: [-158, 0, 0] },
+            },
+            leap: {
+              ...BASE, p: [0, 0.05, 0],
+              rot: { body: [-30, 0, 0], shoulderL: [-90, 0, 12], shoulderR: [-90, 0, -12], elbowL: [-5, 0, 0], elbowR: [-5, 0, 0], wristL: [-5, 0, 0], wristR: [-5, 0, 0],
+                hipL: [90, 0, 6], hipR: [90, 0, -6], kneeL: [8, 0, 0], kneeR: [8, 0, 0], ankleL: [-10, 0, 0], ankleR: [-10, 0, 0] },
+            },
+            point: {
+              ...BASE,
+              scl: { shoulderL: [1.15, 1.6, 1.15], handL: [0.4, 1, 1] },
+              rot: { body: [-6, 0, 0], shoulderL: [-98, 0, 28], elbowL: [-4, 0, 0], wristL: [-4, 0, 0] },
+            },
+            "puff-1": { ...BASE, puff: 0.33, rot: {} },
+            "puff-2": { ...BASE, puff: 0.66, rot: {} },
+            "puff-3": { ...BASE, puff: 1, rot: {} },
+          };
+
+          const SCALED = ["shoulderL", "shoulderR", "handL", "handR"]; // joints a pose may scale (arm reach, closed hand)
+          let baseTable = { ...REST };
+          function puff(a) {
+            a = clamp01(a);
+            puffAmt = a;
+            curExp = lerp(EXP_REST, EXP_BAL, a);
+            for (let i = 0; i <= N; i++) {
+              const r = REST_RINGS[i], b = BAL_RINGS[i], o = RINGS[i];
+              o.z = lerp(r.z, b.z, a); o.cy = lerp(r.cy, b.cy, a); o.hw = lerp(r.hw, b.hw, a); o.ht = lerp(r.ht, b.ht, a); o.hb = lerp(r.hb, b.hb, a);
+            }
+            fillLoft(skinGeo, 0, N, SKIN_M, () => [0, Math.PI * 2]);
+            fillLoft(bellyGeo, B0, B1, BELLY_M, bellyRange, lerp(0.0003, 0.0008, a));
+            for (const t of tubes) refreshTube(t, a);
+            for (const [j, v] of Object.entries(baseTable)) {
+              const to = PUFF_ROT[j] ?? v;
+              joints[j].rotation.set(lerp(v[0], to[0], a) * DEG, lerp(v[1], to[1], a) * DEG, lerp(v[2], to[2], a) * DEG);
+            }
+            for (const r of riders) seat(r, a);
+            const es = lerp(1, 1.5, a);
+            eyes.eyeL.scale.setScalar(es);
+            eyes.eyeR.scale.setScalar(es);
+            root.updateMatrixWorld(true);
+          }
+          function pose(name) {
+            const P = POSES[name];
+            if (!P) throw new Error(`unknown pose "${name}" (${Object.keys(POSES).join(", ")})`);
+            baseTable = { ...REST, ...P.rot };
+            body.position.set(...P.p);
+            for (const j of SCALED) joints[j].scale.set(...(P.scl?.[j] ?? [1, 1, 1]));
+            puff(P.puff);
+          }
+          pose("rest");
+          return { root, joints, pose, puff };
+        }
+        return { meta, build };
+      })();
+
+      // ---- the ox (models/ox.js, pasted whole) --------------------------------------------------------------------
+      const OX = (() => {
+        // ox.js — a heavy draught ox (bull) for Aesop's "The Ox and the Frog". Model-lab contract: harness/lab/README.md.
+        // No imports, no clock, no random numbers: THREE and the kit come in as arguments.
+        //
+        // Construction
+        //   loft(): superellipse rings stitched along a spine in the YZ plane (x is lateral). Each ring has its own
+        //     up/down extent and upper/lower half-widths (blended below the equator, so no side crease), so one ring is a
+        //     barrel and the next a keel (the dewlap). Ring planes: plane "z" (constant z, up = +Y) for body and neck so
+        //     top/bottom read straight off the side profile; plane "y" (constant y, up = front) for leg segments and hoof
+        //     claws; perpendicular to the spine only for the straight head axis. No seam duplicates: smooth normals and a
+        //     closed ink hull. Ends close on a centre vertex.
+        //   limb(): a leg-segment loft with domed ends. Joints are "taper-through": the knob (knee, fetlock, hock)
+        //     belongs to the upper segment, which then tapers thinner than the lower segment inside it, and the lower
+        //     segment starts inside the knob at <= 80 % of its girth. Same material, so the overlap shows no cuff line.
+        //   tube(): a tapered tube along a CatmullRomCurve3 with Frenet frames (horns, tail), tip closed on an apex.
+        //   Neck: two lofts on a two-joint chain (neckBase low in the chest, neckMid low in the neck), overlapping
+        //     ~0.12 m and ~5 % thinner where hidden, so the drink bow is one convex curve from withers to poll.
+        //   All part geometry is written in WORLD rest coordinates; each mesh sits in its joint with position = -pivot,
+        //   so the numbers below read straight off the side reference (side_hungarian_grey_bull.jpg, matched by a
+        //   silhouette-edge overlay to ~2-3 % on topline, rump, belly, dewlap, legs and head).
+        //
+        // Proportions (H = withers height = 1.50 m; horn tips 1.75 m)
+        //   topline: withers 1.515 at z 0.30, back 1.39-1.43, tail head 1.35 at z -1.03 (slopes ~0.1 H). Brisket 0.61 m
+        //   (chest depth 0.6 H), belly line 0.645 m, elbow 0.62, knee 0.36, fetlock 0.17, hoof 0.09. Head 0.48 m long,
+        //   carried 38 deg below horizontal, muzzle 1.07 m above ground. Nose to buttock 2.35 m = 1.57 H. Barrel 0.72 m
+        //   wide. Lower legs modelled ~12 % fatter than the photo: the 5 px ink eats that much of a thin part.
+        //
+        // Two-tone pairs, all from the "noon" script:
+        //   coat   iris #5c3d32 / hair #241c16        horn  practical #fffaf2 / sky #f2d7ae
+        //   hoof   hair #241c16 / ink #2c261f         muzzle hair #241c16 / ink #2c261f
+        //   ear    skin #f0c2ae / iris #5c3d32 (inner) eye hair #241c16, glint moon #fff6e4. Ink hull: ink #2c261f.
+
+        const meta = {
+          name: "ox",
+          height: 1.75,
+          script: "noon",
+          colors: {
+            coat: "#5c3d32",
+            coatShade: "#241c16",
+            horn: "#fffaf2",
+            hornShade: "#f2d7ae",
+            hoof: "#241c16",
+            hoofShade: "#2c261f",
+            muzzle: "#241c16",
+            muzzleShade: "#2c261f",
+            earIn: "#f0c2ae",
+            earInShade: "#5c3d32",
+            eye: "#241c16",
+            glint: "#fff6e4",
+          },
+          poses: ["rest", "walk-a", "walk-b", "drink", "stomp"],
+        };
+
+        // Joint rotations in degrees [rx, ry, rz], absolute. A pose = REST with its own rows on top.
+        // Legs hang along -Y: negative rx swings a limb forward (+Z), positive rx swings it back.
+        const REST = {
+          body: [0, 0, 0], neckBase: [0, 0, 0], neckMid: [0, 0, 0], poll: [0, 0, 0], tailRoot: [0, 0, 0], tailMid: [0, 0, 0],
+          shoulderL: [0, 0, 0], elbowL: [0, 0, 0], kneeL: [0, 0, 0], fetlockFL: [0, 0, 0],
+          shoulderR: [0, 0, 0], elbowR: [0, 0, 0], kneeR: [0, 0, 0], fetlockFR: [0, 0, 0],
+          hipL: [0, 0, 0], stifleL: [0, 0, 0], hockL: [0, 0, 0], fetlockHL: [0, 0, 0],
+          hipR: [0, 0, 0], stifleR: [0, 0, 0], hockR: [0, 0, 0], fetlockHR: [0, 0, 0],
+        };
+        const POSES = {
+          rest: {},
+          // walk keys, diagonal pairs: one fore leg swinging forward (lifted, knee folded), the opposite hind planted
+          // forward, the other two planted behind with the trailing hind heel lifting off.
+          "walk-a": {
+            shoulderL: [-16, 0, 0], elbowL: [-8, 0, 0], kneeL: [55, 0, 0], fetlockFL: [28, 0, 0],
+            shoulderR: [11, 0, 0], fetlockFR: [-11, 0, 0],
+            hipR: [-13, 0, 0], fetlockHR: [13, 0, 0],
+            hipL: [9, 0, 0], stifleL: [10, 0, 0], hockL: [-26, 0, 0], fetlockHL: [12, 0, 0],
+            neckBase: [3, 0, 0], tailRoot: [0, 0, 5], tailMid: [0, 0, 8],
+          },
+          "walk-b": {
+            shoulderR: [-16, 0, 0], elbowR: [-8, 0, 0], kneeR: [55, 0, 0], fetlockFR: [28, 0, 0],
+            shoulderL: [11, 0, 0], fetlockFL: [-11, 0, 0],
+            hipL: [-13, 0, 0], fetlockHL: [13, 0, 0],
+            hipR: [9, 0, 0], stifleR: [10, 0, 0], hockR: [-26, 0, 0], fetlockHR: [12, 0, 0],
+            neckBase: [5, 0, 0], tailRoot: [0, 0, -5], tailMid: [0, 0, -8],
+          },
+          // drinking: neck bowed ~60 deg below horizontal, head near vertical, muzzle at the water surface; forelegs
+          // planted a little forward, hind legs angled back (drink_white_cow_side.jpg)
+          drink: {
+            neckBase: [40, 0, 0], neckMid: [70, 0, 0], poll: [-64, 0, 0],
+            shoulderL: [-5, 0, 0], fetlockFL: [5, 0, 0], shoulderR: [-5, 0, 0], fetlockFR: [5, 0, 0],
+            hipL: [6, 0, 0], fetlockHL: [-6, 0, 0], hipR: [6, 0, 0], fetlockHR: [-6, 0, 0],
+            tailRoot: [-4, 0, 0],
+          },
+          // stomp: left fore hoof lifted high, forearm near horizontal, cannon hanging, sole facing down, about to
+          // come down; head up and level, oblivious
+          stomp: {
+            shoulderL: [-38, 0, 0], elbowL: [-55, 0, 0], kneeL: [112, 0, 0], fetlockFL: [30, 0, 0],
+            shoulderR: [4, 0, 0], fetlockFR: [-4, 0, 0], hipL: [-3, 0, 0], fetlockHL: [3, 0, 0],
+            hipR: [-3, 0, 0], fetlockHR: [3, 0, 0],
+            neckBase: [-6, 0, 0], poll: [6, 0, 0], tailRoot: [0, 0, 10], tailMid: [-10, 0, 12],
+          },
+        };
+        const DEG = Math.PI / 180;
+
+        function build(THREE, kit, colors = meta.colors) {
+          const c = colors;
+          const root = new THREE.Group();
+          root.name = "ox";
+          const joints = {};
+
+          // ---------- geometry helpers ----------
+          const spow = (v, e) => Math.sign(v) * Math.pow(Math.abs(v), e);
+
+          // st: [y, z, up, dn, aTop, aBot, n?] in world rest metres. up/dn measured along the ring's in-plane normal
+          // (for a horizontal spine running +Z: up = +Y; for a vertical spine running -Y: up = +Z, the front).
+          function loft(st, { x = 0, seg = 24, n = 2.4, plane = "perp" } = {}) {
+            const pos = [];
+            const idx = [];
+            const R = st.length;
+            for (let i = 0; i < R; i++) {
+              const a = st[Math.max(i - 1, 0)];
+              const b = st[Math.min(i + 1, R - 1)];
+              let ty = b[0] - a[0];
+              let tz = b[1] - a[1];
+              const tl = Math.hypot(ty, tz) || 1;
+              ty /= tl;
+              tz /= tl;
+              // ring plane: perpendicular to the spine, or locked to constant z (up = +Y) / constant y (up = +Z, the front)
+              const ny = plane === "z" ? 1 : plane === "y" ? 0 : tz;
+              const nz = plane === "z" ? 0 : plane === "y" ? 1 : -ty;
+              const [y, z, up, dn, aT, aB, ne = n] = st[i];
+              const e = 2 / ne;
+              for (let j = 0; j < seg; j++) {
+                const t = (j / seg) * Math.PI * 2;
+                const s = Math.sin(t);
+                // below the equator the half-width blends from aT to aB, so there is no step at the sides
+                const u = spow(Math.cos(t), e) * (s >= 0 ? aT : aT + (aB - aT) * Math.pow(-s, 0.8));
+                const v = spow(s, e) * (s >= 0 ? up : dn);
+                pos.push(x + u, y + v * ny, z + v * nz);
+              }
+            }
+            for (let i = 0; i < R - 1; i++)
+              for (let j = 0; j < seg; j++) {
+                const a = i * seg + j;
+                const b = i * seg + ((j + 1) % seg);
+                const a2 = a + seg;
+                const b2 = b + seg;
+                idx.push(a, b, a2, b, b2, a2);
+              }
+            const c0 = pos.length / 3;
+            pos.push(x, st[0][0], st[0][1]);
+            const c1 = c0 + 1;
+            pos.push(x, st[R - 1][0], st[R - 1][1]);
+            for (let j = 0; j < seg; j++) {
+              const j1 = (j + 1) % seg;
+              idx.push(c0, j1, j);
+              idx.push(c1, (R - 1) * seg + j, (R - 1) * seg + j1);
+            }
+            const g = new THREE.BufferGeometry();
+            g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+            g.setIndex(idx);
+            g.computeVertexNormals();
+            return g;
+          }
+
+          // Tapered tube along a Catmull-Rom curve through pts ([x,y,z] world). r(t) radius, t in 0..1. Tip closed on an apex.
+          function tube(pts, r, { steps = 20, seg = 10 } = {}) {
+            const curve = new THREE.CatmullRomCurve3(pts.map((p) => new THREE.Vector3(...p)));
+            const fr = curve.computeFrenetFrames(steps, false);
+            const pos = [];
+            const idx = [];
+            for (let i = 0; i <= steps; i++) {
+              const t = i / steps;
+              const p = curve.getPointAt(t);
+              const rad = r(t);
+              for (let j = 0; j < seg; j++) {
+                const a = (j / seg) * Math.PI * 2;
+                const nx = fr.normals[i];
+                const bx = fr.binormals[i];
+                pos.push(
+                  p.x + rad * (Math.cos(a) * nx.x + Math.sin(a) * bx.x),
+                  p.y + rad * (Math.cos(a) * nx.y + Math.sin(a) * bx.y),
+                  p.z + rad * (Math.cos(a) * nx.z + Math.sin(a) * bx.z));
+              }
+            }
+            for (let i = 0; i < steps; i++)
+              for (let j = 0; j < seg; j++) {
+                const a = i * seg + j;
+                const b = i * seg + ((j + 1) % seg);
+                idx.push(a, b, a + seg, b, b + seg, a + seg); // ring runs N -> B, so this winding faces outward
+              }
+            const p0 = curve.getPointAt(0);
+            const p1 = curve.getPointAt(1);
+            const t1 = fr.tangents[steps];
+            const c0 = pos.length / 3;
+            pos.push(p0.x, p0.y, p0.z);
+            pos.push(p1.x + t1.x * 0.004, p1.y + t1.y * 0.004, p1.z + t1.z * 0.004);
+            for (let j = 0; j < seg; j++) {
+              const j1 = (j + 1) % seg;
+              idx.push(c0, j, j1);
+              idx.push(c0 + 1, steps * seg + j1, steps * seg + j);
+            }
+            const g = new THREE.BufferGeometry();
+            g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+            g.setIndex(idx);
+            g.computeVertexNormals();
+            return g;
+          }
+
+          const ellipsoid = (rx, ry, rz, w = 16, h = 12) => new THREE.SphereGeometry(1, w, h).scale(rx, ry, rz);
+
+          // A joint pivot at a WORLD rest position; Group.position is relative to the parent's pivot.
+          const joint = (name, parent, p) => {
+            const g = new THREE.Group();
+            g.name = name;
+            g.userData.world = p;
+            const pw = parent.userData.world || [0, 0, 0];
+            g.position.set(p[0] - pw[0], p[1] - pw[1], p[2] - pw[2]);
+            parent.add(g);
+            joints[name] = g;
+            return g;
+          };
+          // Add a mesh whose geometry is in world rest coordinates.
+          const part = (j, geo, base, shade, opts) => {
+            const m = kit.toon(geo, base, shade, opts);
+            const w = j.userData.world || [0, 0, 0];
+            m.position.set(-w[0], -w[1], -w[2]);
+            j.add(m);
+            return m;
+          };
+          const coat = (j, geo) => part(j, geo, c.coat, c.coatShade);
+          // Add a mesh built around the origin at a WORLD point p with Euler e = [x, y, z, order?]; off = local shift first.
+          const place = (j, geo, base, shade, p, e = [0, 0, 0], opts, off) => {
+            if (off) geo.translate(...off);
+            const m = kit.toon(geo, base, shade, opts);
+            const w = j.userData.world || [0, 0, 0];
+            m.position.set(p[0] - w[0], p[1] - w[1], p[2] - w[2]);
+            m.rotation.set(e[0], e[1], e[2], e[3] || "XYZ");
+            j.add(m);
+            return m;
+          };
+
+          // ---------- body ----------
+          const body = joint("body", root, [0, 1.12, -0.82]); // pivot at hip level: pitching it keeps the rear planted
+          // B(z, top, bottom, aTop, aBot): a ring at constant z (plane "z"), so top/bottom read straight off the side profile
+          const B = (z, top, bot, aT, aB, n) => [(top + bot) / 2, z, (top - bot) / 2, (top - bot) / 2, aT, aB, n];
+          coat(body, loft([
+            B(-1.15, 1.22, 1.08, 0.01, 0.01),
+            B(-1.135, 1.28, 0.99, 0.09, 0.08, 2.8),
+            B(-1.10, 1.325, 0.88, 0.17, 0.15, 2.8),
+            B(-1.03, 1.35, 0.79, 0.24, 0.22, 2.7),
+            B(-0.90, 1.36, 0.73, 0.29, 0.27, 2.6),
+            B(-0.74, 1.365, 0.69, 0.31, 0.30),
+            B(-0.54, 1.375, 0.665, 0.33, 0.33),
+            B(-0.30, 1.39, 0.65, 0.355, 0.35),
+            B(-0.05, 1.43, 0.645, 0.36, 0.35),
+            B(0.15, 1.485, 0.635, 0.35, 0.32),
+            B(0.30, 1.515, 0.615, 0.335, 0.29),
+            B(0.42, 1.505, 0.61, 0.315, 0.24),
+            B(0.53, 1.455, 0.64, 0.28, 0.20), // the front end is hidden by the neck at rest; it slopes down so the
+            B(0.62, 1.31, 0.70, 0.23, 0.16), // drink pose shows a withers -> neck line, not a wall
+            B(0.69, 1.15, 0.77, 0.15, 0.10),
+            B(0.72, 1.0, 0.88, 0.01, 0.01),
+          ], { seg: 32, plane: "z" }));
+
+          // ---------- neck ----------
+          // Two lofts on a two-joint chain, so the drink bow is a curve. The base pivot sits low and back in the chest
+          // (where the cervical spine starts), so the bow reaches the ground. The two lofts share rings over z 0.58-0.66;
+          // same material and same surface, so the overlap is invisible at rest.
+          const NECK = [
+            B(0.28, 1.36, 1.02, 0.02, 0.02), // root rows sit high inside the withers: when the neck bows they
+            B(0.33, 1.46, 0.80, 0.22, 0.14), // become the crest that joins the withers (no notch)
+            B(0.44, 1.495, 0.655, 0.28, 0.15), // thick bull neck: nearly as wide as the shoulders on top
+            B(0.56, 1.48, 0.69, 0.25, 0.11),
+            B(0.62, 1.465, 0.71, 0.23, 0.10),
+            B(0.66, 1.45, 0.735, 0.21, 0.09),
+            B(0.74, 1.425, 0.785, 0.18, 0.08),
+            B(0.82, 1.39, 0.845, 0.145, 0.085),
+            B(0.88, 1.35, 0.89, 0.13, 0.09),
+            B(0.93, 1.31, 0.95, 0.11, 0.08),
+            B(0.95, 1.22, 1.00, 0.01, 0.01),
+          ];
+          const neckBase = joint("neckBase", body, [0, 1.0, 0.30]);
+          // each loft runs ~0.12 m into the other, ~5 % thinner (hidden at rest), and fills the outside of the bend
+          coat(neckBase, loft([...NECK.slice(0, 6), B(0.74, 1.41, 0.795, 0.17, 0.075), B(0.80, 1.36, 0.865, 0.13, 0.06),
+            B(0.88, 1.30, 0.92, 0.10, 0.06), B(0.92, 1.24, 0.98, 0.06, 0.04), B(0.93, 1.15, 1.05, 0.01, 0.01)], { seg: 28, plane: "z" }));
+          const neckMid = joint("neckMid", neckBase, [0, 1.0, 0.50]); // low in the neck: a long lever for the bow
+          coat(neckMid, loft([B(0.46, 1.2, 0.95, 0.01, 0.01), B(0.48, 1.40, 0.74, 0.2, 0.09), B(0.53, 1.44, 0.71, 0.23, 0.1),
+            ...NECK.slice(3)], { seg: 28, plane: "z" }));
+
+          // ---------- head (built along an axis 38 deg below horizontal) ----------
+          const poll = joint("poll", neckMid, [0, 1.28, 0.78]);
+          const HA = [1.36, 0.75]; // axis start [y, z]
+          const HD = [-Math.sin(38 * DEG), Math.cos(38 * DEG)]; // axis direction [y, z]
+          const HN = [HD[1], -HD[0]]; // forehead normal [y, z]
+          const H = (s, up, dn, aT, aB, n) => [HA[0] + HD[0] * s, HA[1] + HD[1] * s, up, dn, aT, aB, n];
+          const onHead = (s, u) => [HA[0] + HD[0] * s + HN[0] * u, HA[1] + HD[1] * s + HN[1] * u]; // [y, z]
+          coat(poll, loft([
+            H(-0.05, 0.01, 0.01, 0.01, 0.01),
+            H(-0.03, 0.07, 0.12, 0.10, 0.09),
+            H(0.02, 0.10, 0.18, 0.145, 0.115), // broad flat forehead between the horn bases
+            H(0.08, 0.105, 0.21, 0.152, 0.12),
+            H(0.15, 0.095, 0.21, 0.145, 0.115),
+            H(0.24, 0.08, 0.205, 0.118, 0.10),
+            H(0.32, 0.065, 0.17, 0.096, 0.085),
+            H(0.39, 0.06, 0.135, 0.094, 0.088),
+            H(0.44, 0.05, 0.095, 0.098, 0.088), // muzzle flares again
+            H(0.47, 0.035, 0.06, 0.08, 0.07),
+            H(0.48, 0.005, 0.005, 0.005, 0.005),
+          ], { seg: 24, n: 2.6 }));
+          // muzzle pad: its hull draws the muzzle line across the face
+          place(poll, ellipsoid(0.1, 0.105, 0.062, 18, 12), c.muzzle, c.muzzleShade, [0, ...onHead(0.445, -0.01)], [-(90 - 38) * DEG, 0, 0]);
+          // horns: out from the poll corners, forward, then up; tips turn a little back (lyre). Thick at the base so the
+          // pale shape survives the 5 px ink on both sides.
+          for (const s of [-1, 1]) {
+            const [y0, z0] = onHead(0.04, 0.05);
+            part(poll, tube([
+              [s * 0.075, y0 - 0.01, z0],
+              [s * 0.19, y0 + 0.035, z0 + 0.02],
+              [s * 0.30, y0 + 0.07, z0 + 0.07],
+              [s * 0.37, y0 + 0.17, z0 + 0.11],
+              [s * 0.39, y0 + 0.29, z0 + 0.10],
+              [s * 0.37, y0 + 0.37, z0 + 0.05],
+            ], (t) => 0.068 * Math.pow(1 - t, 0.9) + 0.002, { steps: 22, seg: 12 }), c.horn, c.hornShade);
+          }
+          // poll: the raised coat ridge between the horn bases
+          place(poll, ellipsoid(0.085, 0.035, 0.05, 14, 8), c.coat, c.coatShade, [0, ...onHead(0.035, 0.072)], [38 * DEG, 0, 0]);
+          // ears: pointed leaves out sideways under the horns, drooping 25 deg, open to the front; pale inside
+          const leaf = (len, w, th) => loft([
+            [0, 0, 0.004, 0.004, 0.004, 0.004],
+            [0, len * 0.12, w * 0.5, w * 0.5, th, th],
+            [0, len * 0.45, w, w * 0.9, th * 0.9, th * 0.9],
+            [0, len * 0.8, w * 0.6, w * 0.5, th * 0.6, th * 0.6],
+            [0, len, 0.004, 0.004, 0.004, 0.004],
+          ], { seg: 12, n: 2, plane: "z" });
+          for (const s of [-1, 1]) {
+            const [y, z] = onHead(0.07, -0.03);
+            place(poll, leaf(0.2, 0.06, 0.02), c.coat, c.coatShade, [s * 0.1, y, z - 0.02], [0, s * 105 * DEG, -s * 25 * DEG, "ZYX"]);
+            place(poll, leaf(0.15, 0.04, 0.008), c.earIn, c.earInShade, [s * 0.13, y - 0.012, z - 0.005], [0, s * 105 * DEG, -s * 25 * DEG, "ZYX"],
+              { outline: false }, [-s * 0.012, 0, 0.02]);
+          }
+          // eyes: dark ball, a heavy coat-coloured lid over the top half (sleepy, unaware), a glint, and a brow ridge
+          for (const s of [-1, 1]) {
+            const [y, z] = onHead(0.18, 0.03);
+            const ex = s * 0.13;
+            place(poll, ellipsoid(0.03, 0.027, 0.03, 14, 10), c.eye, c.eye, [ex, y, z], [0, 0, 0], { outline: false });
+            place(poll, new THREE.SphereGeometry(0.035, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.42), c.coat, c.coatShade,
+              [ex, y, z], [-0.5, 0, s * 0.35]);
+            place(poll, ellipsoid(0.006, 0.006, 0.006, 8, 6), c.glint, c.glint, [ex + s * 0.022, y + 0.004, z + 0.013], [0, 0, 0], { outline: false });
+            place(poll, ellipsoid(0.032, 0.022, 0.06, 12, 8), c.coat, c.coatShade, [s * 0.125, ...onHead(0.16, 0.07)], [38 * DEG, 0, 0]);
+          }
+          // ---------- legs ----------
+          // limb(): rows [y, z, front, back, halfWidth] top to bottom, rings at constant y; both ends get a dome so a
+          // segment can overlap its neighbour past the pivot and still read round when the joint bends.
+          // k scales every girth of the segment (the ink hull makes legs read ~10 % thinner than they are).
+          function limb(j, x, rows, { seg = 14, n = 2.2, dome = 0.5, k = 1 } = {}) {
+            const end = (r, dir) => {
+              const h = Math.max(r[2], r[3], r[4]) * dome * k;
+              return [
+                [r[0] + dir * h * 0.6, r[1], r[2] * 0.75 * k, r[3] * 0.75 * k, r[4] * 0.75 * k, r[4] * 0.75 * k],
+                [r[0] + dir * h, r[1], 0.004, 0.004, 0.004, 0.004],
+              ];
+            };
+            const mid = rows.map((r) => [r[0], r[1], r[2] * k, r[3] * k, r[4] * k, r[4] * k]);
+            const st = [...end(rows[0], 1).reverse(), ...mid, ...end(rows[rows.length - 1], -1)];
+            return coat(j, loft(st, { x, seg, n, plane: "y" }));
+          }
+          // A foot below the fetlock: pastern, two claws (the split is the cloven hoof) and two dewclaws behind.
+          // Claw rings at constant y: long at the sole, short at the coronet and shifted forward, so the side view is a
+          // wedge (toe wall 0.085 m high, heel bulb ~0.05 m), not a slipper.
+          const CLAW = [ // [y, front z, back z, half-width] relative to the foot centre
+            [0.092, 0.016, 0.012, 0.004], [0.085, 0.03, -0.002, 0.022], [0.07, 0.042, -0.014, 0.03],
+            [0.05, 0.054, -0.046, 0.034], [0.03, 0.064, -0.058, 0.035], [0.006, 0.07, -0.061, 0.034], [0.0, 0.068, -0.058, 0.032],
+          ];
+          function foot(j, [x, y, z]) {
+            limb(j, x, [
+              [y - 0.01, z + 0.002, 0.042, 0.046, 0.047],
+              [y - 0.05, z + 0.01, 0.045, 0.05, 0.05],
+              [y - 0.085, z + 0.02, 0.05, 0.056, 0.056],
+            ], { seg: 12, dome: 0.3, k: LK });
+            const zf = z + 0.03;
+            for (const s of [-1, 1]) {
+              part(j, loft(CLAW.map(([cy, fz, bz, a]) => [cy, zf + (fz + bz) / 2, (fz - bz) / 2, (fz - bz) / 2, a, a]),
+                { x: x + s * 0.036, seg: 12, n: 2.6, plane: "y" }), c.hoof, c.hoofShade);
+              place(j, ellipsoid(0.013, 0.018, 0.012, 7, 5), c.hoof, c.hoofShade, [x + s * 0.03, y - 0.05, z - 0.045], [0.5, 0, 0]);
+            }
+          }
+
+          const LK = 1.12; // lower-leg girth factor
+          for (const [side, s] of [["L", 1], ["R", -1]]) {
+            // fore leg: shoulder (hidden in the chest), elbow -> knee (forearm), knee -> fetlock (cannon), foot
+            const shoulder = joint(`shoulder${side}`, body, [s * 0.18, 1.0, 0.46]);
+            limb(shoulder, s * 0.17, [
+              [1.06, 0.48, 0.10, 0.10, 0.09],
+              [0.90, 0.42, 0.12, 0.13, 0.10],
+              [0.74, 0.34, 0.11, 0.15, 0.10],
+              [0.64, 0.31, 0.09, 0.12, 0.09],
+            ], { seg: 14 });
+            const elbow = joint(`elbow${side}`, shoulder, [s * 0.19, 0.62, 0.31]);
+            limb(elbow, s * 0.185, [
+              [0.70, 0.32, 0.09, 0.10, 0.10],
+              [0.58, 0.33, 0.08, 0.075, 0.092],
+              [0.47, 0.335, 0.064, 0.058, 0.074],
+              [0.39, 0.337, 0.055, 0.05, 0.064],
+              [0.35, 0.337, 0.06, 0.056, 0.066], // knee (carpus) knob belongs to the forearm
+              [0.315, 0.338, 0.046, 0.046, 0.05], // then tapers THROUGH the cannon: ends thinner than it, inside it
+              [0.29, 0.338, 0.038, 0.038, 0.042],
+            ], { seg: 16, dome: 0.3, k: LK });
+            const knee = joint(`knee${side}`, elbow, [s * 0.18, 0.36, 0.335]);
+            limb(knee, s * 0.18, [
+              [0.37, 0.337, 0.042, 0.042, 0.046], // starts inside the knee knob (<= 80 % of its width): no cuff line
+              [0.28, 0.338, 0.042, 0.043, 0.047],
+              [0.21, 0.34, 0.043, 0.044, 0.048],
+              [0.17, 0.342, 0.056, 0.062, 0.06], // fetlock knob belongs to the cannon
+              [0.15, 0.344, 0.05, 0.056, 0.055],
+              [0.125, 0.348, 0.038, 0.042, 0.042],
+            ], { seg: 12, dome: 0.3, k: LK });
+            const fetF = joint(`fetlockF${side}`, knee, [s * 0.18, 0.17, 0.342]);
+            foot(fetF, [s * 0.18, 0.17, 0.342]);
+
+            // hind leg: hip (thigh mass inside the quarter), stifle -> hock (gaskin), hock -> fetlock (cannon), foot
+            const hip = joint(`hip${side}`, body, [s * 0.19, 1.12, -0.82]);
+            limb(hip, s * 0.17, [
+              [1.20, -0.84, 0.16, 0.2, 0.11],
+              [1.02, -0.82, 0.21, 0.25, 0.125],
+              [0.86, -0.80, 0.2, 0.24, 0.12],
+              [0.76, -0.79, 0.16, 0.2, 0.1],
+            ], { seg: 16, dome: 0.3 });
+            const stifle = joint(`stifle${side}`, hip, [s * 0.2, 0.78, -0.62]);
+            limb(stifle, s * 0.18, [
+              [0.84, -0.82, 0.17, 0.21, 0.105],
+              [0.72, -0.84, 0.15, 0.18, 0.095],
+              [0.58, -0.87, 0.09, 0.12, 0.075],
+              [0.47, -0.885, 0.065, 0.09, 0.068],
+              [0.43, -0.89, 0.062, 0.098, 0.068], // hock, with the point of the hock behind
+              [0.39, -0.882, 0.042, 0.05, 0.046],
+              [0.36, -0.876, 0.036, 0.04, 0.04],
+            ], { seg: 16, dome: 0.3, k: 1.06 });
+            const hock = joint(`hock${side}`, stifle, [s * 0.18, 0.44, -0.88]);
+            limb(hock, s * 0.18, [
+              [0.45, -0.887, 0.042, 0.046, 0.046],
+              [0.40, -0.877, 0.044, 0.048, 0.05],
+              [0.34, -0.865, 0.042, 0.045, 0.047],
+              [0.24, -0.845, 0.043, 0.044, 0.048],
+              [0.17, -0.832, 0.056, 0.062, 0.06],
+              [0.15, -0.83, 0.05, 0.056, 0.055],
+              [0.125, -0.826, 0.038, 0.042, 0.042],
+            ], { seg: 12, dome: 0.3, k: LK });
+            const fetH = joint(`fetlockH${side}`, hock, [s * 0.18, 0.17, -0.83]);
+            foot(fetH, [s * 0.18, 0.17, -0.83]);
+          }
+
+          // ---------- tail ----------
+          const tailRoot = joint("tailRoot", body, [0, 1.34, -1.08]);
+          coat(tailRoot, tube([
+            [0, 1.33, -1.06], [0, 1.29, -1.13], [0, 1.15, -1.16], [0, 0.95, -1.165], [0, 0.78, -1.16],
+          ], (t) => 0.034 - 0.016 * t, { steps: 14, seg: 10 }));
+          const tailMid = joint("tailMid", tailRoot, [0, 0.79, -1.16]);
+          coat(tailMid, tube([
+            [0, 0.80, -1.16], [0, 0.62, -1.155], [0, 0.45, -1.15],
+          ], () => 0.016, { steps: 8, seg: 10 }));
+          part(tailMid, loft([
+            [0.56, -1.15, 0.004, 0.004, 0.004, 0.004],
+            [0.54, -1.15, 0.022, 0.022, 0.022, 0.022],
+            [0.44, -1.152, 0.04, 0.042, 0.04, 0.04],
+            [0.30, -1.155, 0.05, 0.055, 0.05, 0.05],
+            [0.19, -1.158, 0.038, 0.045, 0.04, 0.04],
+            [0.12, -1.16, 0.015, 0.02, 0.016, 0.016],
+            [0.095, -1.16, 0.004, 0.004, 0.004, 0.004],
+          ], { seg: 12, plane: "y" }), c.hoof, c.hoofShade);
+
+          function pose(name) {
+            const rows = POSES[name];
+            if (!rows) throw new Error(`unknown pose "${name}" (${Object.keys(POSES).join(", ")})`);
+            const table = { ...REST, ...rows };
+            for (const [jn, [rx, ry, rz]] of Object.entries(table)) joints[jn].rotation.set(rx * DEG, ry * DEG, rz * DEG);
+            root.updateMatrixWorld(true);
+          }
+          pose("rest");
+          return { root, joints, pose };
+        }
+        return { meta, build };
+      })();
+
+      // ---- the world: real metres, one pool. Frog ~0.1 m, ox 1.75 m. ---------------------------------------------
+      const kit = makeKit(THREE, { ink: INK });
+      kit.resolution.set(W, H);
+      const scene = new THREE.Scene();
+      const DEG = Math.PI / 180;
+      const put = (m, x, y, z) => (m.position.set(x, y, z), m);
+
+      const water = new THREE.Mesh(new THREE.CircleGeometry(300, 72).rotateX(-Math.PI / 2), kit.cel(SCLERA, SKY));
+      scene.add(water);
+
+      // A lily pad: a notched disc 4 mm thick, top at y = 0.004.
+      function padGeo(r, notch) {
+        const s = new THREE.Shape();
+        s.moveTo(0, 0);
+        s.absarc(0, 0, r, notch + 0.26, notch + Math.PI * 2 - 0.26, false);
+        s.lineTo(0, 0);
+        return new THREE.ExtrudeGeometry(s, { depth: 0.004, bevelEnabled: false, curveSegments: 28 }).rotateX(-Math.PI / 2);
+      }
+      for (const [x, z, r, n] of [[0.5, -0.24, 0.07, 1], [-0.42, -0.36, 0.08, 4], [0.66, 0.34, 0.06, 2.5], [-0.26, 0.44, 0.07, 5.5], [0.02, -0.42, 0.06, 0.4],
+        [0.82, -0.06, 0.05, 3.3], [-0.68, 0.06, 0.07, 2], [0.08, 0.56, 0.05, 1.7], [-0.05, 0.12, 0.05, 2.9], [-1.0, -0.5, 0.09, 0.8],
+        [0.3, 0.9, 0.06, 3.9], [-0.9, 0.7, 0.08, 5], [-2.2, -2.3, 0.1, 1.2], [-1.4, -2.9, 0.12, 2.2], [-3.4, -2.2, 0.11, 4.1], [-0.5, 1.1, 0.07, 0.2]])
+        scene.add(put(kit.toon(padGeo(r, n), IRIS, HAIR), x, 0, z));
+
+      // Reeds: tapered stems, a seeded series (no random calls), in clumps behind the frogs and around the ox.
+      const clumps = [];
+      let seed = 20231;
+      const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+      for (const [cx, cz, n, h] of [[-0.9, -0.85, 9, 1.1], [-0.25, -1.3, 8, 1.3], [0.6, -1.05, 7, 1.0], [1.3, -0.55, 6, 1.2], [-1.5, 0.15, 8, 1.2],
+        [-1.0, 1.0, 5, 0.9], [-3.6, -4.5, 12, 1.7], [-1.7, -4.7, 10, 1.6], [-4.6, -3.2, 9, 1.5], [-0.4, -4.2, 8, 1.5]]) {
+        const clump = scene.add(new THREE.Group()).children.at(-1);
+        clumps.push(clump);
+        for (let i = 0; i < n; i++) {
+          const [hh, r] = [h * (0.6 + 0.5 * rnd()), 0.007 + 0.006 * rnd()];
+          const reed = kit.toon(new THREE.ConeGeometry(r, hh, 5).translate(0, hh / 2, 0), IRIS, HAIR);
+          reed.position.set(cx + (rnd() - 0.5) * 0.4, 0, cz + (rnd() - 0.5) * 0.4);
+          reed.rotation.set((rnd() - 0.5) * 0.14, 0, (rnd() - 0.5) * 0.14);
+          if (i % 3 === 0) reed.add(put(kit.toon(new THREE.CylinderGeometry(r * 1.9, r * 1.9, hh * 0.11, 6), HAIR, INK), 0, hh * 0.72, 0));
+          clump.add(reed);
+        }
+      }
+
+      // Actors: each frog sits on its own pad (the pad stays when the frog is gone). Built once, posed per frame.
+      const actors = {};
+      for (const [name, padR] of [["old", 0.075], ["l1", 0.07], ["l2", 0.07], ["l3", 0.07], ["d", 0.09]]) {
+        const g = new THREE.Group();
+        g.add(kit.toon(padGeo(padR, 0.3 + padR * 40), IRIS, HAIR));
+        const frog = FROG.build(THREE, kit);
+        frog.root.position.y = 0.007;
+        g.add(frog.root);
+        scene.add(g);
+        actors[name] = { g, frog, key: "" };
+      }
+      const ox = OX.build(THREE, kit);
+      scene.add(ox.root);
+
+      // Effects: the hoof's shadow, the splash crown, ripple rings.
+      const shadow = new THREE.Mesh(new THREE.CircleGeometry(1, 32).rotateX(-Math.PI / 2), kit.cel(HAIR, HAIR));
+      scene.add(shadow);
+      const splash = new THREE.Group();
+      for (let i = 0; i < 10; i++) {
+        const a = (i / 10) * Math.PI * 2;
+        const k = i % 2 ? 0.75 : 1;
+        const cone = kit.toon(new THREE.ConeGeometry(0.014, 0.09 * k, 5).translate(0, 0.045 * k, 0), PRACTICAL, SKY);
+        cone.position.set(Math.cos(a) * 0.1, 0, Math.sin(a) * 0.1);
+        cone.rotation.set(Math.sin(a) * 0.55, 0, -Math.cos(a) * 0.55);
+        splash.add(cone);
+        const drop = kit.toon(new THREE.SphereGeometry(0.009, 8, 6), PRACTICAL, SKY);
+        drop.position.set(Math.cos(a + 0.3) * 0.15, 0.1 + 0.05 * k, Math.sin(a + 0.3) * 0.15);
+        if (i !== 1) splash.add(drop); // the drop on the camera side would sit on the leg
+      }
+      scene.add(splash);
+      const ringGeo = new THREE.RingGeometry(0.95, 1, 64).rotateX(-Math.PI / 2);
+      const ripples = [0, 1, 2].map(() => {
+        const g = new THREE.Group();
+        for (const k of [1, 0.62]) g.add(new THREE.Mesh(ringGeo, kit.cel(IRIS, IRIS))).children.at(-1).scale.set(k, 1, k);
+        g.position.y = 0.0015;
+        scene.add(g);
+        return g;
+      });
+
+      // ---- the shots ------------------------------------------------------------------------------------------------
+      const CUTS = [3, 6, 9, 14, 17.5];
+      const SAKUGA = 3;
+      // Cameras: aim point, azimuth (0 = +Z, 90 = +X), elevation, distance, lens. All on the +X/+Z side (the lit side).
+      const SETUPS = [
+        { at: [0.08, 0.07, 0.02], az: 40, el: 8, dist: 1.0, fov: 34 },
+        { at: [0.18, 0.05, -0.09], az: 40, el: 9, dist: 0.48, fov: 30 },
+        { at: [0.312, 0.035, -0.167], az: 48, el: 8, dist: 0.62, fov: 30 },
+        { at: [0.297, 0.06, -0.154], az: 30, el: 4, dist: 0.7, fov: 28 },
+        { at: [0.31, 0.04, -0.16], az: 56, el: 8, dist: 0.55, fov: 30 },
+        { from: [0.55, 0.055, 0.9], at: [-2.5, 0.6, -2.1], fov: 34 },
+      ];
+      // Where each actor stands per shot: [x, z, yaw°, scale]. Missing = not in the shot (frog and pad).
+      const PLACE = [
+        { d: [0.1, 0, 10, 0.55], l1: [-0.16, -0.12, -20, 0.55], l2: [0.34, 0.2, 15, 0.55], l3: [-0.1, 0.25, -35, 0.55] },
+        { d: [0.1, 0, 10, 0.55], old: [0.22, -0.09, -50, 1], l2: [0.273, -0.213, -50, 0.55] },
+        { old: [0.22, -0.09, -20, 1], l1: [0.359, -0.142, -45, 0.55], l2: [0.376, -0.246, -40, 0.55], l3: [0.495, -0.229, -50, 0.55] },
+        { old: [0.22, -0.09, -20, 1], l1: [0.359, -0.142, -45, 0.55], l2: [0.376, -0.246, -40, 0.55], l3: [0.495, -0.229, -50, 0.55] },
+        { old: [0.22, -0.09, -20, 1], l1: [0.359, -0.142, -50, 0.55], l2: [0.376, -0.246, -45, 0.55], l3: [0.495, -0.229, -55, 0.55] },
+        { l1: [-0.011, 0.586, -134, 0.55], l2: [-0.019, 0.452, -138, 0.55], l3: [-0.01, 0.685, -128, 0.55] },
+      ];
+      // Drawings: [start frame, pose, puff, squash xz, stretch y]. A pose holds until the next row. "-" = gone.
+      const DRAW = [
+        { d: [[0, "rest"], [60, "-"]], l1: [[0, "rest"], [52, "crouch"]], l2: [[0, "rest"], [54, "crouch"]], l3: [[0, "rest"], [56, "crouch"]] },
+        { d: [[72, "-"]], old: [[72, "rest"], [120, "crouch"]], l2: [[72, "rest"], [100, "point"]] },
+        {
+          old: [[144, "rest"], [160, "crouch"], [164, "rest", 0.15], [184, "rest", 0.33]],
+          l1: [[144, "rest"], [168, "point"]], l2: [[144, "rest"], [176, "crouch"]], l3: [[144, "crouch"], [172, "point"]],
+        },
+        {
+          old: [[216, "rest", 0.33], [230, "rest", 0.45, 1.02, 1.02], [244, "rest", 0.58, 1.06, 1.06], [258, "rest", 0.7, 1.1, 1.1], [272, "rest", 0.82, 1.15, 1.15],
+            [288, "rest", 0.92, 1.22, 1.22], [304, "rest", 1.0, 1.3, 1.3], [318, "rest", 1.0, 1.39, 1.14], [322, "rest", 1.0, 1.5, 1.5], [323, "rest", 1.0, 1.42, 1.75], [324, "-"]],
+          l1: [[216, "point"], [244, "crouch"], [258, "point"], [288, "crouch"], [304, "point"], [324, "crouch"]],
+          l2: [[216, "rest"], [230, "point"], [258, "crouch"], [272, "point"], [304, "point"], [324, "crouch"]],
+          l3: [[216, "point"], [244, "rest"], [272, "point"], [304, "point"], [324, "crouch"]],
+        },
+        { old: [[336, "-"]], l1: [[336, "crouch"], [392, "rest"]], l2: [[336, "crouch"]], l3: [[336, "crouch"], [400, "rest"]] },
+        { l1: [[420, "rest"]], l2: [[420, "rest"]], l3: [[420, "rest"], [436, "point"]] },
+      ];
+      const REEDS_OFF = [[], [], [], [], [], [0]]; // clumps that would stand between a shot's camera and its subject
+      const BLINK = [[4, "l2", 380], [4, "l3", 386]]; // shot, actor, frame: eyes shut for 2 frames inside the hold
+      // The ox per shot: [x, y, z, yaw°] and drawings [frame, pose, dy, stretch y]. Shot 1 shows only the near fore leg.
+      const OXEN = [
+        { at: [-0.08, 0, -0.36, 0], legOnly: true, rows: [[0, "-"], [57, "stomp", 0.42], [59, "rest", 0.22, 1.3], [60, "rest", -0.02]] },
+        null, null, null, null,
+        { at: [-2.7, -0.12, -2.2, 0], rows: [[420, "drink", 0]] },
+      ];
+      const SHADOW = [[48, 0.05], [52, 0.09], [56, 0.13], [60, 0]]; // shot 1, radius per drawing
+      const SPLASH = [[60, 0.6, 0.7], [62, 1, 1], [64, 1.35, 0.55], [66, 0]]; // shot 1: [frame, spread, height]
+      // Ripples per shot: [ring, x, z, start frame, r0, metres per second]
+      const RIPPLES = [[[0, 0.1, 0, 64, 0.11, 0.12]], [[0, 0.1, 0, 72, 0.06, 0.05]], [], [], [[1, 0.22, -0.09, 336, 0.09, 0.045]], [[2, -2.7, -1.2, 420, 0.12, 0.14]]];
+
+      const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("stage"), antialias: true, alpha: true, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(W, H, false);
+      renderer.setClearColor(0x000000, 0);
+      const camera = new THREE.PerspectiveCamera(30, W / H, 0.01, 400);
+      const DOLLY = 1 - 1 / 1.06; // move this share of the distance and the subject grows 6%
+      const power1InOut = (p) => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2);
+      const pick = (rows, f) => rows.reduce((cur, r) => (r[0] <= f ? r : cur), rows[0]);
+      const [from, at] = [new THREE.Vector3(), new THREE.Vector3()];
+
+      function aim(shot, t) {
+        const s = SETUPS[shot];
+        at.fromArray(s.at);
+        if (s.from) from.fromArray(s.from);
+        else from.set(Math.sin(s.az * DEG) * Math.cos(s.el * DEG), Math.sin(s.el * DEG), Math.cos(s.az * DEG) * Math.cos(s.el * DEG)).multiplyScalar(s.dist).add(at);
+        if (shot === 0) from.lerp(at, DOLLY * power1InOut(Math.min(t / CUTS[0], 1))); // the one move: a dolly in, on ones
+        camera.fov = s.fov;
+        camera.position.copy(from);
+        camera.lookAt(at);
+        camera.updateProjectionMatrix();
+        camera.updateMatrixWorld(true);
+      }
+
+      // The painted bank sits on each shot's horizon, sized to its lens. Fixed per shot, set once.
+      SETUPS.forEach((s, i) => {
+        aim(i, 0);
+        const dir = new THREE.Vector3();
+        camera.getWorldDirection(dir);
+        const yh = (1 - camera.position.clone().add(dir.setY(0).normalize().multiplyScalar(1000)).project(camera).y) * (H / 2);
+        const k = Math.tan(17 * DEG) / Math.tan((s.fov / 2) * DEG);
+        document.getElementById(`bank${i + 1}`).setAttribute("transform", `translate(0 ${yh.toFixed(1)}) scale(${k.toFixed(3)})`);
+      });
+      { // the burst is drawn around the old frog's balloon, as the sakuga camera sees it
+        aim(SAKUGA, 0);
+        const [x, z, , k] = PLACE[SAKUGA].old;
+        const grown = 1.3; // her size in the last held drawing (row 304)
+        const p = new THREE.Vector3(x, (0.007 + 0.0655 * grown) * k, z + 0.002 * grown * k).project(camera);
+        document.getElementById("burst").setAttribute("transform", `translate(${((p.x + 1) * W / 2).toFixed(1)} ${((1 - p.y) * H / 2).toFixed(1)})`);
+      }
+
+      function draw(t) {
+        const shot = CUTS.filter((c) => t >= c).length;
+        const frame = Math.floor(t * F + 1e-6);
+        const held = shot === SAKUGA ? frame : frame - (frame % 2); // twos; the sakuga shot steps on ones
+        aim(shot, t);
+        clumps.forEach((c, i) => (c.visible = !REEDS_OFF[shot].includes(i)));
+
+        for (const [name, a] of Object.entries(actors)) {
+          const place = PLACE[shot][name];
+          a.g.visible = !!place;
+          if (!place) continue;
+          const [x, z, yaw, k] = place;
+          a.g.position.set(x, 0, z);
+          a.g.rotation.y = yaw * DEG;
+          a.g.scale.setScalar(k);
+          const [, pose, puff = 0, sq = 1, st = 1] = pick(DRAW[shot][name] || [[0, "rest"]], held);
+          const blink = BLINK.some(([s, n, f]) => s === shot && n === name && held >= f && held < f + 2);
+          a.frog.root.visible = pose !== "-";
+          a.frog.root.scale.set(sq, st, sq);
+          const key = `${pose}|${puff}|${blink}`;
+          if (pose === "-" || key === a.key) continue;
+          a.key = key;
+          a.frog.pose(pose);
+          if (puff) a.frog.puff(puff);
+          if (blink) for (const e of ["eyeL", "eyeR"]) a.frog.joints[e].scale.y *= 0.12;
+        }
+
+        const o = OXEN[shot];
+        ox.root.visible = !!o;
+        if (o) {
+          const [, pose, dy, st = 1] = pick(o.rows, frame);
+          ox.root.visible = pose !== "-";
+          if (pose !== "-") ox.pose(pose);
+          ox.root.position.set(o.at[0], o.at[1] + dy, o.at[2]);
+          ox.root.rotation.y = o.at[3] * DEG;
+          ox.root.scale.set(1, st, 1);
+          for (const ch of ox.joints.body.children) if (ch.isMesh) ch.visible = !o.legOnly;
+          for (const j of ["neckBase", "tailRoot", "shoulderR", "hipL", "hipR"]) ox.joints[j].visible = !o.legOnly;
+        }
+
+        const [, sr] = pick(SHADOW, frame);
+        shadow.visible = shot === 0 && frame >= SHADOW[0][0] && sr > 0;
+        shadow.position.set(0.1, 0.001, 0);
+        shadow.scale.set(sr || 1, 1, sr || 1);
+        const [, spread, high] = pick(SPLASH, frame);
+        splash.visible = shot === 0 && frame >= SPLASH[0][0] && spread > 0;
+        splash.position.set(0.1, 0, 0);
+        splash.scale.set(spread || 1, high || 1, spread || 1);
+
+        ripples.forEach((g) => (g.visible = false));
+        for (const [i, x, z, f0, r0, v] of RIPPLES[shot]) {
+          if (held < f0) continue;
+          const r = r0 + (v * (held - f0)) / F;
+          Object.assign(ripples[i], { visible: true }).position.set(x, 0.0015, z);
+          ripples[i].scale.set(r, 1, r);
+        }
+        renderer.render(scene, camera);
+      }
+
+      addEventListener("hf-seek", (e) => draw(e.detail.time));
+      draw(window.__hfThreeTime || 0);
+    </script>
+  </body>
+</html>

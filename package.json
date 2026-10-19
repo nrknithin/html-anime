@@ -1,0 +1,13 @@
+{
+  "name": "html-anime",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node harness/compile.test.mjs && node harness/library/library.test.mjs",
+    "lab": "node harness/lab/shoot.mjs",
+    "probe": "node harness/lab/probe.mjs",
+    "library:ingest": "node harness/library/ingest.mjs",
+    "library:check": "node harness/library/check.mjs",
+    "library:catalog": "node harness/library/catalog.mjs"
+  }
+}

@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>html-anime model lab</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #20232a;
+      }
+      canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: block;
+      }
+      #err {
+        display: none;
+        position: absolute;
+        z-index: 9;
+        left: 16px;
+        right: 16px;
+        top: 16px;
+        max-height: calc(100% - 32px);
+        overflow: auto;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 14px 18px;
+        background: #fff3f2;
+        color: #8a1c14;
+        border: 3px solid #d93025;
+        border-radius: 6px;
+        font: 13px/1.45 Consolas, "Cascadia Mono", Menlo, monospace;
+        white-space: pre-wrap;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/cdn/npm/three@0.186.1/build/three.module.min.js",
+          "three/addons/": "/cdn/npm/three@0.186.1/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="bg"></canvas><canvas id="gl"></canvas><canvas id="fg"></canvas>
+    <pre id="err"></pre>
+    <script type="module">
+      // The model lab stage. Reads URL params (see harness/lab/README.md), builds the model with kit.js, renders
+      // each view into one cell of one WebGL canvas (viewport + scissor), then paints grid, labels and the reference
+      // photo on 2D canvases behind (bg) and in front (fg) of it. The shooter waits on window.__labReady / __labError.
+      const $ = (id) => document.getElementById(id);
+      const FONT = "system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
+      window.__labReady = false;
+      window.__labError = null;
+      window.__labInfo = null;
+
+      function fail(e) {
+        const err = e instanceof Error ? e : new Error(String(e && e.message ? e.message : e));
+        const frames = String(err.stack || "").split("\n").filter((l) => /^\s+at /.test(l)).join("\n");
+        const msg = `${err.name}: ${err.message}` + (frames ? `\n${frames}` : "");
+        if (!window.__labError) window.__labError = msg;
+        const box = $("err");
+        box.style.display = "block";
+        box.textContent = "model lab error\n\n" + window.__labError;
+      }
+      addEventListener("error", (e) => fail(e.error || e.message));
+      addEventListener("unhandledrejection", (e) => fail(e.reason));
+      // Prefix an error's message but keep the error itself: its stack names the model's file and line.
+      const rethrow = (e, prefix) => {
+        const err = e instanceof Error ? e : new Error(String(e));
+        err.message = prefix + err.message;
+        return err;
+      };
+
+      import { fmt, scanSource, checkMeta, measure, unionMeasure, contractWarnings, jointWarning, jointPositions, applyFilter, subtreeRadius, parseOpts } from "./inspect.js";
+
+      // ---------------------------------------------------------------- params
+      const q = new URLSearchParams(location.search);
+      const str = (k, d = null) => (q.get(k) ? q.get(k) : d);
+      const num = (k, d) => (Number.isFinite(parseFloat(q.get(k))) ? parseFloat(q.get(k)) : d);
+      const flag = (k, d = false) => (q.has(k) ? !["0", "false", "no", "off", ""].includes(q.get(k).toLowerCase()) : d);
+
+      const VIEW_NAMES = ["front", "back", "left", "right", "top", "three4", "hero"];
+      // Orthographic views: the camera sits on `dir` looking back at the model; `up` is screen-up.
+      // front +Z (the face), back -Z, left +X (the model's left side, face to the image left), right -X, top +Y.
+      const ORTHO = {
+        front: { dir: [0, 0, 1], up: [0, 1, 0], ground: true },
+        back: { dir: [0, 0, -1], up: [0, 1, 0], ground: true },
+        left: { dir: [1, 0, 0], up: [0, 1, 0], ground: true },
+        right: { dir: [-1, 0, 0], up: [0, 1, 0], ground: true },
+        top: { dir: [0, 1, 0], up: [0, 0, 1], ground: false }, // face to the top of the image, model's left on the image's left
+      };
+      // Perspective views: az degrees from +Z toward +X (the model's left), el degrees above the horizon, aim = starting height share.
+      const PERSP = {
+        three4: { az: 38, el: 20, fov: 30, aim: 0.5 },
+        hero: { az: 52, el: -7, fov: 32, aim: 0.55 },
+      };
+      const BG = { cel: "#aeb4bd", clay: "#e6e8ec", sil: "#ffffff" };
+      const GAP = 2;
+
+      // ---------------------------------------------------------------- small math
+      const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+      const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+      const unit = (a) => {
+        const l = Math.hypot(...a) || 1;
+        return a.map((x) => x / l);
+      };
+      const ndiv = (v, a) => Math.abs(v / a - Math.round(v / a)) < 1e-6;
+
+      const xyz = (a) => ({ x: a[0], y: a[1], z: a[2] });
+
+      // ---------------------------------------------------------------- layout
+      function chooseGrid(n, W, H, forced) {
+        let best = null;
+        for (let cols = 1; cols <= n; cols++) {
+          if (forced && cols !== Math.min(forced, n)) continue;
+          const rows = Math.ceil(n / cols);
+          const [w, h] = [(W - GAP * (cols + 1)) / cols, (H - GAP * (rows + 1)) / rows];
+          const score = ((w * h) / (1 + Math.abs(Math.log(w / h / 1.3)))) * (1 - 0.03 * (cols * rows - n));
+          if (!best || score > best.score) best = { cols, rows, score };
+        }
+        return best;
+      }
+      function placeCells(n, W, H, forced) {
+        const { cols, rows } = chooseGrid(n, W, H, forced);
+        const cw = Math.floor((W - GAP * (cols + 1)) / cols);
+        const ch = Math.floor((H - GAP * (rows + 1)) / rows);
+        const ox = Math.floor((W - (cols * cw + GAP * (cols + 1))) / 2) + GAP;
+        const oy = Math.floor((H - (rows * ch + GAP * (rows + 1))) / 2) + GAP;
+        return Array.from({ length: n }, (_, i) => ({ x: ox + (i % cols) * (cw + GAP), y: oy + Math.floor(i / cols) * (ch + GAP), w: cw, h: ch }));
+      }
+
+      // ---------------------------------------------------------------- cameras
+      function orthoFrame(name, M, fc) {
+        const d = ORTHO[name];
+        const dir = unit(d.dir);
+        const r = unit(cross(d.up, dir)); // screen-right
+        const u = cross(dir, r); // screen-up
+        let [a0, a1, b0, b1] = [Infinity, -Infinity, Infinity, -Infinity];
+        for (let i = 0; i < 8; i++) {
+          const c = [i & 1 ? M.max[0] : M.min[0], i & 2 ? M.max[1] : M.min[1], i & 4 ? M.max[2] : M.min[2]];
+          const [a, b] = [dot(c, r), dot(c, u)];
+          [a0, a1, b0, b1] = [Math.min(a0, a), Math.max(a1, a), Math.min(b0, b), Math.max(b1, b)];
+        }
+        return { name, dir, r, u, a0, a1, b0, b1, ac: fc ? dot(fc, r) : (a0 + a1) / 2, bc: fc ? dot(fc, u) : (b0 + b1) / 2, ground: d.ground, floor: Math.min(0, M.min[1]) };
+      }
+      function orthoCamera(THREE, cell, M, mpp, fc) {
+        const f = cell.frame;
+        const ctr = fc || M.center;
+        const R = Math.hypot(M.size[0], M.size[1], M.size[2]) / 2 + (fc ? Math.hypot(fc[0] - M.center[0], fc[1] - M.center[1], fc[2] - M.center[2]) : 0);
+        const D = R * 1.5 + 1;
+        const cam = new THREE.OrthographicCamera((-cell.w * mpp) / 2, (cell.w * mpp) / 2, (cell.h * mpp) / 2, (-cell.h * mpp) / 2, D - R * 1.1, D + R * 1.1);
+        cam.up.set(...unit(ORTHO[cell.name].up));
+        cam.position.set(ctr[0] + f.dir[0] * D, ctr[1] + f.dir[1] * D, ctr[2] + f.dir[2] * D);
+        cam.lookAt(...ctr);
+        cam.updateProjectionMatrix();
+        cam.updateMatrixWorld(true);
+        return cam;
+      }
+      function perspCamera(THREE, cell, M, pad, focus, aim = {}, elDeg) {
+        const def = PERSP[cell.name];
+        // Very flat sets (a picnic sheet, a paddy) read only from above: start a below-horizon view at 12 degrees up.
+        // --az / --el (aim.az, aim.el) replace the view's own angles; a given el is used as is, never stepped.
+        elDeg ??= aim.el ?? (def.el < 0 && M.size[1] < 0.2 * Math.max(M.size[0], M.size[2]) ? 12 : def.el);
+        const [az, el] = [((aim.az ?? def.az) * Math.PI) / 180, (elDeg * Math.PI) / 180];
+        const dirv = [Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)]; // target -> camera
+        const fwd = dirv.map((x) => -x);
+        const right = unit(cross(fwd, [0, 1, 0]));
+        const upv = cross(right, fwd);
+        const tanV = Math.tan((def.fov * Math.PI) / 360);
+        const tanH = tanV * (cell.w / cell.h);
+        const [fx, fy] = [(cell.w - 2 * pad) / cell.w, (cell.h - 2 * pad) / cell.h];
+        const stride = Math.max(1, Math.floor(M.n / 40000));
+        const target = [M.center[0], M.min[1] + M.size[1] * def.aim, M.center[2]]; // only a starting point: the loop re-centers it
+        const rel = (i) => [M.pts[i * 3] - target[0], M.pts[i * 3 + 1] - target[1], M.pts[i * 3 + 2] - target[2]];
+        // The nearest distance at which every vertex stays inside the padded frame.
+        const fit = () => {
+          let d = 0.1;
+          for (let i = 0; i < M.n; i += stride) {
+            const r = rel(i);
+            const z = dot(r, fwd);
+            d = Math.max(d, Math.abs(dot(r, right)) / (fx * tanH) - z, Math.abs(dot(r, upv)) / (fy * tanV) - z);
+          }
+          return d;
+        };
+        let dist;
+        if (focus) {
+          // Aim at the joint from a distance where a sphere of radius r fills the frame.
+          for (let k = 0; k < 3; k++) target[k] = focus.fc[k];
+          dist = focus.r / Math.min(tanV, tanH);
+        } else dist = fit();
+        for (let it = 0; it < (focus ? 0 : 5); it++) {
+          // Recentre the silhouette in the frame, then fit again.
+          let [x0, x1, y0, y1] = [Infinity, -Infinity, Infinity, -Infinity];
+          for (let i = 0; i < M.n; i += stride) {
+            const r = rel(i);
+            const depth = dist + dot(r, fwd);
+            const [nx, ny] = [dot(r, right) / (depth * tanH), dot(r, upv) / (depth * tanV)];
+            [x0, x1, y0, y1] = [Math.min(x0, nx), Math.max(x1, nx), Math.min(y0, ny), Math.max(y1, ny)];
+          }
+          const [sx, sy] = [((x0 + x1) / 2) * dist * tanH, ((y0 + y1) / 2) * dist * tanV];
+          for (let k = 0; k < 3; k++) target[k] += right[k] * sx + upv[k] * sy;
+          dist = fit();
+        }
+        let rmax = 0;
+        for (let i = 0; i < M.n; i += stride) rmax = Math.max(rmax, Math.hypot(M.pts[i * 3] - target[0], M.pts[i * 3 + 1] - target[1], M.pts[i * 3 + 2] - target[2]));
+        // A view from below (hero) must stay above the floor: for low, wide sets (a futon, a platform) the fitted
+        // camera would sit under the ground and see the underside, so raise it in 3 degree steps until it clears.
+        if (!focus && aim.el == null && elDeg < 20 && def.el < 0 && target[1] + dirv[1] * dist < M.min[1] + 0.15 * M.size[1]) return perspCamera(THREE, cell, M, pad, focus, aim, elDeg + 3);
+        const cam = new THREE.PerspectiveCamera(def.fov, cell.w / cell.h, focus ? Math.max(dist * 0.01, dist - rmax * 1.1) : Math.max(0.02, dist - rmax * 1.1), dist + rmax * 1.1);
+        cam.position.set(target[0] + dirv[0] * dist, target[1] + dirv[1] * dist, target[2] + dirv[2] * dist);
+        cam.lookAt(...target);
+        cam.updateProjectionMatrix();
+        cam.updateMatrixWorld(true);
+        return cam;
+      }
+      // Exact 2D bounds of the model's vertices as this camera draws them, in cell pixels (y down).
+      function projectBounds(THREE, cam, cell, M) {
+        const v = new THREE.Vector3();
+        let [x0, x1, y0, y1] = [Infinity, -Infinity, Infinity, -Infinity];
+        for (let i = 0; i < M.n; i++) {
+          v.set(M.pts[i * 3], M.pts[i * 3 + 1], M.pts[i * 3 + 2]).applyMatrix4(cam.matrixWorldInverse).applyMatrix4(cam.projectionMatrix);
+          const [px, py] = [(v.x * 0.5 + 0.5) * cell.w, (1 - (v.y * 0.5 + 0.5)) * cell.h];
+          [x0, x1, y0, y1] = [Math.min(x0, px), Math.max(x1, px), Math.min(y0, py), Math.max(y1, py)];
+        }
+        return { x0, x1, y0, y1 };
+      }
+
+      // ---------------------------------------------------------------- 2D painting
+      const STEPS = [0.01, 0.02, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10, 25, 50, 100, 250, 500];
+      const MAJORS = [0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000];
+      function gridStep(mpp) {
+        if (0.25 / mpp >= 14 && 0.25 / mpp <= 140) return 0.25;
+        return STEPS.find((s) => s / mpp >= 14) ?? STEPS.at(-1);
+      }
+      function hline(ctx, x0, x1, y, color, w = 1) {
+        const yy = w % 2 ? Math.round(y - 0.5) + 0.5 : Math.round(y);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = w;
+        ctx.beginPath();
+        ctx.moveTo(x0, yy);
+        ctx.lineTo(x1, yy);
+        ctx.stroke();
+      }
+      function vline(ctx, x, y0, y1, color, w = 1) {
+        const xx = w % 2 ? Math.round(x - 0.5) + 0.5 : Math.round(x);
+        ctx.strokeStyle = color;
+        ctx.lineWidth = w;
+        ctx.beginPath();
+        ctx.moveTo(xx, y0);
+        ctx.lineTo(xx, y1);
+        ctx.stroke();
+      }
+      // World point -> page pixels for an orthographic frame in a cell.
+      const orthoPx = (cell, f, mpp, p) => [cell.x + cell.w / 2 + (dot(p, f.r) - f.ac) / mpp, cell.y + cell.h / 2 - (dot(p, f.u) - f.bc) / mpp];
+
+      function paintGrid(ctx, cell, f, mpp) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(cell.x, cell.y, cell.w, cell.h);
+        ctx.clip();
+        const step = gridStep(mpp);
+        const major = MAJORS.find((m) => m >= step * 3.2);
+        ctx.font = `600 11px ${FONT}`;
+        ctx.textBaseline = "alphabetic";
+        const [x0, x1] = [cell.x, cell.x + cell.w];
+        // Horizontal lines are heights (elevations) or depths (top view), counted along the screen-up axis.
+        const upAxis = f.u.map(Math.abs).indexOf(1);
+        const upSign = f.u[upAxis];
+        const [va, vb] = [upSign * (f.bc - (cell.h / 2) * mpp), upSign * (f.bc + (cell.h / 2) * mpp)];
+        const [lo, hi] = [Math.min(va, vb), Math.max(va, vb)];
+        const point = (val) => {
+          const p = [0, 0, 0];
+          p[upAxis] = val;
+          return p;
+        };
+        if (f.ground) {
+          const gy = orthoPx(cell, f, mpp, point(0))[1];
+          ctx.fillStyle = "rgba(0,0,0,0.055)";
+          ctx.fillRect(x0, gy, cell.w, cell.y + cell.h - gy);
+        }
+        for (let k = Math.ceil(lo / step); k <= Math.floor(hi / step); k++) {
+          const val = k * step;
+          if (f.ground && (Math.abs(val) < 1e-9 || val < f.floor - step / 2)) continue; // the ground line is drawn below; nothing under it unless the model sinks
+          const y = orthoPx(cell, f, mpp, point(val))[1];
+          const isMajor = ndiv(val, major);
+          hline(ctx, x0, x1, y, isMajor ? "rgba(0,0,0,0.22)" : "rgba(0,0,0,0.10)");
+          if (isMajor && y - cell.y > 34) {
+            ctx.fillStyle = "rgba(0,0,0,0.5)";
+            ctx.fillText(`${fmt(val)} m`, x0 + 6, y - 3);
+          }
+        }
+        if (!f.ground) {
+          // Top view: the same lines across, so depth and width both read.
+          const rAxis = f.r.map(Math.abs).indexOf(1);
+          const rSign = f.r[rAxis];
+          const [ha, hb] = [rSign * (f.ac - (cell.w / 2) * mpp), rSign * (f.ac + (cell.w / 2) * mpp)];
+          const [hlo, hhi] = [Math.min(ha, hb), Math.max(ha, hb)];
+          for (let k = Math.ceil(hlo / step); k <= Math.floor(hhi / step); k++) {
+            const p = [0, 0, 0];
+            p[rAxis] = k * step;
+            vline(ctx, orthoPx(cell, f, mpp, p)[0], cell.y, cell.y + cell.h, ndiv(k * step, major) ? "rgba(0,0,0,0.22)" : "rgba(0,0,0,0.10)");
+          }
+        }
+        // The model's own origin, so an off-center build shows.
+        const ox = orthoPx(cell, f, mpp, [0, 0, 0])[0];
+        ctx.setLineDash([3, 4]);
+        vline(ctx, ox, cell.y, cell.y + cell.h, "rgba(0,0,0,0.30)");
+        ctx.setLineDash([]);
+        if (f.ground) {
+          const gy = orthoPx(cell, f, mpp, point(0))[1];
+          hline(ctx, x0, x1, gy, "rgba(0,0,0,0.6)", 2);
+          ctx.fillStyle = "rgba(0,0,0,0.55)";
+          ctx.fillText("0", x0 + 6, gy - 4);
+        } else {
+          const gy = orthoPx(cell, f, mpp, [0, 0, 0])[1];
+          hline(ctx, x0, x1, gy, "rgba(0,0,0,0.30)");
+        }
+        ctx.restore();
+      }
+
+      function chip(ctx, x, y, w, h) {
+        ctx.fillStyle = "rgba(255,255,255,0.6)";
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, 4);
+        ctx.fill();
+      }
+
+      function paintScaleBar(ctx, cell, mpp) {
+        // The longest 1-2-5 length that draws between 40 and 200 px.
+        let L = 0;
+        for (let k = -5; k <= 5; k++) for (const m of [1, 2, 5]) if (m * 10 ** k / mpp <= 200 && m * 10 ** k / mpp >= 40) L = Math.max(L, m * 10 ** k);
+        if (!L) L = 10 ** Math.round(Math.log10(100 * mpp));
+        const len = L / mpp;
+        const x1 = cell.x + cell.w - 14;
+        const y = cell.y + cell.h - 12;
+        ctx.save();
+        ctx.font = `600 12px ${FONT}`;
+        const text = `${+L.toPrecision(2)} m`;
+        const tw = ctx.measureText(text).width;
+        chip(ctx, x1 - len - 12 - tw - 4, y - 14, tw + 8, 18);
+        ctx.fillStyle = ctx.strokeStyle = "rgba(0,0,0,0.7)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x1 - len, y - 6);
+        ctx.lineTo(x1 - len, y);
+        ctx.lineTo(x1, y);
+        ctx.lineTo(x1, y - 6);
+        ctx.stroke();
+        ctx.textAlign = "right";
+        ctx.fillText(text, x1 - len - 8, y);
+        ctx.restore();
+      }
+
+      function paintLabel(ctx, cell, text, sub) {
+        ctx.save();
+        ctx.font = `700 15px ${FONT}`;
+        const w = ctx.measureText(text).width;
+        ctx.font = `500 11px ${FONT}`;
+        const sw = sub ? ctx.measureText(sub).width + 8 : 0;
+        chip(ctx, cell.x + 6, cell.y + 6, w + sw + 12, 22);
+        ctx.textBaseline = "alphabetic";
+        ctx.font = `700 15px ${FONT}`;
+        ctx.fillStyle = "rgba(0,0,0,0.75)";
+        ctx.fillText(text, cell.x + 12, cell.y + 22);
+        if (sub) {
+          ctx.font = `500 11px ${FONT}`;
+          ctx.fillStyle = "rgba(0,0,0,0.6)";
+          ctx.fillText(sub, cell.x + 12 + w + 8, cell.y + 22);
+        }
+        ctx.restore();
+      }
+
+      // Pivots of build().joints, drawn over every view: a yellow dot at each joint's world position, names on request.
+      function paintJoints(THREE, ctx, cells, names) {
+        const v = new THREE.Vector3();
+        for (const c of cells) {
+          if (c.kind !== "view") continue;
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(c.x, c.y, c.w, c.h);
+          ctx.clip();
+          ctx.font = `600 10px ${FONT}`;
+          ctx.lineJoin = "round";
+          for (const [name, p] of Object.entries(c.jpos || {})) {
+            v.set(p[0], p[1], p[2]).applyMatrix4(c.cam.matrixWorldInverse).applyMatrix4(c.cam.projectionMatrix);
+            const [x, y] = [c.x + (v.x * 0.5 + 0.5) * c.w, c.y + (1 - (v.y * 0.5 + 0.5)) * c.h];
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = "#ffd400";
+            ctx.fill();
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = "rgba(0,0,0,0.85)";
+            ctx.stroke();
+            if (names) {
+              ctx.lineWidth = 3;
+              ctx.strokeStyle = "rgba(255,255,255,0.9)";
+              ctx.strokeText(name, x + 7, y + 3);
+              ctx.fillStyle = "#111";
+              ctx.fillText(name, x + 7, y + 3);
+            }
+          }
+          ctx.restore();
+        }
+      }
+
+      // Where the cropped reference lands: crop height = the model's projected bbox height (times scale), bottoms and
+      // centers aligned, then shifted by the offset in pixels. The crop may reach outside the image.
+      function refPlacement(img, crop, bb, scale = 1, off = [0, 0]) {
+        const [sw, sh] = [crop.w * img.naturalWidth, crop.h * img.naturalHeight];
+        const s = ((bb.y1 - bb.y0) / sh) * scale;
+        const [dw, dh] = [sw * s, sh * s];
+        return { sx: crop.x * img.naturalWidth, sy: crop.y * img.naturalHeight, sw, sh, dx: (bb.x0 + bb.x1) / 2 - dw / 2 + off[0], dy: bb.y1 - dh + off[1], dw, dh };
+      }
+      function paintRef(ctx, cell, img, pl, flip, alpha, box) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(cell.x, cell.y, cell.w, cell.h);
+        ctx.clip();
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.globalAlpha = alpha;
+        const [dx, dy] = [cell.x + pl.dx, cell.y + pl.dy];
+        if (flip) {
+          ctx.translate(dx + pl.dw / 2, 0);
+          ctx.scale(-1, 1);
+          ctx.translate(-(dx + pl.dw / 2), 0);
+        }
+        // Only the part of the crop that lies inside the image is drawn; the rest stays transparent.
+        const k = pl.dw / pl.sw;
+        const [cx0, cy0] = [Math.max(pl.sx, 0), Math.max(pl.sy, 0)];
+        const [cx1, cy1] = [Math.min(pl.sx + pl.sw, img.naturalWidth), Math.min(pl.sy + pl.sh, img.naturalHeight)];
+        if (cx1 > cx0 && cy1 > cy0) ctx.drawImage(img, cx0, cy0, cx1 - cx0, cy1 - cy0, dx + (cx0 - pl.sx) * k, dy + (cy0 - pl.sy) * k, (cx1 - cx0) * k, (cy1 - cy0) * k);
+        ctx.restore();
+        if (box) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(cell.x, cell.y, cell.w, cell.h);
+          ctx.clip();
+          ctx.strokeStyle = "rgba(214,40,160,0.75)";
+          ctx.setLineDash([5, 4]);
+          ctx.lineWidth = 1;
+          ctx.strokeRect(Math.round(dx) + 0.5, Math.round(dy) + 0.5, Math.round(pl.dw), Math.round(pl.dh));
+          ctx.restore();
+        }
+      }
+
+      // --ref-mode edge: the model's silhouette (flat mask rendered at cell size) as a 2 px pure red line.
+      // The line is the mask pixel row just inside the boundary plus the row just outside it.
+      function paintEdge(THREE, renderer, scene, ctx, cell) {
+        const [w, h] = [cell.w, cell.h];
+        const rt = new THREE.WebGLRenderTarget(w, h, { depthBuffer: true });
+        const mat = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+        scene.overrideMaterial = mat;
+        renderer.setRenderTarget(rt);
+        renderer.setClearColor(0x000000, 0);
+        renderer.clear();
+        renderer.render(scene, cell.cam);
+        scene.overrideMaterial = null;
+        renderer.setRenderTarget(null);
+        const buf = new Uint8Array(w * h * 4);
+        renderer.readRenderTargetPixels(rt, 0, 0, w, h, buf);
+        rt.dispose();
+        mat.dispose();
+        const mask = new Uint8Array(w * h); // y down
+        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) mask[y * w + x] = buf[((h - 1 - y) * w + x) * 4 + 3] > 127 ? 1 : 0;
+        const out = new ImageData(w, h);
+        let n = 0;
+        for (let y = 0; y < h; y++)
+          for (let x = 0; x < w; x++) {
+            const m = mask[y * w + x];
+            // Outside the cell counts as the pixel's own kind, so a model cut by the cell border draws no line there.
+            const diff = (x > 0 ? mask[y * w + x - 1] : m) !== m || (x < w - 1 ? mask[y * w + x + 1] : m) !== m || (y > 0 ? mask[(y - 1) * w + x] : m) !== m || (y < h - 1 ? mask[(y + 1) * w + x] : m) !== m;
+            if (diff) {
+              const o = (y * w + x) * 4;
+              out.data[o] = 255;
+              out.data[o + 3] = 255;
+              n++;
+            }
+          }
+        const cv = document.createElement("canvas");
+        cv.width = w;
+        cv.height = h;
+        cv.getContext("2d").putImageData(out, 0, 0);
+        ctx.save();
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(cv, cell.x, cell.y);
+        ctx.restore();
+        return n;
+      }
+
+      // ---------------------------------------------------------------- main
+      async function main() {
+        const t0 = performance.now();
+        const P = {
+          model: str("model"),
+          pose: str("pose", "rest"),
+          mode: str("mode", "cel"),
+          views: (str("views", "front,left,three4,top") || "").split(",").map((s) => s.trim()).filter(Boolean),
+          ref: str("ref"),
+          refMode: str("refMode", "overlay"),
+          refOpacity: num("refOpacity", 0.5),
+          refFlip: flag("refFlip"),
+          refCrop: str("refCrop"),
+          refBox: flag("refBox", true),
+          strict: flag("strict", true),
+          cols: num("cols", 0),
+          mpp: num("mpp", 0),
+          bg: str("bg"),
+          joints: str("joints"), // 1 = dots at every joint pivot, names = dots and labels
+          refScale: num("refScale", 1),
+          refOffset: str("refOffset"),
+          focus: str("focus"),
+          radius: num("radius", 0),
+          light: str("light"),
+          hide: str("hide"),
+          only: str("only"),
+          montage: str("montage"),
+          clip: str("clip"),
+          at: num("at", 0),
+          frames: num("frames", 0),
+          strip: str("strip"),
+          stripView: str("stripView", "left"),
+          az: num("az", null),
+          el: num("el", null),
+          opts: str("opts"), // JSON object: the 4th argument to a code model's build()
+        };
+        const list = (v) => (v || "").split(",").map((t) => t.trim()).filter(Boolean);
+        const montage = list(P.montage);
+        if (P.montage && !str("views")) P.views = ["left"];
+        if (montage.length) P.views = [P.views[0]]; // a montage shows one view, once per pose
+        P.refView = str("refView", P.views[0]);
+        if (!P.model) throw new Error("missing ?model=/path/to/model.js (a path under the repo root)");
+        if (!BG[P.mode]) throw new Error(`mode must be cel, clay or sil (got "${P.mode}")`);
+        for (const v of P.views) if (!VIEW_NAMES.includes(v)) throw new Error(`unknown view "${v}" (${VIEW_NAMES.join(", ")})`);
+        if (!VIEW_NAMES.includes(P.stripView)) throw new Error(`unknown stripView "${P.stripView}" (${VIEW_NAMES.join(", ")})`);
+        for (const k of ["az", "el"]) if (q.has(k) && P[k] === null) throw new Error(`${k} must be a number in degrees (got "${q.get(k)}")`);
+        P.views = [...new Set(P.views)];
+        if (!P.views.length) throw new Error("views is empty");
+        if (!["overlay", "beside", "edge"].includes(P.refMode)) throw new Error(`refMode must be overlay, beside or edge (got "${P.refMode}")`);
+        if (P.ref && !P.views.includes(P.refView)) throw new Error(`refView "${P.refView}" is not among views (${P.views.join(",")})`);
+        let crop = { x: 0, y: 0, w: 1, h: 1 };
+        if (P.refCrop) {
+          const c = P.refCrop.split(",").map(Number);
+          if (c.length !== 4 || c.some((v) => !Number.isFinite(v)) || c[2] <= 0 || c[3] <= 0)
+            throw new Error(`refCrop must be x,y,w,h as fractions of the image (w and h above 0; values outside 0..1 reach past the image) (got "${P.refCrop}")`);
+          crop = { x: c[0], y: c[1], w: c[2], h: c[3] };
+        }
+        if (!(P.refScale > 0)) throw new Error(`refScale must be a number above 0 (got "${q.get("refScale")}")`);
+        let refOff = [0, 0];
+        if (P.refOffset) {
+          refOff = P.refOffset.split(",").map(Number);
+          if (refOff.length !== 2 || refOff.some((v) => !Number.isFinite(v))) throw new Error(`refOffset must be dx,dy in meters (got "${P.refOffset}")`);
+        }
+        let lightDir = null;
+        if (P.light) {
+          lightDir = P.light.split(",").map(Number);
+          if (lightDir.length !== 3 || lightDir.some((v) => !Number.isFinite(v)) || !Math.hypot(...lightDir)) throw new Error(`light must be x,y,z (a direction, not 0,0,0) (got "${P.light}")`);
+        }
+        let buildOpts = P.opts ? parseOpts(P.opts) : undefined;
+        if (P.radius < 0) throw new Error("radius must be above 0 meters");
+        const hideList = list(P.hide);
+
+        const warnings = [];
+        const consoleErrors = [];
+        const nativeError = console.error;
+        console.error = (...a) => {
+          consoleErrors.push(a.map(String).join(" "));
+          nativeError.apply(console, a);
+        };
+
+        const THREE = await import("three");
+        const { makeKit } = await import("./kit.js");
+        let SCRIPTS = null;
+        try {
+          SCRIPTS = (await import("/harness/compile.js")).SCRIPTS;
+        } catch {
+          warnings.push("could not load /harness/compile.js: script and color checks skipped");
+        }
+
+        // The model: fetch the source once to enforce the no-clock, no-import rules, then import it.
+        // A library model is its meta.json (models/library/<id>/meta.json): the GLB beside it goes through GLTFLoader
+        // and library.js, which returns the same { root, joints, pose } as a code model's build().
+        const modelUrl = /^[a-z]+:\/\//i.test(P.model) ? P.model : "/" + P.model.replace(/^\/+/, "");
+        const res = await fetch(modelUrl, { cache: "no-store" });
+        if (!res.ok) throw new Error(`model not found: ${modelUrl} (HTTP ${res.status})`);
+        const isLibrary = /\.json(\?|$)/i.test(modelUrl);
+        let mod;
+        if (isLibrary) {
+          let lmeta;
+          try {
+            lmeta = await res.json();
+          } catch (e) {
+            throw rethrow(e, `${modelUrl} is not valid JSON: `);
+          }
+          const [{ GLTFLoader }, { MeshoptDecoder }, { buildLibrary }] = await Promise.all([
+            import("three/addons/loaders/GLTFLoader.js"),
+            import("three/addons/libs/meshopt_decoder.module.js"),
+            import("./library.js"),
+          ]);
+          const glbUrl = new URL(lmeta.file || "model.glb", new URL(modelUrl, location.href)).href;
+          let gltf;
+          try {
+            gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).loadAsync(glbUrl);
+          } catch (e) {
+            throw rethrow(e, `could not load ${glbUrl}: `);
+          }
+          const poses = [...new Set(["rest", ...(lmeta.poses || []), ...Object.keys(lmeta.poseDefs || {})])];
+          mod = { meta: { ...lmeta, poses }, build: (T, k, colors) => buildLibrary(T, k, gltf, { ...lmeta, poses }, colors) };
+        } else {
+          const found = scanSource(await res.text());
+          if (found.length) {
+            const text = `${modelUrl} uses ${found.join(", ")}: models are deterministic, procedural, and take THREE and kit as arguments`;
+            if (P.strict) throw new Error(text);
+            warnings.push(text);
+          }
+          try {
+            mod = await import(modelUrl + (modelUrl.includes("?") ? "&" : "?") + "lab=1");
+          } catch (e) {
+            throw rethrow(e, "model failed to load: ");
+          }
+        }
+        const meta = checkMeta(mod, SCRIPTS, warnings);
+        if (buildOpts && isLibrary) {
+          warnings.push("--opts is for code models: a library entry ignores it");
+          buildOpts = undefined;
+        }
+
+        const ink = (SCRIPTS && SCRIPTS[meta.script] && SCRIPTS[meta.script].colors.ink) || "#101628";
+        const kit = makeKit(THREE, { mode: P.mode, ink });
+        if (lightDir) kit.LIGHT.set(...lightDir).normalize(); // the one vector every cel material's uniform points at
+        let built;
+        try {
+          built = mod.build(THREE, kit, meta.colors, buildOpts);
+        } catch (e) {
+          throw rethrow(e, "build() threw: ");
+        }
+        if (!built || !(built.root && built.root.isObject3D)) throw new Error("model contract: build() must return { root: THREE.Group, joints, pose(name) }");
+        if (typeof built.pose !== "function") throw new Error("model contract: build() must return a pose(name) function");
+        if (!built.joints || typeof built.joints !== "object") throw new Error("model contract: build() must return joints: name -> Object3D");
+        const jw = jointWarning(built.joints);
+        if (jw) warnings.push(jw);
+        const setPose = (name) => {
+          try {
+            built.pose(name);
+          } catch (e) {
+            throw rethrow(e, `pose("${name}") threw: `);
+          }
+        };
+        const scene = new THREE.Scene();
+        scene.add(built.root);
+        // --hide / --only run after every pose(), so a pose that shows things again cannot undo them.
+        const addWarn = (w) => w.forEach((x) => warnings.includes(x) || warnings.push(x));
+        const doPose = (name) => {
+          setPose(name);
+          if (hideList.length || P.only) addWarn(applyFilter(THREE, built, { hide: hideList, only: P.only }));
+        };
+        if (P.only && !(built.joints[P.only] && built.joints[P.only].isObject3D)) throw new Error(`--only: unknown joint "${P.only}". Valid joints: ${Object.keys(built.joints).join(", ")}`);
+        if (P.focus && !(built.joints[P.focus] && built.joints[P.focus].isObject3D)) throw new Error(`--focus: unknown joint "${P.focus}". Valid joints: ${Object.keys(built.joints).join(", ")}`);
+
+        // --clip <name> [--at s]: one frame of a library clip; --frames n: a montage of n frames across the clip.
+        if (P.clip) {
+          if (!built.clips || !(P.clip in built.clips)) throw new Error(`--clip: no clip "${P.clip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (the model returns no clips)"}`);
+          const d = built.clips[P.clip];
+          if (P.frames > 1) {
+            montage.length = 0;
+            for (let k = 0; k < P.frames; k++) montage.push(`${P.clip}@${+((d * k) / P.frames).toFixed(4)}`);
+            P.views = [P.views[0]];
+          } else P.pose = `${P.clip}@${P.at}`;
+        }
+        // --strip <clip>: after the views (in the asked pose), a row of --frames (default 4) frames of that clip in the
+        // `left` view, all at one scale: the library preview.png.
+        const strip = [];
+        if (P.strip && !montage.length) {
+          if (!built.clips || !(P.strip in built.clips)) throw new Error(`--strip: no clip "${P.strip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (the model returns no clips)"}`);
+          const n = P.frames > 0 ? P.frames : 4;
+          for (let k = 0; k < n; k++) strip.push(`${P.strip}@${+((built.clips[P.strip] * k) / n).toFixed(4)}`);
+        }
+        // Contract checks are against the rest pose with nothing hidden, whatever pose was asked for.
+        const poseList = montage.length ? montage : [P.pose, ...strip];
+        setPose(meta.poses.includes("rest") ? "rest" : poseList[0]);
+        contractWarnings(measure(THREE, built.root), meta, warnings, buildOpts);
+        const per = poseList.map((name) => {
+          if (!meta.poses.includes(name) && !(built.clips && /@-?[\d.]+$/.test(name))) warnings.push(`pose "${name}" is not listed in meta.poses (${meta.poses.join(", ")})`);
+          doPose(name);
+          const Mi = measure(THREE, built.root);
+          const jp = jointPositions(THREE, built.joints);
+          return { name, M: Mi, jpos: jp, rad: P.focus ? subtreeRadius(THREE, built.joints[P.focus]) : 0 };
+        });
+        let M = per.length > 1 ? unionMeasure(per.map((p) => p.M)) : per[0].M;
+        let focusR = 0;
+        if (P.focus) focusR = P.radius || Math.max(0.005, Math.max(...per.map((p) => p.rad)) * 1.15 || 0.1 * Math.max(...M.size));
+        const round3 = (o) => Object.fromEntries(Object.entries(o).map(([k, p]) => [k, p.map((x) => Math.round(x * 1000) / 1000)]));
+
+        // ------------------------------------------------------------ layout and cameras
+        const renderer = new THREE.WebGLRenderer({ canvas: $("gl"), antialias: true, alpha: true, preserveDrawingBuffer: true });
+        renderer.setPixelRatio(1);
+        renderer.setClearColor(0x000000, 0);
+
+        let img = null;
+        if (P.ref) {
+          img = new Image();
+          img.src = P.ref;
+          try {
+            await img.decode();
+          } catch {
+            throw new Error(`could not load reference image ${P.ref}`);
+          }
+        }
+        if (img && montage.length) {
+          warnings.push("--montage ignores --ref");
+          img = null;
+        }
+        const edge = Boolean(img) && P.refMode === "edge";
+        const items = montage.length
+          ? per.map((p) => ({ kind: "view", name: P.views[0], pose: p.name, jpos: p.jpos, fc: P.focus ? p.jpos[P.focus] : null }))
+          : [
+              ...P.views.map((name) => ({ kind: "view", name, pose: P.pose, jpos: per[0].jpos, fc: P.focus ? per[0].jpos[P.focus] : null })),
+              ...strip.map((pose, i) => ({ kind: "view", name: P.stripView, pose, strip: true, jpos: per[i + 1].jpos, fc: P.focus ? per[i + 1].jpos[P.focus] : null })),
+            ];
+        if (img && P.refMode === "beside") items.splice(P.views.indexOf(P.refView) + 1, 0, { kind: "ref", name: "ref" });
+
+        const extras = [];
+        if (buildOpts) extras.push(`opts ${JSON.stringify(buildOpts)}`); // first, so a long line never cuts which variant this is
+        if (montage.length) extras.push(`montage ${montage.join(",")} (${P.views[0]}, one scale)`);
+        if (P.focus) extras.push(`focus ${P.focus} r ${fmt(focusR, 3)} m`);
+        if (P.az !== null || P.el !== null) extras.push(`camera${P.az !== null ? ` az ${P.az}` : ""}${P.el !== null ? ` el ${P.el}` : ""}`);
+        if (lightDir) extras.push(`light ${kit.LIGHT.toArray().map((x) => fmt(x)).join(",")}${P.mode === "cel" ? "" : " (cel only)"}`);
+        if (hideList.length) extras.push(`hide ${hideList.join(",")}`);
+        if (P.only) extras.push(`only ${P.only}`);
+
+        const draw = () => {
+          const W = innerWidth;
+          const H = innerHeight;
+          const foot = 24 + 16 * Math.min(warnings.length, 2) + (extras.length ? 16 : 0);
+          const rects = placeCells(items.length, W, H - foot, P.cols);
+          const cells = items.map((it, i) => ({ ...it, ...rects[i] }));
+          const pad = (c) => Math.max(24, 0.07 * Math.min(c.w, c.h));
+
+          // One meters-per-pixel for every orthographic cell, fit so the largest projected extent fits its cell.
+          // (--focus: half the cell height is the radius instead.) A montage fits the union bbox of its poses.
+          let mpp = P.mpp;
+          const ortho = cells.filter((c) => c.kind === "view" && ORTHO[c.name]);
+          for (const c of ortho) c.frame = orthoFrame(c.name, M, c.fc);
+          if (!mpp && ortho.length) {
+            if (P.focus) mpp = (2 * focusR) / Math.min(...ortho.map((c) => c.h));
+            else mpp = Math.max(...ortho.map((c) => Math.max((c.frame.a1 - c.frame.a0) / (c.w - 2 * pad(c)), (c.frame.b1 - c.frame.b0) / (c.h - 2 * pad(c)))));
+          }
+          for (const c of cells) {
+            if (c.kind !== "view") continue;
+            c.cam = ORTHO[c.name] ? orthoCamera(THREE, c, M, mpp, c.fc) : perspCamera(THREE, c, M, pad(c), P.focus ? { fc: c.fc, r: focusR } : null, { az: P.az, el: P.el });
+            c.bb = projectBounds(THREE, c.cam, c, M);
+          }
+          const refCell = cells.find((c) => c.kind === "view" && c.name === P.refView);
+          const besideCell = cells.find((c) => c.kind === "ref");
+          if (besideCell) besideCell.frame = refCell.frame;
+          // The offset is meters in the view plane; a perspective cell has no single scale, so use its bbox height.
+          const pxPerM = refCell && (ORTHO[refCell.name] ? 1 / mpp : (refCell.bb.y1 - refCell.bb.y0) / M.size[1]);
+          const offPx = refCell ? [refOff[0] * pxPerM, -refOff[1] * pxPerM] : [0, 0];
+
+          for (const id of ["bg", "gl", "fg"]) {
+            $(id).width = W;
+            $(id).height = H;
+            $(id).style.width = W + "px";
+            $(id).style.height = H + "px";
+          }
+          // Background: cells, grid, ground
+          const bg = $("bg").getContext("2d");
+          bg.fillStyle = "#20232a";
+          bg.fillRect(0, 0, W, H);
+          for (const c of cells) {
+            bg.fillStyle = P.bg || BG[P.mode];
+            bg.fillRect(c.x, c.y, c.w, c.h);
+            if (c.frame) paintGrid(bg, c, c.frame, mpp);
+          }
+
+          // WebGL: one render per view cell (edge mode leaves the reference cell empty: the photo goes there)
+          renderer.setSize(W, H, false);
+          renderer.setScissorTest(false);
+          renderer.setViewport(0, 0, W, H);
+          renderer.clear();
+          renderer.setScissorTest(true);
+          for (const c of cells) {
+            if (c.kind !== "view" || (edge && c === refCell)) continue;
+            if (montage.length || strip.length) doPose(c.pose);
+            kit.resolution.set(c.w, c.h); // hull thickness stays in pixels per viewport
+            const y = H - c.y - c.h;
+            renderer.setViewport(c.x, y, c.w, c.h);
+            renderer.setScissor(c.x, y, c.w, c.h);
+            renderer.render(scene, c.cam);
+          }
+          renderer.setScissorTest(false);
+
+          // Foreground: reference, labels, scale
+          const fg = $("fg").getContext("2d");
+          fg.clearRect(0, 0, W, H);
+          let refInfo = null;
+          if (img) {
+            const pl = refPlacement(img, crop, refCell.bb, P.refScale, offPx);
+            if (P.refMode === "beside") {
+              const b = { ...pl, dx: besideCell.w / 2 - pl.dw / 2 + offPx[0] };
+              paintRef(fg, besideCell, img, b, P.refFlip, 1, P.refBox);
+              refInfo = { view: P.refView, mode: "beside", rect: { x: besideCell.x + b.dx, y: besideCell.y + b.dy, w: b.dw, h: b.dh } };
+            } else {
+              paintRef(fg, refCell, img, pl, P.refFlip, edge ? 1 : P.refOpacity, P.refBox);
+              refInfo = { view: P.refView, mode: P.refMode, rect: { x: refCell.x + pl.dx, y: refCell.y + pl.dy, w: pl.dw, h: pl.dh } };
+              if (edge) refInfo.edgePixels = paintEdge(THREE, renderer, scene, fg, refCell);
+            }
+            refInfo.scale = P.refScale;
+            refInfo.offset = refOff;
+          }
+          for (const c of cells) {
+            if (c.kind === "view") {
+              const refHere = img && P.refMode !== "beside" && c === refCell;
+              const sub = refHere ? (edge ? "+ ref edge" : `+ ref ${fmt(P.refOpacity)}`) + (P.refFlip ? " flipped" : "") : "";
+              if (montage.length || c.strip) paintLabel(fg, c, c.pose, c.name);
+              else paintLabel(fg, c, c.name, sub);
+            } else paintLabel(fg, c, "ref", `${P.refView}${P.refFlip ? " flipped" : ""}`);
+            if (c.frame) paintScaleBar(fg, c, mpp);
+          }
+          if (P.joints && P.joints !== "0") paintJoints(THREE, fg, cells, P.joints === "names");
+          // Footer: what this picture is, and any contract warnings
+          fg.fillStyle = "#c9ced6";
+          fg.font = `500 12px ${FONT}`;
+          fg.textBaseline = "alphabetic";
+          const sz = M.size;
+          fg.fillText(
+            `${meta.name}  |  ${montage.length ? "poses " + montage.join(",") : "pose " + P.pose}  |  ${P.mode}  |  ${fmt(sz[0])} x ${fmt(sz[1])} x ${fmt(sz[2])} m (x y z)  |  ${M.tris} tris, ${M.meshes} meshes` +
+              (mpp ? `  |  ${fmt(mpp * 1000, 1)} mm/px` : ""),
+            10,
+            H - foot + 17,
+          );
+          if (extras.length) {
+            fg.fillStyle = "#9fd0ff";
+            fg.fillText(extras.join("  |  ").slice(0, Math.floor(W / 6.4)), 10, H - foot + 33);
+          }
+          fg.fillStyle = "#ffb454";
+          warnings.slice(0, 2).forEach((w, i) => fg.fillText(`warn: ${w}`.slice(0, Math.floor(W / 6.4)), 10, H - foot + 17 + 16 * (i + 1 + (extras.length ? 1 : 0))));
+
+          window.__labInfo = {
+            name: meta.name,
+            pose: montage.length ? montage[0] : P.pose,
+            mode: P.mode,
+            views: P.views,
+            size: [W, H],
+            bbox: { min: xyz(M.min), max: xyz(M.max), size: xyz(M.size) },
+            triangles: M.tris,
+            meshes: M.meshes,
+            joints: Object.keys(built.joints).length,
+            jointPositions: round3(per[0].jpos),
+            warnings,
+            mPerPx: mpp || null,
+            cells: cells.map((c) => ({ id: c.name, pose: c.pose, kind: c.kind, x: c.x, y: c.y, w: c.w, h: c.h, bboxPx: c.bb ? { x0: c.bb.x0 + c.x, y0: c.bb.y0 + c.y, x1: c.bb.x1 + c.x, y1: c.bb.y1 + c.y } : null })),
+            ref: refInfo,
+          };
+          if (montage.length) window.__labInfo.poses = per.map((p) => ({ pose: p.name, bbox: { min: xyz(p.M.min), max: xyz(p.M.max), size: xyz(p.M.size) }, triangles: p.M.tris, jointPositions: round3(p.jpos) }));
+          if (P.focus) window.__labInfo.focus = { joint: P.focus, radius: focusR, positions: per.map((p) => p.jpos[P.focus].map((x) => Math.round(x * 1000) / 1000)) };
+          if (buildOpts) window.__labInfo.opts = buildOpts;
+          if (lightDir) window.__labInfo.light = kit.LIGHT.toArray();
+          if (hideList.length) window.__labInfo.hide = hideList;
+          if (P.only) window.__labInfo.only = P.only;
+        };
+
+        draw();
+        // Palette check (cel): of the model's non-edge pixels (opaque, with 4 identical neighbours), the share that are
+        // exact hexes of the script. Antialiased edges are left out; the plan's bar is 99 %.
+        if (P.mode === "cel" && SCRIPTS && SCRIPTS[meta.script]) {
+          const gl = renderer.getContext();
+          const [W, H] = [gl.drawingBufferWidth, gl.drawingBufferHeight];
+          const px = new Uint8Array(W * H * 4);
+          gl.readPixels(0, 0, W, H, gl.RGBA, gl.UNSIGNED_BYTE, px);
+          const allowed = new Set(Object.values(SCRIPTS[meta.script].colors).map((h) => parseInt(h.slice(1), 16)));
+          const at = (i) => (px[i * 4] << 16) | (px[i * 4 + 1] << 8) | px[i * 4 + 2];
+          const off = new Map();
+          let [checked, ok] = [0, 0];
+          for (let y = 1; y < H - 1; y++)
+            for (let x = 1; x < W - 1; x++) {
+              const i = y * W + x;
+              if (px[i * 4 + 3] !== 255) continue;
+              const c = at(i);
+              if ([i - 1, i + 1, i - W, i + W].some((j) => px[j * 4 + 3] !== 255 || at(j) !== c)) continue;
+              checked++;
+              if (allowed.has(c)) ok++;
+              else off.set(c, (off.get(c) || 0) + 1);
+            }
+          const offenders = [...off].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([c, n]) => [`#${c.toString(16).padStart(6, "0")}`, n]);
+          window.__labInfo.palette = { checked, onScript: ok, ratio: checked ? Math.round((ok / checked) * 10000) / 10000 : 1, offenders };
+          if (checked && ok / checked < 0.99) warnings.push(`only ${((ok / checked) * 100).toFixed(1)} % of non-edge pixels are script hexes (off: ${offenders.map((o) => o[0]).join(" ")})`);
+        }
+        const shaderErrors = consoleErrors.filter((m) => /shader|program|webgl/i.test(m));
+        if (shaderErrors.length) throw new Error("WebGL error while drawing:\n" + shaderErrors[0].slice(0, 600));
+        window.__labInfo.ms = Math.round(performance.now() - t0);
+        // Let the compositor take one frame of the canvases before the shooter looks.
+        await new Promise((resolve) => {
+          const timer = setTimeout(resolve, 400);
+          requestAnimationFrame(() => requestAnimationFrame(() => (clearTimeout(timer), resolve())));
+        });
+        window.__labReady = true;
+        let pending = 0;
+        addEventListener("resize", () => {
+          clearTimeout(pending);
+          pending = setTimeout(() => {
+            try {
+              draw();
+            } catch (e) {
+              fail(e);
+            }
+          }, 120);
+        });
+      }
+      main().catch(fail);
+    </script>
+  </body>
+</html>
