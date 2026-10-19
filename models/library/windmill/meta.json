@@ -1,0 +1,131 @@
+{
+  "id": "windmill",
+  "name": "Windmill",
+  "category": "building",
+  "tags": [
+    "building",
+    "windmill",
+    "wind turbine",
+    "turbine",
+    "wind farm",
+    "energy",
+    "countryside",
+    "hill",
+    "coast",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney City Kit Industrial 2.0)",
+  "height": 60,
+  "script": "noon",
+  "colors": {
+    "body": "#fff6e4",
+    "bodyShade": "#f2d7ae",
+    "band": "#c4452d",
+    "bandShade": "#5c3d32",
+    "hub": "#5c3d32",
+    "hubShade": "#5c3d32"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#d3d3e3": "body",
+    "colormap#e6e6ef": "body",
+    "colormap#f7f7fa": "body",
+    "colormap#bec2e1": "band",
+    "colormap#ebebf2": "body",
+    "colormap#f2f2f7": "body",
+    "colormap#efeff5": "body",
+    "colormap#e8e8f0": "body",
+    "colormap#e4e4ee": "body",
+    "colormap#7a7e97": "hub",
+    "colormap#ffcf60": "band",
+    "colormap#ffc95b": "band",
+    "colormap#ffcc5e": "band",
+    "colormap#ffa73f": "band",
+    "colormap#ffb74c": "band",
+    "colormap#ffa63e": "band",
+    "colormap#ffc154": "band",
+    "colormap#ffaf45": "band",
+    "colormap#ffb84d": "band",
+    "colormap#a1a9ca": "band",
+    "colormap#afb7dc": "band",
+    "colormap#a0a8c9": "band",
+    "colormap#acb4d8": "band",
+    "colormap#adb5d9": "band"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · City Kit Industrial",
+    "page": "https://kenney.nl/assets/city-kit-industrial",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan row (#156) as given: Kenney City Kit Industrial 2.0 windmill.glb. It is a MODERN three-blade wind turbine (tower on a wider base, nacelle, hub, three blades), not a traditional mill, and stylized stubby (rotor diameter about half the height). Alternatives checked: the same kit's windmill-low (a stubbier turbine; reads less well), and for a traditional mill the Kenney Fantasy Town Kit 2.0 windmill.glb, which is only the four-sail lattice cross meant to sit on a building (no tower or cap, one mesh), so not a stand-alone windmill; no Quaternius pack already pinned in the library (Ultimate Nature, Ultimate Textured Buildings, Farm Animals, Furniture, Platformer and the rest) has a windmill. Height 60 m to the top blade tip (real turbines are 60-150 m to the tip; the low end because the chunky proportions read small: the tower is about 5 m wide and the base about 9 m at this scale); the hub (rotor centre) is at y = 43.5 m. Rotor faces +Z (ingest yaw 90). SPINNING THE ROTOR: blades and hub are a separate node named blades (three.js: root.getObjectByName(\"blades\"), a Group of the rotor meshes with their ink hulls). Its origin is NOT the hub (gltf-transform quantization folded an offset and a 0.563 scale into the node): rotate it about its parent's (node windmill) X axis through the parent-frame point H = (-0.2404, 1.6764, -0.0008); in the model frame at 60 m that is the axis +Z through (0.06, 43.47, 5.90) m. Each frame, from the rest values p0 and q0: r = Quaternion.setFromAxisAngle((1, 0, 0), angle); blades.quaternion = r * q0; blades.position = r(p0 - H) + H. Noon script: tower, nacelle and blade roots moon over sky shade; the source's yellow base, nacelle collar and grey blade tips all go to accent (vermilion) over iris shade, threshold -0.2 so the long blade tips stay mostly lit (red-tipped blades, as real turbines are marked); hub iris, flat. Faceted (smooth false), 456 tris. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/city-kit-industrial",
+      "sha256": "5b381164e5760f3830a2dbee43b972deee38b2a695d091b56e238ab2910c96d2",
+      "bytes": 5045077,
+      "resolved": "https://kenney.nl/media/pages/assets/city-kit-industrial/0ec35b139d-1788171848/kenney_city-kit-industrial_2.0.zip"
+    },
+    "member": "Models/GLB format/windmill.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 60,
+    "maxColors": 24,
+    "memberSha256": "554360a370ab56e3f5affa943971d8bd845245ed97003f1fe58a49ae999f820e",
+    "yaw": 90
+  },
+  "file": "model.glb",
+  "sha256": "3fed9b697eb164258a92c585de2d76614979a7629a9cfa5f0c248af32cb04b29",
+  "bytes": 40556,
+  "triangles": 456,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#d3d3e3": "#d3d3e3",
+    "colormap#e6e6ef": "#e6e6ef",
+    "colormap#f7f7fa": "#f7f7fa",
+    "colormap#bec2e1": "#bec2e1",
+    "colormap#ebebf2": "#ebebf2",
+    "colormap#f2f2f7": "#f2f2f7",
+    "colormap#efeff5": "#efeff5",
+    "colormap#e8e8f0": "#e8e8f0",
+    "colormap#e4e4ee": "#e4e4ee",
+    "colormap#7a7e97": "#7a7e97",
+    "colormap#ffcf60": "#ffcf60",
+    "colormap#ffc95b": "#ffc95b",
+    "colormap#ffcc5e": "#ffcc5e",
+    "colormap#ffa73f": "#ffa73f",
+    "colormap#ffb74c": "#ffb74c",
+    "colormap#ffa63e": "#ffa63e",
+    "colormap#ffc154": "#ffc154",
+    "colormap#ffaf45": "#ffaf45",
+    "colormap#ffb84d": "#ffb84d",
+    "colormap#a1a9ca": "#a1a9ca",
+    "colormap#afb7dc": "#afb7dc",
+    "colormap#a0a8c9": "#a0a8c9",
+    "colormap#acb4d8": "#acb4d8",
+    "colormap#adb5d9": "#adb5d9"
+  },
+  "clipInfo": {},
+  "thresholds": {
+    "band": -0.2
+  },
+  "qa": {
+    "height": 59.9999,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 456,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
