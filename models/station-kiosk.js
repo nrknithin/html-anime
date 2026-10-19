@@ -28,8 +28,11 @@
 //   counter top 0.95, window 0.95-2.0 x 1.32 wide; canopy 2.3 x 2.1, front lip 2.39, back 2.50; sign 1.9 x 0.42 on
 //   top, its top 2.86 (meta.height). Built-in cooler bay 0.56 wide, door glass 0.22-1.92; side cooler 0.55 x 0.6 x
 //   1.65. Floor patch 4.0 x 3.2; tactile strips 0.3 wide (tiles 0.3 square, studs 4 x 4 per tile).
-// Options: build(THREE, kit, colors, { height }): height scales the whole stand uniformly (default 2.86 m).
-// Budget: 6.6k triangles, 9 meshes (the tactile studs are 2.5k of it).
+// Options: build(THREE, kit, colors, { height, floor }).
+//   floor   true (default): the floor patch and tactile strips; false: the booth and its wares alone, dropped 4 cm
+//           so the booth base stands on y = 0 (to sit on station-platform); natural height 2.82.
+//   height  scales the whole stand uniformly so its top is `height` (default 2.86 m; 2.82 without the floor).
+// Budget: 6.6k triangles, 9 meshes (the tactile studs are 2.5k of it); 3.8k, 8 meshes without the floor.
 // Colours (meadow), base / shade:
 //   booth walls, sign frame          iris #3f8a47 / hair #2c5131
 //   canopy, red covers, bottles,     accent #d9483b / hair #2c5131 (threshold 0.25: the canopy top stays red,
@@ -64,12 +67,15 @@ export const meta = {
 
 export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const c = colors;
-  const { height = meta.height } = opts;
+  const F = 0.04; // floor top: the booth stands on it
+  const { floor = true } = opts;
+  const natural = floor ? meta.height : meta.height - F;
+  const { height = natural } = opts;
   const root = new THREE.Group();
   root.name = "kiosk";
   const body = new THREE.Group(); // uniform size scale lives here, so root stays the plain contract node
   body.name = "body";
-  body.scale.setScalar(height / meta.height);
+  body.scale.setScalar(height / natural);
   root.add(body);
   const content = new THREE.Group();
   content.name = "content";
@@ -121,28 +127,29 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const COVER = ["red", "yellow", "lime", "trim"];
 
   // ---------- floor patch and tactile strips ----------
-  const F = 0.04; // floor top
-  bx("cream", -2.0, 0, -1.2, 2.0, F, 2.0);
-  // dotted warning strip
-  const Tz0 = 1.12, Tz1 = 1.42, Ty = F + 0.008;
-  bx("yellow", -1.95, F, Tz0, 1.95, Ty, Tz1);
-  for (let x = -1.8; x < 1.9; x += 0.3)
-    for (let i = 0; i < 4; i++)
-      for (let k = 0; k < 4; k++) {
-        const sx = x - 0.1125 + i * 0.075, sz = Tz0 + 0.0375 + k * 0.075;
-        bx("stud", sx - 0.018, Ty, sz - 0.018, sx + 0.018, Ty + 0.006, sz + 0.018);
-      }
-  // guidance strip: four long bars
-  const Gz0 = 1.55, Gz1 = 1.85;
-  bx("yellow", -1.95, F, Gz0, 1.95, Ty, Gz1);
-  for (let k = 0; k < 4; k++) {
-    const sz = Gz0 + 0.0375 + k * 0.075;
-    bx("stud", -1.93, Ty, sz - 0.014, 1.98, Ty + 0.006, sz + 0.014);
-  }
-  // tile joints (dark decal lines on the tile tops)
-  for (let x = -1.65; x < 1.7; x += 0.3) {
-    bx("dark", x - 0.006, Ty, Tz0, x + 0.006, Ty + 0.003, Tz1);
-    bx("dark", x - 0.006, Ty, Gz0, x + 0.006, Ty + 0.003, Gz1);
+  if (floor) {
+    bx("cream", -2.0, 0, -1.2, 2.0, F, 2.0);
+    // dotted warning strip
+    const Tz0 = 1.12, Tz1 = 1.42, Ty = F + 0.008;
+    bx("yellow", -1.95, F, Tz0, 1.95, Ty, Tz1);
+    for (let x = -1.8; x < 1.9; x += 0.3)
+      for (let i = 0; i < 4; i++)
+        for (let k = 0; k < 4; k++) {
+          const sx = x - 0.1125 + i * 0.075, sz = Tz0 + 0.0375 + k * 0.075;
+          bx("stud", sx - 0.018, Ty, sz - 0.018, sx + 0.018, Ty + 0.006, sz + 0.018);
+        }
+    // guidance strip: four long bars
+    const Gz0 = 1.55, Gz1 = 1.85;
+    bx("yellow", -1.95, F, Gz0, 1.95, Ty, Gz1);
+    for (let k = 0; k < 4; k++) {
+      const sz = Gz0 + 0.0375 + k * 0.075;
+      bx("stud", -1.93, Ty, sz - 0.014, 1.93, Ty + 0.006, sz + 0.014);
+    }
+    // tile joints (dark decal lines on the tile tops)
+    for (let x = -1.65; x < 1.7; x += 0.3) {
+      bx("dark", x - 0.006, Ty, Tz0, x + 0.006, Ty + 0.003, Tz1);
+      bx("dark", x - 0.006, Ty, Gz0, x + 0.006, Ty + 0.003, Gz1);
+    }
   }
 
   // ---------- booth ----------
@@ -293,7 +300,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       mnx = Math.min(mnx, arr[i]); mxx = Math.max(mxx, arr[i]);
       mnz = Math.min(mnz, arr[i + 2]); mxz = Math.max(mxz, arr[i + 2]);
     }
-  content.position.set(-(mnx + mxx) / 2, 0, -(mnz + mxz) / 2);
+  content.position.set(-(mnx + mxx) / 2, floor ? 0 : -F, -(mnz + mxz) / 2);
 
   // ---------- meshes ----------
   const MAT = {
