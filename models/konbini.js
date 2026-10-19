@@ -313,7 +313,8 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   box("frame", AX + 0.5, AX + 0.56, ROOF, 3.9, AZ - 0.05, AZ + 0.05); // refrigerant pipe cover
 
   // ---------- meshes ----------
-  // [base, shade, threshold, hull px (0 = none)]; night: the interior and the practicals glow
+  // [base, shade, threshold, hull px (0 = none)]; night: the interior and the practicals glow. Hull widths are
+  // shared in tiers (2, 2.5, 3, 4, 5) so equal looks merge into one mesh below.
   const G = -0.25;
   const MAT = {
     ground: night ? [c.floor, c.navy, 0.1, 4] : [c.floor, c.wallShade, 0.1, 4],
@@ -324,21 +325,21 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     fascia: night ? [c.glow, c.glow, G, 5] : [c.wall, c.wallShade, 0.1, 5],
     stripeA: [c.stripeA, c.stripeA, G, 0],
     stripeB: [c.stripeB, c.stripeB, G, 0],
-    coping: [c.frame, c.frame, G, 3],
+    coping: [c.frame, c.frame, G, 2.5],
     frame: [c.frame, c.frame, G, 2.5],
-    mat: [c.frame, c.frame, G, 2],
+    mat: [c.frame, c.frame, G, 2.5],
     glint: [c.glint, c.glint, G, 0],
     lamp: [c.lamp, c.lamp, G, 0],
     floor: night ? [c.glow, c.glow, G, 0] : [c.floor, c.floorShade, 0.1, 0],
     inner: night ? [c.lamp, c.lamp, G, 0] : [c.floor, c.floorShade, 0.1, 0],
-    shelf: night ? [c.glow, c.floor, 0.1, 2] : [c.wall, c.floor, 0.1, 2],
+    shelf: night ? [c.glow, c.floor, 0.1, 3] : [c.wall, c.floor, 0.1, 3],
     ledge: [c.wall, c.floor, 0.1, 0],
-    topper: [c.stripeB, c.stripeB, G, 1.5],
+    topper: [c.stripeB, c.stripeB, G, 3],
     counter: [c.counter, c.counterShade, 0.1, 2.5],
-    top: [c.white, c.floor, 0.1, 2],
+    top: [c.white, c.floor, 0.1, 3],
     warmer: [c.lamp, c.lamp, G, 0],
     cooler: [c.lamp, c.lamp, G, 0],
-    copier: [c.white, c.floor, 0.1, 2],
+    copier: [c.white, c.floor, 0.1, 3],
     bin: [c.wall, c.wallShade, 0.1, 3],
     slot: [c.navy, c.navy, G, 0],
     metal: [c.metal, c.metalShade, 0.1, 2.5],
@@ -346,13 +347,18 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     red: [c.red, c.red, G, 0], orange: [c.orange, c.orange, G, 0], yellow: [c.yellow, c.yellow, G, 0],
     pink: [c.pink, c.pink, G, 0], white: [c.white, c.floor, 0.1, 0], navy: [c.navy, c.navy, G, 0],
   };
+  // one mesh per distinct material (base, shade, threshold, hull): parts that share a look share a mesh
+  const groups = {};
   for (const [key, { p, n }] of Object.entries(soups)) {
-    const [base, shade, threshold, px] = MAT[key];
+    const g = (groups[MAT[key].join("|")] ??= { m: MAT[key], keys: [], p: [], n: [] });
+    g.keys.push(key), g.p.push(...p), g.n.push(...n);
+  }
+  for (const { m: [base, shade, threshold, px], keys, p, n } of Object.values(groups)) {
     const g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.Float32BufferAttribute(p, 3));
     g.setAttribute("normal", new THREE.Float32BufferAttribute(n, 3));
     const mesh = kit.toon(g, base, shade, px ? { threshold, px } : { threshold, outline: false });
-    mesh.name = key;
+    mesh.name = keys.join("+");
     body.add(mesh);
   }
 
