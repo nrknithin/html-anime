@@ -1,39 +1,43 @@
 // lookout.js - a hilltop observation point over a town, the anime ending-scene viewpoint, static.
 // Contract: harness/lab/README.md. Meters, +Y up, the visitor's side faces +Z (the bench back and the path), the
-// view and the drop lie toward -Z, its left is +X (the lamp), stands on y = 0 (the town floor), centred on x = 0, z = 0.
+// view and the drop lie toward -Z, its left is +X (the lamp), stands on y = 0 (the valley floor), centred on x = 0, z = 0.
 //
-// Construction (boxes, prisms, swept tubes and faceted blobs, all triangle soups merged per material; flat-shaded
-// except tubes, which carry radial normals so a 6-sided tube reads round):
-//   HILL     one closed frustum, its top the hilltop at P = 2.2 m, its flanks the grass slope down to the town floor;
-//            a grass verge slab on top and a paved platform slab on that (8 cm, so its edge reads as a kerb).
-//   RAILING  tube posts every ~0.9 m along the drop edge, a top rail and a mid rail, short returns at both ends.
+// Construction (boxes, prisms, swept tubes and low-poly blobs, all triangle soups merged per material; flat-shaded
+// except tubes and blobs, which carry radial normals):
+//   HILL     one closed hexahedron, its top the hilltop at P = 2.6 m: a steep cliff (70 deg) down to the valley floor
+//            toward the view, so there is a visible drop between the railing and the town; the visitor's side is a cut
+//            leaning in 0.5 m (a diorama base, in shade). A grass verge slab on top, a paved platform on that (11 cm,
+//            so its edge reads as a kerb) and a path to the back edge.
+//   RAILING  tube posts every ~0.8 m along the drop edge, a top rail and a mid rail, short returns at both ends.
 //   FIXTURES a coin binocular viewer (tube post, a squat body box with a hood, two eyepieces toward the visitor and
 //            two fat objective barrels toward the view) tilted down 8 deg; a park bench facing the view (four seat
 //            slats, two back slats on cast side frames); a lamp post (tube with a crook, lantern box, cap); a small
 //            blank information board on two posts, its panel turned toward the visitor.
-//   TREE     a cherry: tapered tube trunk with three limbs, a canopy of seven faceted blobs (icosahedron detail 1).
-//   TOWN     a flat backdrop strip on the town floor beyond the slope's foot: three staggered rows of wall boxes with
-//            gable prisms, a few taller blocks, small window quads on the faces toward the hill. Sizes come from a
-//            fixed integer hash, never Math.random.
+//   TREE     a cherry after riverbank-path: a bent bole forking at 1.9 m, six limbs that split in two, four crown limbs,
+//            all dark tubes; a cluster of 1-3 small flattened blobs at every tip and elbow, so limbs show in the gaps.
+//   TOWN     a forced-perspective spread on the valley floor past the cliff foot: eight rows of wall boxes with gable
+//            prisms, each row further out smaller (scale 0.50 -> 0.25) and wider, on a floor that rises gently (0 ->
+//            0.6 m) like the far side of a valley; every roof stays >= 1.5 m under the deck. Window quads face the hill.
+//            Sizes come from a fixed integer hash, never Math.random.
 //   Every closed part is wound away from a point inside it, never by hand.
-// Proportions (real size, base unit the railing height R = 1.1 m): hilltop 2.0 R over the town floor; platform 5.0 x 2.8
-// (4.5 R x 2.5 R); bench 1.6 wide, seat 0.42, back 0.8; viewer eyepieces at 1.2; lamp 3.6 tall; board 0.9 x 0.6 at
-// 1.0-1.6; cherry crown top 5.2 m over the hilltop (the model's top). Town rows 0.5-1.4 m tall: a forced-perspective
-// strip, not real-size houses.
+// Proportions (real size, base unit the railing height R = 1.1 m): deck 2.5 R over the cliff foot; platform 5.0 x 2.8
+// (4.5 R x 2.5 R); bench 1.6 wide, seat 0.42, back 0.8; viewer eyepieces at 1.2; lamp 3.6 tall (its cap is the
+// model's top); board 0.9 x 0.6 at 1.0-1.6; cherry crown ~3.6 m over the verge. Town houses 0.2-0.7 m tall.
 // Options: build(THREE, kit, colors, { height, dusk }).
-//   height  scales everything uniformly so the crown top is `height` (default 7.4 m).
+//   height  scales everything uniformly so the lamp cap is `height` (default 6.31 m).
 //   dusk    the lamp lantern and the town windows glow practical (threshold -0.25, a thin shade rim only); the town
 //           walls drop to hair so the lights pop.
-// Colours (meadow): grass verge line #a9d16e / iris #3f8a47; hill slope and town floor iris / hair #2c5131;
-// paving sclera #f6f3ee / sky #d7ecef; painted metal (railing, posts, frames) hair / hair; viewer accent #d9483b /
-// hair; bench slats skin #f0c2ae / accent; board panel moon #f7f3e1 / sclera; lantern sclera / sky (dusk practical
-// #f2c94c / practical); trunk hair / hair; blossom skin / accent; town walls moon / sky (dusk hair / hair), roofs
-// iris / hair and accent / hair, windows sky (dusk practical). Pale parts use threshold 0.1 so faces square to the
-// camera stay lit (front dot 0.30).
+// Colours (meadow): grass verge line #a9d16e / iris #3f8a47; hill and valley floor iris / hair #2c5131 (threshold
+// 0.45, so the visitor-side cut and the cliff fall to hair); paving sclera #f6f3ee / sky #d7ecef; painted metal
+// (railing, posts, frames) hair / hair; viewer accent #d9483b / hair; bench slats skin #f0c2ae / accent; board panel
+// moon #f7f3e1 / sclera; lantern sclera / sky (dusk practical #f2c94c / practical); trunk and limbs hair flat; blossom
+// sclera / skin at threshold 0.55 (white tops, sakura-pink sides, as riverbank-path); town walls moon / sky (dusk
+// hair / hair), roofs iris / hair and accent / hair, windows sky (dusk practical). Pale parts use threshold 0.1 so
+// faces square to the camera stay lit (front dot 0.30).
 
 export const meta = {
   name: "lookout",
-  height: 7.4,
+  height: 6.31,
   script: "meadow",
   colors: {
     grass: "#a9d16e", grassShade: "#3f8a47",
@@ -46,7 +50,7 @@ export const meta = {
     lamp: "#f6f3ee", lampShade: "#d7ecef",
     glow: "#f2c94c",
     trunk: "#2c5131",
-    blossom: "#f0c2ae", blossomShade: "#d9483b",
+    blossom: "#f6f3ee", blossomShade: "#f0c2ae",
     wall: "#f7f3e1", wallShade: "#d7ecef",
     roofA: "#3f8a47", roofB: "#d9483b", roofShade: "#2c5131",
     window: "#d7ecef",
@@ -155,12 +159,19 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       for (let j = 1; j < sides - 1; j++) tri(key, R.ring[0].q, R.ring[j].q, R.ring[j + 1].q, ref, cn, cn, cn);
     }
   }
-  // faceted blob: icosahedron detail 1, scaled per axis
-  const ico = new THREE.IcosahedronGeometry(1, 1).getAttribute("position");
-  function blob(key, C, sx, sy, sz) {
-    for (let i = 0; i < ico.count; i += 3) {
-      const q = [0, 1, 2].map((k) => [C[0] + ico.getX(i + k) * sx, C[1] + ico.getY(i + k) * sy, C[2] + ico.getZ(i + k) * sz]);
-      tri(key, q[0], q[1], q[2], C);
+  // blossom blob: a low sphere (6 x 4), flattened, scaled per axis and turned about y; smooth radial normals
+  const sph = new THREE.SphereGeometry(1, 6, 4);
+  const sP = sph.getAttribute("position"), sI = sph.getIndex();
+  function blob(key, C, sx, sy, sz, yaw = 0) {
+    const cy = Math.cos(yaw), sn = Math.sin(yaw);
+    const at = (i) => {
+      const x = sP.getX(i) * sx, z = sP.getZ(i) * sz;
+      return [C[0] + x * cy + z * sn, C[1] + sP.getY(i) * sy, C[2] - x * sn + z * cy];
+    };
+    const nAt = (q) => nrm([(q[0] - C[0]) / (sx * sx), (q[1] - C[1]) / (sy * sy), (q[2] - C[2]) / (sz * sz)]);
+    for (let i = 0; i < sI.count; i += 3) {
+      const q = [0, 1, 2].map((k) => at(sI.getX(i + k)));
+      tri(key, q[0], q[1], q[2], C, nAt(q[0]), nAt(q[1]), nAt(q[2]));
     }
   }
   const place = (x, y, z, yaw, fn, pitch = 0) => {
@@ -172,9 +183,11 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const hash = (i) => { let h = (i * 2654435761) >>> 0; h ^= h >>> 15; h = Math.imul(h, 2246822519) >>> 0; h ^= h >>> 13; return (h >>> 0) / 4294967296; };
 
   // ---------- hill, verge, platform ----------
-  const P = 2.2, EDGE = -1.0; // hilltop height, z of the drop edge
-  const BZ = 2.9; // back edge of the hilltop
-  hex("hill", [[-5.1, 0, -3.4], [5.1, 0, -3.4], [4.9, 0, BZ + 0.7], [-4.9, 0, BZ + 0.7], [-4.6, P, EDGE - 0.35], [4.6, P, EDGE - 0.35], [4.4, P, BZ], [-4.4, P, BZ]]);
+  const P = 2.6, EDGE = -1.0; // hilltop height, z of the drop edge
+  const BZ = 4.0, CZ = -2.3, BACK = BZ - 0.5; // the visitor-side cut leans in a little (undercut) // back edge of the top, cliff foot, back foot
+  // a steep cliff toward the view; the visitor's side is a cut leaning in 0.5 m (a diorama base), so the model ends
+  // just behind the path
+  hex("hill", [[-5.0, 0, CZ], [5.0, 0, CZ], [4.9, 0, BACK], [-4.9, 0, BACK], [-4.6, P, EDGE - 0.35], [4.6, P, EDGE - 0.35], [4.6, P, BZ], [-4.6, P, BZ]]);
   box("grass", -4.6, 4.6, P - 0.05, P + 0.03, EDGE - 0.37, BZ + 0.02);
   const PX = 2.5, PZ0 = EDGE - 0.2, PZ1 = 1.6, PT = P + 0.11;
   box("paving", -PX, PX, P, PT, PZ0, PZ1);
@@ -246,43 +259,64 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   });
 
   // ---------- cherry tree on the -X verge ----------
-  place(-3.45, P, 1.0, Math.PI, () => {
-    tube("trunk", [[0, -0.05, 0], [0.05, 1.3, 0], [-0.1, 2.3, 0.05]], [0.2, 0.11], [0, 0, 1], { bend: 0.4, sides: 7 });
-    tube("trunk", [[0.03, 1.5, 0], [0.75, 2.6, -0.3]], [0.09, 0.04], [0, 0, 1], { sides: 6 });
-    tube("trunk", [[0, 1.8, 0], [-0.85, 2.7, 0.35]], [0.08, 0.035], [0, 0, 1], { sides: 6 });
-    tube("trunk", [[-0.1, 2.25, 0.05], [0.2, 3.3, -0.1]], [0.08, 0.03], [0, 0, 1], { sides: 6 });
-    for (const [x, y, z, sx, sy, sz] of [
-      [0, 3.6, 0, 1.55, 1.2, 1.4], [1.2, 3.0, -0.4, 1.05, 0.8, 1.0], [-1.25, 3.05, 0.4, 1.1, 0.8, 1.0],
-      [0.55, 4.45, 0.2, 1.0, 0.75, 0.95], [-0.6, 4.2, -0.4, 1.0, 0.8, 0.9], [0.3, 2.85, 0.9, 0.95, 0.7, 0.75],
-      [-0.2, 3.1, -1.0, 1.0, 0.7, 0.8],
-    ]) blob("blossom", [x, y, z], sx, sy, sz);
+  // a bent bole forking at 1.9 m, six limbs that each split in two; a cluster of 2-3 small flattened blobs at every
+  // split tip and one at each limb's elbow, plus a low crown, so dark limbs show through gaps in the canopy.
+  place(-3.5, P, 0.9, 0, () => {
+    let seed = 11;
+    const rr = (a, b) => a + (b - a) * hash(seed++);
+    const fork = [0.15, 1.9, -0.1];
+    tube("trunk", [[0, -0.05, 0], [0.02, 0.9, 0.04], fork], [0.2, 0.13], [0, 0, 1], { bend: 0.35, sides: 7 });
+    const cluster = (C, n, r0, r1) => {
+      for (let k = 0; k < n; k++) {
+        const r = rr(r0, r1);
+        const q = k === 0 ? C : [C[0] + rr(-0.35, 0.35), C[1] + rr(-0.1, 0.15), C[2] + rr(-0.3, 0.3)];
+        blob("blossom", q, r * rr(1.1, 1.3), r * 0.72, r, rr(0, 6.28));
+      }
+    };
+    for (let i = 0; i < 6; i++) {
+      const az = (i + rr(0.2, 0.8)) * ((Math.PI * 2) / 6), reach = rr(1.7, 2.1);
+      const dir = (a, d) => [Math.sin(a) * d, 0, Math.cos(a) * d];
+      const mid = add(add(fork, dir(az, reach * 0.45)), [0, rr(0.55, 0.8), 0]);
+      tube("trunk", [fork, mid], [0.09, 0.06], [0, 1, 0], { sides: 5 });
+      cluster(add(mid, [0, 0.3, 0]), 1, 0.32, 0.4);
+      for (const da of [-0.4, 0.4]) {
+        const tip = add(add(fork, dir(az + da, reach * rr(0.85, 1.05))), [0, mid[1] - fork[1] + rr(-0.15, 0.25), 0]);
+        tube("trunk", [mid, tip], [0.05, 0.025], [0, 1, 0], { sides: 5 });
+        cluster(tip, 2 + (hash(i * 7 + (da > 0 ? 1 : 0)) > 0.5 ? 1 : 0), 0.26, 0.38);
+      }
+    }
+    for (let k = 0; k < 4; k++) {
+      const a = (k * Math.PI) / 2 + 0.4, C = [fork[0] + Math.sin(a) * 0.8, fork[1] + rr(1.15, 1.4), fork[2] + Math.cos(a) * 0.8];
+      tube("trunk", [fork, add(fork, mul(sub(C, fork), 0.8))], [0.07, 0.035], [0, 1, 0], { sides: 5 });
+      cluster(C, 2, 0.32, 0.42);
+    }
   });
 
-  // ---------- town strip on the floor beyond the slope ----------
-  // rows: [z, depth, terrace y, min height, height spread, count, span]; back rows climb the far side of the valley
-  const ROWS = [[-4.3, 0.7, 0, 0.45, 0.3, 13, 13.4], [-5.6, 0.8, 0, 0.6, 0.45, 12, 14.2], [-7.0, 0.9, 0.45, 0.7, 0.6, 11, 15], [-8.6, 1.0, 1.0, 0.8, 0.9, 10, 15.8]];
-  const ZB = -9.4;
-  box("hill", -8.2, 8.2, 0, 0.04, ZB, -3.4);
-  for (const [z, d, y0, , , , span] of ROWS) if (y0 > 0) box("hill", -span / 2 - 0.3, span / 2 + 0.3, 0, y0, ZB + 0.01, z + d / 2 + 0.35);
+  // ---------- town spread on the valley floor, past the cliff foot ----------
+  // forced perspective: each row further out is smaller (scale sc) and wider, and steps up a little as the far side of
+  // the valley rises; every roof stays >= 1.5 m under the deck. Rows: [z, scale, terrace y, span].
+  const ROWS = [[-4.3, 0.5, 11], [-5.7, 0.46, 12], [-7.1, 0.42, 13], [-8.5, 0.38, 14], [-9.9, 0.34, 15], [-11.3, 0.31, 15.5], [-12.7, 0.28, 16], [-14.1, 0.25, 16]];
+  const ZB = -15.0, ZF = CZ + 0.3, YB = 0.6; // the valley floor rises gently from the cliff foot to YB at the far edge
+  const yAt = (z) => 0.04 + ((YB - 0.04) * (ZF - z)) / (ZF - ZB);
+  hex("hill", [[-8.4, 0, ZF], [8.4, 0, ZF], [8.4, 0, ZB], [-8.4, 0, ZB], [-8.4, 0.04, ZF], [8.4, 0.04, ZF], [8.4, YB, ZB], [-8.4, YB, ZB]]);
   let k = 0;
-  for (const [z, d, y0, hMin, hVar, n, span] of ROWS) {
-    const step = span / n;
+  for (const [z, sc, span] of ROWS) {
+    const step = 1.5 * sc, n = Math.floor(span / step);
     for (let i = 0; i < n; i++, k++) {
       const r1 = hash(k * 3 + 1), r2 = hash(k * 3 + 2), r3 = hash(k * 3 + 3);
-      const w = step * (0.62 + 0.3 * r1), x = -span / 2 + step * (i + 0.5) + (r2 - 0.5) * step * 0.25;
-      const tall = y0 >= 1 && r3 > 0.68;
-      const h = tall ? hMin + hVar + 0.6 : hMin + hVar * r3, z0 = z - d / 2, z1 = z + d / 2, top = y0 + h;
+      if (r3 < 0.08) continue; // a gap now and then: a lane, a lot
+      const w = step * (0.6 + 0.3 * r1), d = sc * (0.8 + 0.4 * r2);
+      const x = -span / 2 + step * (i + 0.5) + (r2 - 0.5) * step * 0.3, zz = z + (r1 - 0.5) * sc * 0.6;
+      const h = sc * (0.75 + 0.6 * r3), z0 = zz - d / 2, z1 = zz + d / 2, y0 = yAt(z1) - 0.02, top = yAt(z0) + h;
       box("wall", x - w / 2, x + w / 2, y0 + 0.02, top, z0, z1);
-      if (!tall) gable(r1 > 0.45 ? "roofA" : "roofB", x - w / 2 - 0.05, x + w / 2 + 0.05, top, top + 0.22 + 0.12 * r2, z0 - 0.06, z1 + 0.06);
-      else box("roofA", x - w / 2 - 0.03, x + w / 2 + 0.03, top, top + 0.05, z0 - 0.03, z1 + 0.03);
+      gable(r1 > 0.42 ? "roofA" : "roofB", x - w / 2 - 0.04 * sc, x + w / 2 + 0.04 * sc, top, top + sc * (0.3 + 0.15 * r2), z0 - 0.06 * sc, z1 + 0.06 * sc);
       // windows on the face toward the hill (+Z)
-      const floors = Math.max(1, Math.floor((h - 0.1) / 0.32)), cols = Math.max(1, Math.round(w / 0.32));
-      for (let f = 0; f < floors; f++)
-        for (let j = 0; j < cols; j++) {
-          if (hash(k * 97 + f * 13 + j * 7) < 0.45) continue;
-          const wx = x - w / 2 + (w * (j + 0.5)) / cols, wy = y0 + 0.2 + f * 0.32;
-          quad("window", [wx - 0.055, wy, z1 + 0.006], [wx + 0.055, wy, z1 + 0.006], [wx + 0.055, wy + 0.1, z1 + 0.006], [wx - 0.055, wy + 0.1, z1 + 0.006], [wx, wy + 0.05, z1 - 1]);
-        }
+      const ww = 0.11 * sc, wh = 0.1 * sc, cols = Math.max(1, Math.round(w / (0.32 * sc)));
+      for (let j = 0; j < cols; j++) {
+        if (hash(k * 97 + j * 7) < 0.4) continue;
+        const wx = x - w / 2 + (w * (j + 0.5)) / cols, wy = y0 + h * 0.45;
+        quad("window", [wx - ww, wy, z1 + 0.006], [wx + ww, wy, z1 + 0.006], [wx + ww, wy + 2 * wh, z1 + 0.006], [wx - ww, wy + 2 * wh, z1 + 0.006], [wx, wy, z1 - 1]);
+      }
     }
   }
 
@@ -296,7 +330,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   // ---------- meshes: one per material ----------
   const G = -0.25; // glowing practicals keep only a thin shade rim
   const MAT = {
-    hill: [c.hill, c.hillShade, 0.35, 3],
+    hill: [c.hill, c.hillShade, 0.45, 3],
     grass: [c.grass, c.grassShade, 0.1, 3],
     paving: [c.paving, c.pavingShade, 0.1, 3],
     metal: [c.metal, c.metalShade, 0.1, 2],
@@ -305,7 +339,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     panel: [c.panel, c.panelShade, 0.1, 0],
     lamp: dusk ? [c.glow, c.glow, G, 3] : [c.lamp, c.lampShade, 0.1, 3],
     trunk: [c.trunk, c.trunk, 0.1, 3],
-    blossom: [c.blossom, c.blossomShade, -0.1, 3.5],
+    blossom: [c.blossom, c.blossomShade, 0.55, 3],
     wall: dusk ? [c.hillShade, c.hillShade, 0.1, 1.5] : [c.wall, c.wallShade, 0.1, 1.5],
     roofA: [c.roofA, c.roofShade, 0.1, 1.5],
     roofB: [c.roofB, c.roofShade, 0.1, 1.5],
