@@ -16,6 +16,7 @@ import crypto from "node:crypto";
 import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { fixPath, resolveFromRoot } from "./paths.mjs";
+import { parseOpts } from "./inspect.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..", "..");
@@ -38,6 +39,7 @@ const USAGE = `usage: node harness/lab/shoot.mjs --model <path> [options]
   --views <list>        front,back,left,right,top,three4,hero          (default front,left,three4,top)
   --mode <m>            cel | clay | sil                               (default cel)
   --pose <name>         a pose from the model's meta.poses             (default rest)
+  --opts '<json>'       JSON object passed to build() as its 4th argument, e.g. '{"lit":true}' (code models)
   --out <file.png>      output PNG                                     (default <tmp>/html-anime-lab-out/...)
   --size <WxH>          window size                                    (default 1600x1000)
   --ref <image>         reference photo (file path or URL)
@@ -53,7 +55,7 @@ const USAGE = `usage: node harness/lab/shoot.mjs --model <path> [options]
   --hide <a,b>          hide objects/joints by name, with their subtrees
   --only <joint>        show only that joint's subtree
   --montage <p1,p2,..>  one cell per pose, first view, one shared scale
-  --clip <name>         library models: pose the model at one frame of a clip [--at <seconds>, default 0]
+  --clip <name>         models with clips: pose the model at one frame of a clip [--at <seconds>, default 0]
   --frames <n>          with --clip: a montage of n frames across the clip (first view, one scale)
   --strip <clip>        after the views, a row of --frames (default 4) frames of that clip in the left view
   --batch <shots.json>  JSON array of shots (same keys as flags, camelCase), one browser session
@@ -73,7 +75,7 @@ const BOOL = new Set(["refFlip", "swiftshader", "serve", "help", "lax", "noRefBo
 const KNOWN = new Set([
   "model", "views", "mode", "pose", "out", "size", "ref", "refView", "refMode", "refOpacity", "refCrop", "refFlip",
   "batch", "swiftshader", "lax", "cols", "mpp", "bg", "noRefBox", "serve", "port", "help", "verbose", "info", "timeout", "joints", "jointNames",
-  "refScale", "refOffset", "focus", "radius", "light", "hide", "only", "montage", "clip", "at", "frames", "strip",
+  "refScale", "refOffset", "focus", "radius", "light", "hide", "only", "montage", "clip", "at", "frames", "strip", "opts",
 ]);
 const camel = (s) => s.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
 
@@ -487,6 +489,7 @@ function pageUrl(origin, s) {
   const set = (k, v) => v !== undefined && v !== null && v !== "" && q.set(k, String(v));
   set("model", s.modelUrl);
   set("pose", s.pose);
+  set("opts", s.opts);
   set("mode", s.mode);
   set("views", Array.isArray(s.views) ? s.views.join(",") : s.views);
   if (s.refUrl) {
@@ -593,6 +596,14 @@ function normalizeShot(raw, index, registry) {
   if (!s.model) throw new Error(`shot ${index + 1}: --model is required`);
   s.mode = s.mode || "cel";
   s.pose = s.pose || "rest";
+  // --opts is a JSON string, a batch item may give the object itself: check it here, before Chrome starts
+  if (s.opts !== undefined && s.opts !== "") {
+    try {
+      s.opts = JSON.stringify(parseOpts(typeof s.opts === "string" ? s.opts : JSON.stringify(s.opts)));
+    } catch (e) {
+      throw new Error(`shot ${index + 1}: ${e.message}`);
+    }
+  }
   const size = Array.isArray(s.size) ? s.size : String(s.size || "1600x1000").split(/[x,*]/i);
   s.size = size.map(Number);
   if (s.size.length !== 2 || s.size.some((n) => !(n >= 64 && n <= 8192))) throw new Error(`shot ${index + 1}: size must be WxH between 64 and 8192 (got ${raw.size})`);
