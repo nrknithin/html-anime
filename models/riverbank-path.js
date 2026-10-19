@@ -1,52 +1,58 @@
 // riverbank-path.js - the anime riverside embankment (kawabata / dote): a raised gravel path on top of a grassy bank,
-// a row of cherry trees in bloom along it, a narrow concrete river channel at the foot. Clip: breeze.
-// Contract: harness/lab/README.md. Meters, +Y up, the river side faces +Z (the camera looks across the water, up the
-// slope), the path runs along X, its left is +X, stands on y = 0 (the river bed), centred on x = 0, z = 0 (bbox).
+// a row of cherry trees in bloom along it, a narrow concrete-walled river at the foot. Clip: breeze.
+// Contract: harness/lab/README.md. Meters, +Y up, stands on y = 0 (the river bed), centred on x = 0, z = 0 (bbox).
+// Authored with the river toward +Z and the path along X, then the whole set is turned { turn } deg (default 30) about
+// Y, so the river side faces az 30: the lab's hero camera (az 52) looks across the water and up the slope 22 deg off
+// square, as an establishing shot does, and three4 (az 38) nearly square; turn: 0 gives the plain axis-aligned set.
 //
 // Construction (every part is a three.js primitive transformed into place, merged per material into one indexed
-// soup, so the whole set is ~13 meshes; no hand-wound faces, so the winding is three.js's own):
-//   BANK     one extruded cross-section (river wall top -> slope -> flat crown -> back face) along the length: the
+// soup, so the whole set is 14 meshes; no hand-wound faces, so the winding is three.js's own):
+//   BANK     one extruded cross-section (toe wall top -> slope -> flat crown -> back face) along the length: the
 //            grassy slope is one plane at ~37 deg. Grass tufts (three-blade fans, darker green, no ink) dot the slope.
 //   PATH     a gravel slab 5 cm proud on the crown with pale stone kerbs on both edges and gravel specks (flat dots).
-//            A grass strip behind it holds the trees and the lamp.
-//   RIVER    a concrete revetment: the bank's toe wall and a low far wall, the water between them 30 cm below the
-//            wall tops, with flat pale ripple streaks running along the flow.
+//            A grass strip behind it holds the trees.
+//   RIVER    the bank's concrete toe wall, the water 30 cm below its top, running to the front edge of the set so a
+//            low camera sees the river as a band of water; pale ripple streaks and floating petals on it.
 //   STEPS    a concrete flight down the slope (9 risers of 20 cm, 27 cm treads) between two inked cheek walls, a gap
-//            in the railing at its head and a pipe handrail on its downstream cheek.
-//   RAILING  low guard railing along the slope edge: square posts every ~1.3 m, a top rail and a mid rail.
-//   LAMP     a park lamp on the strip behind the path: pole, crook arm, a hooded lamp; { night } lights it (practical
-//            yellow drawn below the light threshold, so it always reads lit) and lays a lamp pool on the gravel.
+//            in the railing at its head and a pipe handrail on one cheek.
+//   RAILING  low white guard railing along the slope edge: posts every ~1.3 m, a top rail and a mid rail.
+//   LAMP     a park lamp on the path's river edge, crook arm back over the gravel, a hooded lamp tucked under the
+//            blossom (blobs near it are dropped); { night } lights it (practical, drawn below the light threshold, so
+//            it always reads lit) and lays a lamp pool on the gravel.
 //   BENCH    slatted bench on the path's back edge facing the river, dark iron legs.
-//   TREES    stylised somei-yoshino: a short leaning trunk with a root flare, 5-6 limbs fanned out (biased toward the
-//            river, as bank cherries lean over the water) and a crown limb; each limb ends in a cluster of 3-5
-//            squashed blobs (merged spheres; the ink of each blob's rim draws the clumps), wide and umbrella-shaped.
-//            Fallen petals are scattered on the path and the slope (flat fans, no ink). A seeded hash (mulberry32),
-//            so every tree is the same for the same options.
+//   TREES    stylised somei-yoshino, wide, low and spreading: a dark bole bent in two segments leaning toward the
+//            water, forking at ~1.95 m; 6-7 primary limbs (longer on the river side, so the canopy reaches over the path
+//            and the top of the slope) that each split in two; a small cluster of 2-3 flattened blobs at every split tip,
+//            one at each limb's elbow and a low crown of five, so the canopy is a flattened dome (~6 m across, ~2 m
+//            deep) with gaps where the dark limbs show; river-side tips droop. The ink of each blob's rim draws the
+//            clumps. Fallen petals lie on the path, the strip, the slope and the water (flat fans, no ink). A seeded
+//            hash (mulberry32), so every tree is the same for the same options.
 //   BREEZE   pose("breeze@t"), 4 s loop. The wood and blossom soups are deformed in place (no skinning): each vertex
 //            moves by the tree's sway (weight ((y - base) / 4.5 m)^2, so the trunk foot stays planted) plus, for
-//            blossom, its cluster's own rigid bob (twice per loop, its own phase); branch tips sit inside their
-//            clusters, so nothing tears. All frequencies are whole cycles per loop, so t = 0 and t = 4 match.
-// Proportions (real size, base unit the bank height B = 2.4 m): length 8 m; river wall tops 0.6, water 0.3, channel
-// 1.4 wide; slope 2.4 deep for 1.8 rise; crown at 2.4 (= B), path 1.4 wide, grass strip 0.8; railing 0.8 tall
-// (1/3 B); lamp 2.9 m (its hood just under the blossom); bench seat 0.42; trees: trunk 2.2 m to the fork, canopy ~4.5 m
-// across, top ~5.1 m above the crown (2.1 B; the set's top 7.47 m), at the default 3 trees ~2.1 m apart (inset 0.8 m
-// from the ends) so the canopies meet into one pink band over the path.
-// Options: build(THREE, kit, colors, { length, trees, night, height }).
+//            blossom, its cluster's own rigid bob (twice per loop, its own phase); limb tips sit inside their
+//            clusters, so nothing tears. All frequencies are whole cycles per loop, so t = 0 and t = 4 match. The hull
+//            normals stay at rest (small amplitudes).
+// Proportions (real size, base unit the bank height B = 2.4 m): length 8 m; toe wall top 0.6, water 0.3, river 1.6
+// wide; slope 2.4 deep for 1.8 rise; crown at 2.4 (= B), path 1.4 wide, grass strip 0.8; railing 0.8 tall (1/3 B);
+// lamp 2.6 m; bench seat 0.42; trees: fork at 1.95 m, canopy ~6 m across, top ~3.8 m above the crown (1.6 B; the set's
+// top 6.23 m), at the default 3 trees ~2.1 m apart (inset 0.8 m from the ends) so the canopies meet into one band.
+// Options: build(THREE, kit, colors, { length, trees, night, turn, height }).
 //   length  path length in m (default 8): the bank, river, railing, petals stretch; lamp, bench, steps keep their size.
 //   trees   how many cherry trees, evenly spaced (default 3, 0 for a bare bank).
 //   night   true: the lamp is lit (practical), with a pool of lamp light on the path. Same script.
+//   turn    degrees the set is turned about Y (default 30, see above; 0 = river toward +Z).
 //   height  scales the whole set uniformly so its top (the highest blossom) is `height` (default meta.height).
 // Script: meadow (greens and a pale sky; no browns). Two-tone pairs (base / shade): grass line #a9d16e / iris #3f8a47
-// (tufts iris flat); gravel moon #f7f3e1 / sky #d7ecef (specks sky flat); kerbs, revetment and steps sclera #f6f3ee /
-// sky; water sky / iris (ripples sclera flat); blossom sclera / skin #f0c2ae at threshold 0.4, so the tops catch white
-// and the sides and undersides go sakura pink (fallen petals skin flat); trunks and limbs accent #d9483b flat (the
-// warmest dark tone on the script: a skin/accent trunk read as candy stripes beside the pink blossom); bench slats
-// skin / accent; iron (railing, lamp, bench legs, handrail) hair #2c5131 / iris; lamp glass sclera / moon by day,
-// practical #f2c94c flat at night. ink #1c261b.
+// (tufts iris flat); gravel moon #f7f3e1 / sky #d7ecef (specks sky flat); kerbs, toe wall, steps and railing sclera
+// #f6f3ee / sky; water sky / iris (ripples sclera flat); blossom sclera / skin #f0c2ae at threshold 0.4, so the tops
+// catch white and the sides and undersides go sakura pink (fallen petals skin flat); trunks and limbs hair #2c5131
+// flat, the script's darkest tone after ink, so the blossom pops against dark bark; bench slats skin / accent #d9483b;
+// iron (lamp, bench legs, handrail) hair / iris; lamp glass sclera / moon by day, practical #f2c94c flat at night.
+// ink #1c261b.
 
 export const meta = {
   name: "riverbank-path",
-  height: 7.47,
+  height: 6.23,
   script: "meadow",
   colors: {
     grass: "#a9d16e", grassShade: "#3f8a47",
@@ -58,8 +64,9 @@ export const meta = {
     ripple: "#f6f3ee",
     blossom: "#f6f3ee", blossomShade: "#f0c2ae",
     petal: "#f0c2ae",
-    bark: "#d9483b", barkShade: "#d9483b",
+    bark: "#2c5131", barkShade: "#2c5131",
     slat: "#f0c2ae", slatShade: "#d9483b",
+    rail: "#f6f3ee", railShade: "#d7ecef",
     iron: "#2c5131", ironShade: "#3f8a47",
     glass: "#f6f3ee", glassShade: "#f7f3e1",
     glow: "#f2c94c",
@@ -69,7 +76,7 @@ export const meta = {
 
 export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const c = { ...meta.colors, ...colors };
-  const { length = 8, trees = 3, night = false } = opts;
+  const { length = 8, trees = 3, night = false, turn = 30 } = opts;
   const L = Math.max(2, length), NT = Math.max(0, Math.round(trees));
   const TAU = Math.PI * 2;
   const root = new THREE.Group();
@@ -77,6 +84,10 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const body = new THREE.Group(); // centring offset and the uniform size scale live here
   body.name = "body";
   root.add(body);
+  const set = new THREE.Group(); // the set as authored (river toward +Z, length along X), turned toward the camera
+  set.name = "set";
+  set.rotation.y = (turn * Math.PI) / 180;
+  body.add(set);
   const joints = {};
 
   // ---------- seeded hash ----------
@@ -117,15 +128,15 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     add(key, g, M4().compose(V().addVectors(a, b).multiplyScalar(0.5), q, V(1, 1, 1)), tag);
   }
   // a flat horizontal fan / quad (no ink): decals on the ground
-  function flat(key, pts, y) {
+  function flat(key, pts, y) { // y: a height, or a function (x, z) -> height
     const s = S(key), base = s.pos.length / 3;
-    for (const [x, z] of pts) s.pos.push(x, y, z), s.nrm.push(0, 1, 0), s.tag.push(-1, -1);
+    for (const [x, z] of pts) s.pos.push(x, typeof y === "function" ? y(x, z) : y, z), s.nrm.push(0, 1, 0), s.tag.push(-1, -1);
     for (let i = 1; i + 1 < pts.length; i++) s.idx.push(base, base + i + 1, base + i); // counter-clockwise from above
   }
 
   // ---------- cross-section (z, y), before centring ----------
-  const WALL = 0.6, LIP = 0.45, WATER = 0.3, B = 2.4;
-  const zLipF = 2.6, zLipB = 2.35, zWallF = 0.9, zToe = 0.6, zCrest = -1.8, zPathF = -1.9, zPathB = -3.3, zBack = -4.1;
+  const WALL = 0.6, WATER = 0.3, B = 2.4;
+  const zRiverF = 2.5, zWallF = 0.9, zToe = 0.6, zCrest = -1.8, zPathF = -1.9, zPathB = -3.3, zBack = -4.1;
   const PATH_Y = B + 0.05;
   const x0 = -L / 2, x1 = L / 2;
   const stepX = Math.max(x0 + 1.0, -L * 0.3), stepW = 1.0, nStep = 9; // the flight down the slope
@@ -169,10 +180,9 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
 
   // RIVER: toe wall, far lip, water, ripples
   box("stone", 0, WALL / 2, (zToe + zWallF) / 2, L, WALL, zWallF - zToe);
-  box("stone", 0, LIP / 2, (zLipB + zLipF) / 2, L, LIP, zLipF - zLipB);
-  box("water", 0, WATER / 2, (zWallF + zLipB) / 2, L, WATER, zLipB - zWallF);
+  box("water", 0, WATER / 2, (zWallF + zRiverF) / 2, L, WATER, zRiverF - zWallF);
   for (let i = 0, n = Math.round(L * 2.2); i < n; i++) {
-    const x = rr(x0 + 0.5, x1 - 0.9), z = rr(zWallF + 0.15, zLipB - 0.15), l = rr(0.35, 0.8), w = rr(0.025, 0.04);
+    const x = rr(x0 + 0.5, x1 - 0.9), z = rr(zWallF + 0.15, zRiverF - 0.15), l = rr(0.35, 0.8), w = rr(0.025, 0.04);
     flat("ripple", [[x, z - w], [x + l, z - w * 0.4], [x + l * 1.08, z], [x + l, z + w * 0.4], [x, z + w]], WATER + 0.003);
   }
 
@@ -208,20 +218,20 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const runs = [[x0 + 0.1, gap0], [gap1, x1 - 0.1]].filter(([a, b]) => b - a > 0.3);
     for (const [a, b] of runs) {
       const n = Math.max(1, Math.round((b - a) / 1.3));
-      for (let i = 0; i <= n; i++) box("iron", a + ((b - a) * i) / n, B + 0.4, zr, 0.07, 0.8, 0.07);
-      box("iron", (a + b) / 2, B + 0.8, zr, b - a + 0.06, 0.06, 0.08);
-      box("iron", (a + b) / 2, B + 0.45, zr, b - a, 0.04, 0.04);
+      for (let i = 0; i <= n; i++) box("rail", a + ((b - a) * i) / n, B + 0.4, zr, 0.07, 0.8, 0.07);
+      box("rail", (a + b) / 2, B + 0.8, zr, b - a + 0.06, 0.06, 0.08);
+      box("rail", (a + b) / 2, B + 0.45, zr, b - a, 0.04, 0.04);
     }
   }
 
-  // LAMP: on the strip behind the path, between the first two trees
-  const lampX = -L * 0.13, lampZ = zPathB - 0.25;
+  // LAMP: on the path's river edge just inside the railing, its crook arm reaching back over the gravel
+  const lampX = -L * 0.13, lampZ = zPathF - 0.22;
   {
     box("stone", lampX, B + 0.08, lampZ, 0.28, 0.16, 0.28);
-    rod("iron", V(lampX, B + 0.1, lampZ), V(lampX, B + 2.45, lampZ), 0.075, 0.05, 8);
-    rod("iron", V(lampX, B + 2.4, lampZ), V(lampX, B + 2.7, lampZ + 0.25), 0.04, 0.04, 6);
-    rod("iron", V(lampX, B + 2.7, lampZ + 0.24), V(lampX, B + 2.68, lampZ + 0.55), 0.04, 0.04, 6);
-    const hx = lampX, hy = B + 2.53, hz = lampZ + 0.55;
+    rod("iron", V(lampX, B + 0.1, lampZ), V(lampX, B + 2.15, lampZ), 0.075, 0.05, 8);
+    rod("iron", V(lampX, B + 2.1, lampZ), V(lampX, B + 2.4, lampZ - 0.25), 0.04, 0.04, 6);
+    rod("iron", V(lampX, B + 2.4, lampZ - 0.24), V(lampX, B + 2.38, lampZ - 0.55), 0.04, 0.04, 6);
+    const hx = lampX, hy = B + 2.23, hz = lampZ - 0.55;
     add("iron", new THREE.ConeGeometry(0.28, 0.18, 10), M4().makeTranslation(hx, hy + 0.15, hz));
     add(night ? "glow" : "glass", new THREE.CylinderGeometry(0.19, 0.13, 0.3, 10), M4().makeTranslation(hx, hy - 0.08, hz));
     add("iron", new THREE.CylinderGeometry(0.06, 0.06, 0.05, 8), M4().makeTranslation(hx, hy - 0.25, hz));
@@ -230,7 +240,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       const pts = [];
       for (let k = 0; k < 24; k++) {
         const a = (k * TAU) / 24;
-        pts.push([hx + 2.0 * Math.cos(a), Math.min(zPathF - 0.1, Math.max(zPathB + 0.1, hz + 0.25 + 0.7 * Math.sin(a)))]);
+        pts.push([hx + 2.0 * Math.cos(a), Math.min(zPathF - 0.1, Math.max(zPathB + 0.1, hz + 0.65 * Math.sin(a)))]);
       }
       flat("pool", pts, PATH_Y + 0.004);
     }
@@ -250,47 +260,61 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     for (const y of [B + 0.66, B + 0.82]) box("slat", bx, y, bz - 0.22, wB, 0.12, 0.035);
   }
 
-  // TREES
-  const TREE = []; // per tree: base y and sway phase
+  // TREES: a bent bole, then 6-7 primary limbs (biased toward the river) that each split in two; every split tip and
+  // a few points along the limbs carry a small cluster of 2-3 flattened blobs, so the canopy is a low, wide dome with
+  // gaps where dark limbs show. Outer clusters on the river side droop. Blobs too close to the lamp head are dropped.
+  const TREE = []; // per tree: base y and sway phases
   const CL = []; // per blossom cluster: phase
+  const LAMP_HEAD = V(lampX, B + 2.2, lampZ - 0.55);
+  function cluster(t, c, n, rMin, rMax) {
+    const cl = CL.length;
+    CL.push({ ph: rr(0, 1) });
+    for (let k = 0; k < n; k++) {
+      const r = rr(rMin, rMax);
+      const p = k === 0 ? c.clone() : V(c.x + rr(-0.4, 0.4), c.y + rr(-0.12, 0.15), c.z + rr(-0.35, 0.35));
+      if (p.distanceTo(LAMP_HEAD) < r + 0.45) continue;
+      const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, rr(0, TAU), 0));
+      add("blossom", new THREE.SphereGeometry(1, 7, 5), M4().compose(p, q, V(r * rr(1.1, 1.3), r * 0.74, r)), [t, cl]);
+    }
+  }
   for (let t = 0; t < NT; t++) {
     const tx = x0 + 0.8 + ((L - 1.6) * (t + 0.5)) / NT + rr(-0.12, 0.12), tz = zBack + 0.45, ty = B;
     TREE.push({ y: ty, ph: rr(0, 1), ph2: rr(0, 1) });
-    const tag = (cl = -1) => [t, cl];
-    // trunk: root flare, a leaning bole to the fork
-    const fork = V(tx + rr(-0.15, 0.15), ty + 2.2, tz + 0.35);
-    rod("bark", V(tx, ty - 0.05, tz), V(tx, ty + 0.35, tz + 0.03), 0.34, 0.22, 8, tag());
-    rod("bark", V(tx, ty + 0.2, tz + 0.02), fork, 0.21, 0.15, 8, tag());
-    const limbs = [];
-    const nl = 5 + (rand() < 0.5 ? 1 : 0);
+    const tag = [t, -1];
+    // trunk: root flare and a bole bent in two segments, leaning toward the river
+    const lean = rr(-0.25, 0.25);
+    const knee = V(tx + lean * 0.3, ty + 1.0, tz + 0.12);
+    const fork = V(tx + lean, ty + 1.95, tz + 0.5);
+    rod("bark", V(tx, ty - 0.05, tz), V(tx, ty + 0.3, tz + 0.02), 0.32, 0.21, 8, tag);
+    rod("bark", V(tx, ty + 0.2, tz + 0.01), knee, 0.21, 0.18, 8, tag);
+    rod("bark", knee, fork, 0.18, 0.14, 8, tag);
+    const nl = 6 + (rand() < 0.5 ? 1 : 0);
     for (let i = 0; i < nl; i++) {
-      // azimuth around +Z (the river side), spread wide along the path
-      const az = -Math.PI * 0.95 + (Math.PI * 1.9 * (i + rr(0.2, 0.8))) / nl;
-      const front = Math.cos(az); // +1 toward the river
-      const reach = rr(1.4, 1.8) * (front > 0 ? 1.15 : 0.85), el = rr(0.42, 0.62);
-      const tip = V(fork.x + Math.sin(az) * reach * 0.95, fork.y + reach * Math.sin(el) + 0.4, fork.z + Math.cos(az) * reach * 0.85);
-      limbs.push(tip);
-    }
-    limbs.push(V(fork.x + rr(-0.2, 0.2), fork.y + 2.1, fork.z + 0.2)); // crown
-    for (const tip of limbs) {
-      const mid = V().lerpVectors(fork, tip, 0.5).add(V(0, 0.25, 0));
-      rod("bark", fork, mid, 0.11, 0.075, 6, tag());
-      rod("bark", mid, tip, 0.075, 0.04, 6, tag());
-      const cl = CL.length;
-      CL.push({ ph: rr(0, 1) });
-      const nb = 3 + Math.floor(rand() * 3);
-      for (let k = 0; k < nb; k++) {
-        const r = rr(0.5, 0.78) * (k === 0 ? 1.15 : 1);
-        const p = k === 0 ? V().copy(tip).add(V(0, 0.15, 0)) : V(tip.x + rr(-0.7, 0.7), tip.y + rr(-0.35, 0.3), tip.z + rr(-0.55, 0.55));
-        const g = new THREE.SphereGeometry(1, 9, 6);
-        const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, rr(0, TAU), 0));
-        add("blossom", g, M4().compose(p, q, V(r * rr(1.0, 1.25), r * 0.72, r)), tag(cl));
+      const az = -Math.PI * 0.9 + (Math.PI * 1.8 * (i + rr(0.25, 0.75))) / nl; // around +Z, the river side
+      const front = Math.cos(az);
+      const reach = rr(2.3, 2.8) * (front > 0 ? 1.0 + 0.25 * front : 0.75);
+      const dir = (a, d) => V(Math.sin(a) * d * 0.9, 0, Math.cos(a) * d);
+      const mid = V().copy(fork).add(dir(az, reach * 0.45)).add(V(0, rr(0.55, 0.85), 0));
+      rod("bark", fork, mid, 0.1, 0.07, 6, tag);
+      cluster(t, V().copy(mid).add(V(0, 0.3, 0)), 1, 0.4, 0.5);
+      for (const da of [-0.38, 0.38]) {
+        const droop = front > 0.3 ? rr(0.15, 0.55) * front : rr(-0.1, 0.15);
+        const tip = V().copy(fork).add(dir(az + da + rr(-0.1, 0.1), reach * rr(0.85, 1.05))).add(V(0, mid.y - fork.y + rr(-0.05, 0.3) - droop, 0));
+        rod("bark", mid, tip, 0.06, 0.03, 5, tag);
+        cluster(t, tip, 3, 0.32, 0.5);
       }
+    }
+    // crown: a low dome over the fork
+    for (let k = 0; k < 5; k++) {
+      const a = (k * TAU) / 5 + rr(0, 1);
+      const c = V(fork.x + Math.sin(a) * 1.0, fork.y + rr(1.15, 1.45), fork.z + Math.cos(a) * 1.0 + 0.4);
+      rod("bark", fork, V().lerpVectors(fork, c, 0.8), 0.08, 0.04, 5, tag);
+      cluster(t, c, 2, 0.4, 0.52);
     }
     const j = new THREE.Group();
     j.name = `tree${t}`;
     j.position.set(tx, ty, tz);
-    body.add(j);
+    set.add(j);
     joints[j.name] = j;
   }
 
@@ -303,9 +327,18 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     flat("petal", pts, y);
   }
   if (NT > 0) {
-    for (let i = 0, n = Math.round(L * 22); i < n; i++)
+    for (let i = 0, n = Math.round(L * 12); i < n; i++)
       petal(rr(x0 + 0.1, x1 - 0.15), rr(zPathB + 0.1, zPathF - 0.1), PATH_Y + 0.003, rr(0.05, 0.08), rr(0, TAU));
     for (let i = 0, n = Math.round(L * 6); i < n; i++) petal(rr(x0 + 0.1, x1 - 0.15), rr(zBack + 0.1, zPathB - 0.12), B + 0.003, rr(0.05, 0.08), rr(0, TAU));
+    // the slope (lying on it, thinning toward the foot) and the water
+    for (let i = 0, n = Math.round(L * 12); i < n; i++) {
+      const z = zCrest + 0.1 + (zToe - zCrest - 0.25) * rand() ** 1.6;
+      const x = rr(x0 + 0.1, x1 - 0.15);
+      if (Math.abs(x - stepX) < stepW / 2 + 0.2) continue;
+      petal(x, z, (px, pz) => slopeY(pz) + 0.006, rr(0.06, 0.09), rr(0, TAU));
+    }
+    for (let i = 0, n = Math.round(L * 5); i < n; i++)
+      petal(rr(x0 + 0.1, x1 - 0.15), rr(zWallF + 0.08, zRiverF - 0.1), WATER + 0.005, rr(0.06, 0.09), rr(0, TAU));
   }
 
   // ---------- meshes ----------
@@ -322,6 +355,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     petal: [c.petal, c.petal, 0, false],
     bark: [c.bark, c.barkShade, 0.2, 3],
     slat: [c.slat, c.slatShade, 0.2, 2.5],
+    rail: [c.rail, c.railShade, 0.2, 2],
     iron: [c.iron, c.ironShade, 0.2, 2],
     glass: [c.glass, c.glassShade, 0.1, 2.5],
     glow: [c.glow, c.glow, -0.25, 2.5],
@@ -336,7 +370,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     g.setIndex(s.idx);
     const mesh = px === false ? kit.toon(g, base, shade, { threshold, outline: false }) : kit.toon(g, base, shade, { threshold, px });
     mesh.name = key;
-    body.add(mesh);
+    set.add(mesh);
     if (key === "bark" || key === "blossom") sway.push({ g, rest: Float32Array.from(s.pos), tag: Int32Array.from(s.tag), blossom: key === "blossom" });
   }
   // cluster centres (rest) for rigid blossom bob weights
@@ -348,7 +382,8 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   for (const e of clC) if (e[3]) (e[0] /= e[3]), (e[1] /= e[3]), (e[2] /= e[3]);
 
   // centre on the bbox (x, z) and scale to height
-  const bb = new THREE.Box3().setFromObject(body);
+  body.updateMatrixWorld(true);
+  const bb = new THREE.Box3().setFromObject(body, true);
   const natural = bb.max.y;
   const { height = natural } = opts;
   const sc = height / natural;
