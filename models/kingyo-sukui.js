@@ -10,7 +10,9 @@
 //   FRAME    four 6-sided steel pipes, the back pair taller, top beams, sloped side beams, trestles under the pool.
 //   CANOPY   one inked white slab sloping forward, red stripe decals 3 mm off its faces (front to back), a scalloped
 //            valance on the front lip and red side drops. The slab's hull draws the outline, so stripe seams never ink.
-//   BOARD    a blank wooden board standing on the front beam above the canopy lip (no lettering, by design).
+//   BOARD    a wooden board standing on the front beam above the canopy lip, painted with flat decals merged into
+//            existing meshes: a big red goldfish, a small amber one, indigo wave strokes and pale bubbles. No lettering
+//            (skill rule: no logos, badges or lettering); the fish carries the trade at hero size.
 //   LANTERNS seven lit chochin on a cord under the valance: practical paper at threshold -1 (one flat glow tone, the
 //            night festival), black caps, two dark rib rings.
 //   POOL     a long, shallow tub on trestles, low so customers reach it from the stools: indigo walls (festival has no
@@ -34,14 +36,14 @@
 //   top); fish is the pool's goldfish count, 4..60 (every 8th black, every 3rd amber, the rest red).
 // Clips: swim (6 s): each fish runs its own closed Lissajous loop round the pool with integer frequencies and a periodic
 //   time warp, so it darts and coasts, its tail beating; the bags sway on their ties. t = 6 equals t = 0 exactly.
-// Budget: 13.9k triangles at the defaults (fish 60: 15.8k), 14 meshes.
+// Budget: 14.3k triangles at the defaults (fish 60: 16.2k), 14 meshes.
 // Hero note: the lab's hero looks up from ~0.45 m, level with the pool's rim, so the water is edge-on there; the pool's
 //   fish read from three4/top and any camera above ~1 m. The bags carry the goldfish to the hero.
 // Colours (festival), base / shade:
 //   canopy, curtain, bowls, poi paper    sclera #f6f3ee / skin #f0c2ae
 //   stripes, side drops, poi, ties       accent #ff4d6d / sky #24143a
 //   pipes, trestles, pool, bag board     sky #24143a / hair #1a1020 (above ink)
-//   sign board, stools, crate            moon #ffd7a1 / skin #f0c2ae
+//   board, stools, crate                  moon #ffd7a1 / skin #f0c2ae
 //   lanterns (lit)                       practical #ffb020 flat
 //   caps, cord, ribs, black fish         hair #1a1020 flat
 //   rim, water bags                      line #fff1ea / skin #f0c2ae
@@ -141,6 +143,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const hash = (i) => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
   const SPH = new THREE.SphereGeometry(1, 10, 6), SPH_S = new THREE.SphereGeometry(1, 8, 5);
   const TAU = Math.PI * 2;
+  const RING_B = new THREE.RingGeometry(0.62, 1, 14, 1);
 
   // ---------- frame ----------
   const AX = 1.5, AZ0 = -0.98, AZ1 = 0.97, AY0 = 2.45, AY1 = 2.15, AT = 0.025; // canopy
@@ -209,6 +212,35 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   box("wood", -1.25, 1.25, AY1 + 0.03, 2.6, BDZ - 0.025, BDZ);
   box("frame", -1.29, 1.29, 2.56, 2.6, BDZ - 0.032, BDZ + 0.007); // dark top cap
   for (const x of [-1.29, 1.25]) box("frame", x, x + 0.04, AY1 + 0.0, 2.56, BDZ - 0.032, BDZ + 0.007); // side posts
+  // painted face (flat decals, no hull): a big red goldfish, a small amber one, indigo waves, pale bubbles
+  const DZ = BDZ + 0.003;
+  const poly = (key, pts, z = DZ) => { // star-shaped polygon in the board plane, fanned from its centroid
+    const cx = pts.reduce((s, q) => s + q[0], 0) / pts.length, cy = pts.reduce((s, q) => s + q[1], 0) / pts.length;
+    for (let k = 0; k < pts.length; k++) { const a = pts[k], b = pts[(k + 1) % pts.length]; tri(key, [cx, cy, z], [a[0], a[1], z], [b[0], b[1], z], [cx, cy, z - 1]); }
+  };
+  const oval = (key, x, y, rx, ry, z = DZ, n = 18) => poly(key, Array.from({ length: n }, (_, k) => [x + rx * Math.cos((TAU * k) / n), y + ry * Math.sin((TAU * k) / n)]), z);
+  const stroke = (key, f, x0, x1, w, n = 40) => { // a band of width w along y = f(x)
+    for (let k = 0; k < n; k++) {
+      const a = x0 + ((x1 - x0) * k) / n, b = x0 + ((x1 - x0) * (k + 1)) / n;
+      quad(key, [a, f(a) - w / 2, DZ], [b, f(b) - w / 2, DZ], [b, f(b) + w / 2, DZ], [a, f(a) + w / 2, DZ], [0, 2.4, DZ - 1]);
+    }
+  };
+  oval("stripe", -0.25, 2.38, 0.2, 0.1); // big fish, facing +x
+  poly("stripe", [[-0.42, 2.39], [-0.7, 2.53], [-0.64, 2.42]]);
+  poly("stripe", [[-0.42, 2.37], [-0.7, 2.23], [-0.64, 2.34]]);
+  poly("stripe", [[-0.46, 2.38], [-0.62, 2.43], [-0.6, 2.33]]);
+  poly("stripe", [[-0.36, 2.45], [-0.17, 2.465], [-0.31, 2.535]]); // dorsal fin
+  poly("stripe", [[-0.22, 2.3], [-0.12, 2.295], [-0.21, 2.245]]); // ventral fin
+  oval("ripple", -0.11, 2.405, 0.024, 0.024, DZ + 0.001, 12);
+  oval("water", -0.105, 2.405, 0.012, 0.012, DZ + 0.002, 10);
+  oval("reflect", 0.78, 2.33, 0.1, 0.05); // small amber fish, facing -x
+  poly("reflect", [[0.86, 2.335], [0.99, 2.4], [0.96, 2.33]]);
+  poly("reflect", [[0.86, 2.325], [0.99, 2.26], [0.96, 2.33]]);
+  oval("water", 0.71, 2.34, 0.01, 0.01, DZ + 0.001, 10);
+  for (const [x, y, r] of [[0.1, 2.43, 0.022], [0.19, 2.48, 0.016], [0.25, 2.42, 0.012], [0.6, 2.4, 0.012], [0.55, 2.45, 0.009]])
+    add("ripple", RING_B, [x, y, DZ + 0.001], [0, 0, 0], [r, r, 1]);
+  stroke("water", (x) => 2.235 + 0.014 * Math.sin(x * 16), -1.17, 1.17, 0.014, 60);
+  stroke("water", (x) => 2.5 + 0.01 * Math.sin(x * 18 + 1), 0.35, 1.15, 0.01, 24);
 
   // ---------- lanterns (lit) ----------
   const LR = 0.075, LH = 0.1, LY = 1.86, LZ = AZ1 + 0.05, LN = 7, LSP = 0.42;
