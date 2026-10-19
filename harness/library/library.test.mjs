@@ -84,7 +84,8 @@ assert.equal(flag, "--attach");
 assert.deepEqual(JSON.parse(spec), { file: path.join(srcDir, "Assets/gltf/Blade.gltf"), bone: "handslot.r", offset: [0, 0.1, 0], rotation: [0, 0, 0], scale: 1 });
 assert.throws(() => attachArgs([{ file: "Assets/gltf/Shield.gltf", bone: "handslot.l" }], srcDir, has), /was not fetched/);
 assert.throws(() => attachArgs([{ file: "../../etc/passwd", bone: "x" }], srcDir, () => true), /leaves the scratch folder/);
-assert.throws(() => attachArgs([{ file: "Assets/gltf/Blade.gltf" }], srcDir, has), /needs a bone/);
+assert.deepEqual(JSON.parse(attachArgs([{ file: "Assets/gltf/Blade.gltf", offset: [0.3, 0, 0] }], srcDir, has)[1]), { file: path.join(srcDir, "Assets/gltf/Blade.gltf"), offset: [0.3, 0, 0], rotation: [0, 0, 0], scale: 1 });
+assert.throws(() => attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "" }], srcDir, has), /bone must be/);
 assert.throws(() => attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "b", rotation: [0, 90] }], srcDir, has), /rotation must be/);
 assert.throws(() => attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "b", scale: 0 }], srcDir, has), /scale must be/);
 
