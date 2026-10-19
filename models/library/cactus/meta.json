@@ -1,0 +1,69 @@
+{
+  "id": "cactus",
+  "name": "Cactus",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "cactus",
+    "saguaro",
+    "desert",
+    "western",
+    "plant",
+    "background",
+    "static"
+  ],
+  "style": "low-poly, flat colours, a smooth saguaro column with two upturned arms (Quaternius 2019)",
+  "height": 3.5,
+  "script": "meadow",
+  "colors": {
+    "body": "#3f8a47",
+    "bodyShade": "#2c5131"
+  },
+  "materials": {
+    "Green": "body"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
+    "page": "https://opengameart.org/content/low-poly-nature-pack-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius static cactus on poly.pizza) is behind a Cloudflare challenge; this is Cactus_3 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip and pin as the tree, tree-palm, lilypad and other plant entries, so they read as one set. Of the ten cacti in the pack (Cactus_1-5, CactusFlower_1, CactusFlowers_2-5) it is the classic saguaro: one tall column with two upturned arms on opposite sides, a clean silhouette at a glance. Cactus_1 is an armless spiny barrel, Cactus_4/5 and CactusFlowers_4/5 are prickly-pear pads, CactusFlower_1 is a wide agave-like rosette, Cactus_2 has three stubby arms bunched on one side, and CactusFlowers_2/3 are saguaros with spiky pink crowns that turn into noise at a distance. Height 3.5 m: a saguaro starts growing arms at roughly 2-4 m (desert-film saguaros run 3-6 m); at 3.5 m it stands about twice a 1.6 m person, the arms springing at 1.7-2.2 m. The arms lie in one plane, so ingest.yaw -64 turns that plane to face between the front and hero cameras: the arms spread in the front, three-quarter and hero views (only the side views see them end-on). Colours on meadow: the body is iris (mid green) shading to hair (deep green), a saguaro's own colour. Smooth, one material, no spines. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip",
+      "sha256": "92daf8b532f60ac0fb53371144d0f8e9ec2f82a2fa408effdf1a64cb8fbaee09",
+      "bytes": 22990249,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip"
+    },
+    "member": "Ultimate Nature Pack - Jun 2019/FBX/Cactus_3.fbx",
+    "height": 3.5,
+    "yaw": -64,
+    "memberSha256": "4b360e286681f9bb6e92f4d6166df5dac8718e61b056fd5dc10bbf8beffadbbd"
+  },
+  "file": "model.glb",
+  "sha256": "6ff129510b6461e31cee5a27eaf477d0e26a440e8134772f65719f0d07455b1f",
+  "bytes": 7952,
+  "triangles": 416,
+  "bones": 0,
+  "sourceMaterials": {
+    "Green": "#536d45"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 3.5,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      -0.0001,
+      0
+    ],
+    "triangles": 416,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
