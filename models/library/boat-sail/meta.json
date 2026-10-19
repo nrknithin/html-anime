@@ -1,0 +1,96 @@
+{
+  "id": "boat-sail",
+  "name": "Sailboat",
+  "category": "vehicle-water",
+  "tags": [
+    "vehicle",
+    "boat",
+    "sailboat",
+    "sail",
+    "harbour",
+    "sea"
+  ],
+  "style": "low-poly, flat colours (Kenney Watercraft Kit)",
+  "height": 8,
+  "script": "noon",
+  "colors": {
+    "hull": "#fff6e4",
+    "hullShade": "#f2d7ae",
+    "trim": "#c4452d",
+    "trimShade": "#5c3d32",
+    "mast": "#5c3d32",
+    "mastShade": "#241c16"
+  },
+  "materials": {
+    "colormap": "hull",
+    "colormap#c6c6db": "hull",
+    "colormap#cbcbdf": "hull",
+    "colormap#d5d5e5": "hull",
+    "colormap#e1e1ec": "hull",
+    "colormap#c2c2d8": "hull",
+    "colormap#f8f8fc": "hull",
+    "colormap#d3d3e3": "hull",
+    "colormap#ef6544": "trim",
+    "colormap#f66842": "trim",
+    "colormap#f36743": "trim",
+    "colormap#fa6a41": "trim",
+    "colormap#6d738a": "mast"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Watercraft Kit",
+    "page": "https://kenney.nl/assets/watercraft-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney boat-sail-a (GLB with the kit colormap), same kit and fetch pin as boat-fishing. Small sloop: height 8.0 m keel to masthead (mast about 7 m above the deck) gives a 6.36 m hull and 3.0 m beam (chunky toy proportions, beam and freeboard on the generous side). y = 0 is the hull bottom; the waterline sits at about y = 0.5 m (below the gunwale band at 1.0 m), so a film sinks the boat 0.5 m into its water plane. Bow faces image-left in the lab left view: jib forward, mainsail on a boom aft. Cream hull and sails, red gunwale band, deck and cabin roof (the source orange-red), dark-brown mast and boom. The sails are thin closed wedges, so they draw from both sides without doubleSided. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/watercraft-kit",
+      "sha256": "cd1470c1cf441c7f46d0944ae6d0d897242365dc97677c5079b3238965d659f3",
+      "bytes": 1870991
+    },
+    "member": "Models/GLB format/boat-sail-a.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 8,
+    "memberSha256": "35c8e2adae1d3f0fe9d0e37c65422f1c6c6f1f10d818f9bde273a9da264eef4c"
+  },
+  "file": "model.glb",
+  "sha256": "d7863a956699bfae6196b4b88e7f43d632699155787b30873ca1e5ca0f491c05",
+  "bytes": 26432,
+  "triangles": 386,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#c6c6db": "#c6c6db",
+    "colormap#cbcbdf": "#cbcbdf",
+    "colormap#d5d5e5": "#d5d5e5",
+    "colormap#e1e1ec": "#e1e1ec",
+    "colormap#c2c2d8": "#c2c2d8",
+    "colormap#f8f8fc": "#f8f8fc",
+    "colormap#d3d3e3": "#d3d3e3",
+    "colormap#ef6544": "#ef6544",
+    "colormap#f66842": "#f66842",
+    "colormap#f36743": "#f36743",
+    "colormap#fa6a41": "#fa6a41",
+    "colormap#6d738a": "#6d738a"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 386,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

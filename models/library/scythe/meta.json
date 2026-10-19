@@ -1,0 +1,87 @@
+{
+  "id": "scythe",
+  "name": "Scythe",
+  "category": "prop",
+  "tags": [
+    "prop",
+    "weapon",
+    "scythe",
+    "reaper",
+    "farm",
+    "tool",
+    "fantasy",
+    "medieval",
+    "halloween"
+  ],
+  "style": "low-poly, hard-surface, flat colours (Quaternius 2018)",
+  "height": 1.7,
+  "script": "indigo",
+  "colors": {
+    "steel": "#d5e2ff",
+    "steelShade": "#1b2d6b",
+    "wood": "#e7a04a",
+    "woodShade": "#1b2d6b",
+    "gold": "#f0c36a",
+    "goldShade": "#1b2d6b"
+  },
+  "materials": {
+    "Steel": "steel",
+    "LightSteel": "steel",
+    "DarkSteel": "steel",
+    "LightWood": "wood",
+    "DarkWood": "wood",
+    "Gold": "gold"
+  },
+  "clips": {},
+  "smooth": false,
+  "thresholds": {
+    "steel": 0.2
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Medieval Weapons Pack (Sept 2018)",
+    "page": "https://opengameart.org/content/lowpoly-medieval-weapons",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan row 203 (Quaternius static Scythe via poly.pizza) is blocked, so this is Scythe.fbx from Quaternius's own CC0 Medieval Weapons Pack on OpenGameArt (same author, licence on the page; the same zip and pin as the sword and axe entries, and their colours, so the weapons read as one set). Height 1.7 m is the whole scythe, the bottom of the hooked snath to the top of its knob (a reaper's / war scythe, about head height on an adult). Rest pose: upright, snath along +Y with a gentle S-curve and a hooked foot on y = 0; blade flat in the XY plane (about 2 cm thick along Z), mounted by a collar at y 1.40 to 1.60 m, curving out toward +X and down to its tip at (+0.46, 1.33) m, with the concave cutting edge facing down toward the user and a short back spike to -X. The pipeline centres the bounding box, so the snath is not on the origin: its axis runs at z = 0 and x = -0.37 m near the foot, -0.28 m at mid grip and about -0.33 m along the bare upper shaft (y 0.85 to 1.40 m). The cord-wrapped grip runs from y 0.10 to 0.80 m. Two-handed hold: lower hand at about (-0.37, 0.25, 0) m, upper hand at about (-0.28, 0.70, 0) m; a one-handed carry (reaper pose) takes the upper hand point. To put it in a hand: parent to the hand, offset by minus that hand point in the scythe's frame (e.g. (+0.28, -0.70, 0) m for the upper hand), then rotate so Y runs along the fist's thumb direction and +X (the blade) points forward over the shoulder or out to the side. Colours match the sword: blade and back spike pale steel (moon over sky), snath, grip wrap and collar amber over sky."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Medieval%20Weapons%20Pack%20-%20Sept%202018.zip",
+      "sha256": "b8a18124c460387a02b9ed3e940229eaa091b540699fad75627d0c0291d33912",
+      "bytes": 3741460,
+      "resolved": "https://opengameart.org/sites/default/files/Medieval%20Weapons%20Pack%20-%20Sept%202018.zip"
+    },
+    "member": "Medieval Weapons Pack - Sept 2018/FBX/Scythe.fbx",
+    "height": 1.7,
+    "memberSha256": "6ed77fefa380d99fab000b0ef339871be920d3365feabd0c1d2672583b63383b"
+  },
+  "file": "model.glb",
+  "sha256": "336b27e560c5e6bad8dddc7e218f8fa225fb3b1322770ba2229513e04670f028",
+  "bytes": 20820,
+  "triangles": 1310,
+  "bones": 0,
+  "sourceMaterials": {
+    "Steel": "#a5aab1",
+    "Gold": "#c7b66f",
+    "LightWood": "#865b40",
+    "DarkWood": "#704c36",
+    "LightSteel": "#b5bac2",
+    "DarkSteel": "#8d8d82"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.7,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1310,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
