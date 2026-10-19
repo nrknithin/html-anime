@@ -1,0 +1,487 @@
+{
+  "id": "mini-female-c",
+  "name": "Mini character female C",
+  "category": "people",
+  "tags": [
+    "person",
+    "woman",
+    "character",
+    "chibi",
+    "mini",
+    "elderly",
+    "grandmother",
+    "bun"
+  ],
+  "style": "chibi low-poly, flat colour map (Kenney 2024)",
+  "height": 1.1,
+  "script": "noon",
+  "colors": {
+    "skin": "#f0c2ae",
+    "skinShade": "#5c3d32",
+    "hair": "#fff6e4",
+    "hairShade": "#f2d7ae",
+    "eye": "#241c16",
+    "eyeShade": "#2c261f",
+    "shirt": "#5c3d32",
+    "shirtShade": "#2c261f",
+    "skirt": "#c4452d",
+    "skirtShade": "#5c3d32",
+    "belt": "#241c16",
+    "beltShade": "#2c261f",
+    "pearl": "#fffaf2",
+    "pearlShade": "#f2d7ae",
+    "sole": "#241c16",
+    "soleShade": "#2c261f"
+  },
+  "materials": {
+    "colormap": "shirt",
+    "colormap#d6805a": "skin",
+    "colormap#ca7652": "skin",
+    "colormap#e99066": "skin",
+    "colormap#b46444": "skin",
+    "colormap#be6c4a": "skin",
+    "colormap#e0a57e": "sole",
+    "colormap#d6956e": "sole",
+    "colormap#797e96": "hair",
+    "colormap#6d738a": "hair",
+    "colormap#71778e": "hair",
+    "colormap#d5d5e5": "pearl",
+    "colormap#d3554e": "skirt",
+    "colormap#f96a41": "skirt",
+    "colormap#e45e48": "skirt",
+    "colormap#5d6dc7": "belt",
+    "colormap#595ec1": "belt",
+    "colormap#6282d1": "shirt",
+    "colormap#7c8199": "hair",
+    "colormap#767b92": "hair",
+    "colormap#61677e": "hair",
+    "colormap#696f86": "hair",
+    "colormap#7f849c": "hair",
+    "colormap#595e75": "eye",
+    "colormap#656a82": "hair"
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "sprint",
+    "jump": "jump",
+    "sit": "sit",
+    "death": "die",
+    "attack": "attack-melee-right",
+    "attack-kick-left": "attack-kick-left",
+    "attack-kick-right": "attack-kick-right",
+    "attack-melee-left": "attack-melee-left",
+    "crouch": "crouch",
+    "drive": "drive",
+    "emote-no": "emote-no",
+    "emote-yes": "emote-yes",
+    "fall": "fall",
+    "holding-both": "holding-both",
+    "holding-both-shoot": "holding-both-shoot",
+    "holding-left": "holding-left",
+    "holding-left-shoot": "holding-left-shoot",
+    "holding-right": "holding-right",
+    "holding-right-shoot": "holding-right-shoot",
+    "interact-left": "interact-left",
+    "interact-right": "interact-right",
+    "pick-up": "pick-up",
+    "static": "static",
+    "wheelchair-look-left": "wheelchair-look-left",
+    "wheelchair-look-right": "wheelchair-look-right",
+    "wheelchair-move-back": "wheelchair-move-back",
+    "wheelchair-move-forward": "wheelchair-move-forward",
+    "wheelchair-move-left": "wheelchair-move-left",
+    "wheelchair-move-right": "wheelchair-move-right",
+    "wheelchair-sit": "wheelchair-sit"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Mini Characters",
+    "page": "https://kenney.nl/assets/mini-characters",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Same kit and recipe as mini-male-b and mini-female-b (FBX member with its colour map, all 32 clips with their Kenney names, height 1.1 m: Kenney minis are chibi, the head is about 40 % of the body, so a real adult scale would make the head huge; noon script, faceted shading). She is the grey-haired older woman of the kit, hair up in a bun with a headband, a pearl-bead necklace and a skirt; she holds nothing (no cane or crutch on her rig). Kenney paints her blue top, orange skirt and grey hair; within the noon script she is set apart from mini-female-a (red top, brown trousers), mini-female-b (white top, red trousers), mini-male-a (red top, brown trousers) and mini-male-b (sand top, black trousers) by a brown top over a red skirt, silver (cream) hair with a red headband, a dark belt and white beads. ingest.maxColors is 24 so the shoe soles split from the skin swatch (dark soles); the shoe uppers share Kenney's skin swatch and stay skin-toned, and her tights share the hair swatch, so they read as pale stockings. The FBX rest pose is a T-pose, so views use idle@0. Ground: moving clips use ground clamp; sit, drive and the wheelchair poses are lifted onto the ground plane by her own probed depths (soles lowest: sit 0.134 m, drive 0.129 m, wheelchair-sit and wheelchair-look 0.133 m; set their lift to 0 to seat her on a chair or wheelchair at the authored height). Her arm stubs stay above the soles, so no clip needs sinkAllowed. The sprint and die clips are authored with real air time."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/mini-characters",
+      "sha256": "9e1d48e6d7b8479ebbe84df71eb5bd8e1b3f0da546dea641890dccc8a02d0999",
+      "bytes": 2403059
+    },
+    "member": "Models/FBX format/character-female-c.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 1.1,
+    "memberSha256": "2fe73a8d5e616ef344a3eca848d7fdd2221eed29620f8646b8978ede48df1b76",
+    "maxColors": 24
+  },
+  "smooth": false,
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "file": "model.glb",
+  "sha256": "a1cb3f412cfb99676afe9225108498d237bc7084f83dc4025a72a2e96ff242ed",
+  "bytes": 170864,
+  "triangles": 732,
+  "bones": 6,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#d6805a": "#d6805a",
+    "colormap#ca7652": "#ca7652",
+    "colormap#e99066": "#e99066",
+    "colormap#b46444": "#b46444",
+    "colormap#be6c4a": "#be6c4a",
+    "colormap#e0a57e": "#e0a57e",
+    "colormap#d6956e": "#d6956e",
+    "colormap#797e96": "#797e96",
+    "colormap#6d738a": "#6d738a",
+    "colormap#71778e": "#71778e",
+    "colormap#d5d5e5": "#d5d5e5",
+    "colormap#d3554e": "#d3554e",
+    "colormap#f96a41": "#f96a41",
+    "colormap#e45e48": "#e45e48",
+    "colormap#5d6dc7": "#5d6dc7",
+    "colormap#595ec1": "#595ec1",
+    "colormap#6282d1": "#6282d1",
+    "colormap#7c8199": "#7c8199",
+    "colormap#767b92": "#767b92",
+    "colormap#61677e": "#61677e",
+    "colormap#696f86": "#696f86",
+    "colormap#7f849c": "#7f849c",
+    "colormap#595e75": "#595e75",
+    "colormap#656a82": "#656a82"
+  },
+  "clipInfo": {
+    "attack-kick-left": {
+      "seconds": 0.5667,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "attack-kick-right": {
+      "seconds": 0.5667,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "attack-melee-left": {
+      "seconds": 0.4333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "attack-melee-right": {
+      "seconds": 0.4333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "crouch": {
+      "seconds": 0.2,
+      "loop": true
+    },
+    "die": {
+      "seconds": 0.3667,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "drive": {
+      "seconds": 0.2,
+      "loop": true,
+      "lift": 0.129
+    },
+    "emote-no": {
+      "seconds": 0.7,
+      "loop": true
+    },
+    "emote-yes": {
+      "seconds": 0.7,
+      "loop": true
+    },
+    "fall": {
+      "seconds": 0.3667,
+      "loop": true
+    },
+    "holding-both": {
+      "seconds": 0.2,
+      "loop": true
+    },
+    "holding-both-shoot": {
+      "seconds": 0.2333,
+      "loop": true
+    },
+    "holding-left": {
+      "seconds": 0.2,
+      "loop": true
+    },
+    "holding-left-shoot": {
+      "seconds": 0.2333,
+      "loop": true
+    },
+    "holding-right": {
+      "seconds": 0.2,
+      "loop": true
+    },
+    "holding-right-shoot": {
+      "seconds": 0.2333,
+      "loop": true
+    },
+    "idle": {
+      "seconds": 1.3667,
+      "loop": true
+    },
+    "interact-left": {
+      "seconds": 0.7,
+      "loop": true
+    },
+    "interact-right": {
+      "seconds": 0.7,
+      "loop": true
+    },
+    "jump": {
+      "seconds": 0.5167,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "pick-up": {
+      "seconds": 0.3667,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "sit": {
+      "seconds": 0.2,
+      "loop": true,
+      "lift": 0.134
+    },
+    "sprint": {
+      "seconds": 0.5167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "static": {
+      "seconds": 0.1167,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.7,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "wheelchair-look-left": {
+      "seconds": 0.3667,
+      "loop": true,
+      "lift": 0.133
+    },
+    "wheelchair-look-right": {
+      "seconds": 0.3667,
+      "loop": true,
+      "lift": 0.133
+    },
+    "wheelchair-move-back": {
+      "seconds": 0.5167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "wheelchair-move-forward": {
+      "seconds": 0.5167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "wheelchair-move-left": {
+      "seconds": 0.5167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "wheelchair-move-right": {
+      "seconds": 0.5167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "wheelchair-sit": {
+      "seconds": 0.2,
+      "loop": true,
+      "lift": 0.133
+    }
+  },
+  "thresholds": {
+    "skin": -0.2,
+    "shirt": 0,
+    "skirt": 0,
+    "hair": 0.35,
+    "eye": 0.35
+  },
+  "qa": {
+    "height": 1.1,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 732,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.11
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.16
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.15
+      },
+      "jump": {
+        "minY": 0.0155,
+        "touches": true,
+        "maxSize": 1.09
+      },
+      "sit": {
+        "minY": 0.0002,
+        "touches": true,
+        "maxSize": 1.02
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.16
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.13
+      },
+      "attack-kick-left": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.16
+      },
+      "attack-kick-right": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.16
+      },
+      "attack-melee-left": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.13
+      },
+      "crouch": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "drive": {
+        "minY": 0.0005,
+        "touches": true,
+        "maxSize": 1.02
+      },
+      "emote-no": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.11
+      },
+      "emote-yes": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.14
+      },
+      "fall": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.12
+      },
+      "holding-both": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "holding-both-shoot": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "holding-left": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "holding-left-shoot": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "holding-right": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "holding-right-shoot": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "interact-left": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "interact-right": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "pick-up": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.11
+      },
+      "static": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.1
+      },
+      "wheelchair-look-left": {
+        "minY": 0.0005,
+        "touches": true,
+        "maxSize": 1.04
+      },
+      "wheelchair-look-right": {
+        "minY": 0.0005,
+        "touches": true,
+        "maxSize": 1.04
+      },
+      "wheelchair-move-back": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.05
+      },
+      "wheelchair-move-forward": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.05
+      },
+      "wheelchair-move-left": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.05
+      },
+      "wheelchair-move-right": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.05
+      },
+      "wheelchair-sit": {
+        "minY": 0.0005,
+        "touches": true,
+        "maxSize": 1.04
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
