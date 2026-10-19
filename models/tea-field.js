@@ -3,10 +3,12 @@
 // stands on y = 0, centred on x = 0, z = 0 (the bbox of the tile, 14 x 10 m).
 //
 // Construction (closed solids merged per material; smooth where it is a form, split normals on boxes; 9 meshes):
-//   TILE    one closed solid: a 0.5 m grid top over g(x, z) (rises 2.2 m toward -Z and 1.8 m toward -X, so the
-//           hillside turns its face to the low front-right hero camera and the rows stack up the frame), vertical
-//           sides to y = 0 and a bottom. Material groups by triangle centroid: tilled soil under the rows and on
-//           the path, grass on the margins, the back headland and a 0.14 m lip down the sides, an earth bank below.
+//   TILE    one closed solid: a 0.5 m grid top over g(x, z), 5 cm above y = 0 along the whole front edge and rising
+//           from there (2.2 m toward -Z, plus up to 1.8 m toward -X at the back), so the hillside turns its face to
+//           the low front-right hero camera and the rows stack up the frame; the sides are wedges tapering to the
+//           front lip, then a bottom. Material groups by triangle centroid: tilled soil under the rows and on the
+//           path, grass on the margins and the back headland; down the sides a 0.3 m grass skirt, a 0.26 m course
+//           of terrace stones (dark joints every 0.5 m), bare bank below; every band clamped at y = 0.
 //   ROWS    ONE mesh, `rows` hedges (6..14, default 9) running up the slope in gentle parallel S-curves (rings
 //           locked to the Z plane, lofted along z and lifted onto the ground at each station). The section is the
 //           clipped kamaboko: narrow stems at the soil, bulging sides, a flat arch on top. Rounded ends (two
@@ -20,25 +22,26 @@
 //   PROPS   at the top of the path, a small board shed (lean-to, red corrugated roof, a door, a concrete footing
 //           under its downhill side); parked across the foot of the path, a two-wheeled handcart tilted to the
 //           slope with two bamboo tea baskets heaped with leaf; beside it a sun hat with a red band on a stake.
-// Proportions (real size; base unit the row pitch P = 1.4 m at 9 rows): tile 14 x 10 m, ground 0.35 m at the
-// front-right corner to 4.4 m at the back-left; rows 0.85 m tall, 0.88 P wide (1.23 m), path 0.9 m; poles 5.2 m,
+// Proportions (real size; base unit the row pitch P = 1.4 m at 9 rows): tile 14 x 10 m, ground 0.05 m along the
+// front edge to 4.1 m at the back-left; rows 0.85 m tall, 0.88 P wide (1.23 m), path 0.9 m; poles 5.2 m,
 // blade disc 1.2 m; shed 2.2 x 1.5 x 2.3 m; cart bed 1.1 x 0.65 m on 0.56 m wheels; hat brim 0.6 m on a 1.2 m stake.
 // Options: build(THREE, kit, colors, { height, rows }).
 //   rows    number of hedge rows, 6..14 (default 9); width and pitch follow, the tile stays 14 x 10 m, the fans
 //           stand in the furrows nearest their marks.
-//   height  scales the whole tile uniformly so its top (the highest fan) is `height` (default: real size, 8.76 m at 9 rows).
+//   height  scales the whole tile uniformly so its top (the highest fan) is `height` (default: real size, 8.16 m at 9 rows).
 // Clips: fans 2 s (every blade disc turns once per loop, each fan at its own phase); pose("fans@0.5").
-// Budget: 8.4k triangles at 9 rows (rows 4.0k, tile 1.5k), 7.1k at 6, 9.7k at 14.
+// Budget: 9.2k triangles at 9 rows (rows 4.0k, tile 1.6k, dark incl. stone joints 1.2k), 7.9k at 6, 10.5k at 14.
 // Colours (meadow: the only script with field greens and a pale sky):
 //   rows side iris #3f8a47 / hair #2c5131, new-leaf top line #a9d16e / iris #3f8a47 (the lighter layer);
 //   soil and path skin #f0c2ae flat (meadow has no brown: the warm pale earth between dark rows), grass line /
-//   iris, bank skin / accent #d9483b (Shizuoka red clay, on the far faces only); metal (poles, pods, footing) sclera #f6f3ee /
+//   iris, bank skin / accent #d9483b (Shizuoka red clay, on the far faces only); terrace stones moon /
+//   sky; metal (poles, pods, footing) sclera #f6f3ee /
 //   sky #d7ecef; blades moon #f7f3e1 / sky; wood moon / skin (weathered grey-cream boards); roof accent / hair;
 //   straw (baskets, hat) practical #f2c94c / line; leaf heaps line / iris; dark (seams, door gap, tyres) hair flat.
 
 export const meta = {
   name: "tea-field",
-  height: 8.759,
+  height: 8.157,
   script: "meadow",
   colors: {
     row: "#3f8a47", rowShade: "#2c5131",
@@ -46,6 +49,7 @@ export const meta = {
     soil: "#f0c2ae",
     grass: "#a9d16e", grassShade: "#3f8a47",
     bank: "#f0c2ae", bankShade: "#d9483b",
+    stone: "#f7f3e1", stoneShade: "#d7ecef",
     metal: "#f6f3ee", metalShade: "#d7ecef",
     blade: "#f7f3e1", bladeShade: "#d7ecef",
     wood: "#f7f3e1", woodShade: "#f0c2ae",
@@ -75,7 +79,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const M = (x, y, z, ry = 0, rx = 0, rz = 0) => new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx, ry, rz, "YXZ")), new THREE.Vector3(1, 1, 1));
   // a closed solid: pts [[x,y,z]], idx triangle triples, grp a group per triangle (or one number); wound from its volume
   function solid(key, pts, idx, grp = 0, owner = -1) {
-    const a = (acc[key] ??= { p: [], g: [[], [], []], o: [] });
+    const a = (acc[key] ??= { p: [], g: [[], [], [], []], o: [] });
     const P = pts.map((p) => v3.set(p[0], p[1], p[2]).applyMatrix4(X).toArray());
     let vol = 0;
     for (let i = 0; i < idx.length; i += 3) {
@@ -125,7 +129,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
 
   // ---------- the ground ----------
   const W = 14, DP = 10, HX = W / 2, HZ = DP / 2;
-  const g = (x, z) => 0.35 + 0.22 * (HZ - z) + 0.13 * (HX - x) + 0.15 * Math.sin((Math.PI * (HZ - z)) / DP);
+  const g = (x, z) => 0.05 + 0.22 * (HZ - z) + 0.13 * (HX - x) * ((HZ - z) / DP) + 0.15 * Math.sin((Math.PI * (HZ - z)) / DP);
   // rows region and the path's S-curve
   const RX = 6.5, ZF = 3.65, ZB = -3.0; // rows fill |x| < RX, z in (ZB, ZF); grass beyond
   const PATH = 0.9;
@@ -153,8 +157,9 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       idx.push(a, d, b, b, d, e);
       grp.push(soil ? 0 : 2, soil ? 0 : 2);
     }
-    // sides: split vertices (flat bank under a grass lip), then the bottom
-    const LIP = 0.14;
+    // sides (wedges from a 5 cm lip at the front): split vertices, a grass skirt, a course of terrace stones with
+    // dark joints every 0.5 m, then bare bank, each band clamped at y = 0; then the bottom
+    const BANDS = [[0, 0.3, 2], [0.3, 0.56, 3], [0.56, Infinity, 1]];
     const ring = [];
     for (let i = 0; i <= NX; i++) ring.push([-HX + (i * W) / NX, HZ]);
     for (let j = NZ - 1; j >= 0; j--) ring.push([HX, -HZ + (j * DP) / NZ]);
@@ -164,12 +169,18 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       const [x0, z0] = ring[k], [x1, z1] = ring[k + 1];
       if (x0 === x1 && z0 === z1) continue;
       const [t0, t1] = [g(x0, z0), g(x1, z1)];
-      for (const [ya0, ya1, yb0, yb1, gr] of [[t0, t1, t0 - LIP, t1 - LIP, 2], [t0 - LIP, t1 - LIP, 0, 0, 1]]) {
+      for (const [d0, d1, gr] of BANDS) {
+        const [ya0, ya1, yb0, yb1] = [t0 - d0, t1 - d0, t0 - d1, t1 - d1].map((y) => Math.max(0, y));
+        if (ya0 <= 0 && ya1 <= 0) continue;
         const b = pts.length;
         pts.push([x0, ya0, z0], [x1, ya1, z1], [x1, yb1, z1], [x0, yb0, z0]);
         idx.push(b, b + 2, b + 1, b, b + 3, b + 2);
         grp.push(gr, gr);
       }
+      const [mx, mz, mt] = [(x0 + x1) / 2, (z0 + z1) / 2, (t0 + t1) / 2];
+      const [ox, oz] = Math.abs(mx) > HX - 1e-6 ? [Math.sign(mx), 0] : [0, Math.sign(mz)];
+      const jy0 = Math.max(0, mt - 0.56), jy1 = Math.max(0, mt - 0.3);
+      if (jy1 - jy0 > 0.08) box("dark", mx + ox * 0.006, (jy0 + jy1) / 2, mz + oz * 0.006, ox ? 0.012 : 0.03, jy1 - jy0, oz ? 0.012 : 0.03);
     }
     const b = pts.length;
     pts.push([-HX, 0, -HZ], [HX, 0, -HZ], [HX, 0, HZ], [-HX, 0, HZ]);
@@ -328,7 +339,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   // sun hat on a stake at the foot of the path
   {
     const z = 4.62, x = pz(z) + 1.3, y = g(x, z);
-    rod("wood", [x, y - 0.2, z], [x, y + 1.2, z], 0.03, 6);
+    rod("wood", [x, y - 0.1, z], [x, y + 1.2, z], 0.03, 6);
     local(M(x, y + 1.2, z, 30 * D, 0.12, -0.18), () => {
       lathe("straw", [[0, 0], [0.3, -0.01], [0.31, 0.0], [0.3, 0.02], [0.13, 0.03], [0.13, 0.12], [0.11, 0.17], [0, 0.18]], 16);
       lathe("roof", [[0, 0.03], [0.137, 0.03], [0.137, 0.075], [0, 0.075]], 16);
@@ -337,7 +348,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
 
   // ---------- meshes ----------
   const MAT = { // key: [[base, shade, threshold] per group], ink px (0 = none)
-    ground: [[[c.soil, c.soil, -1], [c.bank, c.bankShade, 0.25], [c.grass, c.grassShade, 0.3]], 3],
+    ground: [[[c.soil, c.soil, -1], [c.bank, c.bankShade, 0.25], [c.grass, c.grassShade, 0.3], [c.stone, c.stoneShade, 0.25]], 3],
     rows: [[[c.row, c.rowShade, 0.25], [c.leaf, c.leafShade, 0.3]], 2.5],
     metal: [[[c.metal, c.metalShade, 0.2]], 2],
     blades: [[[c.blade, c.bladeShade, 0.1]], 2],
