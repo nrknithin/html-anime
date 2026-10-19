@@ -166,7 +166,8 @@
       }
       function perspCamera(THREE, cell, M, pad, focus, elDeg) {
         const def = PERSP[cell.name];
-        elDeg ??= def.el;
+        // Very flat sets (a picnic sheet, a paddy) read only from above: start a below-horizon view at 12 degrees up.
+        elDeg ??= def.el < 0 && M.size[1] < 0.2 * Math.max(M.size[0], M.size[2]) ? 12 : def.el;
         const [az, el] = [(def.az * Math.PI) / 180, (elDeg * Math.PI) / 180];
         const dirv = [Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)]; // target -> camera
         const fwd = dirv.map((x) => -x);
