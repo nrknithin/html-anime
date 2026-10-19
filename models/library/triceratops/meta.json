@@ -1,0 +1,145 @@
+{
+  "id": "triceratops",
+  "name": "Triceratops",
+  "category": "dinosaur",
+  "tags": [
+    "animal",
+    "dinosaur",
+    "triceratops",
+    "herbivore",
+    "prehistoric",
+    "quadruped",
+    "horns"
+  ],
+  "style": "low-poly, flat colours",
+  "height": 3,
+  "script": "festival",
+  "colors": {
+    "hide": "#ffb020",
+    "hideShade": "#ff4d6d",
+    "horn": "#f6f3ee",
+    "hornShade": "#ffd7a1",
+    "belly": "#ffd7a1",
+    "bellyShade": "#f0c2ae"
+  },
+  "materials": {
+    "Purple": "hide",
+    "Brown": "horn",
+    "LightBrown": "belly"
+  },
+  "clips": {
+    "idle": "Triceratops_Idle",
+    "walk": "Triceratops_Walk",
+    "run": "Triceratops_Run",
+    "attack": "Triceratops_Attack",
+    "jump": "Triceratops_Jump",
+    "death": "Triceratops_Death"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated LowPoly Dinosaurs",
+    "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 59 named the Quaternius Animated Creatures/Dinosaurs Triceratops on poly.pizza (Cloudflare challenge). This is the same Quaternius dinosaur pack (Dec 2018) from its itch.io page, CC0, the same zip as the t-rex. Height 3.0 m to the frill top in the rest pose, an adult Triceratops (about 3 m at the frill, hips ~2.4 m here); next to the t-rex (5.8 m to the head top) it stands about half as tall, as in the usual size charts. The model is stubby, so it is 6.5 m long against a real 8-9 m."
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+      "upload": "Dinosaur Animated Pack - Dec 2018.zip",
+      "sha256": "d9ca7d3568bd98b323b0be9a82b546af66d77c2a18e355c1bee5c50061b8931c",
+      "bytes": 10849959
+    },
+    "member": "Dinosaur Animated Pack - Dec 2018/FBX/Triceratops.fbx",
+    "height": 3,
+    "memberSha256": "ad66b51cc5fc44c9a3429a5b1b98a61621af08d58d102d8a817499bd6a7f5b5a"
+  },
+  "file": "model.glb",
+  "sha256": "9f828e5d35b912d9d4fad8f0b60761ac3285cb3e61c987c32f2eff2de5016c8f",
+  "bytes": 192688,
+  "triangles": 1334,
+  "bones": 29,
+  "sourceMaterials": {
+    "Purple": "#4c4c53",
+    "LightBrown": "#7f7363",
+    "Brown": "#665742"
+  },
+  "clipInfo": {
+    "Triceratops_Attack": {
+      "seconds": 0.7917,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Triceratops_Death": {
+      "seconds": 1.8333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Triceratops_Idle": {
+      "seconds": 2.5833,
+      "loop": true
+    },
+    "Triceratops_Jump": {
+      "seconds": 1.7083,
+      "loop": false
+    },
+    "Triceratops_Run": {
+      "seconds": 0.8333,
+      "loop": true
+    },
+    "Triceratops_Walk": {
+      "seconds": 2.9583,
+      "loop": true,
+      "ground": "clamp"
+    }
+  },
+  "qa": {
+    "height": 2.9998,
+    "heightError": -0.0001,
+    "minY": 0.0002,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1334,
+    "clips": {
+      "idle": {
+        "minY": -0.0075,
+        "touches": true,
+        "maxSize": 6.67
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 6.41
+      },
+      "run": {
+        "minY": -0.0255,
+        "touches": true,
+        "maxSize": 6.65
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 6.7
+      },
+      "jump": {
+        "minY": -0.0427,
+        "touches": true,
+        "maxSize": 6.8
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 6.55
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
