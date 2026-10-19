@@ -12,12 +12,12 @@
   ],
   "style": "low-poly cartoon (Heathal 2016); painted texture flattened to shell and skin colours",
   "height": 0.14,
-  "script": "noon",
+  "script": "meadow",
   "colors": {
-    "shell": "#5c3d32",
-    "shellShade": "#c4452d",
-    "skin": "#f2d7ae",
-    "skinShade": "#5c3d32"
+    "shell": "#3f8a47",
+    "shellShade": "#2c5131",
+    "skin": "#a9d16e",
+    "skinShade": "#3f8a47"
   },
   "materials": {
     "Material.001": "shell",
