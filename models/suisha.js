@@ -5,13 +5,15 @@
 // Construction (triangle soups merged per material, two groups: the static set and the wheel joint; flat-shaded):
 //   WHEEL    a joint at the axle centre turning about X. Two rims, each a ring of 48 box segments in a YZ plane;
 //            12 radial spokes per rim from a round hub; 24 paddle boards spanning the rims, radial, reaching just
-//            past the rims; the wheel's +X face is the lit one, so its spokes and paddles read light on dark water.
+//            past the rims; the wheel's +X face is the lit one, so its pale spokes read on the red hut.
 //   AXLE     a round shaft from inside the hut wall to a bearing block on a post standing on a stone pier on the far
 //            bank; it belongs to the static set (round, so its turn does not show).
 //   HUT      stone footings, a sill, corner posts and plank walls (vertical board lines), a dark door opening with a
-//            plank door slid half open on the +Z face, a barred window, a gable roof of thick thatch (ridge along Z,
-//            so a slope faces the wheel), thatch layer bands, a dark ridge cap.
-//   STREAM   a channel along Z under the wheel between stone bank walls (staggered block joints); the water is a flat
+//            plank door slid half open on the +Z face, a barred window, gable walls, a roof of thick thatch (ridge
+//            along Z, so a slope faces the wheel): each slope a convex loft whose eave is a rounded roll, pale layer
+//            bands on the slopes, the roll and the cut gable ends, a ridge cap with cross pieces.
+//   STREAM   a channel along Z under the wheel between stone bank walls (staggered block joints) with grass caps set
+//            back from the water edge, grass tufts (three-blade cones) and loose stones; the water is a flat
 //            slab just below the bank tops with pale ripple marks (arcs round the wheel foot, dashes downstream)
 //            and four low faceted foam crests where the paddles meet it.
 //   FLUME    a plank trough (bottom, two sides) from the back (-Z) to just past the wheel's crown, rising gently
@@ -19,32 +21,34 @@
 //            pale falling sheet from its lip onto the descending (+Z) paddles, so the wheel turns top-forward (+rx).
 //   Boxes are wound away from their centre; logs and lofts by their signed volume; never by hand.
 // Proportions (base unit the wheel radius R = 2.0 m): wheel D 4.0, width 0.6 between rims, axle at 2.3 (0.3 m above
-//   the water), rims 0.14 deep, paddles 0.34 radial. Hut 3.0 x 3.0 walls, sill 0.4, wall top 2.55, eave 2.45 with
-//   0.45 overhang, ridge 3.75. Channel 1.8 wide, 7.6 long; flume 0.55 wide, its floor 4.45 at the
+//   the water), rims 0.14 deep, paddles 0.34 radial. Hut 3.0 x 3.0 walls, sill 0.4, wall top 2.55, thatch 0.5 thick with
+//   a 0.25 m eave roll at 2.4-2.9 and 0.5 overhang, ridge 4.25. Channel 1.8 wide, 7.6 long; flume 0.55 wide, its floor 4.45 at the
 //   wheel, top 4.89 at the back. Banks 0.32 high, water top 0.27.
 // Options: build(THREE, kit, colors, { height, hut, water }): height scales everything uniformly (default meta.height);
 //   hut: false drops the hut (the axle then ends at a second pier post); water: false drops the water slab, ripples,
 //   the flume water and the falling sheet (an empty channel and a dry flume).
 // Clip: turn (8 s, loops): the wheel joint turns one full turn. pose("turn@2") is a quarter turn.
-// Colours (noon, same script as the kominka farmhouse so they compose): wheel and flume wood sky #f2d7ae / iris (fresh
-//   timber, light on the dark hut and dark water); hut planks and frame iris #5c3d32 / hair; thatch sky / iris with
-//   iris bands (as the kominka); stone sclera / skin; water iris flat with moon ripples; foam and the falling sheet moon / sclera;
-//   lines and openings hair. 12 meshes (10 static, 2 on the wheel joint).
+// Colours (meadow, so the water can be water): wheel, flume and trestles skin #f0c2ae / practical #f2c94c (fresh pale
+//   timber); hut planks, axle and posts accent #d9483b / skin (bengara-red boards, darker than the wheel); thatch
+//   practical / skin with moon #f7f3e1 bands; stone sclera #f6f3ee / sky; grass line #a9d16e / iris #3f8a47; water
+//   sky #d7ecef flat with moon ripples; foam and the falling sheet moon / sky; lines and openings hair #2c5131.
+//   12 meshes (10 static, 2 on the wheel joint).
 
 export const meta = {
   name: "suisha",
   height: 4.894,
-  script: "noon",
+  script: "meadow",
   colors: {
-    wood: "#f2d7ae", woodShade: "#5c3d32",
-    plank: "#5c3d32", plankShade: "#241c16",
-    thatch: "#f2d7ae", thatchShade: "#5c3d32",
-    thatchLine: "#5c3d32",
-    stone: "#f6f3ee", stoneShade: "#f0c2ae",
-    water: "#5c3d32",
-    ripple: "#fff6e4",
-    line: "#241c16",
-    dark: "#241c16",
+    wood: "#f0c2ae", woodShade: "#f2c94c",
+    plank: "#d9483b", plankShade: "#f0c2ae",
+    thatch: "#f2c94c", thatchShade: "#f0c2ae",
+    thatchLine: "#f7f3e1",
+    stone: "#f6f3ee", stoneShade: "#d7ecef",
+    grass: "#a9d16e", grassShade: "#3f8a47",
+    water: "#d7ecef", waterShade: "#d7ecef",
+    ripple: "#f7f3e1",
+    foam: "#f7f3e1", foamShade: "#d7ecef",
+    line: "#2c5131",
   },
   poses: ["rest"],
 };
@@ -127,7 +131,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
 
   // ---------- layout ----------
   const WX = 1.2, AY = 2.3, R = 2.0, HW = 0.3; // wheel plane x, axle height, rim radius, half width between rims
-  const CX0 = 0.3, CX1 = 2.1, BY = 0.32, WY = 0.2; // channel inner walls, bank top, water top
+  const CX0 = 0.3, CX1 = 2.1, BY = 0.32, WY = 0.27; // channel inner walls, bank top, water top
   const CZ = 3.8; // channel half length
   const HX0 = -3.2, HX1 = -0.2, HZ = 1.5; // hut walls
 
@@ -141,9 +145,37 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     for (let z = -CZ + 0.3, i = 0; z < CZ - 0.2; z += 0.55 + 0.1 * jit(i + 20 * k), i++) {
       const y0 = i % 2 ? BY * 0.5 : 0, y1 = i % 2 ? BY : BY * 0.5;
       quad("line", [xf, y0, z - 0.012], [xf, y0, z + 0.012], [xf, y1, z + 0.012], [xf, y1, z - 0.012], [xc, BY / 2, z]);
-      strip("line", BY + 0.003, x0, z + 0.2, x1, z + 0.2, 0.024);
     }
+    // grass cap, inset from the water edge so a stone lip shows; it runs a little past the outer face
+    const gx0 = k ? x0 + 0.07 : x0 - 0.1, gx1 = k ? x1 + 0.1 : x1 - 0.07;
+    box("grass", (gx0 + gx1) / 2, BY + 0.03, 0, gx1 - gx0, 0.06, 2 * CZ - 0.04);
   }
+  // grass tufts (three blades each) and loose stones along the banks
+  const tuft = (x, z, h, k) => {
+    for (let b = 0; b < 3; b++) {
+      const a = k * 2.1 + b * 2.09, r = 0.07, lean = 0.06 * (b - 1);
+      const bx = x + 0.05 * Math.cos(a), bz = z + 0.05 * Math.sin(a);
+      const ring = [0, 1, 2].map((i) => [bx + r * Math.cos(a + (i * 2 * Math.PI) / 3), BY + 0.04, bz + r * Math.sin(a + (i * 2 * Math.PI) / 3)]);
+      solid("grass", [ring], undefined, [bx + lean, BY + 0.06 + h * (0.8 + 0.25 * b / 2), bz + lean * jit(k + b)]);
+    }
+  };
+  const pebble = (x, y, z, r, k) => {
+    const n = 7, ring = (rr, yy) => Array.from({ length: n }, (_, i) => {
+      const a = (i / n) * Math.PI * 2 + k, q = rr * (1 + 0.2 * jit(k * 13 + i));
+      return [x + q * Math.cos(a), yy, z + q * 0.8 * Math.sin(a)];
+    });
+    solid("stone", [ring(r, y), ring(r * 0.75, y + r * 0.55)], undefined, [x, y + r * 0.75, z]);
+  };
+  for (let i = 0; i < 14; i++) {
+    const z = -CZ + 0.35 + i * 0.53 + 0.12 * jit(i);
+    if (Math.abs(z) < 0.45) continue; // the piers
+    tuft(CX1 + 0.12 + 0.18 * (0.5 + 0.5 * jit(i + 3)), z, 0.22 + 0.08 * jit(i + 5), i);
+    if (i % 2 === 0 && Math.abs(z + 1.55) > 0.3 && Math.abs(z + 3.1) > 0.3) tuft(CX0 - 0.3 + 0.15 * (0.5 + 0.5 * jit(i + 9)), z + 0.2, 0.2, i + 40);
+  }
+  for (const [x, z, r, k] of [[CX1 + 0.32, 1.25, 0.13, 1], [CX1 + 0.28, -2.3, 0.11, 2], [CX1 + 0.3, 3.1, 0.12, 3], [CX0 - 0.25, 2.4, 0.11, 4], [CX0 - 0.3, -0.9, 0.1, 5]])
+    pebble(x, BY + 0.05, z, r, k);
+  if (water) for (const [x, z, r, k] of [[CX0 + 0.14, 2.2, 0.15, 6], [CX1 - 0.16, -2.0, 0.17, 7], [CX1 - 0.12, 2.9, 0.12, 8]])
+    pebble(x, WY - 0.05, z, r, k);
   box("stone", (CX0 + CX1) / 2, 0.04, 0, CX1 - CX0, 0.08, 2 * CZ); // bed
   if (water) {
     box("water", (CX0 + CX1) / 2, (0.08 + WY) / 2, 0, CX1 - CX0, WY - 0.08, 2 * CZ - 0.02);
@@ -166,7 +198,10 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     });
     for (const [x, z, L] of [[0.55, 1.6, 0.7], [1.75, 1.4, 0.8], [1.1, 2.1, 0.9], [0.7, 2.8, 0.6], [1.6, 2.6, 0.7], [1.2, 3.35, 0.5],
       [0.6, -1.2, 0.6], [1.7, -1.6, 0.7], [1.15, -2.4, 0.8], [0.75, -3.1, 0.5], [1.6, -3.2, 0.6]])
-      strip("ripple", RY, x, z - L / 2, x, z + L / 2, 0.045);
+      for (let i = 0; i < 4; i++) { // a shallow arc bowed downstream
+        const t0 = -1 + i / 2, t1 = -1 + (i + 1) / 2, bow = 0.18 * L;
+        strip("ripple", RY, x + (t0 * L) / 2, z + bow * (1 - t0 * t0), x + (t1 * L) / 2, z + bow * (1 - t1 * t1), 0.05);
+      }
   }
 
   // ---------- axle, bearing post on a pier ----------
@@ -201,30 +236,64 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     }
     // door on +Z: a dark opening, a plank door slid half over it, a lintel; a barred window
     const DX = -2.15, DW = 0.85, DT = 2.15;
-    box("dark", DX, (SY + DT) / 2, HZ + 0.006, DW, DT - SY, 0.01);
+    box("line", DX, (SY + DT) / 2, HZ + 0.006, DW, DT - SY, 0.01);
     box("plank", DX, DT + 0.05, HZ + 0.03, DW + 0.3, 0.1, 0.06);
     box("plank", DX - 0.4, (SY + DT) / 2 + 0.02, HZ + 0.06, DW, DT - SY - 0.02, 0.04);
     for (let i = 1; i < 4; i++) box("line", DX - 0.4 - DW / 2 + (i * DW) / 4, (SY + DT) / 2, HZ + 0.082, 0.02, DT - SY - 0.1, 0.004);
     box("plank", DX - 0.4, 0.9, HZ + 0.09, DW - 0.08, 0.08, 0.025); // batten
     box("plank", DX - 0.4, 1.75, HZ + 0.09, DW - 0.08, 0.08, 0.025);
-    box("dark", -0.95, 1.75, HZ + 0.006, 0.55, 0.4, 0.01);
+    box("line", -0.95, 1.75, HZ + 0.006, 0.55, 0.4, 0.01);
     for (const [ox, oy, sx, sy] of [[0, 0.23, 0.67, 0.06], [0, -0.23, 0.67, 0.06], [0.3, 0, 0.06, 0.52], [-0.3, 0, 0.06, 0.52]])
       box("plank", -0.95 + ox, 1.75 + oy, HZ + 0.03, sx, sy, 0.05);
     for (let i = 1; i <= 3; i++) box("plank", -0.95 - 0.275 + i * 0.1375, 1.75, HZ + 0.03, 0.035, 0.4, 0.04);
     // roof: thick thatch, ridge along Z
-    const EY = 2.45, RY = 3.75, OV = 0.45, T = 0.32, RZ = HZ + 0.5;
+    const EY = 2.4, RY = 3.75, OV = 0.5, T = 0.5, RZ = HZ + 0.55, LR = 0.25;
     const xl = HX0 - OV, xr = HX1 + OV;
-    const sec = (z) => [[xl, EY, z], [xl, EY + T * 0.8, z], [cx, RY + T * 0.6, z], [xr, EY + T * 0.8, z], [xr, EY, z], [cx, RY - 0.25, z]];
-    solid("thatch", [sec(-RZ), sec(RZ)]);
-    // thatch layer bands on both slopes, and the gable ends' cut showing as bands
-    const E = (sg) => [sg < 0 ? xl : xr, EY + T * 0.8], A = [cx, RY + T * 0.6];
-    for (const f of [0.22, 0.48, 0.74]) for (const sg of [-1, 1]) {
-      const e = E(sg), P = (g) => [e[0] + g * (A[0] - e[0]), e[1] + g * (A[1] - e[1]) + 0.025];
-      const [p0, p1] = [P(f), P(f + 0.05)];
+    // section in XY, one closed loop: underside apex, left lip (a rounded roll), top apex, right lip
+    const lip = (sg) => { // points round the eave roll, from the underside to the top surface
+      const ccx = sg < 0 ? xl + LR : xr - LR, ccy = EY + LR;
+      const out = [];
+      for (let i = 0; i <= 6; i++) {
+        const t = (-75 + (i / 6) * 215) * (Math.PI / 180); // -75 deg (under) .. 140 deg (over the top)
+        out.push([ccx + sg * LR * Math.cos(t), ccy + LR * Math.sin(t)]); // sg points outward
+      }
+      return out;
+    };
+    const L0 = lip(-1), R0 = lip(1);
+    // each slope is its own convex loop (so the centroid-fan gable caps are right); they meet at the ridge plane
+    for (const Lp of [L0, R0]) {
+      const sec = (z) => [[cx, RY - 0.2], ...Lp, [cx, RY + T]].map(([x, y]) => [x, y, z]);
+      solid("thatch", [sec(-RZ), sec(RZ)]);
+    }
+    // thatch layer bands on both slopes (from the lip top to the apex), raised a little
+    const A = [cx, RY + T];
+    for (const f of [0.2, 0.42, 0.64, 0.84]) for (const Lp of [L0, R0]) {
+      const e = Lp[Lp.length - 1], P = (g) => [e[0] + g * (A[0] - e[0]), e[1] + g * (A[1] - e[1]) + 0.03];
+      const [p0, p1] = [P(f), P(f + 0.045)];
       quad("thatchLine", [p0[0], p0[1], -RZ - 0.01], [p0[0], p0[1], RZ + 0.01], [p1[0], p1[1], RZ + 0.01], [p1[0], p1[1], -RZ - 0.01], [cx, EY, 0]);
     }
-    box("plank", cx, RY + T * 0.6 + 0.02, 0, 0.36, 0.16, 2 * RZ + 0.1); // ridge cap
-    for (const z of [-RZ + 0.25, -RZ + 1.0, 0, RZ - 1.0, RZ - 0.25]) box("plank", cx, RY + T * 0.6 + 0.08, z, 0.7, 0.08, 0.1);
+    // gable walls under the roof (plank), and layer lines on the thatch's cut ends
+    for (const zs of [-1, 1]) {
+      const g = (z) => [[HX0, TOP - 0.1, z], [HX1, TOP - 0.1, z], [cx, RY - 0.15, z]];
+      solid("plank", [g(zs * (HZ - 0.04)), g(zs * (HZ + 0.04))]);
+      for (const Lp of [L0, R0]) for (const f of [0.35, 0.68]) {
+        const e = Lp[Lp.length - 1], b = Lp[0], zf = zs * (RZ + 0.006);
+        // a line parallel to the slope, a fraction f down from the top surface toward the underside
+        const P = (u) => { // u: 0 at the lip, 1 at the ridge plane
+          const top = [e[0] + u * (cx - e[0]), e[1] + u * (RY + T - e[1])], bot = [b[0] + u * (cx - b[0]), b[1] + u * (RY - 0.2 - b[1])];
+          return [top[0] + f * (bot[0] - top[0]), top[1] + f * (bot[1] - top[1])];
+        };
+        const [p0, p1] = [P(0.04), P(0.995)];
+        quad("thatchLine", [p0[0], p0[1] - 0.02, zf], [p1[0], p1[1] - 0.02, zf], [p1[0], p1[1] + 0.02, zf], [p0[0], p0[1] + 0.02, zf], [cx, RY, 0]);
+      }
+    }
+    // bands on the lip roll: a darker strip along its outer face
+    for (const [sg, Lp] of [[-1, L0], [1, R0]]) {
+      const p0 = Lp[2], p1 = Lp[3], o = sg * 0.012;
+      quad("thatchLine", [p0[0] + o, p0[1], -RZ - 0.01], [p0[0] + o, p0[1], RZ + 0.01], [p1[0] + o, p1[1], RZ + 0.01], [p1[0] + o, p1[1], -RZ - 0.01], [cx, EY + LR, 0]);
+    }
+    box("plank", cx, RY + T + 0.05, 0, 0.4, 0.16, 2 * RZ + 0.1); // ridge cap
+    for (const z of [-RZ + 0.25, -RZ + 1.0, 0, RZ - 1.0, RZ - 0.25]) box("plank", cx, RY + T + 0.1, z, 0.75, 0.08, 0.1);
   }
 
   // ---------- flume on trestles ----------
@@ -277,7 +346,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     }
   }
   cyl("wood", [-HW - 0.12, 0, 0], [HW + 0.12, 0, 0], 0.26, 12); // hub
-  cyl("dark", [-HW - 0.125, 0, 0], [HW + 0.125, 0, 0], 0.1, 8); // axle hole ends (dark discs)
+  cyl("line", [-HW - 0.125, 0, 0], [HW + 0.125, 0, 0], 0.1, 8); // axle hole ends (dark discs)
   for (let i = 0; i < NP; i++) {
     const a = (i / NP) * Math.PI * 2, [ya, za] = yz(R - 0.3, a), [yb, zb] = yz(R + 0.06, a);
     // a radial board: length along x, thickness tangential
@@ -295,11 +364,11 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     thatch: [c.thatch, c.thatchShade, 0.35, true],
     thatchLine: [c.thatchLine, c.thatchLine, 0.1, false],
     stone: [c.stone, c.stoneShade, 0.1, true],
-    water: [c.water, c.water, 0.1, false],
+    water: [c.water, c.waterShade, 0.1, false],
     ripple: [c.ripple, c.ripple, 0.1, false],
-    foam: [c.ripple, c.stone, 0.1, true],
+    foam: [c.foam, c.foamShade, 0.1, true],
+    grass: [c.grass, c.grassShade, 0.2, true],
     line: [c.line, c.line, 0.1, false],
-    dark: [c.dark, c.dark, 0.1, false],
   };
   const wheel = new THREE.Group();
   wheel.name = "wheel";
