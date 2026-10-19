@@ -1,0 +1,129 @@
+{
+  "id": "vending-machine",
+  "name": "Drinks vending machine",
+  "category": "prop",
+  "tags": [
+    "street",
+    "vending machine",
+    "drinks",
+    "soda",
+    "japan",
+    "city",
+    "static"
+  ],
+  "style": "voxel (MagicaVoxel), palette texture flattened to flat colours",
+  "height": 1.83,
+  "script": "indigo",
+  "colors": {
+    "casing": "#d5e2ff",
+    "casingShade": "#1b2d6b",
+    "trim": "#16141c",
+    "trimShade": "#1b2d6b",
+    "panel": "#e23b4a",
+    "panelShade": "#1b2d6b",
+    "display": "#f0c36a",
+    "displayShade": "#e7a04a",
+    "canRed": "#e23b4a",
+    "canRedShade": "#1b2d6b",
+    "canWhite": "#d5e2ff",
+    "canWhiteShade": "#1b2d6b",
+    "canBlue": "#1b2d6b",
+    "canBlueShade": "#16141c",
+    "canPink": "#f0c2ae",
+    "canPinkShade": "#1b2d6b"
+  },
+  "thresholds": {
+    "display": -0.25,
+    "casing": 0.2,
+    "trim": 0.2,
+    "canRed": 0.2,
+    "canWhite": 0.2,
+    "canBlue": 0.2,
+    "canPink": 0.2
+  },
+  "materials": {
+    "palette": "casing",
+    "palette#444444": "casing",
+    "palette#555555": "casing",
+    "palette#777777": "casing",
+    "palette#888888": "casing",
+    "palette#222222": "trim",
+    "palette#111111": "trim",
+    "palette#990033": "panel",
+    "palette#ee0000": "panel",
+    "palette#dd0000": "panel",
+    "palette#bb0000": "panel",
+    "palette#aa0000": "panel",
+    "palette#eeeeee": "display",
+    "palette#339933": "canPink",
+    "palette#9900ff": "canBlue",
+    "palette#ffff00": "canWhite",
+    "palette#3399ff": "canBlue"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "MonoTone",
+    "pack": "MonoTone · Voxel Vending Machine",
+    "page": "https://opengameart.org/content/voxel-vending-machine",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 205 named Kenney Mini Arcade `vending-machine`: a small red snack box with a dark window and no visible stock. Kenney's City Kit Commercial, City Kit Roads and Furniture Kit have no vending machine. This CC0 MagicaVoxel soda machine (OBJ, no scenery) reads as a drinks machine: tall box, lit window of bottles on six shelves, a button column and the pickup slot at the bottom. Scaled to 1.83 m it is 0.87 m wide but 1.03 m deep (deeper than a real ~0.7 m machine; fixed proportions). Front (window) faces +Z. Static, no clips. Colours (indigo): white casing, red side panels, the window lit warm (`display` is the script's practical with threshold -0.25 so it reads lit at night), bottles in accent, moon, sky and skin."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/voxelvendingmachine_0.zip",
+      "sha256": "2e0e800620d1b5d26ce88f7d20f024d2695332d27a25bed445b370f95b927a92",
+      "bytes": 340319,
+      "resolved": "https://opengameart.org/sites/default/files/voxelvendingmachine_0.zip"
+    },
+    "member": "VoxelSodaMachine.obj",
+    "extraMembers": [
+      "VoxelSodaMachine.mtl",
+      "VoxelSodaMachine.png"
+    ],
+    "height": 1.83,
+    "yaw": 0,
+    "maxColors": 16,
+    "memberSha256": "30a475160839261714a401450eec36828f50619f0556cd0eb8ee0ffc9a5822d1"
+  },
+  "file": "model.glb",
+  "sha256": "e8e0ec678447f2bc803a104913e349656d8f09a344ae8c134a2dc490128bee30",
+  "bytes": 34976,
+  "triangles": 2340,
+  "bones": 0,
+  "sourceMaterials": {
+    "palette": "texture",
+    "palette#444444": "#444444",
+    "palette#990033": "#990033",
+    "palette#888888": "#888888",
+    "palette#777777": "#777777",
+    "palette#ee0000": "#ee0000",
+    "palette#dd0000": "#dd0000",
+    "palette#bb0000": "#bb0000",
+    "palette#aa0000": "#aa0000",
+    "palette#555555": "#555555",
+    "palette#222222": "#222222",
+    "palette#339933": "#339933",
+    "palette#9900ff": "#9900ff",
+    "palette#ffff00": "#ffff00",
+    "palette#3399ff": "#3399ff",
+    "palette#eeeeee": "#eeeeee",
+    "palette#111111": "#111111"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.83,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2340,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
