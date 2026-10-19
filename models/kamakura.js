@@ -37,7 +37,7 @@
 //            the passage, the mat, the lantern and the coals switch to the script's practical colours (no emissive in
 //            the kit: a glow is a flat cel tone, as chochin's lit paper). Same script; the film's sky does the rest.
 //   snowman  true (default); false leaves the hut, the patch and the bunnies.
-// Budget: ~20.5k triangles (outer dome 6.5k, patch 4.4k), 10 meshes in either variant.
+// Budget: ~17.5k triangles (outer dome 5.4k, patch 2.7k), 10 meshes in either variant.
 // Colours (indigo, base / shade):
 //   snow      sclera #f6f3ee / moon #d5e2ff (warm white, cool moonlit shade) - hut, doorway ring, snowman, bunnies
 //   reveal    the same pair, no hull (the passage, the shelf, the mochi: inside the doorway's ink)
@@ -202,7 +202,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const rim = (x, z) => { const q = Math.hypot(x / A, z / B); return Math.sqrt(Math.max(0, 1 - q ** 8)); };
   const h = (x, z) => hRaw(x, z) * rim(x, z);
   {
-    const K = 34, MM = 64, P = [], e = 1e-3;
+    const K = 28, MM = 48, P = [], e = 1e-3;
     for (let i = 0; i <= K; i++) {
       const row = [], q = i / K;
       for (let j = 0; j <= MM; j++) {
@@ -247,7 +247,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     });
   }
   const interior = night ? "insideLit" : "inside";
-  dome("snow", RO, HO, 0, 1, 34, 96);
+  dome("snow", RO, HO, 0, 1, 28, 96);
   dome(interior, RI, HI, FL, -1, 22, 72);
   // cavity floor
   {
@@ -337,7 +337,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     ell("snow", at([0, hy, 0]), [0.25, 0.23, 0.25], [0, yaw, 0], 12);
     // charcoal face on the head's front (+Z local)
     const onHead = (ex, ey, d = 0.0) => { const v = nrm([ex, ey, 1]); return at([v[0] * 0.25 * 0.97, hy + v[1] * 0.23 * 0.97, v[2] * 0.25 * 0.97 + d]); };
-    for (const s of [-1, 1]) ell("char", onHead(s * 0.36, 0.22), [0.038, 0.042, 0.022], [-0.2, yaw + s * 0.36, 0], 8);
+    for (const s of [-1, 1]) ell("char", onHead(s * 0.36, 0.22), [0.038, 0.042, 0.022], [-0.2, yaw + s * 0.36, 0], 6);
     for (const ex of [-0.24, 0, 0.24]) ell("char", onHead(ex, -0.3 + Math.abs(ex) * 0.35), [0.03, 0.016, 0.018], [0.3, yaw + ex, 0], 6);
     // the upturned bucket, tilted back and to its left
     lathe("red", at([0.03, hy + 0.16, -0.03]), [-0.22, yaw, 0.12], [[0, 0], [0.155, 0], [0.12, 0.18], [0, 0.18]], 18);
