@@ -1,0 +1,71 @@
+{
+  "id": "rock-large",
+  "name": "Large rock",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "rock",
+    "boulder",
+    "stone",
+    "garden",
+    "shrine",
+    "japan",
+    "forest",
+    "background",
+    "static"
+  ],
+  "style": "low-poly, flat colours, faceted boulder (Quaternius 2019)",
+  "height": 1.2,
+  "script": "indigo",
+  "colors": {
+    "stone": "#d5e2ff",
+    "stoneShade": "#1b2d6b"
+  },
+  "materials": {
+    "Rock": "stone"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
+    "page": "https://opengameart.org/content/low-poly-nature-pack-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius large rock on poly.pizza) is behind a Cloudflare challenge; this is Rock_3 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the tree, tree-pine, tree-autumn and bush entries, so they read as one set. Of the pack's fourteen rocks (Rock_1 to Rock_7 and Rock_Moss_1 to Rock_Moss_7, all rendered) it reads best as one large boulder: a broad base tapering to a rounded crown, about as wide as it is tall (1.31 x 1.42 m footprint), where Rock_1 is a thin standing stone, Rock_2 a small cobble and Rock_4 to Rock_7 long, flat-topped slabs. It suits a garden or shrine stone. The plain rock was chosen over its moss twins because no colour script has a green; mapping moss to a script colour would read as paint, not moss. Height 1.2 m: a large garden or shrine boulder is about 1 to 1.5 m, chest height on a 1.6 m person. Colours on indigo, as the stone lantern: stone moon (the source's blue-grey #878b96 lit by the moon) shading to sky. Smooth shading kept: with flat facets the shade fell as one band along the base and the boulder read as a cut-out. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip",
+      "sha256": "92daf8b532f60ac0fb53371144d0f8e9ec2f82a2fa408effdf1a64cb8fbaee09",
+      "bytes": 22990249,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip"
+    },
+    "member": "Ultimate Nature Pack - Jun 2019/FBX/Rock_3.fbx",
+    "height": 1.2,
+    "yaw": 0,
+    "memberSha256": "4144136bd6c313ac7c48a08548504d7d30b7d628f35ce9dcd290ebe84e10e734"
+  },
+  "file": "model.glb",
+  "sha256": "700e92c0c1045c01bb004076055d17833c281bac7530dcaf9e450b9628a3d051",
+  "bytes": 3424,
+  "triangles": 72,
+  "bones": 0,
+  "sourceMaterials": {
+    "Rock": "#878b96"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.2,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 72,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
