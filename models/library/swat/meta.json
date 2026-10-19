@@ -1,0 +1,181 @@
+{
+  "id": "swat",
+  "name": "SWAT officer (stand-in)",
+  "category": "character",
+  "tags": [
+    "human",
+    "man",
+    "swat",
+    "police",
+    "riot",
+    "officer",
+    "soldier",
+    "helmet",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
+  "height": 1.8,
+  "script": "indigo",
+  "colors": {
+    "uniform": "#1b2d6b",
+    "uniformShade": "#16141c",
+    "vest": "#16141c",
+    "vestShade": "#1b2d6b",
+    "helmet": "#16141c",
+    "helmetShade": "#1b2d6b",
+    "skin": "#f0c2ae",
+    "skinShade": "#e7a04a",
+    "eye": "#16141c",
+    "eyeShade": "#16141c"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Main": "uniform",
+    "Grey": "uniform",
+    "Black": "vest",
+    "Face": "eye",
+    "Helmet": "helmet"
+  },
+  "thresholds": {
+    "skin": -0.2,
+    "uniform": -0.55,
+    "helmet": -0.15,
+    "vest": -0.2
+  },
+  "noInk": [
+    "eye"
+  ],
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 76 (SWAT, Quaternius 24-clip Animated Characters) points at poly.pizza, now behind a Cloudflare challenge. Stand-in: BlueSoldier_Male from the Quaternius Ultimate Animated Character Pack (Nov 2019) on OpenGameArt, the same CC0 pack, rig and clips as man-suit (no run, jump or death clip; no gun prop). Of the pack's two male soldiers (identical meshes, Soldier_Male in olive, BlueSoldier_Male in navy) the navy one is closer to police; recoloured as a black helmet and tactical vest over a navy uniform with black knee pads. It is a generic helmeted soldier, not a police model: no visor, badge or POLICE lettering, bare hands, and the boot tips share the skin material (they render skin-coloured). Height 1.8 m: chibi big-head proportions are the artist's, the overall size is a grown man's."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/BlueSoldier_Male.fbx",
+    "height": 1.8,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "d14b51248f3791e97e67973d95ef11f761f2e6f7ad7e8794bf8b3d74c8576a41"
+  },
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "file": "model.glb",
+  "sha256": "7ae5d8ce990df8e5b3f39dd7224d37ebc5d0d9cf7ef961e00a1210c0e2cc0098",
+  "bytes": 233628,
+  "triangles": 2994,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#1f1f1f",
+    "Main": "#2a364b",
+    "Black": "#272727",
+    "Grey": "#3a3a3a",
+    "Face": "#fffff8",
+    "Helmet": "#2a364b"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5417,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.2083,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.7917,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5833,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 1,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.3333,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.9167,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.2917,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.2917,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2994,
+    "clips": {
+      "idle": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.79
+      },
+      "walk": {
+        "minY": -0.0015,
+        "touches": true,
+        "maxSize": 1.78
+      },
+      "attack": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.7
+      },
+      "hit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.77
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.75
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
