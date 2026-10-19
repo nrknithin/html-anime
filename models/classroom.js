@@ -3,8 +3,8 @@
 // room +Z, so the lab's front-left cameras look in; the pupils face -Z (the blackboard), their left is -X (the
 // windows: light from the writing hand's other side, as in every Japanese school). Floor on y = 0, centred on x = z = 0.
 //
-// Construction (boxes, 6-sided tubes, pleated lofts and flat quads, all triangle soups merged per material, so the
-// whole room is a dozen meshes; boxes are flat-shaded, tubes carry radial normals so a thin steel leg reads round).
+// Construction (boxes, 4-sided tubes, pleated lofts and flat quads, all triangle soups merged per material, so the
+// whole room is a dozen meshes; boxes are flat-shaded, tubes carry radial normals so a thin steel leg reads round at room scale).
 // Every triangle is wound away from a point inside its solid (box centre, tube axis, loft column), never by hand.
 //   SHELL     floor quad with lighter plank seams; walls as boxes 12 cm thick round the interior, cut into piers, sill
 //             walls and lintels at the openings; dark skirting and picture-rail bands (unlined boxes 12 mm proud) draw
@@ -13,7 +13,7 @@
 //   WINDOWS   (-X wall) four 2 m bays on 0.2 m piers: an aluminium casing, two sashes on two tracks overlapping at the
 //             middle, a transom bar and three transom lights. Glass is two unlined sky plates back to back in the
 //             wall's mid-plane, so the frames are the lines. A deep sill board, a curtain rail, and per bay one curtain
-//             half drawn across the glass plus one bunched at the next pier: a pleated loft (sine front, flat back)
+//             half drawn across the glass plus one bunched at the next pier: a pleated loft (zigzag front, flat back)
 //             whose fold faces alternate base / shade at threshold 0.45.
 //   CORRIDOR  (+X wall, only with { cutaway: false }) two pale-green sliding doors with a glass light each, a dark
 //             head and pull, and a row of six high transom windows over the whole wall.
@@ -25,12 +25,12 @@
 //   BACK      (+Z) a wall-wide cubby locker (3 rows of 12, dark openings, a fixed hash puts bags and boxes in some),
 //             under a green felt notice board with pinned sheets (the board only with the wall, { cutaway: false }).
 //   DESKS     a rows x cols grid of student sets in the style of the school-desk model, on their own geometry: birch
-//             top with a dark edge band, two inverted-U tube side frames on floor runners and rubber shoes, a low
+//             top over one dark band box, two inverted-U tube side frames on floor runners with rubber shoes, a low
 //             stretcher, a steel book box open to the pupil and a bag hook; the chair a birch seat and bowed back on
 //             splayed tube legs, the rear pair running up as back posts. Chairs are tucked by varying amounts and
 //             turned a little (a fixed hash, no randomness).
 //   LIGHTS    twelve fluorescent fittings in three lines along the room: a steel channel with two glowing tubes under
-//             it, hung on two rods to the ceiling line (they stay in the cutaway: the strips are an identity cue).
+//             it, hung on two rods from the ceiling. Only with the ceiling ({ cutaway: false }): without it they float.
 // Proportions (real size, base unit the storey H = 3.0 m): interior 7.5 (x) by 9.0 (z), walls and ceiling 3.0
 //   (meta.height); window sill 0.85, sash head 2.25, transoms to 2.65; board from 0.95 to 2.15; dais 0.18 x 6.0 x 0.9;
 //   doors 0.95 x 1.95, transoms 2.15-2.7; lockers 1.05 high, 0.4 deep; clock 0.36 across at 2.55; desk 0.70
@@ -42,8 +42,9 @@
 //               top, so cameras on the +X / +Z side (the lab's three4 and hero) look straight in. false: the closed
 //               room (corridor wall with doors, full back wall with the notice board, ceiling), for cameras inside it.
 //   evening     warm window light, same script: the glass turns practical yellow, the curtains' fold shade turns
-//               practical, the low sun throws one practical patch per bay across the floor, and the tubes go off.
-// Budget: ~28k triangles at 6 x 6 (a desk set ~640, the room ~5k; 37k at 7 x 7), 14 meshes (13 in the evening).
+//               practical, the low sun throws one practical patch per bay across the floor, and the tubes (closed room) go off.
+// Budget: ~16k triangles at 6 x 6 (a desk set ~400, the room ~2k; 21k at 7 x 7), 13 meshes (12 in the evening);
+//   the closed room adds the fittings and the corridor wall (~17k, 14 meshes).
 // Ink in pixels: walls, wood, board and caps 3, steel and curtains 2 (a room is seen small: thin tubes keep their colour).
 // Colours (meadow, the school models' script), base / shade:
 //   walls, ceiling, lockers, birch (desk tops, seats, backs, dais, sills)  moon #f7f3e1 / skin #f0c2ae, threshold 0.1
@@ -138,8 +139,8 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     plate("glass", add(ctr, mul(n, 0.001)), n, w, h);
     plate("glass", sub(ctr, mul(n, 0.001)), mul(n, -1), w, h);
   };
-  // a capped 6-sided tube from a to b (straight), radius r; ends pushed out by r so joints overlap
-  function rod(key, a, b, r, sides = 6) {
+  // a capped tube (4 sides by default) from a to b (straight), radius r; ends pushed out by 0.6 r so joints overlap
+  function rod(key, a, b, r, sides = 4) {
     const T = nrm(sub(b, a));
     a = sub(a, mul(T, r * 0.6)), b = add(b, mul(T, r * 0.6));
     const up = Math.abs(T[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0];
@@ -221,9 +222,9 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   // curtains: per bay one panel half drawn from the front pier, one bunched against the back pier
   const CY0 = SILL + 0.06, CY1 = HEAD + 0.1;
   function curtain(za, zb, folds, depth) {
-    const n = folds * 4, xb = wx1 + 0.1, xf = xb + 0.04;
+    const n = folds * 2, xb = wx1 + 0.1, xf = xb + 0.04;
     const col = (i) => {
-      const z = za + ((zb - za) * i) / n, f = xf + depth * (0.5 + 0.5 * Math.sin((i / 4) * Math.PI * 2));
+      const z = za + ((zb - za) * i) / n, f = xf + depth * (i % 2); // a zigzag: two flat fold faces a pleat
       return [[xf - 0.03 + (f - xf), CY0, z], [f, CY1, z], [xb, CY1, z], [xb, CY0, z]].map((p, k) => (k === 0 ? [f, CY0, z] : p));
     };
     const C = Array.from({ length: n + 1 }, (_, i) => col(i));
@@ -372,7 +373,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   }
 
   // ---------- fluorescent fittings ----------
-  for (const x of [-2.2, 0, 2.2])
+  if (!cutaway) for (const x of [-2.2, 0, 2.2])
     for (const z of [-3.0, -1.0, 1.0, 3.0]) {
       const y = 2.72;
       box("steel", x - 0.08, x + 0.08, y, y + 0.06, z - 0.62, z + 0.62);
@@ -386,10 +387,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const DW2 = 0.325, DD = 0.225, DHt = 0.7, TT = 0.022;
     box("wood", -DW2, DW2, DHt - TT, DHt, -DD, DD);
     const e = 0.004, ey0 = DHt - TT - 0.001, ey1 = DHt - 0.002;
-    box("dark", -DW2 - e, DW2 + e, ey0, ey1, DD - 0.006, DD + e);
-    box("dark", -DW2 - e, DW2 + e, ey0, ey1, -DD - e, -DD + 0.006);
-    box("dark", DW2 - 0.006, DW2 + e, ey0, ey1, -DD, DD);
-    box("dark", -DW2 - e, -DW2 + 0.006, ey0, ey1, -DD, DD);
+    box("dark", -DW2 - e, DW2 + e, ey0, ey1, -DD - e, DD + e); // one band box round the top's edge, inside it
     const fx = 0.285, lz = 0.185, ry = DHt - TT - TUBE;
     for (const s of [-1, 1]) {
       const x = s * fx;
@@ -397,8 +395,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       rod("steel", [x, 0.03, -lz], [x, ry, -lz], TUBE);
       rod("steel", [x, ry, -lz], [x, ry, lz], TUBE);
       rod("steel", [x, 0.03, -lz - 0.03], [x, 0.03, lz + 0.03], TUBE); // runner on the floor
-      box("dark", x - 0.016, x + 0.016, 0, 0.018, lz - 0.02, lz + 0.05);
-      box("dark", x - 0.016, x + 0.016, 0, 0.018, -lz - 0.05, -lz + 0.02);
+      box("dark", x - 0.016, x + 0.016, 0, 0.018, -lz - 0.05, lz + 0.05); // rubber shoe the length of the runner
     }
     rod("steel", [-fx, 0.2, -lz], [fx, 0.2, -lz], 0.009); // stretcher on the board side
     // steel book box under the top, open to the pupil
@@ -416,16 +413,15 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const ry = SY - ST - r;
     for (const s of [-1, 1]) {
       const x = s * lx, xf = s * (lx + 0.012);
-      rod("steel", [xf, 0.02, -0.2], [x, ry, -0.15], r); // front leg
-      rod("steel", [xf, 0.02, 0.22], [x, ry, 0.15], r); // rear leg
+      rod("steel", [xf, 0.009, -0.2], [x, ry, -0.15], r); // front leg
+      rod("steel", [xf, 0.009, 0.22], [x, ry, 0.15], r); // rear leg
       rod("steel", [x, ry, 0.15], [x, 0.79, 0.2], r); // back post
       rod("steel", [x, ry, -0.15], [x, ry, 0.15], r); // seat rail
-      for (const z of [-0.2, 0.22]) box("dark", xf - 0.014, xf + 0.014, 0, 0.022, z - 0.014, z + 0.014);
     }
     rod("steel", [-lx, ry, -0.15], [lx, ry, -0.15], 0.009);
     rod("steel", [-lx, 0.15, 0.17], [lx, 0.15, 0.17], 0.008);
     // bowed backrest in front of the posts (toward the pupil), leaning with them
-    const n = 5, BWd = 0.37, by0 = 0.65, by1 = 0.79, th = 0.014, bow = 0.02;
+    const n = 3, BWd = 0.37, by0 = 0.65, by1 = 0.79, th = 0.014, bow = 0.02;
     const zAt = (y) => 0.15 + ((y - ry) / (0.79 - ry)) * 0.05 - r - 0.002;
     const col = (i) => {
       const x = -BWd / 2 + (i / n) * BWd, dz = bow * (1 - (2 * x / BWd) ** 2);
