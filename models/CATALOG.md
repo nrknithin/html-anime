@@ -89,6 +89,7 @@
 | <img src="library/clownfish/preview.png" width="240"> | `clownfish` | Clownfish<br>*low-poly, flat colours (Quaternius 2018)* | 0.0515 m | 686 | swim | CC0 1.0 | [Quaternius · Animated Fish](https://opengameart.org/content/animated-fish) |
 | <img src="library/dolphin/preview.png" width="240"> | `dolphin` | Dolphin<br>*low-poly, flat colours (Quaternius 2018)* | 0.8 m | 440 | swim | CC0 1.0 | [Quaternius · Animated Fish](https://opengameart.org/content/animated-fish) |
 | <img src="library/koi/preview.png" width="240"> | `koi` | Koi<br>*low-poly, flat colours (Quaternius 2018)* | 0.165 m | 544 | swim | CC0 1.0 | [Quaternius · Animated Fish](https://opengameart.org/content/animated-fish) |
+| <img src="library/manta-ray/preview.png" width="240"> | `manta-ray` | Manta ray<br>*low-poly, flat colours (Quaternius 2018)* | 0.719 m | 696 | swim | CC0 1.0 | [Quaternius · Animated Fish](https://opengameart.org/content/animated-fish) |
 | <img src="library/shark/preview.png" width="240"> | `shark` | Shark<br>*low-poly, flat colours (Quaternius 2018)* | 0.5 m | 644 | swim | CC0 1.0 | [Quaternius · Animated Fish](https://opengameart.org/content/animated-fish) |
 | <img src="library/whale/preview.png" width="240"> | `whale` | Whale<br>*low-poly, flat colours (Quaternius 2018)* | 4.2 m | 452 | swim | CC0 1.0 | [Quaternius · Animated Fish](https://opengameart.org/content/animated-fish) |
 
