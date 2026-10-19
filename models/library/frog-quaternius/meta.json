@@ -12,16 +12,16 @@
   ],
   "style": "low-poly, flat colours (Quaternius 2019)",
   "height": 0.045,
-  "script": "noon",
+  "script": "meadow",
   "colors": {
-    "skin": "#f0c2ae",
-    "skinShade": "#5c3d32",
-    "belly": "#fffaf2",
-    "bellyShade": "#f2d7ae",
-    "iris": "#c4452d",
-    "irisShade": "#5c3d32",
-    "eye": "#241c16",
-    "eyeShade": "#5c3d32"
+    "skin": "#a9d16e",
+    "skinShade": "#3f8a47",
+    "belly": "#f7f3e1",
+    "bellyShade": "#f2c94c",
+    "iris": "#d9483b",
+    "irisShade": "#2c5131",
+    "eye": "#1c261b",
+    "eyeShade": "#2c5131"
   },
   "materials": {
     "Green": "skin",
@@ -30,7 +30,8 @@
     "Black": "eye"
   },
   "thresholds": {
-    "skin": 0.1
+    "skin": 0.25,
+    "belly": -0.6
   },
   "clips": {
     "idle": "Frog_Idle",
@@ -47,7 +48,7 @@
     "pack": "Quaternius · Easy Animated Enemy Pack (Jan 2019)",
     "page": "https://quaternius.itch.io/animated-easy-enemies",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "note": "Plan row 47 names this frog as the poly.pizza Quaternius frog (clips Frog_Attack, Frog_Death, Frog_Idle, Frog_Jump); poly.pizza is behind a Cloudflare challenge, so it comes from the same author's Easy Animated Enemy Pack (Jan 2019) on itch.io, which carries exactly those four clips. The itch page states CC0; the zip ships no licence file. Id frog-quaternius because the procedural models/frog.js stays. It is a red-eyed tree frog, modelled realistically (no cartoon head), so the height is real size: 0.045 m at rest (snout-vent about 9 cm, like the procedural frog). Colours follow the procedural frog on the noon script: skin #f0c2ae with iris-brown shade (threshold 0.1 so the shade lands under the jaw and limbs), cream belly, accent-red eyes with near-black pupils. Ground: every clip is clamped (the take-off push in Frog_Jump sinks a toe 8 mm, the lunge in Frog_Attack 5 mm, the flip in Frog_Death 6 mm; Frog_Idle 1 mm)."
+    "note": "Plan row 47 names this frog as the poly.pizza Quaternius frog (clips Frog_Attack, Frog_Death, Frog_Idle, Frog_Jump); poly.pizza is behind a Cloudflare challenge, so it comes from the same author's Easy Animated Enemy Pack (Jan 2019) on itch.io, which carries exactly those four clips. The itch page states CC0; the zip ships no licence file. Id frog-quaternius because the procedural models/frog.js stays. It is a red-eyed tree frog, modelled realistically (no cartoon head), so the height is real size: 0.045 m at rest (snout-vent about 9 cm, like the procedural frog). Coloured as a green tree frog on the meadow script: body light green (line) with mid-green shade (iris, threshold 0.25 so it lands on the flanks, under the jaw and on the limbs), pale belly (moon) with a yellow shade (practical, threshold -0.6 so only the deepest underside turns), accent-red eyes with ink pupils (deep-green shades). Ground: every clip is clamped (the take-off push in Frog_Jump sinks a toe 8 mm, the lunge in Frog_Attack 5 mm, the flip in Frog_Death 6 mm; Frog_Idle 1 mm)."
   },
   "ingest": {
     "fetch": {
