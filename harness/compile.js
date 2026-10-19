@@ -79,6 +79,22 @@ export const SCRIPTS = {
       line: "#fff1ea",
     },
   },
+  meadow: {
+    id: "meadow",
+    name: "Green meadow",
+    colors: {
+      sky: "#d7ecef",
+      ink: "#1c261b",
+      moon: "#f7f3e1",
+      accent: "#d9483b",
+      practical: "#f2c94c",
+      iris: "#3f8a47",
+      skin: "#f0c2ae",
+      hair: "#2c5131",
+      sclera: "#f6f3ee",
+      line: "#a9d16e",
+    },
+  },
 };
 
 const PLANS = {
