@@ -1,0 +1,182 @@
+{
+  "id": "man-casual-2",
+  "name": "Young man (tank top)",
+  "category": "character",
+  "tags": [
+    "human",
+    "man",
+    "young",
+    "casual",
+    "everyday",
+    "tank top",
+    "street",
+    "townsfolk",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
+  "height": 1.75,
+  "script": "noon",
+  "colors": {
+    "top": "#fffaf2",
+    "topShade": "#f2d7ae",
+    "pants": "#5c3d32",
+    "pantsShade": "#241c16",
+    "belt": "#c4452d",
+    "beltShade": "#5c3d32",
+    "skin": "#f0c2ae",
+    "skinShade": "#c4452d",
+    "hair": "#5c3d32",
+    "hairShade": "#241c16",
+    "eye": "#241c16",
+    "eyeShade": "#241c16"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Shirt": "top",
+    "Pants": "pants",
+    "Belt": "belt",
+    "Face": "eye",
+    "Hair": "hair"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 68 (Character Shaun, Quaternius Animated models misc) is only on poly.pizza / quaternius.com (Cloudflare challenge / off limits). Substituted with Casual3_Male from the Quaternius Ultimate Animated Character Pack (Nov 2019) on OpenGameArt, the same CC0 pack, rig and 11 clips as man-casual (no run, jump or death clip). Of the pack's two other everyday men it differs most from man-casual (Casual_Male: T-shirt, shorts, mop of hair): a sleeveless tank top, full-length trousers and thick swept-back hair; Casual2_Male is another T-shirt with trousers and a quiff. Like all the pack's casual men the feet are bare skin (no shoes). Height 1.75 m: the chibi big head is the artist's, the overall size a grown man's."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Casual3_Male.fbx",
+    "height": 1.75,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "94ce47df5f166856a2d1166202ed1e8a58fd087e96b13299492b020794ddc3fd"
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "file": "model.glb",
+  "sha256": "0316c020ffdc5016d885996c5201b4de65d88bac6150e4b7e4c426550a3bf68c",
+  "bytes": 242684,
+  "triangles": 4920,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#1f1f1f",
+    "Shirt": "#777673",
+    "Pants": "#4b4e2f",
+    "Belt": "#493629",
+    "Face": "#fffff8",
+    "Hair": "#49433a"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5417,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.2083,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.7917,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5833,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 1,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.3333,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.9167,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.2917,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.2917,
+      "loop": true
+    }
+  },
+  "thresholds": {
+    "skin": -0.75,
+    "top": -0.2,
+    "pants": -0.45
+  },
+  "qa": {
+    "height": 1.75,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 4920,
+    "clips": {
+      "idle": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.75
+      },
+      "walk": {
+        "minY": -0.0014,
+        "touches": true,
+        "maxSize": 1.74
+      },
+      "attack": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.65
+      },
+      "hit": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.73
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.7
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
