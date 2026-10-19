@@ -1,0 +1,82 @@
+{
+  "id": "flowers",
+  "name": "Flower group",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "flower",
+    "flowers",
+    "plant",
+    "garden",
+    "meadow",
+    "park",
+    "background",
+    "static"
+  ],
+  "style": "low-poly, flat colours, three cup-shaped blooms on thin stems (Quaternius 2019)",
+  "height": 0.4,
+  "script": "meadow",
+  "colors": {
+    "leaves": "#3f8a47",
+    "leavesShade": "#2c5131",
+    "petals": "#f7f3e1",
+    "petalsShade": "#f2c94c",
+    "centre": "#d9483b",
+    "centreShade": "#2c5131"
+  },
+  "materials": {
+    "Green": "leaves",
+    "Cyan": "petals",
+    "Yellow": "centre"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
+    "page": "https://opengameart.org/content/low-poly-nature-pack-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan source (Quaternius \"Flower group\" GLB on poly.pizza) is behind a Cloudflare challenge; this is Flowers.fbx from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip and pin as the tree, tree-pine, tree-autumn and bush entries, so they read as one set. It is a clump of three cup-shaped blooms (four petals each, open card petals) on thin stems with short leaf stubs; it reads clearly as flowers, so the pack's Plant_* foliage clumps were not needed. Height 0.4 m: garden or meadow flowers (tulips, cosmos, poppies) stand 0.3-0.5 m, about knee height on a 1.6 m person; the source's own proportions (0.24 x 0.40 x 0.30 m at that height) give stems about 6 mm thick, as a tulip stem. Colours on meadow: stems and leaf stubs mid green (iris) shading to deep green (hair), dark enough that the thin stems hold against the pale sky; petals cream (moon) shading to buttercup yellow (practical), so the cups read bright and warm against the greens; the small flower centres red (accent) shading to deep green, a distinct eye inside the cream and yellow. Petals are open cards, so petals and leaves are double-sided. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip",
+      "sha256": "92daf8b532f60ac0fb53371144d0f8e9ec2f82a2fa408effdf1a64cb8fbaee09",
+      "bytes": 22990249,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip"
+    },
+    "member": "Ultimate Nature Pack - Jun 2019/FBX/Flowers.fbx",
+    "height": 0.4,
+    "yaw": 0,
+    "memberSha256": "ffd9ad6299f0058855a97fcc819640ebed7131796c71a2eacb60b53d0d28d4c7"
+  },
+  "file": "model.glb",
+  "sha256": "8961d0693ac96ffbd764d9fa1db1b3e50878554495e1009b659addcf3fc7d510",
+  "bytes": 10680,
+  "triangles": 408,
+  "bones": 0,
+  "sourceMaterials": {
+    "Green": "#536d45",
+    "Cyan": "#00888a",
+    "Yellow": "#b2a15e"
+  },
+  "clipInfo": {},
+  "doubleSided": [
+    "leaves",
+    "petals"
+  ],
+  "qa": {
+    "height": 0.4,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 408,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
