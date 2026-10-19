@@ -8,10 +8,11 @@
     "van",
     "delivery",
     "street",
-    "city"
+    "city",
+    "panel-van"
   ],
   "style": "low-poly, flat colours (Kenney Car Kit)",
-  "height": 1.51,
+  "height": 2.3,
   "script": "indigo",
   "colors": {
     "body": "#d5e2ff",
@@ -53,7 +54,7 @@
     "pack": "Kenney · Car Kit",
     "page": "https://kenney.nl/assets/car-kit",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "note": "Kenney van (FBX like car-sedan, car-taxi and car-hatchback from the same kit, with Textures/colormap.png; the plan named the GLB member). Height 1.51 m puts it at the same scale as car-sedan (2.84 m long): the van is 3.08 m long and 1.68 m wide. Stylized toy proportions from Kenney (a real Japanese light van is about 3.4 m long and 1.9 m tall). Light-blue body from the indigo script's moon tone (#d5e2ff), a common delivery-van colour in Japan, distinct from the red sedan, white sports sedan, cream hatchback, yellow taxi and black/white police car; the source's amber lamps map to the practical/iris pair. Wheels are separate nodes in the source; static, no clips."
+    "note": "Kenney van (FBX like car-sedan, car-taxi and car-hatchback from the same kit, with Textures/colormap.png; the plan named the GLB member). A short-nose panel van (windowless cargo sides, flat high roof), scaled to real size: 2.3 m tall makes it 4.69 m long, matching a standard-body high-roof Toyota HiAce (about 4.70 m x 2.29 m). Kenney's toy proportions make it wider than the real van (2.56 m across the mirrors). Light-blue body from the indigo script's moon tone (#d5e2ff), a common delivery-van colour in Japan, distinct from the red sedan, white sports sedan, cream hatchback, yellow taxi and black/white police car; the source's amber lamps map to the practical/iris pair. Wheels are separate nodes in the source; static, no clips."
   },
   "ingest": {
     "fetch": {
@@ -66,13 +67,13 @@
     "extraMembers": [
       "Models/FBX format/Textures/colormap.png"
     ],
-    "height": 1.51,
+    "height": 2.3,
     "maxColors": 16,
     "memberSha256": "0717a81e7770300e96faa0a52910bea287f591ec8d0b956667f74819c5df0bbb"
   },
   "file": "model.glb",
-  "sha256": "1bb6aae20f1c56930d323ff28853856b833e5be9f79b0d2dabcbf563c2202c5e",
-  "bytes": 46352,
+  "sha256": "ce5719b210baab9cf0e027968cbe04c8eb2eab7e5317143b3330d1c93215aaa4",
+  "bytes": 46364,
   "triangles": 2082,
   "bones": 0,
   "sourceMaterials": {
@@ -96,7 +97,7 @@
   },
   "clipInfo": {},
   "qa": {
-    "height": 1.5099,
+    "height": 2.2999,
     "heightError": 0,
     "minY": 0,
     "centre": [

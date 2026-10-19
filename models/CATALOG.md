@@ -9,4 +9,4 @@
 
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| <img src="library/car-van/preview.png" width="240"> | `car-van` | Van<br>*low-poly, flat colours (Kenney Car Kit)* | 1.51 m | 2082 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
+| <img src="library/car-van/preview.png" width="240"> | `car-van` | Van<br>*low-poly, flat colours (Kenney Car Kit)* | 2.3 m | 2082 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
