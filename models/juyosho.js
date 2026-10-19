@@ -8,13 +8,14 @@
 //   ROOF     the shrine's gable: ridge along x, both slopes sag below their chord (y = ridge - drop (t + 0.35 t (1 - t)))
 //            and the whole roof sweeps up toward both gables (y += 0.06 (|x| / 2.2)^3), as the shrine's does. Each
 //            slope is a dark bark sheet over a vermilion rafter sheet inset 2-3 cm, so every eave shows a dark band over
-//            a red band. A dark ridge cap rides the same sweep; pale wood gable boards close both ends.
-//   FRAME    four square vermilion posts on a low wood deck, head beams front and back, side beams.
-//   WALLS    wood board back and side walls; the front is open between the posts. Set back behind the counter at
+//            a red band. A dark ridge cap rides the same sweep; plaster gable boards close both ends.
+//   FRAME    four square vermilion posts on a low dark wood deck, head beams front and back, side beams.
+//   WALLS    white plaster back and side walls over a dark wood wainscot (koshiita, to counter height), as the sento;
+//            the front is open between the posts. Set back behind the counter at
 //            z = 0.3, the sliding glass window: wood frame rails and stiles, four dark panes in two tracks (the dark
 //            interior seen through the glass, so the charms pop in front of it), the middle pair slid apart to leave
 //            the selling gap, two pale glint stripes on each pane, and white plaster above to the roof.
-//   COUNTER  the identity stage: a long wood counter between the front posts, under a white cloth that drapes over its
+//   COUNTER  the identity stage: a long dark wood counter between the front posts, under a white cloth that drapes over its
 //            front and ends. On it, a three-tier dark display stand carries `count` omamori per tier.
 //   OMAMORI  the identity cue. Small upright pouches with clipped shoulders, leaning back a little, each with a pale
 //            brocade patch on its face and a knot (a bead and two loops) on top, in a deterministic colour pattern
@@ -30,9 +31,11 @@
 //   omamori per tier.
 // Colours (noon), base / shade:
 //   vermilion (posts, beams, rafter sheets)                     accent #c4452d / iris #5c3d32, threshold 0.1 (as the torii)
-//   roof (bark, ridge cap, glass panes, stand, ema rails)        iris #5c3d32 / hair #241c16, threshold 0.1 (as the shrine)
-//   wood (deck, walls, counter, window frame, gable boards, tray) skin #f0c2ae / iris #5c3d32 (as the shrine's wood)
-//   cloth (counter cloth, plaster, white omamori, omikuji boxes, paper)  sclera #f6f3ee / sky #f2d7ae
+//   roof (bark, ridge cap, glass panes, stand, ema rails; dark wood: deck, wainscot, counter)
+//                                                                iris #5c3d32 / hair #241c16, threshold 0.1 (as the shrine)
+//   plaster (walls, gable boards, transom)                       moon #fff6e4 / sky #f2d7ae (as the sento)
+//   wood (window frame, tray)                                    skin #f0c2ae / iris #5c3d32 (as the shrine's wood)
+//   cloth (counter cloth, white omamori, omikuji boxes, paper)   sclera #f6f3ee / sky #f2d7ae
 //   omamori red / pink                                           accent / iris, skin / iris (noon has no blue, green or
 //            purple; the gold charms share the ema material)
 //   glint (brocade patches, glass glints), no ink                practical #fffaf2
@@ -50,6 +53,7 @@ export const meta = {
     roof: "#5c3d32", roofShade: "#241c16",
     wood: "#f0c2ae", woodShade: "#5c3d32",
     cloth: "#f6f3ee", clothShade: "#f2d7ae",
+    plaster: "#fff6e4", plasterShade: "#f2d7ae",
     omRed: "#c4452d", omRedShade: "#5c3d32",
     omPink: "#f0c2ae", omPinkShade: "#5c3d32",
     glint: "#fffaf2",
@@ -147,7 +151,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
 
   // ---------- deck, posts, beams ----------
   const XP = 1.85, ZP = 1.1, PW = 0.14, YT = 2.28; // post centres, size, top
-  bx("wood", -2.0, 2.0, 0, 0.08, -1.25, 1.28); // deck
+  bx("roof", -2.0, 2.0, 0, 0.08, -1.25, 1.28); // deck
   for (const x of [-XP, XP]) for (const z of [-ZP, ZP]) box("vermilion", x, (0.08 + YT) / 2, z, PW, YT - 0.08, PW);
   for (const z of [-ZP, ZP]) bx("vermilion", -XP - 0.16, XP + 0.16, 2.12, YT, z - 0.075, z + 0.075); // head beams
   for (const x of [-XP, XP]) bx("vermilion", x - 0.065, x + 0.065, 2.12, 2.26, -ZP, ZP); // side beams
@@ -170,18 +174,20 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const outline = [[ZP, YT - 0.02], [-ZP, YT - 0.02], ...pts];
     // convex outline (the sag keeps it convex enough to fan from its centre); a prism along x
     const A = outline.map(([z, y]) => [x - 0.02, y, z]), B = outline.map(([z, y]) => [x + 0.02, y, z]);
-    prism("wood", A, B);
+    prism("plaster", A, B);
   }
 
   // ---------- walls ----------
   const ZW = 0.3; // window plane
-  bx("wood", -XP + 0.07, XP - 0.07, 0.08, 2.12, -ZP - 0.02, -ZP + 0.03); // back wall
+  bx("plaster", -XP + 0.07, XP - 0.07, 0.08, 2.12, -ZP - 0.02, -ZP + 0.03); // back wall
+  bx("roof", -XP + 0.07, XP - 0.07, 0.08, 0.9, -ZP - 0.035, -ZP + 0.04); // dark wainscot (koshiita)
   for (const s of [1, -1]) {
-    bx("wood", s * XP - 0.025, s * XP + 0.025, 0.08, 2.12, -ZP + 0.07, ZW + 0.075); // side walls behind the window
+    bx("plaster", s * XP - 0.025, s * XP + 0.025, 0.08, 2.12, -ZP + 0.07, ZW + 0.075); // side walls behind the window
+    bx("roof", s * XP - 0.035, s * XP + 0.035, 0.08, 0.9, -ZP + 0.07, ZW + 0.075); // wainscot
   }
   // plaster transom over the window, up into the roof
   const yTr = roofY(0, ZW) - T1 - T2 + 0.01;
-  bx("cloth", -XP + 0.025, XP - 0.025, 2.1, yTr, ZW - 0.03, ZW + 0.01);
+  bx("plaster", -XP + 0.025, XP - 0.025, 2.1, yTr, ZW - 0.03, ZW + 0.01);
   // window: frame rails and stiles (roof), four panes in two tracks, glints
   const YW0 = 0.935, YW1 = 2.1, WX = XP - 0.025;
   bx("wood", -WX, WX, YW0, YW0 + 0.05, ZW - 0.02, ZW + 0.07); // sill rail
@@ -206,8 +212,8 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
 
   // ---------- counter and cloth ----------
   const CX = XP - PW / 2, YC = 0.9, ZF = 1.12; // counter half length, top, front face
-  bx("wood", -CX, CX, 0.08, YC, ZW, ZF); // counter body
-  bx("wood", -CX - 0.0, CX, YC - 0.02, YC + 0.02, ZW - 0.02, ZF + 0.04); // counter top board (lip)
+  bx("roof", -CX, CX, 0.08, YC, ZW, ZF); // counter body (dark wood skirt under the cloth)
+  bx("roof", -CX, CX, YC - 0.02, YC + 0.02, ZW - 0.02, ZF + 0.04); // counter top board (lip)
   const YCl = YC + 0.02; // cloth lies on the board
   bx("cloth", -CX + 0.01, CX - 0.01, YCl, YCl + 0.012, ZW + 0.06, ZF + 0.06); // cloth top
   bx("cloth", -CX + 0.01, CX - 0.01, YCl - 0.42, YCl + 0.012, ZF + 0.05, ZF + 0.065); // front drape
@@ -298,6 +304,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     roof: [c.roof, c.roofShade, 0.1, true, 5],
     wood: [c.wood, c.woodShade, 0.1, true, 5],
     cloth: [c.cloth, c.clothShade, 0.1, true, 2],
+    plaster: [c.plaster, c.plasterShade, 0.1, true, 5],
     omRed: [c.omRed, c.omRedShade, 0.1, true, 2],
     omPink: [c.omPink, c.omPinkShade, 0.1, true, 2],
     glint: [c.glint, c.glint, 0.1, false, 0],
