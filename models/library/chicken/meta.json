@@ -1,0 +1,223 @@
+{
+  "id": "chicken",
+  "name": "Chicken",
+  "category": "bird",
+  "tags": [
+    "animal",
+    "bird",
+    "chicken",
+    "hen",
+    "poultry",
+    "farm"
+  ],
+  "style": "mid-poly, realistic proportions (CDmir 2015); photo texture flattened to flat colours",
+  "height": 0.4,
+  "script": "indigo",
+  "colors": {
+    "coat": "#e7a04a",
+    "coatShade": "#1b2d6b",
+    "comb": "#e23b4a",
+    "combShade": "#1b2d6b",
+    "legs": "#f0c36a",
+    "legsShade": "#e7a04a",
+    "eye": "#16141c",
+    "eyeShade": "#1b2d6b"
+  },
+  "materials": {
+    "Chicken": "coat",
+    "Material": "comb",
+    "Comb": "comb",
+    "Chicken#924324": "coat",
+    "Chicken#71351b": "coat",
+    "Chicken#a5593d": "coat",
+    "Chicken#b6806b": "coat",
+    "Chicken#542a1a": "coat",
+    "Chicken#733f29": "coat",
+    "Chicken#3f1d18": "coat",
+    "Chicken#845238": "coat",
+    "Chicken#613220": "coat",
+    "Chicken#634033": "coat",
+    "Chicken#211c21": "coat",
+    "Chicken#e3bf9f": "legs",
+    "Comb#fe797a": "comb",
+    "Comb#fb8590": "comb",
+    "Comb#fe8b96": "comb",
+    "Comb#ff848c": "comb",
+    "Comb#fe93a4": "comb",
+    "Comb#fe797e": "comb",
+    "Material.001": "eye",
+    "Material.001#daa7a2": "eye",
+    "Material.001#e4b3b1": "eye",
+    "Material.001#dcafae": "eye",
+    "Material.001#ffc7c3": "eye",
+    "Material.001#e2c3be": "eye",
+    "Material.001#9d8b87": "eye",
+    "Material.001#7b6764": "eye",
+    "Material.001#ac8678": "eye",
+    "Material.001#86716b": "eye",
+    "Material.001#c6b1ad": "eye",
+    "Material.001#ca9c93": "eye",
+    "Material.001#e4a5a2": "eye"
+  },
+  "noInk": [
+    "eye"
+  ],
+  "clips": {
+    "idle": "Idle2",
+    "walk": "Walk",
+    "eat": "Eating",
+    "death": "Dying"
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "CDmir (Čestmír Dammer)",
+    "pack": "CDmir · Chicken (animated, Kelgar)",
+    "page": "https://opengameart.org/content/chicken-animated",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 29 named the Quaternius animated chicken (poly.pizza, behind a Cloudflare challenge; its Google Drive is quota-blocked). The reachable Quaternius 'Chicken' (Textured Cute Monster Pack, OpenGameArt) was rendered and is a round big-eyed monster blob, not a farm chicken; no reachable Quaternius farm pack has one. This CC0 hen (license.txt in the zip: CC0, Čestmír Dammer) reads as a farm chicken at a glance and has idle, walk, eat, peck and death clips. Its .blend uses legacy Blender Internal materials; the pipeline reads the one colour image (UV-Texture.png) and flattens it: the brown clusters draw as a buff hen, the pale foot/beak cluster as yellow legs, the pink comb clusters as a red comb (one pale cluster that also dots the body goes to the coat). The sculpt base mesh ('Cylinder', a multires cage around the bird) is dropped. Height 0.4 m: a standing hen to the top of the comb."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/chicken_0.zip",
+      "sha256": "0e958040fdb855c192903657d8a9da2d95cf17ea23165676bae2ae1454baa284",
+      "bytes": 6214921,
+      "resolved": "https://opengameart.org/sites/default/files/chicken_0.zip"
+    },
+    "member": "chickenV2.blend",
+    "extraMembers": [
+      "textures/UV-Texture.png"
+    ],
+    "height": 0.4,
+    "yaw": 0,
+    "drop": [
+      "Cylinder"
+    ],
+    "keepActions": [
+      "Idle2",
+      "Idle1",
+      "Walk",
+      "Eating",
+      "BeginPecking",
+      "Pecking1",
+      "EndPecking",
+      "Dying"
+    ],
+    "memberSha256": "4b651e4edbfde8f1ee6480e7567530cf3bd034a8938e9b9f738139fcf17f91a1"
+  },
+  "file": "model.glb",
+  "sha256": "9994d1d39ffbe9875d883728517c8918235a524866ded4b1bd64c5b979a3fc1f",
+  "bytes": 293576,
+  "triangles": 2724,
+  "bones": 40,
+  "sourceMaterials": {
+    "Chicken": "#895042",
+    "Material": "#e7005d",
+    "Comb": "#e7e7e7",
+    "Chicken#924324": "#924324",
+    "Chicken#71351b": "#71351b",
+    "Chicken#a5593d": "#a5593d",
+    "Chicken#b6806b": "#b6806b",
+    "Chicken#542a1a": "#542a1a",
+    "Chicken#733f29": "#733f29",
+    "Chicken#3f1d18": "#3f1d18",
+    "Chicken#845238": "#845238",
+    "Chicken#613220": "#613220",
+    "Chicken#634033": "#634033",
+    "Chicken#211c21": "#211c21",
+    "Chicken#e3bf9f": "#e3bf9f",
+    "Comb#fe797a": "#fe797a",
+    "Comb#fb8590": "#fb8590",
+    "Comb#fe8b96": "#fe8b96",
+    "Comb#ff848c": "#ff848c",
+    "Comb#fe93a4": "#fe93a4",
+    "Comb#fe797e": "#fe797e",
+    "Material.001": "#e7e7e7",
+    "Material.001#daa7a2": "#daa7a2",
+    "Material.001#e4b3b1": "#e4b3b1",
+    "Material.001#dcafae": "#dcafae",
+    "Material.001#ffc7c3": "#ffc7c3",
+    "Material.001#e2c3be": "#e2c3be",
+    "Material.001#9d8b87": "#9d8b87",
+    "Material.001#7b6764": "#7b6764",
+    "Material.001#ac8678": "#ac8678",
+    "Material.001#86716b": "#86716b",
+    "Material.001#c6b1ad": "#c6b1ad",
+    "Material.001#ca9c93": "#ca9c93",
+    "Material.001#e4a5a2": "#e4a5a2"
+  },
+  "clipInfo": {
+    "BeginPecking": {
+      "seconds": 0.2917,
+      "loop": false
+    },
+    "Dying": {
+      "seconds": 1.0417,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Eating": {
+      "seconds": 2.25,
+      "loop": true
+    },
+    "EndPecking": {
+      "seconds": 0.3333,
+      "loop": false
+    },
+    "Idle1": {
+      "seconds": 3.125,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Idle2": {
+      "seconds": 1.5417,
+      "loop": true
+    },
+    "Pecking1": {
+      "seconds": 0.4583,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 2.25,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 0.4,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2724,
+    "clips": {
+      "idle": {
+        "minY": 0.0001,
+        "touches": true,
+        "maxSize": 0.4
+      },
+      "walk": {
+        "minY": -0.0039,
+        "touches": true,
+        "maxSize": 0.4
+      },
+      "eat": {
+        "minY": -0.0012,
+        "touches": true,
+        "maxSize": 0.4
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.41
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
