@@ -246,7 +246,7 @@ async function main() {
   } catch (e) {
     throw new Error(`pose("${hasRest ? "rest" : names[0]}") threw: ${e.message}`);
   }
-  contractWarnings(measure(THREE, built.root), meta, warnings);
+  contractWarnings(measure(THREE, built.root), meta, warnings, buildOpts);
   const reports = names.map((n) => {
     if (!meta.poses.includes(n) && !(built.clips && /@-?[\d.]+$/.test(n))) warnings.push(`pose "${n}" is not listed in meta.poses (${meta.poses.join(", ")})`);
     const r = probePose(THREE, built, n, meta.height);
