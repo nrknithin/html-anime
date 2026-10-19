@@ -1,0 +1,144 @@
+{
+  "id": "stegosaurus",
+  "name": "Stegosaurus",
+  "category": "dinosaur",
+  "tags": [
+    "animal",
+    "dinosaur",
+    "stegosaurus",
+    "herbivore",
+    "prehistoric",
+    "quadruped",
+    "plates"
+  ],
+  "style": "low-poly, flat colours",
+  "height": 4,
+  "script": "indigo",
+  "colors": {
+    "hide": "#d5e2ff",
+    "hideShade": "#1b2d6b",
+    "plates": "#e23b4a",
+    "platesShade": "#e7a04a",
+    "belly": "#f0c36a",
+    "bellyShade": "#e7a04a"
+  },
+  "materials": {
+    "DarkBrown": "hide",
+    "LightBrown": "belly",
+    "Brown": "plates"
+  },
+  "clips": {
+    "idle": "Stegosaurus_Idle",
+    "walk": "Stegosaurus_Walk",
+    "run": "Stegosaurus_Run",
+    "attack": "Stegosaurus_Attack",
+    "jump": "Stegosaurus_Jump",
+    "death": "Stegosaurus_Death"
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated LowPoly Dinosaurs",
+    "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 61 named the Quaternius Animated Creatures/Dinosaurs Stegosaurus on poly.pizza (Cloudflare challenge). This is the same Quaternius dinosaur pack (Dec 2018) from its itch.io page, CC0, the same zip and pin as the t-rex and velociraptor. Height: 4 m to the top of the back plates in the rest pose, an adult Stegosaurus stenops (hips ~2.4 m); at that scale the model is 8.7 m long, within the 6.5-9 m adult range."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+      "upload": "Dinosaur Animated Pack - Dec 2018.zip",
+      "sha256": "d9ca7d3568bd98b323b0be9a82b546af66d77c2a18e355c1bee5c50061b8931c",
+      "bytes": 10849959
+    },
+    "member": "Dinosaur Animated Pack - Dec 2018/FBX/Stegosaurus.fbx",
+    "height": 4,
+    "memberSha256": "944a457338731a544a904a7c60d85d67c8f034c77e0205aae0ca3efc5711a002"
+  },
+  "file": "model.glb",
+  "sha256": "7781dc87c75ce00156491b79f6a39dde6057aa4094a83860e994f6f0a66a56ee",
+  "bytes": 216572,
+  "triangles": 2290,
+  "bones": 29,
+  "sourceMaterials": {
+    "DarkBrown": "#534736",
+    "LightBrown": "#6d624f",
+    "Brown": "#665742"
+  },
+  "clipInfo": {
+    "Stegosaurus_Attack": {
+      "seconds": 1.9167,
+      "loop": false
+    },
+    "Stegosaurus_Death": {
+      "seconds": 1.625,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Stegosaurus_Idle": {
+      "seconds": 2.5833,
+      "loop": true
+    },
+    "Stegosaurus_Jump": {
+      "seconds": 1.5,
+      "loop": false
+    },
+    "Stegosaurus_Run": {
+      "seconds": 0.8333,
+      "loop": true
+    },
+    "Stegosaurus_Walk": {
+      "seconds": 2.9583,
+      "loop": true,
+      "sinkAllowed": "the tail tip sweeps down through the ground (up to ~0.26 m) mid-cycle while all four feet stay planted at 0.105 m; clamping would float the walking body"
+    }
+  },
+  "qa": {
+    "height": 3.9999,
+    "heightError": 0,
+    "minY": 0.0001,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2290,
+    "clips": {
+      "idle": {
+        "minY": -0.003,
+        "touches": true,
+        "maxSize": 8.73
+      },
+      "walk": {
+        "minY": -0.2585,
+        "touches": true,
+        "maxSize": 8.32
+      },
+      "run": {
+        "minY": -0.0226,
+        "touches": true,
+        "maxSize": 8.42
+      },
+      "attack": {
+        "minY": -0.0404,
+        "touches": true,
+        "maxSize": 7.7
+      },
+      "jump": {
+        "minY": -0.0185,
+        "touches": true,
+        "maxSize": 9.02
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 8.36
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
