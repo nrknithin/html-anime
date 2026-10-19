@@ -1,0 +1,103 @@
+{
+  "id": "cake",
+  "name": "Cake (strawberry shortcake)",
+  "category": "food",
+  "tags": [
+    "food",
+    "cake",
+    "shortcake",
+    "strawberry",
+    "dessert",
+    "birthday",
+    "cafe",
+    "japan",
+    "prop",
+    "static"
+  ],
+  "style": "low-poly, colour-map texture flattened to flat colours; a whole round layer cake, pre-cut into six slices, normalised to 0.09 m tall so it is 0.21 m across",
+  "height": 0.09,
+  "script": "noon",
+  "colors": {
+    "cream": "#fffaf2",
+    "creamShade": "#f2d7ae",
+    "sponge": "#f2d7ae",
+    "spongeShade": "#f2d7ae",
+    "filling": "#f0c2ae",
+    "fillingShade": "#f0c2ae",
+    "berry": "#c4452d",
+    "berryShade": "#5c3d32"
+  },
+  "materials": {
+    "colormap": "cream",
+    "colormap#8e5641": "sponge",
+    "colormap#9b5a41": "sponge",
+    "colormap#845442": "sponge",
+    "colormap#885541": "sponge",
+    "colormap#51413d": "cream",
+    "colormap#54443f": "cream",
+    "colormap#dadae8": "cream",
+    "colormap#ebebf2": "cream",
+    "colormap#f1f1f6": "cream",
+    "colormap#fafafc": "cream",
+    "colormap#e46a4f": "berry",
+    "colormap#e891dd": "filling"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Food Kit",
+    "page": "https://kenney.nl/assets/food-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney Food Kit `cake` (plan row 194's own member). The kit's cakes: `cake` (a round two-layer cake, white top with six strawberries, a drip round the rim, pre-cut into six slices), `cake-birthday` (frosted ring with six candles and sprinkles) and `cupcake`; no single slice (`cake-slicer` is a server). `cake` chosen for a Japanese strawberry-shortcake look. Size: the source is 2.3x wider than tall; normalised by height to 0.09 m, which makes it 0.21 m across (a 21 cm cake), the dimension the plan's 0.18-0.25 m range names. Colours (noon), from a debug render: top, rim and drip (#dadae8, #f1f1f6, #ebebf2, #fafafc and the dark drip #51413d/#54443f) are cream (practical, sky shade), so the whole outside reads as whipped cream; the two pink filling bands (#e891dd) are filling (skin, one tone); the four brown sponge greys are sponge (sky, one tone: a darker shade flickered as blocks because each slice is its own mesh with its own normals); the strawberries (#e46a4f) are berry (accent, iris shade). Faint ink seams between the six slices remain (each slice has its own hull). Round, so no facing. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/food-kit",
+      "sha256": "cdad90853682499b94c9fda2f87678b24bfd8f3264e0ed323f6b6a27fd7c6f6f",
+      "bytes": 4606270
+    },
+    "member": "Models/GLB format/cake.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.09,
+    "memberSha256": "9594766d701142c4f5ab1d36cc40957667cd966281757e887de4d40557e63e09"
+  },
+  "file": "model.glb",
+  "sha256": "3bc708dfc9f4af9152257ee8b9d7a12b53c0984986cc070edf66245f03535c1c",
+  "bytes": 79608,
+  "triangles": 750,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#8e5641": "#8e5641",
+    "colormap#9b5a41": "#9b5a41",
+    "colormap#845442": "#845442",
+    "colormap#885541": "#885541",
+    "colormap#51413d": "#51413d",
+    "colormap#54443f": "#54443f",
+    "colormap#dadae8": "#dadae8",
+    "colormap#ebebf2": "#ebebf2",
+    "colormap#f1f1f6": "#f1f1f6",
+    "colormap#fafafc": "#fafafc",
+    "colormap#e46a4f": "#e46a4f",
+    "colormap#e891dd": "#e891dd"
+  },
+  "clipInfo": {},
+  "smooth": true,
+  "qa": {
+    "height": 0.09,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 750,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

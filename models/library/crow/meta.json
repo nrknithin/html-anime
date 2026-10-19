@@ -1,0 +1,102 @@
+{
+  "id": "crow",
+  "name": "Crow",
+  "category": "bird",
+  "tags": [
+    "animal",
+    "bird",
+    "crow",
+    "raven",
+    "corvid",
+    "flying",
+    "omen"
+  ],
+  "style": "mid-poly, realistic proportions, cut primary feathers (Teh_Bucket); texture dropped, one flat material",
+  "height": 0.3,
+  "script": "indigo",
+  "colors": {
+    "plumage": "#1b2d6b",
+    "plumageShade": "#16141c"
+  },
+  "materials": {
+    "raven_mat": "plumage"
+  },
+  "thresholds": {
+    "plumage": 0.62
+  },
+  "clips": {
+    "idle": "stand",
+    "fly": "fly"
+  },
+  "preview": {
+    "clip": "fly",
+    "pose": "idle@0"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Teh_Bucket",
+    "pack": "Teh_Bucket · Raven",
+    "page": "https://opengameart.org/content/raven-0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Assigned as wave-1 row 32 (small bird: Quaternius Cute Creatures Birb on poly.pizza, behind a Cloudflare challenge; its Google Drive is quota-blocked), and no reachable Quaternius pack has a bird. The reachable free animated birds on OpenGameArt were compared in the lab: a CC0 cardinal (gonzalfj) has one material and one near-static idle with no flight; a CC0 pigeon (mujtaba-io) has a good flap loop but holds its wings spread out in every clip, even its idle; this CC0 raven reads best, perches with folded wings and has a full flight loop. So it fills row 36 (crow / raven, a gap) instead. Its idle is the source's one-frame 'stand' perch (a static hold); its rest pose has the wings spread. The texture (an external, missing file) is not used: one material, drawn as black plumage over a navy sheen."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://opengameart.org/sites/default/files/raven_0.blend",
+      "sha256": "ca8f656fc7ac72e62e4e6651a43db3b0865c9ad4cdba37050bed696299bb94e0",
+      "bytes": 1623452,
+      "resolved": "https://opengameart.org/sites/default/files/raven_0.blend"
+    },
+    "height": 0.3,
+    "yaw": 180,
+    "keepActions": [
+      "stand",
+      "fly"
+    ]
+  },
+  "file": "model.glb",
+  "sha256": "c1dc9615884931796fb7147305a6923fa78e45e8f67ec79093eb1d01b8fab778",
+  "bytes": 79132,
+  "triangles": 1190,
+  "bones": 32,
+  "sourceMaterials": {
+    "raven_mat": "#e7e7e7"
+  },
+  "clipInfo": {
+    "fly": {
+      "seconds": 1.4167,
+      "loop": true,
+      "lift": 0.12
+    },
+    "stand": {
+      "seconds": 0,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 0.3,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2380,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.43
+      },
+      "fly": {
+        "minY": 0.0105,
+        "touches": false,
+        "maxSize": 1.12
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + fly"
+  }
+}
