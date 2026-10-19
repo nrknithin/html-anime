@@ -10,8 +10,9 @@
 //            rail: at the hero angle it cut straight across the prizes.
 //   AWNING   one inked white slab sloping forward (back 2.60, front lip 2.30), 11 stripes front-to-back as red decals
 //            3 mm off its faces (no hull, so stripe seams never ink), a short scalloped valance on the front lip.
-//   SIGN     a white board standing on the front lip (2.24-2.71) in a red frame, the two characters painted in brush
-//            strokes: flat ink quads 2 mm proud of the board, each stroke a polyline with a width (no font, no texture).
+//   SIGN     a white board standing on the front lip (2.24-2.71) in a red frame, painted with a bold red-and-white
+//            bullseye (red ring decals, an ink rim) between two cork-gun silhouettes aiming at it (flat ink quads 2 mm
+//            proud of the board, a red cork at each muzzle). No lettering (skill rule 15).
 //   SHELVES  a dark indigo backdrop and four dark step blocks (tops 0.96 / 1.20 / 1.44 / 1.68, treads 0.22 deep) with
 //            red felt laid over each tread and down each riser, so the sides stay dark and the prizes read against them.
 //            Prizes are modelled at catalogue size and grown 1.3x about their feet (grow()) so they carry at 480x300:
@@ -26,7 +27,7 @@
 //            vertex), as the ufo-catcher claw.
 // Proportions (real size, base unit the stall width W = 2.5 m): posts at x +-1.15, z +0.85 / -0.90; awning 2.5 x 2.0;
 //   counter 2.16 x 0.5; steps 2.08 wide; lanterns 0.17 x 0.22 (+ caps), every 0.5 m, centres at 2.05; sign 1.24 x 0.47,
-//   characters 0.36 tall; daruma 0.31-0.36 tall, cat 0.45, figure boxes 0.29; rifles 0.82 long.
+//   bullseye 0.36 across, guns 0.37 long; daruma 0.31-0.36 tall, cat 0.45, figure boxes 0.29; rifles 0.82 long.
 // Options: build(THREE, kit, colors, { height = 2.72, lanterns = true }). height scales the whole stall uniformly (the
 //   sign's top). lanterns: false drops the lanterns and their cord.
 // Clips: sway (2 s loop): each lantern swings about its hook, 0.16 rad side to side and 0.06 rad fore and aft, phases
@@ -173,55 +174,33 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     }
   }
 
-  // ---------- sign board on the front lip, two brush-painted characters ----------
+  // ---------- sign board on the front lip: a bullseye between two cork guns ----------
   const GX = 0.62, GY0 = 2.24, GY1 = 2.712, GZ = AZ1 + 0.03, GT = 0.03;
   box("canvas", -GX, GX, GY0, GY1, GZ, GZ + GT);
   const FR = 0.035; // red frame, proud of the face
   for (const [x0, x1, y0, y1] of [[-GX, GX, GY1 - FR, GY1], [-GX, GX, GY0, GY0 + FR], [-GX, -GX + FR, GY0, GY1], [GX - FR, GX, GY0, GY1]])
     box("stripeSolid", x0 - 0.008, x1 + 0.008, y0 - 0.008, y1 + 0.008, GZ - 0.004, GZ + GT + 0.008);
   for (const s of [-1, 1]) box("wood", s * 0.45 - 0.025, s * 0.45 + 0.025, AY1 - 0.06, GY0 + 0.1, GZ - 0.05, GZ); // struts
-  // strokes in a unit cell (x right, y up), [width, ...points]
-  const GLYPHS = [
-    [ // 射: 身 + 寸
-      [0.085, [0.31, 0.98], [0.2, 0.87]],
-      [0.075, [0.12, 0.86], [0.42, 0.86]],
-      [0.075, [0.12, 0.86], [0.12, 0.38]],
-      [0.075, [0.42, 0.86], [0.42, 0.06], [0.33, 0.12]],
-      [0.06, [0.12, 0.69], [0.42, 0.69]],
-      [0.06, [0.12, 0.53], [0.42, 0.53]],
-      [0.075, [0.03, 0.36], [0.5, 0.44]],
-      [0.08, [0.36, 0.38], [0.2, 0.18], [0.04, 0.05]],
-      [0.075, [0.55, 0.68], [0.98, 0.71]],
-      [0.085, [0.83, 0.97], [0.83, 0.07], [0.72, 0.14]],
-      [0.09, [0.62, 0.53], [0.69, 0.41]],
-    ],
-    [ // 的: 白 + 勺
-      [0.085, [0.27, 0.99], [0.18, 0.86]],
-      [0.075, [0.06, 0.8], [0.06, 0.06]],
-      [0.075, [0.06, 0.8], [0.4, 0.8]],
-      [0.075, [0.4, 0.8], [0.4, 0.06]],
-      [0.06, [0.06, 0.44], [0.4, 0.44]],
-      [0.07, [0.06, 0.09], [0.4, 0.09]],
-      [0.085, [0.68, 0.98], [0.52, 0.64]],
-      [0.075, [0.59, 0.81], [0.95, 0.81], [0.93, 0.08], [0.8, 0.15]],
-      [0.095, [0.65, 0.53], [0.76, 0.38]],
-    ],
+  // a bold bullseye in the middle (red rings as flat decals on the white board, an ink rim), and a cork-gun
+  // silhouette on each side aiming at it (flat ink quads, a red cork at the muzzle). No lettering.
+  const CZ = GZ + GT + 0.002, CYS = (GY0 + GY1) / 2, BR = 0.17;
+  const flat = (key, geo, x, y) => add(key, geo, [x, y, CZ]);
+  flat("ink", new THREE.RingGeometry(BR, BR + 0.012, 32), 0, CYS);
+  flat("stripe", new THREE.RingGeometry(BR * 0.76, BR, 32), 0, CYS);
+  flat("stripe", new THREE.RingGeometry(BR * 0.36, BR * 0.56, 24), 0, CYS);
+  flat("stripe", new THREE.CircleGeometry(BR * 0.18, 16), 0, CYS);
+  // gun in local metres: u from the butt toward the muzzle, v up
+  const GUN = [
+    ["ink", [[0, -0.05], [0.13, -0.02], [0.13, 0.03], [0, 0.05]]], // butt stock, tall at the heel
+    ["ink", [[0.13, -0.016], [0.25, -0.01], [0.25, 0.03], [0.13, 0.03]]], // forend
+    ["ink", [[0.12, 0.028], [0.35, 0.028], [0.35, 0.056], [0.12, 0.056]]], // barrel
+    ["ink", [[0.1, -0.012], [0.125, -0.012], [0.125, -0.05], [0.1, -0.05]]], // trigger guard
+    ["stripe", [[0.35, 0.031], [0.372, 0.033], [0.372, 0.051], [0.35, 0.053]]], // the cork
   ];
-  const CH = 0.36, CZ = GZ + GT + 0.002;
-  GLYPHS.forEach((strokes, gi) => {
-    const ox = (gi === 0 ? -0.06 : 0.06) + (gi - 1) * CH, oy = (GY0 + GY1) / 2 - CH / 2;
-    for (const [w0, ...pts] of strokes) {
-      const P = pts.map(([u, v]) => [ox + u * CH, oy + v * CH]), w = w0 * CH;
-      for (let k = 0; k < P.length - 1; k++) {
-        const [a, b] = [P[k], P[k + 1]], d = norm([b[0] - a[0], b[1] - a[1], 0]), h = w / 2;
-        const t = [d[0] * h * 0.9, d[1] * h * 0.9], nx = -d[1] * h, ny = d[0] * h;
-        const A = [a[0] - t[0], a[1] - t[1]], B = [b[0] + t[0], b[1] + t[1]];
-        // a brush taper: a little narrower at the stroke's end
-        const e = k === P.length - 2 ? 0.75 : 1;
-        quad("ink", [A[0] + nx, A[1] + ny, CZ], [A[0] - nx, A[1] - ny, CZ], [B[0] - nx * e, B[1] - ny * e, CZ], [B[0] + nx * e, B[1] + ny * e, CZ], [A[0], A[1], CZ - 1]);
-      }
-    }
-  });
+  for (const sx of [-1, 1]) {
+    const W = ([u, v]) => [sx * (0.565 - u), CYS - 0.005 + v, CZ];
+    for (const [key, q] of GUN) quad(key, W(q[0]), W(q[1]), W(q[2]), W(q[3]), [0, CYS, CZ - 1]);
+  }
 
   // ---------- backdrop and stepped red-felt shelves ----------
   const BZ = -0.86, SX = 1.04;
