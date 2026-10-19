@@ -1,0 +1,203 @@
+{
+  "id": "rabbit",
+  "name": "Rabbit",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "rabbit",
+    "bunny",
+    "pet",
+    "moon",
+    "quadruped",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets); height 0.35 m to the ear tips, a real rabbit's size sitting up (0.25-0.4 m), so it sits under the library's cat (0.4 m tail tip) and at a 1.7 m adult's shin; rigid parts moved by node tracks, no skin; colour map flattened to flat colours",
+  "height": 0.35,
+  "script": "indigo",
+  "colors": {
+    "coat": "#f6f3ee",
+    "coatShade": "#d5e2ff",
+    "pink": "#f0c2ae",
+    "pinkShade": "#e7a04a",
+    "eye": "#16141c",
+    "eyeShade": "#1b2d6b"
+  },
+  "materials": {
+    "colormap": "coat",
+    "colormap#b76646": "coat",
+    "colormap#be6c4b": "coat",
+    "colormap#c06e4c": "coat",
+    "colormap#e78e65": "coat",
+    "colormap#e99167": "coat",
+    "colormap#e28b62": "coat",
+    "colormap#e08861": "coat",
+    "colormap#cc7854": "coat",
+    "colormap#d7815b": "coat",
+    "colormap#d47f59": "coat",
+    "colormap#c97652": "coat",
+    "colormap#bb6a49": "coat",
+    "colormap#e38b63": "coat",
+    "colormap#db845d": "coat",
+    "colormap#c16f4d": "coat",
+    "colormap#d07b56": "coat",
+    "colormap#cb7753": "coat",
+    "colormap#cf7b56": "coat",
+    "colormap#c2704d": "coat",
+    "colormap#e8bda6": "pink",
+    "colormap#9b5a41": "pink",
+    "colormap#4c505e": "eye",
+    "colormap#c4714e": "coat",
+    "colormap#d27d58": "coat"
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "eat": "eat",
+    "dance": "dance"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 16 named the rabbit from Quaternius's Animated Animals on poly.pizza, which sits behind a Cloudflare challenge (and Quaternius's Google Drive is quota-blocked). None of the reachable Quaternius packs pinned by other entries has a rabbit (Animal Pack Vol.2: cat, dog, eagle, piranha, wolf; Farm Animals: cow, horse, llama, pig, pug, sheep, zebra; Textured Cute Monster Pack and the 2018 Animated Monster Pack: no rabbit). Two CC0 OpenGameArt rabbits were rendered too: CDmir's realistic Kelgar rabbit (opengameart.org/content/rabbit-0) is well modelled, but its packed legacy texture is not picked up (two candidate images), so it comes in flat white with no eyes, and its whisker strands, on the body material, draw as thick ink sticks across the face; Bandana's Lucky Bunny (opengameart.org/content/lucky-bunny) is a game costume rig whose parts come apart (a hat 6 m above the body) and it does not read as a rabbit. This Cube Pets bunny reads as a rabbit at a glance and has idle, walk, run, eat and dance. Recoloured as a white moon rabbit: the orange coat clusters -> coat, the pale inner-ear/cheek cluster and the darker muzzle cluster -> pink, the slate cluster -> eye (flat black, no hull). Ground: run is a hop (in the air up to 1.8 cm between strides, as authored) and clamps so the landings never sink; walk is a bouncy trot that never sinks and is left as authored; eat lets the snout dip (sinkAllowed). Ingested through Blender like the other Cube Pets."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-bunny.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.35,
+    "yaw": 0,
+    "maxColors": 24,
+    "memberSha256": "94b654915d9de70071bcf0bfa13de379a3ba4fdfeb231f0fec49335232cbc821"
+  },
+  "file": "model.glb",
+  "sha256": "62f0d8fb5d9952975300adaad98f20e6ae47e9014e0955877bbb5a7c9b286cc9",
+  "bytes": 73544,
+  "triangles": 575,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#b76646": "#b76646",
+    "colormap#be6c4b": "#be6c4b",
+    "colormap#c06e4c": "#c06e4c",
+    "colormap#e78e65": "#e78e65",
+    "colormap#e99167": "#e99167",
+    "colormap#e28b62": "#e28b62",
+    "colormap#e08861": "#e08861",
+    "colormap#cc7854": "#cc7854",
+    "colormap#d7815b": "#d7815b",
+    "colormap#d47f59": "#d47f59",
+    "colormap#c97652": "#c97652",
+    "colormap#bb6a49": "#bb6a49",
+    "colormap#e38b63": "#e38b63",
+    "colormap#db845d": "#db845d",
+    "colormap#c16f4d": "#c16f4d",
+    "colormap#d07b56": "#d07b56",
+    "colormap#cb7753": "#cb7753",
+    "colormap#cf7b56": "#cf7b56",
+    "colormap#c2704d": "#c2704d",
+    "colormap#e8bda6": "#e8bda6",
+    "colormap#9b5a41": "#9b5a41",
+    "colormap#4c505e": "#4c505e",
+    "colormap#c4714e": "#c4714e",
+    "colormap#d27d58": "#d27d58"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the snout dips 7 mm through the ground as the head bobs down to graze while all four feet stay planted (clamping would float the rabbit)"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": false
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": false
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "static": {
+      "seconds": 0.0833,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "thresholds": {
+    "pink": -0.6,
+    "eye": -1
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "clip": "run"
+  },
+  "qa": {
+    "height": 0.35,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 575,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.35
+      },
+      "walk": {
+        "minY": 0.0007,
+        "touches": true,
+        "maxSize": 0.36
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.35
+      },
+      "eat": {
+        "minY": -0.007,
+        "touches": true,
+        "maxSize": 0.35
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.37
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + run"
+  }
+}
