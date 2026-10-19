@@ -1,0 +1,104 @@
+{
+  "id": "car-suv",
+  "name": "SUV",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "car",
+    "suv",
+    "4x4",
+    "street"
+  ],
+  "style": "low-poly, flat colours (Kenney Car Kit)",
+  "height": 1.7,
+  "script": "indigo",
+  "colors": {
+    "body": "#e7a04a",
+    "bodyShade": "#e23b4a",
+    "roof": "#f6f3ee",
+    "roofShade": "#d5e2ff",
+    "glass": "#d5e2ff",
+    "glassShade": "#f6f3ee",
+    "tint": "#16141c",
+    "tintShade": "#101628",
+    "lower": "#16141c",
+    "lowerShade": "#101628",
+    "lamp": "#f6f3ee",
+    "lampShade": "#f0c36a",
+    "tyre": "#16141c",
+    "tyreShade": "#101628"
+  },
+  "materials": {
+    "colormap": "lower",
+    "colormap#36363a": "tyre",
+    "colormap#3a3a3f": "tyre",
+    "colormap#38383d": "tyre",
+    "colormap#3e3e44": "tyre",
+    "colormap#43434c": "tyre",
+    "colormap#8489a0": "roof",
+    "colormap#dce6f4": "glass",
+    "colormap#6a6b80": "lower",
+    "colormap#727489": "tint",
+    "colormap#65657a": "lower",
+    "colormap#40aa7b": "body",
+    "colormap#f5a138": "lamp"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Car Kit",
+    "page": "https://kenney.nl/assets/car-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney suv (FBX like car-sedan, car-taxi and car-police from the same kit and pin; the plan named the GLB member, which references Textures/colormap.png). Real size: the kit models every car about 1.3 units tall, so the scale is set per car. This one is a boxy two-door off-roader whose length is only 2.08x its height (a 4.6 m mid-size SUV is about 2.7x), so it cannot match a typical SUV in both height and length; it is matched to a short two-door 4x4 such as a Suzuki Jimny (about 3.5-3.65 x 1.65 x 1.72 m): 1.7 m tall, which makes it 3.53 m long with the rear spare wheel and 1.96 m wide across the mirrors (body about 1.7 m). Scaling to a 4.6 m length would make it 2.2 m tall. Kenney's green body is recoloured to the indigo script's amber-orange iris with the accent red as its shade (a colour no other library car uses; the shade stays clear of the ink outline), with the grey roof and rims in paper white, the grey rear quarter, grille and wheel-arch flares in near-black like tinted glass and trim, lamps in paper white and the practical. Wheels are separate nodes in the source; static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/car-kit",
+      "sha256": "fac7dacac5c7874348cf19729af3ef205f3d366493edaf0a827d93f4fdf3d0c4",
+      "bytes": 4814237
+    },
+    "member": "Models/FBX format/suv.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 1.7,
+    "maxColors": 12,
+    "memberSha256": "d44b0558458fea1f51de83c62f5c21bf82e1feebcf1fca396a73a989bb6afb12"
+  },
+  "file": "model.glb",
+  "sha256": "5577b2e29275a61bddf68d2436e0a77c022f10d7c30503cd75f2cc2ecd0af87b",
+  "bytes": 49356,
+  "triangles": 2474,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#36363a": "#36363a",
+    "colormap#3a3a3f": "#3a3a3f",
+    "colormap#38383d": "#38383d",
+    "colormap#3e3e44": "#3e3e44",
+    "colormap#43434c": "#43434c",
+    "colormap#8489a0": "#8489a0",
+    "colormap#dce6f4": "#dce6f4",
+    "colormap#6a6b80": "#6a6b80",
+    "colormap#727489": "#727489",
+    "colormap#65657a": "#65657a",
+    "colormap#40aa7b": "#40aa7b",
+    "colormap#f5a138": "#f5a138"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.6999,
+    "heightError": -0.0001,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2474,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

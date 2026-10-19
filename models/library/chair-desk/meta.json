@@ -1,0 +1,70 @@
+{
+  "id": "chair-desk",
+  "name": "Classroom chair",
+  "category": "prop",
+  "tags": [
+    "furniture",
+    "chair",
+    "school",
+    "classroom",
+    "interior",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Furniture Kit 2.0)",
+  "height": 0.85,
+  "script": "noon",
+  "colors": {
+    "wood": "#f2d7ae",
+    "woodShade": "#5c3d32",
+    "metal": "#fffaf2",
+    "metalShade": "#f6f3ee"
+  },
+  "materials": {
+    "metal": "metal",
+    "carpetBlue": "wood"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Furniture Kit",
+    "page": "https://kenney.nl/assets/furniture-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney Furniture Kit 2.0 `chairModernCushion` (GLB), not the plan's `chairDesk` (an office swivel chair with armrests and a five-star base, wrong for a classroom). Of the kit's chairs (chair, chairCushion, chairRounded: all-wood slat backs; chairModernFrameCushion: cantilever tube frame with no backrest; chairDesk: office chair) this is the one with a school chair's build: four straight legs and a frame of one material (`metal`, drawn as pale painted metal), with the seat and the backrest panel's front in another (`carpetBlue`, recoloured as wood). At 0.85 m to the back top the seat is 0.45 m, real school-chair size; the kit's own scale (desk-teacher at 0.74 m) would make it 0.89 m, so the two sit together within 4 %. Front (seat edge) faces +Z. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+      "bytes": 5130729
+    },
+    "member": "Models/GLTF format/chairModernCushion.glb",
+    "height": 0.85,
+    "memberSha256": "245132697e633e907e2b48c86d56f6c8543604a3440a055d1c71c06ce11d2858"
+  },
+  "file": "model.glb",
+  "sha256": "6d2248bc4951b7709f543aaca6cc526b3cdb0eb75829a7027950caf19b25b515",
+  "bytes": 4168,
+  "triangles": 92,
+  "bones": 0,
+  "sourceMaterials": {
+    "metal": "#dfeaec",
+    "carpetBlue": "#a1bef0"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.85,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 92,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
