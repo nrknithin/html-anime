@@ -1,0 +1,144 @@
+{
+  "id": "velociraptor",
+  "name": "Velociraptor",
+  "category": "dinosaur",
+  "tags": [
+    "animal",
+    "dinosaur",
+    "velociraptor",
+    "raptor",
+    "predator",
+    "prehistoric",
+    "biped"
+  ],
+  "style": "low-poly, flat colours",
+  "height": 1.8,
+  "script": "noon",
+  "colors": {
+    "hide": "#f2d7ae",
+    "hideShade": "#5c3d32",
+    "belly": "#c4452d",
+    "bellyShade": "#5c3d32",
+    "eye": "#241c16",
+    "eyeShade": "#c4452d"
+  },
+  "materials": {
+    "Brown": "hide",
+    "LightBrown": "belly",
+    "Black": "eye"
+  },
+  "clips": {
+    "idle": "Velociraptor_Idle",
+    "walk": "Velociraptor_Walk",
+    "run": "Velociraptor_Run",
+    "attack": "Velociraptor_Attack",
+    "jump": "Velociraptor_Jump",
+    "death": "Velociraptor_Death"
+  },
+  "preview": {
+    "clip": "run"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated LowPoly Dinosaurs",
+    "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 60 named the Quaternius Animated Creatures/Dinosaurs Velociraptor on poly.pizza (Cloudflare challenge). This is the same Quaternius dinosaur pack (Dec 2018) from its itch.io page, CC0, fetched as for the t-rex; the pack has one velociraptor. Height is the film raptor, not the fossil: 1.8 m to the head top in the horizontal rest pose puts the hips at ~1.0 m and the length at 4.5 m, the Jurassic Park-style animal audiences expect when a film says 'velociraptor' (it is really Deinonychus-sized). A true Velociraptor is ~0.5 m at the hip, turkey-sized; scale the model by 0.5 (head top 0.9 m) for that."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+      "upload": "Dinosaur Animated Pack - Dec 2018.zip",
+      "sha256": "d9ca7d3568bd98b323b0be9a82b546af66d77c2a18e355c1bee5c50061b8931c",
+      "bytes": 10849959
+    },
+    "member": "Dinosaur Animated Pack - Dec 2018/FBX/Velociraptor.fbx",
+    "height": 1.8,
+    "memberSha256": "d66ef78fd0d9cb32ff5a1d15f0c06e837a4681be110988f280b69f50e175f11a"
+  },
+  "file": "model.glb",
+  "sha256": "632000d13fe8f72f36a0d88c34eb0903a7b6c68312587b2dd2c8e83629b18bfa",
+  "bytes": 177580,
+  "triangles": 1248,
+  "bones": 29,
+  "sourceMaterials": {
+    "Brown": "#534138",
+    "Black": "#111111",
+    "LightBrown": "#6d5a51"
+  },
+  "clipInfo": {
+    "Velociraptor_Attack": {
+      "seconds": 0.875,
+      "loop": false
+    },
+    "Velociraptor_Death": {
+      "seconds": 1.3333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Velociraptor_Idle": {
+      "seconds": 2.5417,
+      "loop": true
+    },
+    "Velociraptor_Jump": {
+      "seconds": 1.1667,
+      "loop": false
+    },
+    "Velociraptor_Run": {
+      "seconds": 0.5833,
+      "loop": true
+    },
+    "Velociraptor_Walk": {
+      "seconds": 2.4583,
+      "loop": true,
+      "ground": "clamp"
+    }
+  },
+  "qa": {
+    "height": 1.8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1248,
+    "clips": {
+      "idle": {
+        "minY": -0.0001,
+        "touches": true,
+        "maxSize": 4.46
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 4.47
+      },
+      "run": {
+        "minY": -0.0189,
+        "touches": true,
+        "maxSize": 4.48
+      },
+      "attack": {
+        "minY": -0.0013,
+        "touches": true,
+        "maxSize": 4.46
+      },
+      "jump": {
+        "minY": -0.0001,
+        "touches": true,
+        "maxSize": 4.44
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 4.25
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + run"
+  }
+}

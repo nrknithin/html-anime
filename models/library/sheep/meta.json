@@ -1,0 +1,133 @@
+{
+  "id": "sheep",
+  "name": "Sheep",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "sheep",
+    "lamb",
+    "ewe",
+    "farm",
+    "quadruped"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2018)",
+  "height": 1,
+  "script": "noon",
+  "colors": {
+    "fleece": "#fffaf2",
+    "fleeceShade": "#f2d7ae",
+    "face": "#5c3d32",
+    "faceShade": "#5c3d32"
+  },
+  "materials": {
+    "White": "fleece",
+    "Black": "face"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "jump": "Jump",
+    "death": "Death"
+  },
+  "preview": {
+    "clip": "run"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · LowPoly Animated Farm Animal Pack",
+    "page": "https://opengameart.org/content/lowpoly-animated-farm-animal-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 14 named the Quaternius Animated Animals sheep (poly.pizza, behind a Cloudflare challenge; Google Drive quota-blocked). This is Quaternius's sheep from the reachable Farm Animal Pack on OpenGameArt (same zip as the horse, cow and pug). Its .blend is used because the pack's Sheep.fbx carries only Idle and Jump; the .blend has Death, Idle, Jump, Run, Walk and WalkSlow. No eating clip exists in this pack. Height 1.0 m is the top of the head of a standing adult sheep."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip",
+      "sha256": "9ff42b7e2445eaf259e4734c08172637db92e4b59a6145909ac56d946152c39b",
+      "bytes": 6965696,
+      "resolved": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip"
+    },
+    "member": "Farm Animals by @Quaternius/Blends/Sheep.blend",
+    "height": 1,
+    "memberSha256": "d4f137f393e5b3e5ba28af0977efbaef6e0ba7a6682e35b35f868f5caff47c7e"
+  },
+  "file": "model.glb",
+  "sha256": "f6c6aab2b61d0d13b4c674010f4d2f3c1a34e63d2ecc004fb093359d1a3b4b84",
+  "bytes": 146436,
+  "triangles": 612,
+  "bones": 24,
+  "sourceMaterials": {
+    "White": "#e7e7e7",
+    "Black": "#363636"
+  },
+  "clipInfo": {
+    "Death": {
+      "seconds": 1.0833,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Idle": {
+      "seconds": 6.25,
+      "loop": true
+    },
+    "Jump": {
+      "seconds": 1.125,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Run": {
+      "seconds": 0.8333,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 2.6667,
+      "loop": true
+    },
+    "WalkSlow": {
+      "seconds": 2,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 612,
+    "clips": {
+      "idle": {
+        "minY": -0.0017,
+        "touches": true,
+        "maxSize": 1.36
+      },
+      "walk": {
+        "minY": -0.0059,
+        "touches": true,
+        "maxSize": 1.4
+      },
+      "run": {
+        "minY": -0.0136,
+        "touches": true,
+        "maxSize": 1.77
+      },
+      "jump": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.01
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.36
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + run"
+  }
+}
