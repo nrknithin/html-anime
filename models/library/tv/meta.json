@@ -1,0 +1,73 @@
+{
+  "id": "tv",
+  "name": "TV",
+  "category": "prop",
+  "tags": [
+    "furniture",
+    "tv",
+    "television",
+    "screen",
+    "living room",
+    "apartment",
+    "interior",
+    "electronics",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Furniture Kit 2.0)",
+  "height": 0.88,
+  "script": "noon",
+  "colors": {
+    "case": "#fffaf2",
+    "caseShade": "#f2d7ae",
+    "screen": "#5c3d32",
+    "screenShade": "#5c3d32"
+  },
+  "materials": {
+    "metal": "screen",
+    "metalDark": "case"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Furniture Kit",
+    "page": "https://kenney.nl/assets/furniture-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Substitutes for the plan's Quaternius TV (poly.pizza static GLB, blocked by a Cloudflare challenge). Kenney Furniture Kit 2.0 `televisionModern` (GLB): a flat-screen TV on a pedestal foot. Chosen over the kit's `televisionVintage` (a wood-cased CRT box, 0.79 m wide, 0.52 m tall at this scale) as the everyday modern-apartment TV; `cabinetTelevision` is a TV stand, not a set. Kept at the kit's own scale, the same as sofa and desk-teacher (0.384 kit units = 0.74 m): 0.88 m tall, 1.32 m wide, 0.25 m deep at the foot (a big set; stand it on the floor or a low cabinet). The source draws the body dark grey (`metalDark`) and the screen pale grey (`metal`); here the screen is the script's dark brown (`iris`, lighter than ink so the outline and the bezel stay distinct) in one tone, since it is one flat face, and the body, bezel and foot take the pale paper pair, so the dark screen sits in a clear light frame. Front (screen) faces +Z. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+      "bytes": 5130729
+    },
+    "member": "Models/GLTF format/televisionModern.glb",
+    "height": 0.88,
+    "memberSha256": "d89519ad0a5f28b5b0dccb0d83209dccf610cda959578238dd21bbf9e219cfc6"
+  },
+  "file": "model.glb",
+  "sha256": "db8fa7d4b051eaf7d7ff82a0c55873abf63fa7f6d18c8f5b47ac912715039136",
+  "bytes": 3800,
+  "triangles": 72,
+  "bones": 0,
+  "sourceMaterials": {
+    "metalDark": "#96a7a7",
+    "metal": "#dfeaec"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.88,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 72,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
