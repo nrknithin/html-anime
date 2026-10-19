@@ -25,7 +25,9 @@
 // Colours (noon), base / shade:
 //   vermilion (posts, sills, beams, rails)                accent #c4452d / iris #5c3d32, threshold 0.1 (as the torii)
 //   roof (bark slabs, ridge cap, omikuji frame)            iris #5c3d32 / hair #241c16, threshold 0.1 (as the shrine)
-//   ema (plaques, gable boards: pale hinoki)               skin #f0c2ae / iris #5c3d32, threshold 0.02 (faces stay lit)
+//   ema (plaques, gable boards: pale natural wood)         sky #f2d7ae / iris #5c3d32, threshold 0.02 (faces stay lit;
+//            noon has no beige darker than sky but iris, which lands only on edges, the -X side and the back.
+//            skin #f0c2ae read salmon pink, moon #fff6e4 / sky read as paper)
 //   red (strings, painted pictures), no ink                accent #c4452d / accent
 //   writing and omikuji wires, no ink                      hair #241c16 / hair
 //   paper (omikuji knots)                                  sclera #f6f3ee / sky #f2d7ae, threshold 0.1
@@ -39,7 +41,7 @@ export const meta = {
   colors: {
     vermilion: "#c4452d", vermilionShade: "#5c3d32",
     roof: "#5c3d32", roofShade: "#241c16",
-    ema: "#f0c2ae", emaShade: "#5c3d32",
+    ema: "#f2d7ae", emaShade: "#5c3d32",
     red: "#c4452d",
     writing: "#241c16",
     paper: "#f6f3ee", paperShade: "#f2d7ae",
