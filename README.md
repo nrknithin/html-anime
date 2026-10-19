@@ -66,7 +66,7 @@ const sheet = compileBrief({
   logline: "On a roof in the rain, a red moon opens and a line of light falls.",
   seconds: 8,          // 8, 12, or 20
   aspect: "16:9",      // or "9:16"
-  script: "indigo",    // indigo, eclipse, noon, or festival
+  script: "indigo",    // indigo, eclipse, noon, festival, or meadow
   medium: "cel",       // optional: "cel" (default) or "3d"
   dialogue: "The rain hid the sound of the blade.",
 });
