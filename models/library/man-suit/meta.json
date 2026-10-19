@@ -1,0 +1,182 @@
+{
+  "id": "man-suit",
+  "name": "Business man (suit)",
+  "category": "character",
+  "tags": [
+    "human",
+    "man",
+    "suit",
+    "business",
+    "salaryman",
+    "office",
+    "townsfolk",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
+  "height": 1.75,
+  "script": "indigo",
+  "colors": {
+    "suit": "#1b2d6b",
+    "suitShade": "#16141c",
+    "shirt": "#e7eefc",
+    "shirtShade": "#d5e2ff",
+    "tie": "#e23b4a",
+    "tieShade": "#16141c",
+    "skin": "#f0c2ae",
+    "skinShade": "#e7a04a",
+    "hair": "#16141c",
+    "hairShade": "#1b2d6b",
+    "eye": "#16141c",
+    "eyeShade": "#16141c"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Black": "suit",
+    "Belt": "hair",
+    "Shirt": "shirt",
+    "Details": "tie",
+    "Face": "eye",
+    "Hair": "hair"
+  },
+  "thresholds": {
+    "skin": -0.2,
+    "suit": -0.35
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 rows 74 (Business man, Quaternius 24-clip Animated Characters) and 67 (Man in suit, Quaternius Animated Man/Woman) both point at poly.pizza, now behind a Cloudflare challenge. One model covers both: Suit_Male from the Quaternius Ultimate Animated Character Pack (Nov 2019) on OpenGameArt, the same CC0 pack, rig, scale and clips as man-casual (idle, walk, punch, hit, sit and six more; no run, jump or death clip). Height 1.75 m like man-casual: the chibi proportions (big head) are the artist's, the overall size is a grown man's. The pack also has a Suit_Female (not shipped here)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Suit_Male.fbx",
+    "height": 1.75,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "f1c7112a59d035a4b54339961e1225e03fc3968b09788b480bd42f618d0519e6"
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "file": "model.glb",
+  "sha256": "0bef83333a2399d37bfdc70693f29617b4e9caa9b2119e142d81f2abb895ce65",
+  "bytes": 258792,
+  "triangles": 6518,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#1f1f1f",
+    "Black": "#111111",
+    "Belt": "#121525",
+    "Shirt": "#cecece",
+    "Details": "#474747",
+    "Face": "#fffff8",
+    "Hair": "#8a6d40"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.1667,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.25,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.75,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.625,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5417,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 0.9583,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.875,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.25,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.25,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.75,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 6518,
+    "clips": {
+      "idle": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.75
+      },
+      "walk": {
+        "minY": -0.0014,
+        "touches": true,
+        "maxSize": 1.74
+      },
+      "attack": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.66
+      },
+      "hit": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.73
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.71
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
