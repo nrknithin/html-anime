@@ -214,6 +214,12 @@
 | <img src="library/dumpster/preview.png" width="240"> | `dumpster` | Dumpster<br>*low-poly, gradient atlas flattened (KayKit City Builder Bits 2023)* | 1.2 m | 126 | - | CC0 1.0 | [KayKit · City Builder Bits 1.0](https://github.com/KayKit-Game-Assets/KayKit-City-Builder-Bits-1.0) |
 | <img src="library/hydrant/preview.png" width="240"> | `hydrant` | Fire hydrant<br>*low-poly, gradient atlas flattened (KayKit City Builder Bits 2023)* | 0.75 m | 180 | - | CC0 1.0 | [KayKit · City Builder Bits 1.0](https://github.com/KayKit-Game-Assets/KayKit-City-Builder-Bits-1.0) |
 
+## reptile
+
+| preview | id | model | height | tris | clips | licence | source |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| <img src="library/turtle/preview.png" width="240"> | `turtle` | Turtle<br>*low-poly cartoon (Heathal 2016); painted texture flattened to shell and skin colours* | 0.14 m | 373 | walk | CC0 1.0 | [Heathal · Turtle](https://opengameart.org/content/turtle-0) |
+
 ## sea life
 
 | preview | id | model | height | tris | clips | licence | source |
