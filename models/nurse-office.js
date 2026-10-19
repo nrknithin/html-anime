@@ -5,7 +5,7 @@
 // Construction (boxes, 4-6 sided rods, pleated lofts, lofted convex sections and flat quads, all triangle soups merged
 // per material; only the curtains are their own meshes, one per sway pivot). Every triangle is wound away from a point
 // inside its solid (box centre, rod axis, loft column, section centre), never by hand.
-//   SHELL     floor quad with lighter board seams; two walls 12 cm thick, the -X wall cut into sill wall, piers and lintel
+//   SHELL     floor quad of pale 0.4 m vinyl tiles with moon grout; two walls 12 cm thick, the -X wall cut into sill wall, piers and lintel
 //             round one window; dark skirting; dark 2 cm section caps on the cut wall tops, so the cut reads as a cut.
 //   WINDOW    (-X) aluminium casing, two sashes on two tracks, the room-side one slid open 0.4 m; glass is two unlined sky
 //             plates back to back. A sheer curtain on a wall-bracketed rail: one panel drawn over the open gap, one bunched.
@@ -34,11 +34,11 @@
 //   curtains sway on their rails, all harmonics of 4 s so it loops. Signs: the sheer pivots on its rail (axis z), +rz
 //   swings its hem into the room (+X); a foot-rail curtain (axis x) +rx swings its hem to -Z; a side-rail curtain (axis
 //   z) +rz swings its hem to +X. Rest is all zero.
-// Budget: ~5.0k triangles (5.3k with the curtains fully drawn), 17-18 meshes (13 material groups + one per curtain run).
-// Ink in pixels: walls, beds, furniture 3; rods, curtains, small props 2 (a room is seen small).
+// Budget: ~5.1k triangles (5.4k with the curtains fully drawn), 14-15 meshes (10 material groups + one per curtain run).
+// Ink in pixels: walls, wood, furniture 3; rods, sheets, curtains, small props 2 (a room is seen small).
 // Colours (meadow), base / shade:
 //   walls, cabinet and desk carcass  moon #f7f3e1 / skin #f0c2ae, threshold 0.1
-//   floor, wood (stadiometer, desk top, sill)  skin #f0c2ae flat / moon seams; wood skin / practical #f2c94c
+//   floor sky #d7ecef flat, grout and glass glints moon #f7f3e1; wood (stadiometer, desk top, sill) skin / practical #f2c94c
 //   steel (bed pipes, sashes, track, chair, scale, sink)  sclera #f6f3ee / sky #d7ecef
 //   sheets, pillows, eye chart, posters  sclera #f6f3ee / sky #d7ecef
 //   bed curtains and sheer  sky #d7ecef / sclera #f6f3ee (sheer sclera / sky), folds at threshold 0.45
@@ -52,7 +52,7 @@ export const meta = {
   script: "meadow",
   colors: {
     wall: "#f7f3e1", wallShade: "#f0c2ae",
-    floor: "#f0c2ae", seam: "#f7f3e1",
+    floor: "#d7ecef", seam: "#f7f3e1",
     wood: "#f0c2ae", woodShade: "#f2c94c",
     steel: "#f6f3ee", steelShade: "#d7ecef",
     sheet: "#f6f3ee", sheetShade: "#d7ecef",
@@ -201,9 +201,13 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   // ---------- the shell ----------
   const W = 3.0, L = 2.4, H = 2.7, T = 0.12, CAP = 0.02;
   quad("floor", [-W, 0, -L], [W, 0, -L], [W, 0, L], [-W, 0, L], [0, -1, 0]);
-  for (let i = 1; i < 16; i++) { // board seams across the room
-    const z = -L + (i * 2 * L) / 16;
+  for (let i = 1; i < 12; i++) { // 0.4 m vinyl tiles: grout lines both ways
+    const z = -L + i * 0.4;
     quad("seam", [-W, 0.0015, z - 0.006], [W, 0.0015, z - 0.006], [W, 0.0015, z + 0.006], [-W, 0.0015, z + 0.006], [0, -1, z]);
+  }
+  for (let i = 1; i < 15; i++) {
+    const x = -W + i * 0.4;
+    quad("seam", [x - 0.006, 0.0016, -L], [x + 0.006, 0.0016, -L], [x + 0.006, 0.0016, L], [x - 0.006, 0.0016, L], [x, -1, 0]);
   }
   const SILL = 0.85, HEAD = 2.15, WZ0 = -2.05, WZ1 = -0.35;
   const wx0 = -W - T, wx1 = -W;
@@ -295,6 +299,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   box("steel", SX - TW, SX + TW, TY, TY + TH, -L, FZ + TW); // side rail, back to the -Z wall
   box("steel", DX - TW, DX + TW, TY, TY + TH, -L, FZ - TW); // divider between the beds
   box("steel", -W, -W + 0.012, TY - 0.03, TY + TH + 0.03, FZ - 0.04, FZ + 0.04); // wall plates
+  box("steel", SX - 0.03, SX + 0.03, TY - 0.008, TY + TH + 0.008, FZ - 0.03, FZ + 0.03); // elbow: foot rail into side rail
   for (const x of [SX, DX]) box("steel", x - 0.04, x + 0.04, TY - 0.03, TY + TH + 0.03, -L, -L + 0.012);
   const CY0 = 0.32, CY1 = TY + 0.01;
   curtain("bedA", [[DX - 0.03, 0, FZ], [-W + 0.03, 0, FZ]], draw * (DX - -W), CY0, CY1, "curtain");
@@ -529,16 +534,16 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   // ---------- meshes: one per material signature; curtains one per pivot ----------
   const MAT = {
     wall: [c.wall, c.wallShade, 0.1, 3],
-    cap: [c.dark, c.dark, 0.1, 3],
+    cap: [c.dark, c.dark, 0.1, 0], // the walls' hull outlines the caps; merges with dark
     floor: [c.floor, c.floor, 0.1, 3],
     seam: [c.seam, c.seam, 0.1, 0],
     wood: [c.wood, c.woodShade, 0.1, 3],
     steel: [c.steel, c.steelShade, 0.1, 2],
-    sheet: [c.sheet, c.sheetShade, 0.1, 3],
+    sheet: [c.sheet, c.sheetShade, 0.1, 2], // same signature as steel: one mesh
     green: [c.green, c.greenShade, 0.1, 2],
     screen: [c.green, c.greenShade, 0.1, 2],
     glass: [c.glass, c.glass, 0.1, 0],
-    glint: [c.sheet, c.sheet, 0.1, 0],
+    glint: [c.seam, c.seam, 0.1, 0], // merges with the floor grout
     dark: [c.dark, c.dark, 0.1, 0],
     red: [c.red, c.red, 0.1, 2],
     yellow: [c.yellow, c.yellow, 0.1, 2],
