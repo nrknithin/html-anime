@@ -1,0 +1,103 @@
+{
+  "id": "car-hatchback",
+  "name": "Hatchback sports",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "car",
+    "hatchback",
+    "sports",
+    "street",
+    "compact"
+  ],
+  "style": "low-poly, flat colours (Kenney Car Kit)",
+  "height": 1.4,
+  "script": "noon",
+  "colors": {
+    "body": "#f2d7ae",
+    "bodyShade": "#5c3d32",
+    "lower": "#2c261f",
+    "lowerShade": "#241c16",
+    "glass": "#5c3d32",
+    "glassShade": "#241c16",
+    "lamp": "#fffaf2",
+    "lampShade": "#f2d7ae",
+    "tyre": "#241c16",
+    "tyreShade": "#2c261f",
+    "rim": "#f6f3ee",
+    "rimShade": "#f2d7ae"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#43434b": "tyre",
+    "colormap#36363a": "tyre",
+    "colormap#39393e": "tyre",
+    "colormap#3d3d43": "tyre",
+    "colormap#858aa3": "rim",
+    "colormap#dfebf9": "glass",
+    "colormap#6b6c81": "lower",
+    "colormap#46af7d": "body",
+    "colormap#57c186": "body",
+    "colormap#3ca579": "body",
+    "colormap#2b9471": "body",
+    "colormap#f59f38": "lamp"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Car Kit",
+    "page": "https://kenney.nl/assets/car-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney hatchback-sports (FBX, like car-sports-sedan and car-sedan from the same kit, so the three read as one set). Hot-hatch height 1.4 m; stylized proportions: at that height it is 3.63 m long and 1.65 m wide. Cream body (the sports sedan is white, the sedan red) so a street can mix all three; the source's amber lamps are mapped to the white lamp role. maxColors 12 so the amber lamps get their own cluster. Wheels are separate nodes in the source; static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/car-kit",
+      "sha256": "fac7dacac5c7874348cf19729af3ef205f3d366493edaf0a827d93f4fdf3d0c4",
+      "bytes": 4814237
+    },
+    "member": "Models/FBX format/hatchback-sports.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 1.4,
+    "maxColors": 12,
+    "memberSha256": "ecd7df3d2be99bd0c798836031e093a02c259cfa0a4841233d4ab62e35cdd4bf"
+  },
+  "file": "model.glb",
+  "sha256": "a44fcb53d783a66ef1f25221efc039ca7a0fbad2ff2fa29266b5a4262bd7a9ae",
+  "bytes": 38580,
+  "triangles": 2088,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#43434b": "#43434b",
+    "colormap#36363a": "#36363a",
+    "colormap#39393e": "#39393e",
+    "colormap#3d3d43": "#3d3d43",
+    "colormap#858aa3": "#858aa3",
+    "colormap#dfebf9": "#dfebf9",
+    "colormap#6b6c81": "#6b6c81",
+    "colormap#46af7d": "#46af7d",
+    "colormap#57c186": "#57c186",
+    "colormap#3ca579": "#3ca579",
+    "colormap#2b9471": "#2b9471",
+    "colormap#f59f38": "#f59f38"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.3999,
+    "heightError": -0.0001,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2088,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
