@@ -11,7 +11,7 @@
     "city"
   ],
   "style": "low-poly, flat colours (Kenney Car Kit)",
-  "height": 1.84,
+  "height": 2.8,
   "script": "indigo",
   "colors": {
     "box": "#f6f3ee",
@@ -84,7 +84,7 @@
     "pack": "Kenney · Car Kit",
     "page": "https://kenney.nl/assets/car-kit",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "note": "Kenney delivery box truck (FBX like car-sedan, car-van and the other kit cars, with Textures/colormap.png; the plan named the GLB member). Height 1.84 m puts it at the same scale as car-sedan (2.84 m long): the truck is 3.62 m long and 1.67 m wide. Stylized toy proportions from Kenney (a real light box truck is about 4.7-6 m long and 2.3-3 m tall). maxColors 40 so the colour map's white-to-lavender gradient splits the windows from the cab. White box with a red cab (indigo accent with a sky shade), distinct from the all-red sedan, white sports sedan, cream hatchback, yellow taxi, black/white police car, light-blue van and orange SUV; the source's green box is white here. The slatted rear roller door reads as stripes through the lower pair. Wheels are separate nodes in the source; static, no clips."
+    "note": "Kenney delivery box truck (FBX like car-sedan, car-van and the other kit cars, with Textures/colormap.png; the plan named the GLB member). Real size: height 2.8 m, matched to a small box truck (Isuzu Elf / Hino Dutro class, about 2.6-3.2 m tall and 4.7-6.5 m long); that makes it 5.51 m long and 2.54 m wide over the mirrors (body about 2.2 m). Kenney's toy proportions leave the wheels oversized at this scale (about 1.1 m across). maxColors 40 so the colour map's white-to-lavender gradient splits the windows from the cab. White box with a red cab (indigo accent with a sky shade), distinct from the all-red sedan, white sports sedan, cream hatchback, yellow taxi, black/white police car, light-blue van and orange SUV; the source's green box is white here. The slatted rear roller door reads as stripes through the lower pair. Wheels are separate nodes in the source; static, no clips."
   },
   "ingest": {
     "fetch": {
@@ -97,13 +97,13 @@
     "extraMembers": [
       "Models/FBX format/Textures/colormap.png"
     ],
-    "height": 1.84,
+    "height": 2.8,
     "maxColors": 40,
     "memberSha256": "20b9d04fef940e003ef1bca4a1b3533bf443e81e43aa265972aa66a9d02bf60e"
   },
   "file": "model.glb",
-  "sha256": "10efb73dfb2fd35ca860f49177bfbccd4f8a0d0ae2c3fde7c834339eb7aa8cd7",
-  "bytes": 94064,
+  "sha256": "0dd842f230eef8ba861c4a53c997bf0b7a0aa3d909dc822fc3bf38eb77a7bff4",
+  "bytes": 94028,
   "triangles": 2476,
   "bones": 0,
   "sourceMaterials": {
@@ -151,7 +151,7 @@
   },
   "clipInfo": {},
   "qa": {
-    "height": 1.8399,
+    "height": 2.7998,
     "heightError": -0.0001,
     "minY": 0,
     "centre": [

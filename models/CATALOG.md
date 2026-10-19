@@ -9,4 +9,4 @@
 
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| <img src="library/car-delivery/preview.png" width="240"> | `car-delivery` | Delivery truck<br>*low-poly, flat colours (Kenney Car Kit)* | 1.84 m | 2476 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
+| <img src="library/car-delivery/preview.png" width="240"> | `car-delivery` | Delivery truck<br>*low-poly, flat colours (Kenney Car Kit)* | 2.8 m | 2476 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
