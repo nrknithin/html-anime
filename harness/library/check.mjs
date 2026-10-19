@@ -52,7 +52,8 @@ function main() {
   };
   if (Math.abs(qa.heightError) > 0.05) fails.push(`rest height ${top.toFixed(3)} m is ${(qa.heightError * 100).toFixed(1)} % off meta.height ${h}`);
   if (Math.abs(R.minY) > 0.02 * h) fails.push(`rest lowest point ${R.minY.toFixed(3)} m is not on y = 0 (2 % = ${(0.02 * h).toFixed(3)} m)`);
-  R.bbox.size.forEach((s, i) => {
+  // An entry centred on its body (ingest.centerOn) is off-centre overall by design: a held weapon sticks out.
+  if (!meta.ingest?.centerOn) R.bbox.size.forEach((s, i) => {
     if (i === 1) return;
     const c = qa.centre[i ? 1 : 0];
     if (Math.abs(c) > 0.05 * Math.max(s, 0.05)) fails.push(`rest bbox centre ${"xz"[i ? 1 : 0]} = ${c} m is off 0 by more than 5 % of the width`);
@@ -82,6 +83,7 @@ function main() {
   const clips = Object.keys(meta.clips || {});
   const stripClip = args.includes("--clip") ? args[args.indexOf("--clip") + 1] : meta.preview?.clip || ["run", "walk", "idle"].find((c) => clips.includes(c)) || clips[0];
   const shot = ["--model", model, "--views", "front,left,three4,top", "--size", "1600x1000", "--info", "--out", path.join(dir, "preview.png")];
+  if (meta.preview?.pose) shot.push("--pose", meta.preview.pose); // a T-pose rig shows its views in a real pose (the checks above stay at rest)
   if (stripClip) shot.push("--strip", stripClip, "--cols", "4");
   const pv = node("harness/lab/shoot.mjs", shot);
   if (!pv.ok) throw new Error(`preview shot failed:\n${pv.err}`);
@@ -101,7 +103,7 @@ function main() {
     for (const f of [a, b]) fs.rmSync(f, { force: true });
   }
 
-  qa.preview = stripClip ? `rest + ${stripClip}` : "rest";
+  qa.preview = `${meta.preview?.pose || "rest"}${stripClip ? ` + ${stripClip}` : ""}`;
   meta.qa = qa;
   fs.writeFileSync(metaFile, JSON.stringify(meta, null, 2) + "\n");
   for (const n of notes) console.log(`note: ${n}`);
