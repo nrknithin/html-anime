@@ -99,9 +99,11 @@ export function checkMeta(mod, SCRIPTS, warnings) {
   return meta;
 }
 
-/** Height, ground and centering checks against the rest-pose measure M. */
-export function contractWarnings(M, meta, warnings) {
-  if (Math.abs(M.max[1] - meta.height) > Math.max(0.0005, 0.02 * meta.height)) warnings.push(`meta.height ${meta.height} m but the model's top at rest is ${fmt(M.max[1])} m`);
+/** Height, ground and centering checks against the rest-pose measure M (no height check when build options are given). */
+export function contractWarnings(M, meta, warnings, buildOpts) {
+  // meta.height describes the default build; with --opts (a { height }, a variant) a different top is expected.
+  if (Math.abs(M.max[1] - meta.height) > Math.max(0.0005, 0.02 * meta.height) && !(buildOpts && Object.keys(buildOpts).length))
+    warnings.push(`meta.height ${meta.height} m but the model's top at rest is ${fmt(M.max[1])} m`);
   if (Math.abs(M.min[1]) > Math.min(0.02, Math.max(0.0005, 0.02 * meta.height))) warnings.push(`model should stand on y=0 (lowest point at rest is ${fmt(M.min[1])} m)`);
   // A library entry centred on its body (ingest.centerOn) is off-centre overall by design: a held weapon sticks out.
   if (!meta.ingest?.centerOn) for (const [i, axis] of [[0, "x"], [2, "z"]])

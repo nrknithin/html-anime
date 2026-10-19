@@ -33,6 +33,8 @@ Look at every PNG you make. `--model` is a repo-relative path or any file path (
 | `--light <x,y,z>` | preview another light direction (cel mode) |
 | `--hide <a,b>` `--only <joint>` | hide objects by name, or show one joint's subtree only |
 | `--montage <p1,p2,...>` | one cell per pose at one shared scale, see below |
+| `--az <deg>` `--el <deg>` | aim the perspective cells (`hero`, `three4`): azimuth around +Y from +Z toward +X (the model's left), elevation above the horizon. Distance and framing stay automatic; a given `--el` is used as is, without the hero's floor stepping. See below |
+| `--strip-view <view>` | the view `--strip` renders its clip frames in. Default `left` |
 | `--joints` / `--joint-names` | yellow dots at every joint pivot, with names |
 | `--batch shots.json` | a JSON array of shots, one browser session (about 0.3 s a shot after the first) |
 | `--info` | also print the page's `__labInfo` as one JSON line: exact bbox, mm per pixel, every cell and the model's projected box in pixels, the ref rect, and `jointPositions` (every joint's world position in meters, 3 decimals; one entry per pose under `poses` in a montage) |
@@ -57,7 +59,7 @@ Safe to run many at once: every run has its own server port, Chrome profile and 
 | `right` | -X | the right side, face to the image right |
 | `top` | +Y | face to the top of the image, the model's left on the image left |
 | `three4` | perspective, front-left, 20 degrees above | lit side, shaded front, lit top |
-| `hero` | perspective, front-left, 7 degrees below | low three-quarter |
+| `hero` | perspective, front-left, 7 degrees below (raised in steps for low, wide sets so the camera stays above the floor; 12 degrees above for very flat sets) | low three-quarter |
 
 All orthographic cells share one meters-per-pixel scale (the footer prints it), so proportions compare across views. Each has a ground line, faint lines every 0.25 m (coarser or finer for big or small models), `0`/`1 m` labels, a scale bar, a dotted line at the model's x=0 / z=0, and its name. Perspective cells are fit to the silhouette. Backgrounds: white in `sil`, light gray in `clay`, mid gray in `cel`, so the ink reads on any script. The footer prints name, pose, mode, bbox (x y z), triangles, meshes and the scale, plus up to two warnings.
 
@@ -98,6 +100,19 @@ node harness/lab/shoot.mjs --model models/knight.js --views three4,front --only 
 
 ```
 node harness/lab/shoot.mjs --model models/frog.js --montage rest,puff-1,puff-2,puff-3 --out renders/puff.png
+```
+
+**`--az <deg>` `--el <deg>`** replace the azimuth and elevation of every perspective cell (`hero`, `three4`); the auto distance and centering are unchanged. `0` looks at the model's front from +Z, `90` at its left side from +X, `180` at its back; `--el` is degrees above the horizon (negative looks up from below). Without `--el` each view keeps its own elevation, with the hero's floor stepping; with it the camera sits exactly there, even if that is under the floor. The footer shows `camera az .. el ..`. Shoot a long alley down its length, or a riverbank square to its face:
+
+```
+node harness/lab/shoot.mjs --model models/horse.js --views hero --az 0 --el 8 --out renders/head-on.png
+node harness/lab/shoot.mjs --model models/horse.js --views hero,three4 --az 90 --out renders/side.png
+```
+
+**`--strip-view <view>`** picks which view `--strip` draws its frames in (default `left`); any of the seven views, so a front-facing part (a washer drum, a face) can be watched turning:
+
+```
+node harness/lab/shoot.mjs --model models/yokocho.js --views hero --strip sway --strip-view front --out renders/sway.png
 ```
 
 ## Library models
