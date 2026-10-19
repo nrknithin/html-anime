@@ -1,0 +1,125 @@
+{
+  "id": "butterfly",
+  "name": "Butterfly",
+  "category": "insect",
+  "tags": [
+    "animal",
+    "insect",
+    "butterfly",
+    "garden",
+    "meadow",
+    "flying"
+  ],
+  "style": "low-poly card wings (CDmir 2015, 240 tris): a monarch, its photo texture flattened to flat colours: orange wings with dark tips and a dark body; real size: the rest pose lies with wings spread flat, so a 1 cm rest height gives a 7.9 cm wingspan (a monarch is about 9-10 cm, a garden butterfly 6-10 cm)",
+  "height": 0.01,
+  "script": "festival",
+  "colors": {
+    "wing": "#ffb020",
+    "wingShade": "#ff4d6d",
+    "dark": "#24143a",
+    "darkShade": "#1a1020"
+  },
+  "materials": {
+    "Butterfly": "dark",
+    "Butterfly#202021": "wing",
+    "Butterfly#f79919": "wing",
+    "Butterfly#835e1e": "wing",
+    "Butterfly#212121": "dark",
+    "Butterfly#7b6219": "dark",
+    "Butterfly#ffd108": "wing"
+  },
+  "clips": {
+    "fly": "Flying",
+    "sit": "Sitting2"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Čestmír Dammer (CDmir, TinyWorlds)",
+    "pack": "CDmir · Butterfly (animated)",
+    "page": "https://opengameart.org/content/butterfly-animated",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (gaps list: butterfly, OGA butterfly-animated). license.txt in the zip: Čestmír Dammer, CC0; it adds that the diffuse texture was derived from photo documentation by Rick Hoppmann. Only flat per-face colours sampled from that texture survive in the GLB. The texture flattens to 7 clusters: the orange, yellow and ochre wing faces plus the black #202021 wing-base faces -> wing; #212121 (body, legs and hindwing edges), the brown forewing tips #7b6219 and the untextured remainder -> dark, so it reads as a monarch: orange wings with dark tips. Height 0.01 m is the rest pose with wings flat (legs to wing plane), which makes the wingspan 7.9 cm, inside the real 6-10 cm. Clips: Flying -> fly (0.42 s flap loop, ground clamped: the wings sweep below the body on the downstroke, and the clamp lifts the body as a real downstroke does); Sitting2 (perched, wings closed upright) -> sit and the preview pose; Sitting1 (perched, wings folded back flat) kept under its source name. Both sitting clips are single poses."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Butterfly.zip",
+      "sha256": "043c530f9ce15f031903fbabab4e74e1fe58e77cf2e1d6c4abed0ffaca306eb6",
+      "bytes": 375804,
+      "resolved": "https://opengameart.org/sites/default/files/Butterfly.zip"
+    },
+    "member": "butterfly.blend",
+    "extraMembers": [
+      "butterfly-skin.png"
+    ],
+    "height": 0.01,
+    "yaw": 0,
+    "maxColors": 6,
+    "memberSha256": "625ac7c2e14109fe3214d89a912fa9539e3592cef4e69217de21e1afddf5980c"
+  },
+  "file": "model.glb",
+  "sha256": "890a2dd4876f467d4f32b724185b082140c42d0604643645547a05069e5c15c9",
+  "bytes": 60552,
+  "triangles": 240,
+  "bones": 25,
+  "sourceMaterials": {
+    "Butterfly": "#e7e7e7",
+    "Butterfly#202021": "#202021",
+    "Butterfly#f79919": "#f79919",
+    "Butterfly#835e1e": "#835e1e",
+    "Butterfly#212121": "#212121",
+    "Butterfly#7b6219": "#7b6219",
+    "Butterfly#ffd108": "#ffd108"
+  },
+  "clipInfo": {
+    "Flying": {
+      "seconds": 0.4167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Sitting1": {
+      "seconds": 0,
+      "loop": true
+    },
+    "Sitting2": {
+      "seconds": 0,
+      "loop": true
+    }
+  },
+  "doubleSided": [
+    "wing",
+    "dark"
+  ],
+  "preview": {
+    "clip": "fly",
+    "pose": "sit@0"
+  },
+  "thresholds": {
+    "wing": -0.15
+  },
+  "qa": {
+    "height": 0.01,
+    "heightError": -0.0001,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 240,
+    "clips": {
+      "fly": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.08
+      },
+      "sit": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.05
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "sit@0 + fly"
+  }
+}
