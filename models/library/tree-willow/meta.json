@@ -16,12 +16,12 @@
   ],
   "style": "low-poly, flat colours, drooping crown of faceted foliage (Quaternius 2019)",
   "height": 10,
-  "script": "noon",
+  "script": "meadow",
   "colors": {
-    "leaves": "#c4452d",
-    "leavesShade": "#5c3d32",
-    "trunk": "#fff6e4",
-    "trunkShade": "#5c3d32"
+    "leaves": "#a9d16e",
+    "leavesShade": "#3f8a47",
+    "trunk": "#f7f3e1",
+    "trunkShade": "#f0c2ae"
   },
   "materials": {
     "Wood": "trunk",
@@ -35,7 +35,7 @@
     "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
     "page": "https://opengameart.org/content/low-poly-nature-pack-1",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "note": "The plan's source (a Quaternius static willow on poly.pizza) is behind a Cloudflare challenge; this is Willow_4 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the tree, tree-pine, tree-palm, tree-autumn and bush entries, so they read as one set. Of the five green willows in the pack it reads best as a weeping willow: a broad dome (6.5 x 9 m) that falls in curtains to about 2 m on every side, over a leaning trunk that forks into the crown and shows through the gaps between the curtains; Willow_1 and Willow_2 hang similar curtains but their crowns sit lopsided off a trunk that shows only at one edge, Willow_3 is a closed mushroom dome with short drapes, and Willow_5 is two separate domes on a bent trunk. The foliage is closed shells (a doubleSided render was identical), so it is not double-sided. Height 10 m: a mature weeping willow on a river bank or pond edge is 8-12 m, its curtains sweeping down to head height over a 1.6 m person. Colours on noon (no green), as the other trees: foliage vermilion (accent) shading to iris, so the willow sits with them as the same foliage; the trunk is pale moon-cream shading to iris, distinct from the near-black broadleaf trunk, the vermilion pine trunk and the skin-tan palm trunk, and light enough to stand out against the iris shade of the curtains it shows through. Static: no clips."
+    "note": "The plan's source (a Quaternius static willow on poly.pizza) is behind a Cloudflare challenge; this is Willow_4 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the tree, tree-pine, tree-palm, tree-autumn and bush entries, so they read as one set. Of the five green willows in the pack it reads best as a weeping willow: a broad dome (6.5 x 9 m) that falls in curtains to about 2 m on every side, over a leaning trunk that forks into the crown and shows through the gaps between the curtains; Willow_1 and Willow_2 hang similar curtains but their crowns sit lopsided off a trunk that shows only at one edge, Willow_3 is a closed mushroom dome with short drapes, and Willow_5 is two separate domes on a bent trunk. The foliage is closed shells (a doubleSided render was identical), so it is not double-sided. Height 10 m: a mature weeping willow on a river bank or pond edge is 8-12 m, its curtains sweeping down to head height over a 1.6 m person. Colours on meadow: foliage the light spring green (line) shading to the mid green (iris), a soft willow green; the trunk is pale moon-cream shading to skin, read as pale weathered bark (meadow has no brown; of its non-green pairs this is the quietest, while skin over accent and practical over accent read as painted wood), and light enough to stand out against the iris shade of the curtains it shows through. Static: no clips."
   },
   "ingest": {
     "fetch": {
