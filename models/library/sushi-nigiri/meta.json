@@ -1,0 +1,76 @@
+{
+  "id": "sushi-nigiri",
+  "name": "Sushi nigiri (salmon)",
+  "category": "food",
+  "tags": [
+    "food",
+    "sushi",
+    "nigiri",
+    "salmon",
+    "japan",
+    "bento",
+    "prop",
+    "static"
+  ],
+  "style": "low-poly, flat colours; a salmon slice draped over a rounded rice block, white fat lines in a chevron; 0.03 m tall makes it 0.076 m long and 0.035 m wide, a real nigiri",
+  "height": 0.03,
+  "script": "noon",
+  "colors": {
+    "rice": "#fffaf2",
+    "riceShade": "#f2d7ae",
+    "fish": "#c4452d",
+    "fishShade": "#5c3d32"
+  },
+  "thresholds": {
+    "fish": 0.1
+  },
+  "materials": {
+    "White": "rice",
+    "Orange": "fish"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Food Pack",
+    "page": "https://opengameart.org/content/low-poly-food-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 188 named Quaternius static models on poly.pizza (Cloudflare challenge, off limits); the same artist's Ultimate Food Pack (Oct 2019) is on OpenGameArt as 'Low Poly Food Pack', CC0. Rendered against Kenney Food Kit `sushi-salmon` (a flat box slab on a box of rice, which reads as a block): Quaternius `Sushi_Nigiri1` won, a slice draped over a rounded rice bed with chevron fat lines. Neither candidate has a nori band. Colours (noon): rice in practical with a sky shade as the onigiri, so they share a plate; the salmon in accent with an iris shade at a low threshold (0.1), so the shade only rims the slice's underside. The fat lines are the pack's white material and land on rice. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_food_pack_by_quaternius.zip",
+      "sha256": "133e8d0610936846ee667447cdca72c9d5ace3e35084bf905a1e1653100c755b",
+      "bytes": 12199424,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_food_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Food Pack - Oct 2019/FBX/Sushi_Nigiri1.fbx",
+    "height": 0.03,
+    "yaw": 0,
+    "memberSha256": "2ba48ae7430c2ecee0f3b4c90088b996c5d96b52419414f94d8db1d7e1aa4be2"
+  },
+  "file": "model.glb",
+  "sha256": "8cd98a02fbfcd6f1ddde3bbe65503874dbe44315ec6ae407a7c563589af87e16",
+  "bytes": 6096,
+  "triangles": 196,
+  "bones": 0,
+  "sourceMaterials": {
+    "White": "#b4b4b4",
+    "Orange": "#b46f3d"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.03,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 196,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
