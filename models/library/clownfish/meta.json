@@ -1,0 +1,91 @@
+{
+  "id": "clownfish",
+  "name": "Clownfish",
+  "category": "fish",
+  "tags": [
+    "animal",
+    "fish",
+    "clownfish",
+    "anemonefish",
+    "reef",
+    "sea",
+    "water",
+    "swim"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2018)",
+  "height": 0.0515,
+  "script": "festival",
+  "colors": {
+    "body": "#ffb020",
+    "bodyShade": "#ff4d6d",
+    "band": "#fff1ea",
+    "bandShade": "#ffd0a1",
+    "edge": "#1a1020",
+    "edgeShade": "#24143a"
+  },
+  "materials": {
+    "Body": "body",
+    "Stripes": "band",
+    "Outline": "edge"
+  },
+  "clips": {
+    "swim": "Swim"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated Fish",
+    "page": "https://opengameart.org/content/animated-fish",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 43 named Quaternius Ultimate Fish via the poly.pizza CDN (behind a Cloudflare challenge). This is the OpenGameArt copy of a Quaternius clownfish: the Animated Fish pack (CC0; the same zip and sha256 pin as the koi, shark and dolphin), member FBX/Fish3.fbx, verified by rendering: an orange body with three white bands (head, mid-body, tail base) edged in dark rims. The bands are their own source material (Stripes) and the rims a third (Outline), so no colour is faked. Its only clip is Swim (a lateral body and tail wag; the Ultimate Fish clips Attack, Death, Swimming_Fast and Out_Of_Water are not in this pack). Coloured on the festival script: amber-orange body (#ffb020, shade #ff4d6d), warm white bands (#fff1ea, shade #ffd0a1), near-black rims (#1a1020, shade #24143a). Height 0.0515 m (dorsal fin to pelvic fins) gives a 0.10 m body, an adult ocellaris clownfish's length. A fish has no ground: like every entry its lowest rest point is at y = 0; films lift it into the water. The lateral stroke never dips below the rest floor, so no clip needs a lift or sinkAllowed."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Animated%20Fish%20Pack%20by%20%40Quaternius.zip",
+      "sha256": "c56a4bf3468e900ed9d881037334152dc203f93b656373347c8a7fc3dedb1855",
+      "bytes": 1024233,
+      "resolved": "https://opengameart.org/sites/default/files/Animated%20Fish%20Pack%20by%20%40Quaternius.zip"
+    },
+    "member": "Animated Fish Pack by @Quaternius/FBX/Fish3.fbx",
+    "height": 0.0515,
+    "yaw": 0,
+    "memberSha256": "142bb6559b928c61ff839eecbba4ee0cfafa964df37720db6a6ba3a90b4ed639"
+  },
+  "file": "model.glb",
+  "sha256": "5a8af3893af4469b6971b033c155447aff9711f4bfdb45899039f3cfc3d18b53",
+  "bytes": 28336,
+  "triangles": 686,
+  "bones": 6,
+  "sourceMaterials": {
+    "Body": "#e76725",
+    "Stripes": "#e7e2d1",
+    "Outline": "#3d3d3d"
+  },
+  "clipInfo": {
+    "Swim": {
+      "seconds": 1.2917,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 0.0515,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 686,
+    "clips": {
+      "swim": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.1
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + swim"
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "id": "giraffe",
+  "name": "Giraffe",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "giraffe",
+    "safari",
+    "zoo",
+    "wild",
+    "quadruped",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets): the pack's giraffe is a neckless head-body cube with ossicones, so its size is the cube's; stylized size: 2.4 m to the ossicone tips (a real giraffe is ~5 m tall), so it is the tallest animal in the library like the real one, standing just above the cube-pet elephant (2.0 m) and well above the horse (1.7 m) and lion (1.3 m); scaling it to its real height would make a 4.5 m-wide cube that dwarfs the elephant, and the cube itself (2.0 m to the crown) matches the elephant's; rigid parts moved by node tracks, no skin; colour map flattened to flat colours (maxColors 32 keeps the spots, eyes and nose apart; at 16 the eye whites and pupils merged into the coat)",
+  "height": 2.4,
+  "script": "noon",
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (wave-1 row 22). Same zip, pin and route as the elephant and lion: ingested through Blender with Textures/colormap.png as an extra member. The colour map flattens to 32 colours: the yellow-to-orange gradient -> coat, the browns (two side spots, ossicone knobs, snout, hooves) -> spots, inner ears and ossicone stems -> muzzle."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-giraffe.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 2.4,
+    "yaw": 0,
+    "maxColors": 32,
+    "memberSha256": "ab3562e1edb4dc6b14d5c7c9083ba3052a44ca0ccdcac2c15461d84397dc2f31"
+  },
+  "file": "model.glb",
+  "sha256": "9abc7f9af8d3b8f9d259352758264258ac585623e978e6d0238f3fe316b42d8b",
+  "bytes": 83556,
+  "triangles": 598,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#ff9a34": "#ff9a34",
+    "colormap#ff9c35": "#ff9c35",
+    "colormap#ff9832": "#ff9832",
+    "colormap#ffa139": "#ffa139",
+    "colormap#ffa33b": "#ffa33b",
+    "colormap#ffcb5d": "#ffcb5d",
+    "colormap#ffcd5e": "#ffcd5e",
+    "colormap#ffc759": "#ffc759",
+    "colormap#ffc457": "#ffc457",
+    "colormap#ffaf45": "#ffaf45",
+    "colormap#ffbb4f": "#ffbb4f",
+    "colormap#ffb84d": "#ffb84d",
+    "colormap#ffcf60": "#ffcf60",
+    "colormap#ffac43": "#ffac43",
+    "colormap#ffa63e": "#ffa63e",
+    "colormap#ffb54b": "#ffb54b",
+    "colormap#ffbe52": "#ffbe52",
+    "colormap#ffb74c": "#ffb74c",
+    "colormap#e38b63": "#e38b63",
+    "colormap#de8760": "#de8760",
+    "colormap#c77450": "#c77450",
+    "colormap#da845d": "#da845d",
+    "colormap#e28b62": "#e28b62",
+    "colormap#e58d64": "#e58d64",
+    "colormap#e89066": "#e89066",
+    "colormap#e88f66": "#e88f66",
+    "colormap#e78e65": "#e78e65",
+    "colormap#e18961": "#e18961",
+    "colormap#e7b691": "#e7b691",
+    "colormap#4c505e": "#4c505e",
+    "colormap#ededf4": "#ededf4",
+    "colormap#ea9168": "#ea9168"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the lower front corner of the head-body cube dips up to 0.06 m through the ground as the giraffe tips forward to eat while the hind feet stay planted (clamping would float the giraffe)"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "static": {
+      "seconds": 0.0833,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "materials": {
+    "colormap": "coat",
+    "colormap#ff9a34": "coat",
+    "colormap#ff9c35": "coat",
+    "colormap#ff9832": "coat",
+    "colormap#ffa139": "coat",
+    "colormap#ffa33b": "coat",
+    "colormap#ffcb5d": "coat",
+    "colormap#ffcd5e": "coat",
+    "colormap#ffc759": "coat",
+    "colormap#ffc457": "coat",
+    "colormap#ffaf45": "coat",
+    "colormap#ffbb4f": "coat",
+    "colormap#ffb84d": "coat",
+    "colormap#ffcf60": "coat",
+    "colormap#ffac43": "coat",
+    "colormap#ffa63e": "coat",
+    "colormap#ffb54b": "coat",
+    "colormap#ffbe52": "coat",
+    "colormap#ffb74c": "coat",
+    "colormap#e38b63": "spots",
+    "colormap#de8760": "spots",
+    "colormap#c77450": "spots",
+    "colormap#da845d": "spots",
+    "colormap#e28b62": "spots",
+    "colormap#e58d64": "spots",
+    "colormap#e89066": "spots",
+    "colormap#e88f66": "spots",
+    "colormap#e78e65": "spots",
+    "colormap#e18961": "spots",
+    "colormap#e7b691": "muzzle",
+    "colormap#4c505e": "dark",
+    "colormap#ededf4": "eye",
+    "colormap#ea9168": "spots"
+  },
+  "colors": {
+    "coat": "#f2d7ae",
+    "coatShade": "#f0c2ae",
+    "spots": "#c4452d",
+    "spotsShade": "#5c3d32",
+    "muzzle": "#fff6e4",
+    "muzzleShade": "#f2d7ae",
+    "dark": "#241c16",
+    "darkShade": "#241c16",
+    "eye": "#f6f3ee",
+    "eyeShade": "#fffaf2"
+  },
+  "thresholds": {
+    "coat": -0.2
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "dance": "dance",
+    "eat": "eat"
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 2.4,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 598,
+    "clips": {
+      "idle": {
+        "minY": 0.0001,
+        "touches": true,
+        "maxSize": 2.42
+      },
+      "walk": {
+        "minY": 0.0053,
+        "touches": true,
+        "maxSize": 2.45
+      },
+      "run": {
+        "minY": -0.0187,
+        "touches": true,
+        "maxSize": 2.43
+      },
+      "dance": {
+        "minY": 0.0001,
+        "touches": true,
+        "maxSize": 2.54
+      },
+      "eat": {
+        "minY": -0.0563,
+        "touches": true,
+        "maxSize": 2.48
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
