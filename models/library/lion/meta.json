@@ -1,0 +1,200 @@
+{
+  "id": "lion",
+  "name": "Lion",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "lion",
+    "big cat",
+    "safari",
+    "zoo",
+    "wild",
+    "quadruped",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets); stylized size: 1.3 m to the top of the mane (a real lion is ~1.2 m at the shoulder), so it stands below the library's horse (1.7 m) and the cube-pet elephant (2.0 m) in the same ratio as the real animals' shoulder heights, without a mane-heavy cube dwarfing them; rigid parts moved by node tracks, no skin; colour map flattened to flat colours",
+  "height": 1.3,
+  "script": "noon",
+  "colors": {
+    "coat": "#f2d7ae",
+    "coatShade": "#f0c2ae",
+    "mane": "#c4452d",
+    "maneShade": "#5c3d32",
+    "muzzle": "#fff6e4",
+    "muzzleShade": "#f2d7ae",
+    "dark": "#241c16",
+    "darkShade": "#241c16",
+    "eye": "#f6f3ee",
+    "eyeShade": "#fffaf2"
+  },
+  "materials": {
+    "colormap": "coat",
+    "colormap#ffb54b": "coat",
+    "colormap#ffa63e": "coat",
+    "colormap#ff9832": "coat",
+    "colormap#e9b995": "muzzle",
+    "colormap#ff9a34": "coat",
+    "colormap#ff9c35": "coat",
+    "colormap#ffb84d": "coat",
+    "colormap#ffaf45": "coat",
+    "colormap#ffcb5d": "coat",
+    "colormap#ffcd5e": "coat",
+    "colormap#ffad43": "coat",
+    "colormap#ffa23a": "coat",
+    "colormap#ffc658": "coat",
+    "colormap#ffbb4f": "coat",
+    "colormap#ffcf60": "coat",
+    "colormap#e78f65": "mane",
+    "colormap#df8860": "mane",
+    "colormap#d7825b": "mane",
+    "colormap#d47f59": "mane",
+    "colormap#cc7854": "mane",
+    "colormap#c97552": "mane",
+    "colormap#bd6b4a": "mane",
+    "colormap#4b4e5c": "dark",
+    "colormap#ededf4": "eye"
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "dance": "dance",
+    "eat": "eat"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (wave-1 row 23). Same zip and route as the elephant: ingested through Blender, with Textures/colormap.png as an extra member; the colour map flattens to 24 colours (yellows -> coat, browns -> mane, nose and tail tip)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-lion.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 1.3,
+    "yaw": 0,
+    "maxColors": 24,
+    "memberSha256": "64697c4a76357fe8d9688fe077a5e74e527a6602574fd0941895be84b5883703"
+  },
+  "file": "model.glb",
+  "sha256": "fe0ff5f9e2b132804bec184d9eae306dba2ea5ba6409b291fee1844734082309",
+  "bytes": 91260,
+  "triangles": 889,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#ffb54b": "#ffb54b",
+    "colormap#ffa63e": "#ffa63e",
+    "colormap#ff9832": "#ff9832",
+    "colormap#e9b995": "#e9b995",
+    "colormap#ff9a34": "#ff9a34",
+    "colormap#ff9c35": "#ff9c35",
+    "colormap#ffb84d": "#ffb84d",
+    "colormap#ffaf45": "#ffaf45",
+    "colormap#ffcb5d": "#ffcb5d",
+    "colormap#ffcd5e": "#ffcd5e",
+    "colormap#ffad43": "#ffad43",
+    "colormap#ffa23a": "#ffa23a",
+    "colormap#ffc658": "#ffc658",
+    "colormap#ffbb4f": "#ffbb4f",
+    "colormap#ffcf60": "#ffcf60",
+    "colormap#e78f65": "#e78f65",
+    "colormap#df8860": "#df8860",
+    "colormap#d7825b": "#d7825b",
+    "colormap#d47f59": "#d47f59",
+    "colormap#cc7854": "#cc7854",
+    "colormap#c97552": "#c97552",
+    "colormap#bd6b4a": "#bd6b4a",
+    "colormap#4b4e5c": "#4b4e5c",
+    "colormap#ededf4": "#ededf4"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the head and the lower edge of the mane dip up to 0.11 m through the ground as the lion bobs down to eat while all four feet stay planted (clamping would float the lion 0.11 m)"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "static": {
+      "seconds": 0.0833,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 1.3,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 889,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.42
+      },
+      "walk": {
+        "minY": 0.0028,
+        "touches": true,
+        "maxSize": 1.48
+      },
+      "run": {
+        "minY": -0.01,
+        "touches": true,
+        "maxSize": 1.53
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.42
+      },
+      "eat": {
+        "minY": -0.1119,
+        "touches": true,
+        "maxSize": 1.53
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
