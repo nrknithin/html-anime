@@ -24,6 +24,7 @@ Look at every PNG you make. `--model` is a repo-relative path or any file path (
 | `--views <list>` | any of `front back left right top three4 hero`. Default `front,left,three4,top` |
 | `--mode <m>` | `cel` (film look), `clay` (smooth gray, no ink), `sil` (black on white). Default `cel` |
 | `--pose <name>` | a name from `meta.poses`. Default `rest` |
+| `--opts '<json>'` | a JSON object passed to `build(THREE, kit, colors, opts)` as its 4th argument, so one model shoots as its variants: `--opts '{"flavor":"mitarashi","plate":true}'`. The footer (and `--info`) shows it. Invalid JSON or a non-object is an error before Chrome starts. Library entries ignore it, with a warning. Default: none, `build()` uses its own defaults |
 | `--out <file.png>` | output. Default is a unique name under the OS temp dir, so give one |
 | `--size <WxH>` | window size, default `1600x1000`. Four views are four 800x500 cells; shoot one or two views for detail |
 | `--ref <img>` `--ref-view <view>` `--ref-mode overlay\|beside\|edge` `--ref-opacity 0.5` `--ref-crop x,y,w,h` `--ref-flip` | reference photo, see below. `--ref-view` defaults to the first view |
@@ -32,6 +33,8 @@ Look at every PNG you make. `--model` is a repo-relative path or any file path (
 | `--light <x,y,z>` | preview another light direction (cel mode) |
 | `--hide <a,b>` `--only <joint>` | hide objects by name, or show one joint's subtree only |
 | `--montage <p1,p2,...>` | one cell per pose at one shared scale, see below |
+| `--az <deg>` `--el <deg>` | aim the perspective cells (`hero`, `three4`): azimuth around +Y from +Z toward +X (the model's left), elevation above the horizon. Distance and framing stay automatic; a given `--el` is used as is, without the hero's floor stepping. See below |
+| `--strip-view <view>` | the view `--strip` renders its clip frames in. Default `left` |
 | `--joints` / `--joint-names` | yellow dots at every joint pivot, with names |
 | `--batch shots.json` | a JSON array of shots, one browser session (about 0.3 s a shot after the first) |
 | `--info` | also print the page's `__labInfo` as one JSON line: exact bbox, mm per pixel, every cell and the model's projected box in pixels, the ref rect, and `jointPositions` (every joint's world position in meters, 3 decimals; one entry per pose under `poses` in a montage) |
@@ -40,7 +43,7 @@ Look at every PNG you make. `--model` is a repo-relative path or any file path (
 | `--cols n` `--mpp m/px` `--bg #hex` `--no-ref-box` `--timeout s` `--verbose` | layout columns, pin the ortho scale (compare shots at one scale), background, hide the crop box, page timeout (30 s), phase timings |
 | `--serve [--port n]` | only serve; prints the lab URL to open in your own browser |
 
-Batch items use the same keys in camelCase and sit on top of any flags: `[{"model":"models/horse.js","mode":"sil","views":"left","pose":"rest","out":"a.png"},{"model":"models/horse.js","mode":"cel","pose":"gallop-a","out":"b.png"}]`. Exit code is 1 if any shot failed; the others still run.
+Batch items use the same keys in camelCase and sit on top of any flags: `[{"model":"models/horse.js","mode":"sil","views":"left","pose":"rest","out":"a.png"},{"model":"models/horse.js","mode":"cel","pose":"gallop-a","out":"b.png"}]`. `opts` may be the object itself: `{"model":"models/toro.js","opts":{"lit":true},"out":"lit.png"}`. Exit code is 1 if any shot failed; the others still run.
 
 Safe to run many at once: every run has its own server port, Chrome profile and debugging port, and cleans up after itself. `CHROME_PATH` picks the browser (else Chrome, then Edge, on Windows, macOS, Linux).
 
@@ -56,7 +59,7 @@ Safe to run many at once: every run has its own server port, Chrome profile and 
 | `right` | -X | the right side, face to the image right |
 | `top` | +Y | face to the top of the image, the model's left on the image left |
 | `three4` | perspective, front-left, 20 degrees above | lit side, shaded front, lit top |
-| `hero` | perspective, front-left, 7 degrees below | low three-quarter |
+| `hero` | perspective, front-left, 7 degrees below (raised in steps for low, wide sets so the camera stays above the floor; 12 degrees above for very flat sets) | low three-quarter |
 
 All orthographic cells share one meters-per-pixel scale (the footer prints it), so proportions compare across views. Each has a ground line, faint lines every 0.25 m (coarser or finer for big or small models), `0`/`1 m` labels, a scale bar, a dotted line at the model's x=0 / z=0, and its name. Perspective cells are fit to the silhouette. Backgrounds: white in `sil`, light gray in `clay`, mid gray in `cel`, so the ink reads on any script. The footer prints name, pose, mode, bbox (x y z), triangles, meshes and the scale, plus up to two warnings.
 
@@ -99,13 +102,26 @@ node harness/lab/shoot.mjs --model models/knight.js --views three4,front --only 
 node harness/lab/shoot.mjs --model models/frog.js --montage rest,puff-1,puff-2,puff-3 --out renders/puff.png
 ```
 
+**`--az <deg>` `--el <deg>`** replace the azimuth and elevation of every perspective cell (`hero`, `three4`); the auto distance and centering are unchanged. `0` looks at the model's front from +Z, `90` at its left side from +X, `180` at its back; `--el` is degrees above the horizon (negative looks up from below). Without `--el` each view keeps its own elevation, with the hero's floor stepping; with it the camera sits exactly there, even if that is under the floor. The footer shows `camera az .. el ..`. Shoot a long alley down its length, or a riverbank square to its face:
+
+```
+node harness/lab/shoot.mjs --model models/horse.js --views hero --az 0 --el 8 --out renders/head-on.png
+node harness/lab/shoot.mjs --model models/horse.js --views hero,three4 --az 90 --out renders/side.png
+```
+
+**`--strip-view <view>`** picks which view `--strip` draws its frames in (default `left`); any of the seven views, so a front-facing part (a washer drum, a face) can be watched turning:
+
+```
+node harness/lab/shoot.mjs --model models/yokocho.js --views hero --strip sway --strip-view front --out renders/sway.png
+```
+
 ## Library models
 
 `--model models/library/<id>` (the folder or its `meta.json`) loads a library entry: its GLB through GLTFLoader and `library.js`, cel-shaded with the kit's skinned shader and hull. Every flag works. Poses are `rest`, a `meta.poseDefs` name, or `<clip>@<seconds>`; `--clip run --at 0.4` is one frame, `--clip run --frames 6` a montage across the clip, `--strip run` adds a row of clip frames after the views. `--info` adds `palette` (share of non-edge pixels that are exact script hexes) for any cel shot. `probe.mjs` takes the same folder, plus `--clip <name> --frames n`. The pipeline that makes entries is `harness/library/README.md`.
 
 ## probe: numbers without a picture
 
-`node harness/lab/probe.mjs --model models/ox.js [--pose stomp | --poses all | --poses rest,walk-a] [--json] [--lax]` (or `npm run probe -- --model ...`). No browser: it loads three.js from the lab's CDN cache (fetching it there when missing), builds the model and applies each pose, about 0.2 s for the whole run. Per pose it prints the bbox (m), the lowest y, total triangles and the 10 heaviest meshes (by object path, `root>joint>...>Mesh#i`), every joint's world position (m, 3 decimals), the contacts (meshes whose lowest point is within 5 mm of y=0), then the same contract warnings the lab prints on stderr. `--json` prints one JSON object (`poses[]` with `bbox`, `minY`, `triangles`, `topMeshes`, `joints`, `contacts`, plus `warnings`). Exit code 1 on a contract error.
+`node harness/lab/probe.mjs --model models/ox.js [--pose stomp | --poses all | --poses rest,walk-a] [--opts '<json>'] [--json] [--lax]` (or `npm run probe -- --model ...`). `--opts` is the same as shoot's: the 4th argument to `build()`, printed in the header line (and as `opts` in `--json`). No browser: it loads three.js from the lab's CDN cache (fetching it there when missing), builds the model and applies each pose, about 0.2 s for the whole run. Per pose it prints the bbox (m), the lowest y, total triangles and the 10 heaviest meshes (by object path, `root>joint>...>Mesh#i`), every joint's world position (m, 3 decimals), the contacts (meshes whose lowest point is within 5 mm of y=0), then the same contract warnings the lab prints on stderr. `--json` prints one JSON object (`poses[]` with `bbox`, `minY`, `triangles`, `topMeshes`, `joints`, `contacts`, plus `warnings`). Exit code 1 on a contract error.
 
 ## Paths
 
@@ -130,7 +146,7 @@ export const meta = {
   colors: { coat: "#5c3d32", coatShade: "#241c16" },   // role -> hex, all from that one script
   poses: ["rest", "gallop-a"],
 };
-export function build(THREE, kit, colors = meta.colors) {
+export function build(THREE, kit, colors = meta.colors, opts = {}) {   // opts: the model's own variants (--opts)
   // 1 unit = 1 meter, +Y up, the model faces +Z, stands on y=0, centered on x=0, z=0
   return { root /* THREE.Group */, joints /* name -> Object3D pivots */, pose(name) /* sets joint rotations from literal tables */ };
 }
@@ -143,6 +159,7 @@ Rules the lab enforces:
 - Errors (exit 1, message on stderr and on the page, `window.__labError`): `meta` or `build` missing or malformed; `meta.script` not in SCRIPTS; the source uses `Math.random`, `Date`, `performance.now`, `requestAnimationFrame`, `Clock`, or any `import` (comments are ignored; `--lax` makes this a warning); `build` or `pose` throws; no meshes.
 - Warnings: a color that is not on the script; `meta.height` more than 2% (or 1 cm) off the top of the rest pose; the model does not stand on y=0; it is more than 15% off x=0 or z=0; the pose is not in `meta.poses`; no `rest` pose.
 - Build with plain `Mesh` objects (no `InstancedMesh`, `SkinnedMesh`, morph targets) in code models. (Library models are skinned; the lab measures skinned and morphed vertices where they are drawn.)
+- A model with continuous motion may also return `clips: { name: seconds }` (as library entries do); `pose("swim@0.3")` then shows that clip at 0.3 s, looping, and `--clip` / `--strip` / `--frames` work on it.
 - `pose(name)` must set every joint it uses, absolutely (a table per pose, a rest table underneath), so poses do not depend on call order. When `meta.poses` lists `rest`, the lab applies it first (the height, ground and centering checks are against it), then the pose you asked for.
 - Colors are raw sRGB hex, exact in the PNG. Shade pairs both come from the script. Hull pixels are 5 at any cell size; `kit.resolution` is updated per cell.
 
