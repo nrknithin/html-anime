@@ -1,0 +1,71 @@
+{
+  "id": "sofa",
+  "name": "Sofa",
+  "category": "prop",
+  "tags": [
+    "furniture",
+    "sofa",
+    "couch",
+    "living room",
+    "apartment",
+    "interior",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Furniture Kit 2.0)",
+  "height": 0.89,
+  "script": "noon",
+  "colors": {
+    "cushion": "#c4452d",
+    "cushionShade": "#5c3d32",
+    "wood": "#f2d7ae",
+    "woodShade": "#5c3d32"
+  },
+  "materials": {
+    "carpet": "cushion",
+    "wood": "wood"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Furniture Kit",
+    "page": "https://kenney.nl/assets/furniture-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Substitutes for the plan's Quaternius sofa (poly.pizza static GLB, blocked by a Cloudflare challenge). Kenney Furniture Kit 2.0 `loungeSofa` (GLB): a three-seat sofa with a rounded back, square arms and short wooden legs. Of the kit's sofas (loungeSofa, loungeSofaLong and loungeSofaCorner: one family, the long and corner pieces are sectional modules; loungeDesignSofa and its corner: a boxier low-back design sofa, 2.16 m wide at the same scale, too big for a small Japanese apartment) this one reads best as a living-room sofa. Kept at the kit's own scale, the same as desk-teacher (0.384 kit units = 0.74 m): 0.89 m to the back top, 1.90 m wide, 0.79 m deep, seat about 0.45 m. The cushions (source `carpet`, pale pink) are drawn in the script's red accent, apart from the furniture wood; the legs (`wood`) keep the desk's wood pair. Front (seat) faces +Z. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+      "bytes": 5130729
+    },
+    "member": "Models/GLTF format/loungeSofa.glb",
+    "height": 0.89,
+    "memberSha256": "1886b811c0d3ad0d8525a4fd43adf4112c497c8e0ed906f06877ca3517f4c7dd"
+  },
+  "file": "model.glb",
+  "sha256": "22920d007103b1776637377a5c44ef634be4be8b48ff33bc30bd80496bcfa76a",
+  "bytes": 4588,
+  "triangles": 128,
+  "bones": 0,
+  "sourceMaterials": {
+    "carpet": "#f9a39e",
+    "wood": "#f3cca8"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.89,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 128,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
