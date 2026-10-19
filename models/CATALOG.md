@@ -9,4 +9,4 @@
 
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| <img src="library/car-ambulance/preview.png" width="240"> | `car-ambulance` | Ambulance<br>*low-poly, flat colours (Kenney Car Kit)* | 2.01 m | 2746 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
+| <img src="library/car-ambulance/preview.png" width="240"> | `car-ambulance` | Ambulance<br>*low-poly, flat colours (Kenney Car Kit)* | 2.6 m | 2746 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |

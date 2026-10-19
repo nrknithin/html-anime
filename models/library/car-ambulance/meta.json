@@ -12,7 +12,7 @@
     "hospital"
   ],
   "style": "low-poly, flat colours (Kenney Car Kit)",
-  "height": 2.01,
+  "height": 2.6,
   "script": "noon",
   "colors": {
     "body": "#fffaf2",
@@ -74,7 +74,7 @@
     "pack": "Kenney · Car Kit",
     "page": "https://kenney.nl/assets/car-kit",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "note": "Kenney ambulance (FBX like car-sedan, car-van, car-delivery and the other kit cars, with Textures/colormap.png; the plan named the GLB member). Height 2.01 m puts it at the same scale as car-sedan (Kenney's 1.8 units against the sedan's 1.3 at 1.45 m), so it stands beside the van and the delivery truck: 3.63 m long and 1.67 m wide. Stylized toy proportions from Kenney (a real Japanese high-roof ambulance is about 5.6 m long and 2.5-2.8 m tall). Recoloured as a Japanese ambulance: Kenney's red lower body is white (paper, with the warm sky shade), the waistline band is the accent-red stripe, and the blue light bars are red; ink-dark windows and wheels. White with a red stripe keeps it apart from the black/white police car, the light-blue van and the white/red delivery truck (red cab, no stripe). maxColors 32 is the split where the side stripe is one clean cluster; the colour map's gradient still puts a stripe-red triangle on the roof and thin dark slivers on the rear doors. Wheels are separate nodes in the source; static, no clips."
+    "note": "Kenney ambulance (FBX like car-sedan, car-van, car-delivery and the other kit cars, with Textures/colormap.png; the plan named the GLB member). Real size: height 2.6 m with the light bar, like a Japanese high-roof ambulance (Toyota Himedic about 2.5 m, Mercedes Sprinter ambulance 2.6-2.8 m), to stand with the tractor, the fire truck and the 1.7 m characters. That gives 4.69 m long and 2.17 m wide: Kenney's toy proportions are stubby (length 1.8 x height against about 2.2 x on a real one, which is 5.6-6 m long and 1.9-2.0 m wide), so height is the matched dimension and the van comes out about 1 m short and 0.2 m wide. Matching the length instead would need 3.1 m height and 2.6 m width. Recoloured as a Japanese ambulance: Kenney's red lower body is white (paper, with the warm sky shade), the waistline band is the accent-red stripe, and the blue light bars are red; ink-dark windows and wheels. White with a red stripe keeps it apart from the black/white police car, the light-blue van and the white/red delivery truck (red cab, no stripe). maxColors 32 is the split where the side stripe is one clean cluster; the colour map's gradient still puts a stripe-red triangle on the roof and thin dark slivers on the rear doors. Wheels are separate nodes in the source; static, no clips."
   },
   "ingest": {
     "fetch": {
@@ -87,13 +87,13 @@
     "extraMembers": [
       "Models/FBX format/Textures/colormap.png"
     ],
-    "height": 2.01,
+    "height": 2.6,
     "maxColors": 32,
     "memberSha256": "e526211635fbc07c3f92bae0eb953a9a4ef5781e17358a5b87120d8014cb06c2"
   },
   "file": "model.glb",
-  "sha256": "381ceb999a8b489770b4dd5a158f7022dd2c53dd18cc760c84178326530c71ef",
-  "bytes": 84848,
+  "sha256": "f5c1e4a6c8fe03cc9d87c6d4d58d69d80dbe27bff9b462cbc65ed5ef47b288d4",
+  "bytes": 84896,
   "triangles": 2746,
   "bones": 0,
   "sourceMaterials": {
@@ -133,7 +133,7 @@
   },
   "clipInfo": {},
   "qa": {
-    "height": 2.0099,
+    "height": 2.5998,
     "heightError": -0.0001,
     "minY": 0,
     "centre": [
