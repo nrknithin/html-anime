@@ -675,7 +675,7 @@
         // Contract checks are against the rest pose with nothing hidden, whatever pose was asked for.
         const poseList = montage.length ? montage : [P.pose, ...strip];
         setPose(meta.poses.includes("rest") ? "rest" : poseList[0]);
-        contractWarnings(measure(THREE, built.root), meta, warnings);
+        contractWarnings(measure(THREE, built.root), meta, warnings, buildOpts);
         const per = poseList.map((name) => {
           if (!meta.poses.includes(name) && !(built.clips && /@-?[\d.]+$/.test(name))) warnings.push(`pose "${name}" is not listed in meta.poses (${meta.poses.join(", ")})`);
           doPose(name);
