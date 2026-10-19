@@ -1,0 +1,180 @@
+{
+  "id": "woman-casual-2",
+  "name": "Woman (casual 2)",
+  "category": "character",
+  "tags": [
+    "human",
+    "woman",
+    "casual",
+    "everyday",
+    "townsfolk",
+    "long hair",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
+  "height": 1.65,
+  "script": "noon",
+  "colors": {
+    "shirt": "#f2d7ae",
+    "shirtShade": "#5c3d32",
+    "pants": "#5c3d32",
+    "pantsShade": "#241c16",
+    "skin": "#f0c2ae",
+    "skinShade": "#c4452d",
+    "hair": "#c4452d",
+    "hairShade": "#5c3d32",
+    "belt": "#241c16",
+    "beltShade": "#241c16",
+    "eye": "#241c16",
+    "eyeShade": "#241c16"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Shirt": "shirt",
+    "Pants": "pants",
+    "Belt": "belt",
+    "Face": "eye",
+    "Hair": "hair"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan wave-1 row 66 asked for a woman in a dress; none exists in reachable free packs (the only dress in this pack is the Witch tunic, whose hat brim shares the Belt material). Casual3_Female from the Quaternius Ultimate Animated Character Pack (Nov 2019, OpenGameArt) instead: long loose hair, tank top, cropped trousers; same pack, rig, clips and scale as man-casual and woman-casual, so the three read as one cast."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Casual3_Female.fbx",
+    "height": 1.65,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "ebacd0587b4439adf225e471987f622c4af6810650c11b85f990cd1fe14842bd"
+  },
+  "thresholds": {
+    "skin": -0.6,
+    "shirt": -0.45,
+    "pants": -0.4
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.1667,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.25,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.75,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.625,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5417,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 0.9583,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.875,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.25,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.25,
+      "loop": true
+    }
+  },
+  "file": "model.glb",
+  "sha256": "3daeb7b60a8f647a65777c3a1006005b06b3a89d3e6ca64e97e2df4f37d0d637",
+  "bytes": 269136,
+  "triangles": 8444,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#1f1f1f",
+    "Shirt": "#777673",
+    "Pants": "#4b4e2f",
+    "Belt": "#493629",
+    "Face": "#fffff8",
+    "Hair": "#49433a"
+  },
+  "qa": {
+    "height": 1.65,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 8444,
+    "clips": {
+      "idle": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.65
+      },
+      "walk": {
+        "minY": -0.0014,
+        "touches": true,
+        "maxSize": 1.64
+      },
+      "attack": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.55
+      },
+      "hit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.65
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.61
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
