@@ -5,7 +5,7 @@
 // x = z = 0.
 //
 // Construction (boxes, ring solids, holed panels, inward drums and low ellipsoids, all triangle soups merged per
-// material, so the room is about twenty meshes; boxes are flat-shaded, rings, drums and blobs carry smooth normals).
+// material, so the whole room is 14 meshes; boxes are flat-shaded, rings, drums and blobs carry smooth normals).
 // Every triangle is wound away from a point inside its solid (box centre, ring core, outside an inward drum, blob
 // centre), never by hand.
 //   SHELL     a floor slab with a tile grid, the back wall and the window wall as boxes 12 cm thick, a dark tiled band
@@ -32,8 +32,10 @@
 // Clip `spin` (2 s, loops): washer 2's drum turns two revolutions counter-clockwise (seen from the front), washer 3's
 //   two clockwise; each drum's laundry (four blobs) is carried up the rising side to ~110 deg, then drops back along a
 //   falling chord, three lifts a loop, each blob spinning on itself. pose("spin@0.7"); rest is spin@0.
-// Joints: drumA, drumB (the drums, rotation z), blobA0..3, blobB0..3 (the laundry, position + rotation).
-// Budget: ~6.5k triangles, 27 meshes. Ink in pixels: shell 3, machines 2.5, small parts 2 (a room is seen small).
+// Joints: drumA, drumB (the drums, rotation z), blobA0..3, blobB0..3 (the laundry, position + rotation). They hold no
+//   meshes: the drums and laundry live in their material's mesh, and pose() rewrites that vertex range (positions,
+//   normals, hull normals) through each joint's matrix.
+// Budget: ~6.5k triangles, 14 meshes. Ink in pixels: shell 3, machines 2.5, small parts 2 (a room is seen small).
 // Colours (indigo, the cool night script), base / shade:
 //   walls                     line #e7eefc / moon #d5e2ff at threshold 0.45 (window wall lit, back wall in its shade)
 //   wainscot, caps, soffit, control strips, drums, gaskets, glass, plinth, table legs  sky #1b2d6b flat
@@ -230,7 +232,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   box("metal", XL - T, XL + 0.02, WY1, WY1 + 0.04, WZ0 - 0.03, WZ1 + 0.03); // head
   for (const [z0, z1] of [[WZ0 - 0.03, WZ0 + 0.02], [WZ1 - 0.02, WZ1 + 0.03], [0.22, 0.28]]) box("metal", XL - T, XL + 0.02, WY0, WY1, z0, z1);
   box("metal", XL - T, XL + 0.015, 1.98, 2.02, WZ0, WZ1); // transom
-  box("glass", wx - 0.005, wx + 0.005, WY0, WY1, WZ0, WZ1);
+  box("darkFlat", wx - 0.005, wx + 0.005, WY0, WY1, WZ0, WZ1);
   place(0, 0, 0, 0, () => {
     const streak = (zc, w, k) => {
       const y0 = WY0 + 0.12, y1 = 1.9, sl = 0.35 * k;
@@ -281,9 +283,9 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     box("metal", 0.2, 0.245, -0.05, 0.05, 0.015, 0.07); // handle
     const st = (x0, w, z) => quad("streak", [x0, -0.07, z], [x0 + w, -0.07, z], [x0 + w + 0.06, 0.09, z], [x0 + 0.06, 0.09, z], [0, 0, z - 1]);
     if (!open) st(-0.12, 0.03, 0.032), st(-0.075, 0.012, 0.032);
-    else disc("glass", 0, 0, 0.152, 0.03, -1, 20), disc("glass", 0, 0, 0.152, 0.031, 1, 20); // open door: glass seen edge-on
+    else disc("darkFlat", 0, 0, 0.152, 0.03, -1, 20), disc("darkFlat", 0, 0, 0.152, 0.031, 1, 20); // open door: glass seen edge-on
   }
-  const drumJ = {}, blobJ = {};
+  const drumJ = {}, blobJ = {}, movers = []; // movers: { j: joint, set: soups in the joint's frame }
   for (let i = 0; i < 4; i++) {
     const xc = WX0 + WW * (i + 0.5), yb = F + PL, cy = yb + 0.42;
     box("white", xc - WW / 2 + 0.01, xc + WW / 2 - 0.01, yb, yb + WH, ZB + 0.01, wzf, ["front"]);
@@ -304,7 +306,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       g.position.set(xc, cy, drumZ);
       body.add(g);
       joints["drum" + key] = drumJ[key] = g;
-      g.userData.soups = own(drumGeo);
+      movers.push({ j: g, set: own(drumGeo) });
       const tub = new THREE.Group(); // the laundry lives in the washer frame, not on the drum
       tub.name = "tub" + key;
       tub.position.set(xc, cy, drumZ);
@@ -316,7 +318,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
         b.name = `blob${key}${k}`;
         tub.add(b);
         joints[b.name] = b;
-        b.userData.soups = own(() => blob(cols[k], [0, 0, 0], [0.068, 0.046, 0.058]));
+        movers.push({ j: b, set: own(() => blob(cols[k], [0, 0, 0], [0.068, 0.046, 0.058])) });
         blobJ[key].push(b);
       }
     } else {
@@ -343,7 +345,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       const xc = DX0 + DW * (col + 0.5), yb = F + row * (DH + 0.02), cy = yb + 0.4;
       box("white", xc - DW / 2 + 0.01, xc + DW / 2 - 0.01, yb, yb + DH, ZB + 0.01, dzf);
       ring("metal", xc, cy, 0.2, 0.26, dzf, dzf + 0.045);
-      disc("glass", xc, cy, 0.2, dzf + 0.012);
+      disc("darkFlat", xc, cy, 0.2, dzf + 0.012);
       place(xc, cy, dzf + 0.014, 0, () => {
         quad("streak", [-0.12, -0.08, 0], [-0.065, -0.08, 0], [0.0, 0.11, 0], [-0.055, 0.11, 0], [0, 0, -1]);
         quad("streak", [-0.035, -0.08, 0], [-0.015, -0.08, 0], [0.05, 0.11, 0], [0.03, 0.11, 0], [0, 0, -1]);
@@ -413,7 +415,18 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const sc = height / NATURAL;
   body.position.set((-(lo[0] + hi[0]) / 2) * sc, 0, (-(lo[1] + hi[1]) / 2) * sc);
 
-  // ---------- meshes: one per material (and per moving part) ----------
+  // ---------- meshes: one per material; the moving parts' vertices join their material's mesh ----------
+  // Each mover's soups (in its joint's frame) are appended to the static soups; pose() moves the joint and rewrites
+  // that vertex range (position, normal, hull normal) through the joint's matrix relative to body. Plain Mesh only.
+  for (const mv of movers) {
+    mv.ranges = [];
+    for (const [key, { p, n }] of Object.entries(mv.set)) {
+      const s = S(key), i0 = s.p.length;
+      s.p.push(...p), s.n.push(...n);
+      mv.ranges.push({ key, i0, P: Float32Array.from(p), N: Float32Array.from(n) });
+    }
+    delete mv.set;
+  }
   const MAT = {
     wall: [c.wall, c.wallShade, 0.45, 3],
     dark: [c.dark, c.dark, 0.1, 3],
@@ -423,7 +436,6 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     grid: [c.grid, c.grid, 0.1, 0],
     white: [c.white, c.whiteShade, 0.1, 2.5],
     metal: [c.metal, c.metalShade, 0.1, 2],
-    glass: [c.dark, c.dark, 0.1, 0],
     streak: [c.glow, c.glow, -0.25, 0],
     glow: [c.glow, c.glow, -0.25, 2],
     lamp: [c.lamp, c.lamp, -0.25, 0],
@@ -431,19 +443,39 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     orange: [c.orange, c.orangeShade, 0.1, 2],
     yellow: [c.yellow, c.yellowShade, 0.1, 2],
   };
-  const meshes = (set, parent) => {
-    for (const [key, { p, n }] of Object.entries(set)) {
-      const [base, shade, threshold, px] = MAT[key];
-      const g = new THREE.BufferGeometry();
-      g.setAttribute("position", new THREE.Float32BufferAttribute(p, 3));
-      g.setAttribute("normal", new THREE.Float32BufferAttribute(n, 3));
-      const mesh = kit.toon(g, base, shade, px ? { threshold, px } : { threshold, outline: false });
-      mesh.name = parent === body ? key : `${parent.name}-${key}`;
-      parent.add(mesh);
+  const geo = {};
+  for (const [key, { p, n }] of Object.entries(soups)) {
+    const g = (geo[key] = new THREE.BufferGeometry());
+    g.setAttribute("position", new THREE.Float32BufferAttribute(p, 3));
+    g.setAttribute("normal", new THREE.Float32BufferAttribute(n, 3));
+  }
+  const rel = new THREE.Matrix4(), inv = new THREE.Matrix4(), nm = new THREE.Matrix3(), w3 = new THREE.Vector3();
+  // write every mover's vertex range from its joint's current matrix (hull normals once they exist)
+  function writeMovers() {
+    body.updateMatrixWorld(true);
+    inv.copy(body.matrixWorld).invert();
+    const touched = new Set();
+    for (const mv of movers) {
+      rel.multiplyMatrices(inv, mv.j.matrixWorld);
+      nm.getNormalMatrix(rel);
+      for (const r of mv.ranges) {
+        const g = geo[r.key], P = g.attributes.position.array, N = g.attributes.normal.array, HA = g.attributes.hullNormal;
+        for (let i = 0; i < r.P.length; i += 3) {
+          w3.fromArray(r.P, i).applyMatrix4(rel).toArray(P, r.i0 + i);
+          w3.fromArray(r.N, i).applyMatrix3(nm).normalize().toArray(N, r.i0 + i);
+          if (HA && r.H) w3.fromArray(r.H, i).applyMatrix3(nm).normalize().toArray(HA.array, r.i0 + i);
+        }
+        touched.add(r.key);
+      }
     }
-  };
-  meshes(soups, body);
-  for (const j of Object.values(joints)) meshes(j.userData.soups, j), delete j.userData.soups;
+    for (const key of touched) {
+      const g = geo[key];
+      g.attributes.position.needsUpdate = g.attributes.normal.needsUpdate = true;
+      if (g.attributes.hullNormal) g.attributes.hullNormal.needsUpdate = true;
+      g.computeBoundingSphere();
+      g.computeBoundingBox();
+    }
+  }
 
   // ---------- clip: spin ----------
   // Drum A turns counter-clockwise seen from the front (+rz), drum B clockwise; two turns a loop. Laundry angle a is
@@ -454,7 +486,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     [0.0, 0.085, -0.08, 2, 1], [0.27, 0.08, -0.17, -1, 2], [0.52, 0.088, -0.25, 3, -1], [0.78, 0.078, -0.13, -2, 1],
   ];
   const frac = (x) => x - Math.floor(x);
-  function apply(t) {
+  function setJoints(t) {
     const ph = frac(t / CLIPS.spin);
     for (const [key, dir, off] of [["A", 1, 0], ["B", -1, 0.4]]) {
       drumJ[key].rotation.set(0, 0, dir * 2 * TAU * ph);
@@ -474,6 +506,30 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
         b.rotation.set(sx * TAU * ph, sy * TAU * ph + k, dir * 2 * TAU * ph);
       });
     }
+    root.updateMatrixWorld(true);
+  }
+  // rest placement first, so the kit's hull normals are welded where the parts really are; then keep them local
+  setJoints(0);
+  writeMovers();
+  for (const [key, g] of Object.entries(geo)) {
+    const [base, shade, threshold, px] = MAT[key];
+    const mesh = kit.toon(g, base, shade, px ? { threshold, px } : { threshold, outline: false });
+    mesh.name = key;
+    body.add(mesh);
+  }
+  for (const mv of movers) {
+    rel.multiplyMatrices(inv, mv.j.matrixWorld);
+    nm.getNormalMatrix(rel.clone().invert());
+    for (const r of mv.ranges) {
+      const HA = geo[r.key].attributes.hullNormal;
+      if (!HA) continue;
+      r.H = new Float32Array(r.P.length);
+      for (let i = 0; i < r.P.length; i += 3) w3.fromArray(HA.array, r.i0 + i).applyMatrix3(nm).normalize().toArray(r.H, i);
+    }
+  }
+  function apply(t) {
+    setJoints(t);
+    writeMovers();
     root.updateMatrixWorld(true);
   }
   function pose(name) {
