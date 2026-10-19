@@ -41,7 +41,8 @@ export function buildLibrary(THREE, kit, gltf, meta, colors = meta.colors) {
       g.setAttribute("normal", g.attributes.hullNormal.clone());
       smoothed.add(g);
     }
-    mesh.material = kit.cel(base, shade, { threshold: thresholds[role] ?? 0.35 });
+    // meta.doubleSided: roles drawn from both sides (a one-sided cape would otherwise show its ink hull from behind)
+    mesh.material = kit.cel(base, shade, { threshold: thresholds[role] ?? 0.35, doubleSided: (meta.doubleSided || []).includes(role) });
     mesh.frustumCulled = false; // a skinned mesh's bounding sphere is its bind pose; a gallop leaves it
     mesh.userData.role = role;
     if (!noInk.has(role)) kit.outline(mesh);
@@ -78,6 +79,21 @@ export function buildLibrary(THREE, kit, gltf, meta, colors = meta.colors) {
     return lift[lift.length - 1][1];
   }
 
+  // Lowest point of the posed model in the root's own space (skinned and morphed vertices where they are drawn).
+  const _v = new THREE.Vector3();
+  const _inv = new THREE.Matrix4();
+  function lowestY() {
+    root.updateMatrixWorld(true);
+    _inv.copy(root.matrixWorld).invert();
+    let lo = Infinity;
+    for (const m of meshes) {
+      if (!m.visible) continue;
+      const n = m.geometry.attributes.position.count;
+      for (let i = 0; i < n; i++) lo = Math.min(lo, m.getVertexPosition(i, _v).applyMatrix4(m.matrixWorld).applyMatrix4(_inv).y);
+    }
+    return lo === Infinity ? 0 : lo;
+  }
+
   function toRest() {
     mixer.stopAllAction();
     scene.position.y = 0;
@@ -97,6 +113,7 @@ export function buildLibrary(THREE, kit, gltf, meta, colors = meta.colors) {
     action.time = tt;
     mixer.update(0);
     scene.position.y = liftAt(info.lift, tt); // a clip that sinks (a body lying down) is lifted by measured amounts
+    if (info.ground === "clamp") scene.position.y += Math.max(0, -lowestY()); // or, per frame, exactly onto y = 0
     root.updateMatrixWorld(true);
   }
 
