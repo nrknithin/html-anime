@@ -1,0 +1,90 @@
+{
+  "id": "koi",
+  "name": "Koi",
+  "category": "fish",
+  "tags": [
+    "animal",
+    "fish",
+    "koi",
+    "carp",
+    "pond",
+    "water",
+    "swim"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2018)",
+  "height": 0.165,
+  "script": "noon",
+  "colors": {
+    "scale": "#c4452d",
+    "scaleShade": "#5c3d32",
+    "belly": "#fffaf2",
+    "bellyShade": "#f2d7ae",
+    "fin": "#fff6e4",
+    "finShade": "#f0c2ae"
+  },
+  "materials": {
+    "Top": "scale",
+    "Bottom": "belly",
+    "Fins": "fin"
+  },
+  "clips": {
+    "swim": "Swim"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated Fish",
+    "page": "https://opengameart.org/content/animated-fish",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 41 named Quaternius Ultimate Fish (poly.pizza, behind a Cloudflare challenge). The reachable Quaternius Animated Fish pack (OpenGameArt, CC0; the same zip as itch.io 'LowPoly Animated Fish') has no koi; Fish1, a carp-like fish with a red-orange back, pale belly and cream fins, is the closest and is coloured as a kohaku koi (red back, white belly and fins). The mesh has no separate patch material, so there are no black (sumi) patches. Its only clip is Swim (a lateral body and tail wag). Height 0.165 m gives a 0.5 m body. A fish has no ground: like every entry its lowest rest point is at y = 0; films lift it into the water."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Animated%20Fish%20Pack%20by%20%40Quaternius.zip",
+      "sha256": "c56a4bf3468e900ed9d881037334152dc203f93b656373347c8a7fc3dedb1855",
+      "bytes": 1024233,
+      "resolved": "https://opengameart.org/sites/default/files/Animated%20Fish%20Pack%20by%20%40Quaternius.zip"
+    },
+    "member": "Animated Fish Pack by @Quaternius/FBX/Fish1.fbx",
+    "height": 0.165,
+    "yaw": 0,
+    "memberSha256": "1adea1cca2f02f351cf524b60d2448502e3acb3ef2965f74a21c45a5dfce77e3"
+  },
+  "file": "model.glb",
+  "sha256": "1fc16a4e06dae403ff1be26f70bf3e17a8164927ee297b012fd5e84184049a9c",
+  "bytes": 26440,
+  "triangles": 544,
+  "bones": 8,
+  "sourceMaterials": {
+    "Bottom": "#d8e7de",
+    "Top": "#e7a187",
+    "Fins": "#e7d4aa"
+  },
+  "clipInfo": {
+    "Swim": {
+      "seconds": 1.2917,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 0.165,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 544,
+    "clips": {
+      "swim": {
+        "minY": 0.0051,
+        "touches": false,
+        "maxSize": 0.5
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + swim"
+  }
+}
