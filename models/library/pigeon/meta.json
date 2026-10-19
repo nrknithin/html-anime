@@ -1,0 +1,110 @@
+{
+  "id": "pigeon",
+  "name": "Pigeon",
+  "category": "bird",
+  "tags": [
+    "animal",
+    "bird",
+    "pigeon",
+    "city",
+    "park"
+  ],
+  "style": "low-poly flight model (wings always spread, no perched pose); untextured, one material",
+  "height": 0.27,
+  "script": "indigo",
+  "colors": {
+    "plumage": "#d5e2ff",
+    "plumageShade": "#1b2d6b"
+  },
+  "materials": {
+    "Material.001": "plumage"
+  },
+  "thresholds": {
+    "plumage": 0
+  },
+  "preview": {
+    "clip": "fly",
+    "pose": "fly@0.25"
+  },
+  "clips": {
+    "idle": "idle-animation",
+    "fly": "flap-wings-animation"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "mujtaba-io",
+    "pack": "mujtaba-io · Low poly 3D pigeon model (rigged, animated, untextured)",
+    "page": "https://opengameart.org/content/low-poly-3d-pigeon-model-rigged-animated-untextured",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 31 named the Quaternius Cute Creatures pigeon (poly.pizza, now behind a Cloudflare challenge). This is a reachable CC0 rigged and animated pigeon on OpenGameArt."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://opengameart.org/sites/default/files/genuinely-my-pigeon-extended-furthur.blend",
+      "sha256": "a02f6b2a327dba85edb4a2b31904351e59bbd367519a3b703cd9a934495a8643",
+      "bytes": 798248,
+      "resolved": "https://opengameart.org/sites/default/files/genuinely-my-pigeon-extended-furthur.blend"
+    },
+    "height": 0.27,
+    "yaw": 180,
+    "drop": [
+      "1a874ca315a622155332af6eb7cf1e82",
+      "68e6f0516f0af791aa69c9f3d5818699",
+      "9le4wdd5-900",
+      "af66c1cbc5f6f214f76c3d45c5cbd367",
+      "Cube",
+      "Vert",
+      "Vert.001"
+    ]
+  },
+  "file": "model.glb",
+  "sha256": "a871422046347cd3287d2325766814ba7e40ea8db0a040e14832f75c4d004d7a",
+  "bytes": 46304,
+  "triangles": 1010,
+  "bones": 13,
+  "sourceMaterials": {
+    "Material.001": "#422f28"
+  },
+  "clipInfo": {
+    "flap-wings-animation": {
+      "seconds": 1,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "idle-animation": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "legs-up-animation": {
+      "seconds": 0.1667,
+      "loop": false,
+      "ground": "clamp"
+    }
+  },
+  "qa": {
+    "height": 0.27,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1010,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.68
+      },
+      "fly": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.68
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "fly@0.25 + fly"
+  }
+}
