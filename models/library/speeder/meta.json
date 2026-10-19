@@ -1,0 +1,81 @@
+{
+  "id": "speeder",
+  "name": "Speeder craft",
+  "category": "vehicle-space",
+  "tags": [
+    "vehicle",
+    "speeder",
+    "craft",
+    "spaceship",
+    "space",
+    "sci-fi",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Space Kit)",
+  "height": 2.5,
+  "script": "noon",
+  "colors": {
+    "hull": "#fff6e4",
+    "hullShade": "#f2d7ae",
+    "deck": "#c4452d",
+    "deckShade": "#5c3d32",
+    "engine": "#f2d7ae",
+    "engineShade": "#5c3d32",
+    "canopy": "#5c3d32",
+    "canopyShade": "#5c3d32"
+  },
+  "materials": {
+    "metal": "hull",
+    "metalRed": "deck",
+    "metalDark": "engine",
+    "dark": "canopy"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Space Kit",
+    "page": "https://kenney.nl/assets/space-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (Kenney Space Kit `craft_speederA.glb`), fetched with the same sha256-pinned kit zip as the rover. Of the kit's four speeders, A was chosen after rendering A-D in the lab: a low wedge with a long canopy down the nose and swept wings, longer than it is wide; B is boxy, C is a flat 7:5 span-to-length wing, D is a stubbier A with canted winglets. Turned 180 degrees (`ingest.yaw`) so the nose faces +Z; bottom on y = 0 (films lift it to hover). Real size: a single-seat craft about 6.5 m long; height 2.5 m to the canopy fairing makes it 6.56 m long with a 6.25 m wingspan. Noon script, as the rover (indigo was tried: its only dark shade, sky #1b2d6b, nearly merges with the ink on the underside and engines): wings and lower hull cream (`moon`) over paper (`sky`), upper hull and fins vermilion (`accent`) over dark brown (`iris`), engine pods paper over dark brown, canopy flat dark brown (`iris` both tones: the script has no dark shade lighter than ink). Kept faceted (`smooth: false`), 280 tris. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/space-kit",
+      "sha256": "d5d7cdf2635ed5a43a9187deaf409b6f47484e402321128341d3c3698e9ef4d9",
+      "bytes": 6677531,
+      "resolved": "https://kenney.nl/media/pages/assets/space-kit/20874c75ac-1677698978/kenney_space-kit.zip"
+    },
+    "member": "Models/GLTF format/craft_speederA.glb",
+    "yaw": 180,
+    "height": 2.5,
+    "memberSha256": "dc48652fa5c59088a5e3902abce7598199f32e0dcb8c91bac25e17bb8ce15876"
+  },
+  "file": "model.glb",
+  "sha256": "87a99f6709ccc5d11c8680f6b332e34cced1f03083eb6e6692d232308de10ca4",
+  "bytes": 8528,
+  "triangles": 280,
+  "bones": 0,
+  "sourceMaterials": {
+    "metal": "#edf0f5",
+    "metalRed": "#ffd07c",
+    "dark": "#8f949e",
+    "metalDark": "#d6dbe4"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 2.4998,
+    "heightError": -0.0001,
+    "minY": 0.0002,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 280,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
