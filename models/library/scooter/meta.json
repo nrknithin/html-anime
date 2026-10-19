@@ -1,0 +1,102 @@
+{
+  "id": "scooter",
+  "name": "Kick scooter",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "prop",
+    "scooter",
+    "kick scooter",
+    "street",
+    "skate",
+    "ride",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Mini Skate)",
+  "height": 0.9,
+  "script": "noon",
+  "colors": {
+    "frame": "#c4452d",
+    "frameShade": "#5c3d32",
+    "wheel": "#fff6e4",
+    "wheelShade": "#f2d7ae",
+    "tape": "#5c3d32",
+    "tapeShade": "#5c3d32"
+  },
+  "materials": {
+    "colormap": "frame",
+    "colormap#a29fbc": "frame",
+    "colormap#aba8c4": "frame",
+    "colormap#b3b0cc": "frame",
+    "colormap#aeabc7": "frame",
+    "colormap#9f9bb8": "frame",
+    "colormap#a9a5c2": "frame",
+    "colormap#a5a2bf": "frame",
+    "colormap#f2f2f6": "wheel",
+    "colormap#617dce": "wheel",
+    "colormap#5b65c3": "wheel",
+    "colormap#6793d9": "wheel",
+    "colormap#807d9a": "tape"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Mini Skate",
+    "page": "https://kenney.nl/assets/mini-skate",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (Kenney Mini Skate, scooter.glb with its Textures/colormap.png; zip pinned by sha256, the link read from the kit page as for every Kenney entry). A chunky toy-like kick scooter: a T handlebar on a straight stem, a deck with recessed grip tape, two fat wheels under fenders, 410 tris. Scale: height 0.9 m (top of the handlebar), the low end of a real adult scooter's 0.9-1.0 m, so a ~1.6 m person's hands reach the grips. Kenney draws it stubby, so at that height it is 1.41 m long (real ~0.9-1.0 m) with 0.33 m wheels and a high deck; the aspect cannot be fixed without distorting it. In the kit's own scale beside the Kenney Mini Characters (library height 1.1 m) it would be 0.72 m tall: scale the root by 0.8 for a mini rider. Riding it (at 0.9 m): deck top (grip tape) y = 0.27 m, standing area z = -0.26 to +0.28 m, x = -0.06 to +0.06 m on the tape (deck 0.31 m wide); handlebar grips centred at x = +/-0.27 m (each 0.20-0.33 m out), y = 0.80 m (0.72-0.88), z = +0.53 m; wheels touch y = 0 at z = -0.51 and +0.53 m. Front (stem and handlebar) toward +Z. Look (noon): the frame, stem and deck sides vermilion (accent) over dark brown (iris) shade; wheels and handlebar grips cream (moon) over paper (sky); grip tape and wheel hubs (one source colour) dark brown (iris) both tones, threshold -1 so it never takes a shade. Faceted (smooth false). Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/mini-skate",
+      "sha256": "0ded0e7f95cdc2c0513a41986fde49977e7d1f4fa8653b375a5c7e909ef9d74a",
+      "bytes": 2128999
+    },
+    "member": "Models/GLB format/scooter.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.9,
+    "memberSha256": "f4d6e98a6967d88fee220624fb92c402c3dc4fa74fd70aea93b1b8277bf096f1"
+  },
+  "file": "model.glb",
+  "sha256": "b8d7816b14fabc106656b8f3374f12bcb3e0f32e75ce037c82b6a44d6a66cf04",
+  "bytes": 19836,
+  "triangles": 410,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#a29fbc": "#a29fbc",
+    "colormap#aba8c4": "#aba8c4",
+    "colormap#b3b0cc": "#b3b0cc",
+    "colormap#aeabc7": "#aeabc7",
+    "colormap#9f9bb8": "#9f9bb8",
+    "colormap#a9a5c2": "#a9a5c2",
+    "colormap#a5a2bf": "#a5a2bf",
+    "colormap#f2f2f6": "#f2f2f6",
+    "colormap#617dce": "#617dce",
+    "colormap#5b65c3": "#5b65c3",
+    "colormap#6793d9": "#6793d9",
+    "colormap#807d9a": "#807d9a"
+  },
+  "clipInfo": {},
+  "thresholds": {
+    "tape": -1
+  },
+  "qa": {
+    "height": 0.9,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 410,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
