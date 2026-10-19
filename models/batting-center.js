@@ -1,7 +1,7 @@
 // batting-center.js - a Japanese neighbourhood batting center at night, cut away to two adjacent cages so a low camera
 // in the lit front-left quadrant looks in: tall net walls on pipe frames, a batter's box mat and home plate in each
 // cage, at the far end a pitching machine behind a big flat painted pitcher signboard with the ball hole at its hand
-// (the iconic read), a lit speed sign over each cage ("80km", "120km"), a coin box at each cage door, and outside in
+// (the iconic read), a lit speed sign over each cage (a baseball icon with one chevron for the slow cage, three for the fast), a coin box at each cage door, and outside in
 // the aisle a bench with helmets, a bat rack, a vending machine and floodlights on tall poles.
 // Contract: harness/lab/README.md. Meters, +Y up, the cages run along Z with the batters near +Z (the aisle) and the
 // machines at -Z, so the set faces +Z; its left is +X. Stands on y = 0 (floor top 0.04), centred on its footprint.
@@ -18,8 +18,8 @@
 //            in a red frame on two legs, painted (flat prisms, no hull) with a pale-uniformed pitcher in a red cap at
 //            release, arm out to the side and the dark ball hole in a pale ring at the hand; behind it the machine
 //            (a dark box, two pale throwing wheels, a hopper) on a stand.
-//   SIGNS    a lit amber panel in a dark case over each cage door, the speed in stroke glyphs (seven-segment digits,
-//            stroked k and m), dark on the panel.
+//   SIGNS    a lit amber panel in a dark case over each cage door, the speed as an icon (no lettering): a pale
+//            baseball with dark stitches led by dark chevrons, one for the 80 km/h cage, three for the 120 km/h cage.
 //   AISLE    a red coin box on a post beside each door (dark slot, lit button); a bench with two helmets, a rack of
 //            five bats (wood and metal) and a third helmet on its top; a white vending machine facing +X with a lit
 //            panel, rows of drink samples, a dark pickup slot.
@@ -29,15 +29,15 @@
 //            its owner: ball A, streak A, ball B, streak B), as the gachapon cranks and the ufo-catcher claw.
 // Proportions (real size; base unit the cage width 3.4 m): two cages 3.4 x 20.2 m, net walls 5.4 tall; plate to the
 //   signboard 15.8 m (a neighbourhood cage, shorter than the 18.44 m rubber); board 2.8 x 2.85 (figure painted at 1.2x life), hole at 2.4 m;
-//   aisle 3.2 deep before the front wall; floodlights 7.2 m with heads to 7.59; speed signs 1.5 x 0.6 at 2.75-3.35;
+//   aisle 3.2 deep before the front wall; floodlights 7.2 m with heads to 7.59; speed signs 2.0 x 0.8 at 2.7-3.5;
 //   coin box 0.26 x 0.36 at 1.2; bench seat 0.43; vending machine 1.0 x 0.75 x 1.83; bats 0.84, helmets r 0.125.
 // Options: build(THREE, kit, colors, { height, lights }).
 //   height  scales the whole set so the floodlight heads' top is `height` (default meta.height).
 //   lights  true (default): lamps glow practical, rays and pools drawn. false: lamps unlit, no rays or pools.
 // Clip: pitch (2 s, loops): cage A (80 km/h) throws at 0.2 s, cage B (120 km/h) at 1.1 s; each ball leaves the hole
-//   with a streak, crosses the plate at the speed on its sign, hits the front net, drops and rolls, then is gone.
+//   with a streak, crosses the plate at its cage speed, hits the front net, drops and rolls, then is gone.
 // Joints: anchors plateA, plateB, boardA, boardB, bench, vending, doorA, doorB (for placing characters and cameras).
-// Ink: hulls 2 px (a set is seen small); nets, decals, glyphs, lamps, rays and pools have none.
+// Ink: hulls 2 px (a set is seen small); nets, decals, sign icons, lamps, rays and pools have none.
 // Colours (indigo, night): cage floor sky #1b2d6b flat; aisle and batter's mat hair #16141c flat; nets line #e7eefc
 //   flat (double-sided); frame (pipes, poles, metal bats) moon #d5e2ff / sky; dark (board, machine, sign cases,
 //   lamp banks) sky / hair; pale (plate, vending body) and ball sclera #f6f3ee / moon; red (frames, coin boxes,
@@ -238,34 +238,28 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   }
 
   // ---------- each cage ----------
-  const GLYPH = {
-    "8": [[0, 2, 1, 2], [1, 2, 1, 1], [1, 1, 1, 0], [0, 0, 1, 0], [0, 0, 0, 1], [0, 1, 0, 2], [0, 1, 1, 1]],
-    "0": [[0, 2, 1, 2], [1, 2, 1, 0], [0, 0, 1, 0], [0, 0, 0, 2]],
-    "1": [[0.6, 2, 0.6, 0], [0.25, 1.7, 0.6, 2]],
-    "2": [[0, 2, 1, 2], [1, 2, 1, 1], [1, 1, 0, 1], [0, 1, 0, 0], [0, 0, 1, 0]],
-    k: [[0, 0, 0, 1.6], [0, 0.45, 0.7, 1.1], [0.25, 0.65, 0.75, 0]],
-    m: [[0, 0, 0, 1.0], [0, 1.0, 1.0, 1.0], [0.5, 1.0, 0.5, 0], [1.0, 1.0, 1.0, 0]],
-  };
-  const ADV = { "8": 1.45, "0": 1.45, "1": 1.0, "2": 1.45, k: 1.05, m: 1.4 };
-  // stroke text on the plane z = zf facing +Z, baseline v0, centred on xc; unit = cell height / 2
-  function text(str, xc, v0, unit, sw, zf, small) {
-    let wTot = 0;
-    for (const ch of str) wTot += ADV[ch] * (small.includes(ch) ? unit * 0.75 : unit);
-    let x = xc - wTot / 2;
-    for (const ch of str) {
-      const u = small.includes(ch) ? unit * 0.75 : unit;
-      for (const [a, b, e, d] of GLYPH[ch]) {
-        const p = [x + a * u, v0 + b * u], q = [x + e * u, v0 + d * u];
-        const len = Math.hypot(q[0] - p[0], q[1] - p[1]);
-        const ext = [(q[0] - p[0]) / len * sw / 2, (q[1] - p[1]) / len * sw / 2];
-        prism("decal", stroke([p[0] - ext[0], p[1] - ext[1]], [q[0] + ext[0], q[1] + ext[1]], sw), [0, 0, zf], [1, 0, 0], [0, 1, 0], [0, 0, 1], 0.006);
+  const Zp = [0, 0, 1], Xp = [1, 0, 0], Yp = [0, 1, 0];
+  // speed cue on the plane z = zf facing +Z (no lettering): a baseball (dark rim, pale ball, dark stitches) led by
+  // n dark chevrons pointing at it; one for the slow cage, three for the fast one. Centred on xc, yc.
+  function speedCue(n, xc, yc, zf) {
+    const at = (key, pts, dz) => prism(key, pts, [0, 0, zf + dz], Xp, Yp, Zp, 0.006);
+    const r = 0.25, wc = 0.16 + (n - 1) * 0.2, T = wc + 0.12 + 2 * r + 0.07, left = xc - T / 2;
+    const bx = left + wc + 0.12 + r + 0.035;
+    at("decal", circle(bx, yc, r + 0.035, 20), 0);
+    at("decalPale", circle(bx, yc, r, 20), 0.008);
+    for (const sd of [-1, 1]) {
+      const cx = bx + sd * 1.3 * r, R = 0.95 * r, a0 = sd > 0 ? Math.PI : 0;
+      for (let i = 0; i < 4; i++) {
+        const t0 = a0 - 0.62 + (i / 4) * 1.24, t1 = a0 - 0.62 + ((i + 1) / 4) * 1.24;
+        at("decal", stroke([cx + R * Math.cos(t0), yc + R * Math.sin(t0)], [cx + R * Math.cos(t1), yc + R * Math.sin(t1)], 0.035), 0.016);
       }
-      x += ADV[ch] * u;
+    }
+    for (let k = 0; k < n; k++) {
+      const tip = left + 0.16 + (n - 1 - k) * 0.2;
+      at("decal", stroke([tip - 0.16, yc + 0.2], [tip + 0.02, yc - 0.015], 0.07), 0);
+      at("decal", stroke([tip - 0.16, yc - 0.2], [tip + 0.02, yc + 0.015], 0.07), 0);
     }
   }
-
-  const Zp = [0, 0, 1], Xp = [1, 0, 0], Yp = [0, 1, 0];
-  const SPEED = ["80km", "120km"];
   for (let ci = 0; ci < 2; ci++) {
     const xc = CX[ci];
     // batter's box mat, box outlines and home plate
@@ -353,7 +347,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     box("dark", xc - sw - 0.05, xc + sw + 0.05, sy0 - 0.05, sy1 + 0.05, ZF + 0.06, ZF + 0.16);
     box("glow", xc - sw, xc + sw, sy0, sy1, ZF + 0.16, ZF + 0.17);
     for (const s of [-1, 1]) rod("frame", [xc + s * 0.75, sy1 + 0.05, ZF + 0.11], [xc + s * 0.75, NET_H, ZF + 0.03], 0.02, 5);
-    text(SPEED[ci], xc, sy0 + 0.12, 0.26, 0.085, ZF + 0.172, "km");
+    speedCue(ci ? 3 : 1, xc, (sy0 + sy1) / 2, ZF + 0.172);
 
     joints[ci ? "plateB" : "plateA"] = anchor(ci ? "plateB" : "plateA", xc, yM, ZP);
     joints[ci ? "boardB" : "boardA"] = anchor(ci ? "boardB" : "boardA", xc + HOLE_DX, HOLE_Y, ZBD);
