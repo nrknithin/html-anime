@@ -1,0 +1,100 @@
+{
+  "id": "lantern",
+  "name": "Lantern (stone post, tōrō stand-in)",
+  "category": "prop",
+  "tags": [
+    "street",
+    "lantern",
+    "light",
+    "shrine",
+    "garden",
+    "japan",
+    "night",
+    "static"
+  ],
+  "style": "low-poly, colour map flattened to flat colours",
+  "height": 2,
+  "script": "indigo",
+  "colors": {
+    "stone": "#d5e2ff",
+    "stoneShade": "#1b2d6b",
+    "glow": "#f0c36a",
+    "glowShade": "#e7a04a"
+  },
+  "thresholds": {
+    "glow": -0.25
+  },
+  "materials": {
+    "colormap": "stone",
+    "colormap#5f647c": "stone",
+    "colormap#7a7f96": "stone",
+    "colormap#7e839b": "stone",
+    "colormap#767b92": "stone",
+    "colormap#5b6078": "stone",
+    "colormap#696e86": "stone",
+    "colormap#6c7189": "stone",
+    "colormap#636880": "stone",
+    "colormap#71768d": "stone",
+    "colormap#666b83": "stone",
+    "colormap#ffbb4f": "glow",
+    "colormap#ffac42": "glow"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Holiday Kit",
+    "page": "https://kenney.nl/assets/holiday-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 210 named Kenney Fantasy Town Kit `lantern`: a thin European lamp post whose small pale head does not read as a light. No free, verified Japanese lantern (stone tōrō or paper chōchin) was found in the reachable packs (OpenGameArt 3D search: only CC-BY-SA/GPL or generic Western lanterns; Quaternius itch.io packs, Kenney Fantasy Town, Graveyard, Holiday kits). This Kenney Holiday Kit 2.0 `lantern` (GLB) has the tōrō silhouette: a square plinth, a post with collars, a tapered light box and a wide flared roof with a peak, so in stone colours it stands in for a kasuga-style post lantern. Shipped at 2.0 m (a shrine-path post lantern; 0.6 m across the roof). It has no hōju finial or middle platform, so up close it reads as a generic post lantern. Static, no clips. Colours (indigo): stone in moon/sky, the light box in practical with threshold -0.25 so it reads lit at night."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/holiday-kit",
+      "sha256": "fde4d514d7297388d98058e8933ff614e071886f7ce57f9aea4b00d7698dd769",
+      "bytes": 4482244
+    },
+    "member": "Models/GLB format/lantern.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 2,
+    "memberSha256": "42c4851862b3ea223c49e387c10353b4ee3cfb95dc178020bcabd123d0abeb85"
+  },
+  "file": "model.glb",
+  "sha256": "e003066f309b284151602dd0fd49044caaf1e4f783b0ff038a6a08d6cdf9cf3e",
+  "bytes": 16632,
+  "triangles": 172,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#5f647c": "#5f647c",
+    "colormap#7a7f96": "#7a7f96",
+    "colormap#7e839b": "#7e839b",
+    "colormap#767b92": "#767b92",
+    "colormap#5b6078": "#5b6078",
+    "colormap#696e86": "#696e86",
+    "colormap#6c7189": "#6c7189",
+    "colormap#636880": "#636880",
+    "colormap#71768d": "#71768d",
+    "colormap#666b83": "#666b83",
+    "colormap#ffbb4f": "#ffbb4f",
+    "colormap#ffac42": "#ffac42"
+  },
+  "clipInfo": {},
+  "smooth": false,
+  "qa": {
+    "height": 2,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 172,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
