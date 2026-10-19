@@ -1,0 +1,108 @@
+{
+  "id": "bell-tower",
+  "name": "Bell tower",
+  "category": "building",
+  "tags": [
+    "building",
+    "bell tower",
+    "tower",
+    "belfry",
+    "church",
+    "medieval",
+    "village",
+    "stone",
+    "fantasy",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Quaternius Medieval Village Pack)",
+  "height": 17,
+  "script": "noon",
+  "smooth": false,
+  "colors": {
+    "wall": "#f2d7ae",
+    "wallShade": "#f0c2ae",
+    "stone": "#fff6e4",
+    "stoneShade": "#f2d7ae",
+    "stoneLight": "#fffaf2",
+    "stoneLightShade": "#f6f3ee",
+    "timber": "#5c3d32",
+    "timberShade": "#5c3d32",
+    "beam": "#f2d7ae",
+    "beamShade": "#f0c2ae",
+    "plaster": "#fffaf2",
+    "plasterShade": "#f2d7ae",
+    "roof": "#c4452d",
+    "roofShade": "#5c3d32",
+    "door": "#c4452d",
+    "doorShade": "#5c3d32",
+    "glass": "#5c3d32",
+    "glassShade": "#5c3d32",
+    "bell": "#f0c2ae",
+    "bellShade": "#c4452d"
+  },
+  "materials": {
+    "Stone": "wall",
+    "Stone_Dark": "stone",
+    "Stone_Light": "stoneLight",
+    "Wood": "timber",
+    "Wood_Side": "beam",
+    "Beige": "plaster",
+    "RoofTiles": "roof",
+    "Wood_Light": "door",
+    "Windows": "glass",
+    "Bell": "bell"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Medieval Village Pack",
+    "page": "https://opengameart.org/content/lowpoly-medieval-village-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Substitutes for the plan's poly.pizza source (blocked by a Cloudflare challenge) with Quaternius's CC0 Medieval Village Pack (Dec 2020) on OpenGameArt: `Bell_Tower.fbx`. The plan row asks for a bell or clock tower; no free, reachable clock tower was found, so this is a bell tower. A three-storey stone tower with timber string courses and corbels, a front door with steps, an open belfry with a bronze bell under a red tiled gable roof with a bell dormer. The FBX carries real colours for all ten materials (no .blend needed). Sized to 17 m so the door is about 2 m tall, in the 12 to 20 m range of a village bell tower. Colours on noon, as the other buildings: warm stone wall with lighter blocks, dark-brown timber, red roof, cream gable plaster, dark glass, pink-and-red bell. Door faces +Z; static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/medieval_village_pack_-_dec_2020.zip",
+      "sha256": "c38d8632c3c883043809a5db9b2f47b7033e298ab4bd073bb5c29ad323df60fc",
+      "bytes": 8345512,
+      "resolved": "https://opengameart.org/sites/default/files/medieval_village_pack_-_dec_2020.zip"
+    },
+    "member": "Medieval Village Pack - Dec 2020/Buildings/FBX/Bell_Tower.fbx",
+    "height": 17,
+    "yaw": 0,
+    "memberSha256": "99717387e1809a9928a3082fa5499fe0238899f659367e8b5464107ff5026acd"
+  },
+  "file": "model.glb",
+  "sha256": "612da98deb2b17ede3b0b2a75b9a04f0f7e26f5310782d4ce6c76ee13b0a2502",
+  "bytes": 129800,
+  "triangles": 11799,
+  "bones": 0,
+  "sourceMaterials": {
+    "Stone_Light": "#828c92",
+    "Stone_Dark": "#6e7683",
+    "Wood": "#6d4a2b",
+    "Beige": "#afab84",
+    "Wood_Side": "#a79163",
+    "Windows": "#353535",
+    "Wood_Light": "#8d5f38",
+    "Bell": "#c28f3d",
+    "RoofTiles": "#26626b",
+    "Stone": "#585a61"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 17,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 11799,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
