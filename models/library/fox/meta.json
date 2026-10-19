@@ -1,0 +1,205 @@
+{
+  "id": "fox",
+  "name": "Fox",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "fox",
+    "forest",
+    "wild",
+    "quadruped"
+  ],
+  "style": "low-poly, flat colours (from a painted texture)",
+  "height": 0.48,
+  "script": "noon",
+  "colors": {
+    "coat": "#c4452d",
+    "coatShade": "#5c3d32",
+    "fur": "#fffaf2",
+    "furShade": "#f2d7ae",
+    "sock": "#5c3d32",
+    "sockShade": "#5c3d32",
+    "nose": "#241c16",
+    "noseShade": "#241c16"
+  },
+  "noInk": [
+    "nose"
+  ],
+  "materials": {
+    "fox_material": "coat",
+    "fox_material#fffaf2": "fur",
+    "fox_material#db8729": "coat",
+    "fox_material#533410": "sock",
+    "fox_material#252525": "nose"
+  },
+  "clips": {
+    "idle": "Survey",
+    "walk": "Walk",
+    "run": "Run"
+  },
+  "preview": {
+    "clip": "run"
+  },
+  "source": {
+    "license": "CC-BY-4.0",
+    "author": "PixelMannen (model, CC0); tomkranis (rigging and animation, CC-BY 4.0); @AsoboStudio and @scurest (glTF conversion, CC-BY 4.0)",
+    "pack": "Khronos glTF Sample Assets · Fox",
+    "page": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "note": "Wave-1 row 4 named the Ultimate Animated Animals fox (poly.pizza, behind a Cloudflare challenge; its Google Drive is quota-blocked). Animal Pack Vol.2 has no fox; the reachable Quaternius Red Fox (5 Low poly animals, OpenGameArt) has one unnamed clip, so this is the Khronos sample fox with survey, walk and run.",
+    "changes": "Scaled to 0.48 m, recentred, painted texture flattened to clustered flat colours, meshopt-compressed; materials recoloured to the Paper noon script."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Fox/glTF-Binary/Fox.glb",
+      "sha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+      "bytes": 162852,
+      "resolved": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Fox/glTF-Binary/Fox.glb"
+    },
+    "height": 0.48,
+    "yaw": 0
+  },
+  "file": "model.glb",
+  "sha256": "273fffd5926124b7183df16e708367648d35a9e37629711563c6fc3d7cc4f75f",
+  "bytes": 85592,
+  "triangles": 576,
+  "bones": 24,
+  "sourceMaterials": {
+    "fox_material": "texture",
+    "fox_material#fffaf2": "#fffaf2",
+    "fox_material#db8729": "#db8729",
+    "fox_material#533410": "#533410",
+    "fox_material#252525": "#252525"
+  },
+  "clipInfo": {
+    "Run": {
+      "seconds": 1.1583,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.007
+        ],
+        [
+          0.0682,
+          0.022
+        ],
+        [
+          0.1023,
+          0.021
+        ],
+        [
+          0.1364,
+          0.015
+        ],
+        [
+          0.2045,
+          0.018
+        ],
+        [
+          0.2386,
+          0.015
+        ],
+        [
+          0.2727,
+          0.009
+        ],
+        [
+          0.3068,
+          0
+        ],
+        [
+          0.4432,
+          0
+        ],
+        [
+          0.4773,
+          0.011
+        ],
+        [
+          0.5114,
+          0.014
+        ],
+        [
+          0.5795,
+          0.014
+        ],
+        [
+          0.6136,
+          0.005
+        ],
+        [
+          0.6818,
+          0.005
+        ],
+        [
+          0.8182,
+          0.001
+        ],
+        [
+          0.8523,
+          0.005
+        ],
+        [
+          0.8864,
+          0.013
+        ],
+        [
+          0.9205,
+          0.006
+        ],
+        [
+          0.9545,
+          0
+        ],
+        [
+          1.0909,
+          0
+        ],
+        [
+          1.1583,
+          0.007
+        ]
+      ]
+    },
+    "Survey": {
+      "seconds": 3.4167,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 0.7083,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 0.48,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 576,
+    "clips": {
+      "idle": {
+        "minY": -0.0001,
+        "touches": true,
+        "maxSize": 0.94
+      },
+      "walk": {
+        "minY": -0.0048,
+        "touches": true,
+        "maxSize": 1.02
+      },
+      "run": {
+        "minY": -0.0068,
+        "touches": true,
+        "maxSize": 1.01
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + run"
+  }
+}
