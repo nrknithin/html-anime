@@ -1,0 +1,102 @@
+{
+  "id": "car-police",
+  "name": "Police car",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "car",
+    "police",
+    "patrol",
+    "emergency",
+    "street"
+  ],
+  "style": "low-poly, flat colours (Kenney Car Kit)",
+  "height": 1.6,
+  "script": "noon",
+  "colors": {
+    "body": "#2c261f",
+    "bodyShade": "#241c16",
+    "panel": "#fffaf2",
+    "panelShade": "#f2d7ae",
+    "roof": "#fffaf2",
+    "roofShade": "#f2d7ae",
+    "lower": "#2c261f",
+    "lowerShade": "#241c16",
+    "glass": "#5c3d32",
+    "glassShade": "#241c16",
+    "lamp": "#c4452d",
+    "lampShade": "#5c3d32",
+    "tyre": "#241c16",
+    "tyreShade": "#2c261f",
+    "rim": "#f6f3ee",
+    "rimShade": "#f2d7ae"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#3a3a40": "tyre",
+    "colormap#66667b": "lower",
+    "colormap#6d6f84": "rim",
+    "colormap#75778d": "body",
+    "colormap#7a819c": "roof",
+    "colormap#f17a3b": "lamp",
+    "colormap#d5d5e4": "panel",
+    "colormap#c9c9dc": "panel",
+    "colormap#e9f1fa": "glass"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Car Kit",
+    "page": "https://kenney.nl/assets/car-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney police (FBX, not the plan's GLB: the GLB references Textures/colormap.png, as for car-sedan and car-sports-sedan from the same kit and pin). Height 1.6 m with the light bar, so the roof sits at about 1.48 m (a Toyota Crown patrol car is 1.46 m to the roof); stylized proportions: at that height it is 3.82 m long and 1.85 m wide (a Crown is 4.9 x 1.8). Kenney's black-and-white layout (dark bonnet, boot and waistline, light doors and roof) is kept in noon ink and paper, light bar in the accent red. Wheels are separate nodes in the source; static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/car-kit",
+      "sha256": "fac7dacac5c7874348cf19729af3ef205f3d366493edaf0a827d93f4fdf3d0c4",
+      "bytes": 4814237,
+      "resolved": "https://kenney.nl/media/pages/assets/car-kit/1a312ec241-1775131960/kenney_car-kit.zip"
+    },
+    "member": "Models/FBX format/police.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 1.6,
+    "maxColors": 9,
+    "memberSha256": "fd7b79eca48b01aac186a9dec073f2f6aefddbf25a21914c88b84b977ed20bee"
+  },
+  "file": "model.glb",
+  "sha256": "0d9f3363accb24b8a5f5b82b2ae501fb87eee562c95943df1d38420de76c769d",
+  "bytes": 42224,
+  "triangles": 2304,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#3a3a40": "#3a3a40",
+    "colormap#66667b": "#66667b",
+    "colormap#6d6f84": "#6d6f84",
+    "colormap#75778d": "#75778d",
+    "colormap#7a819c": "#7a819c",
+    "colormap#f17a3b": "#f17a3b",
+    "colormap#d5d5e4": "#d5d5e4",
+    "colormap#c9c9dc": "#c9c9dc",
+    "colormap#e9f1fa": "#e9f1fa"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.6,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2304,
+    "clips": {},
+    "palette": 0.9999,
+    "preview": "rest"
+  }
+}
