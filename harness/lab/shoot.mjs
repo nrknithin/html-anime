@@ -55,9 +55,11 @@ const USAGE = `usage: node harness/lab/shoot.mjs --model <path> [options]
   --hide <a,b>          hide objects/joints by name, with their subtrees
   --only <joint>        show only that joint's subtree
   --montage <p1,p2,..>  one cell per pose, first view, one shared scale
-  --clip <name>         library models: pose the model at one frame of a clip [--at <seconds>, default 0]
+  --clip <name>         models with clips: pose the model at one frame of a clip [--at <seconds>, default 0]
   --frames <n>          with --clip: a montage of n frames across the clip (first view, one scale)
   --strip <clip>        after the views, a row of --frames (default 4) frames of that clip in the left view
+  --strip-view <view>   which view --strip renders                     (default left)
+  --az <deg> --el <deg> hero/three4 camera: azimuth from +Z toward +X, elevation above the horizon (el is not stepped)
   --batch <shots.json>  JSON array of shots (same keys as flags, camelCase), one browser session
   --swiftshader         software GL (default: Chrome picks; falls back to it if WebGL fails)
   --lax                 contract violations (Math.random, imports ...) warn instead of fail
@@ -76,6 +78,7 @@ const KNOWN = new Set([
   "model", "views", "mode", "pose", "out", "size", "ref", "refView", "refMode", "refOpacity", "refCrop", "refFlip",
   "batch", "swiftshader", "lax", "cols", "mpp", "bg", "noRefBox", "serve", "port", "help", "verbose", "info", "timeout", "joints", "jointNames",
   "refScale", "refOffset", "focus", "radius", "light", "hide", "only", "montage", "clip", "at", "frames", "strip", "opts",
+  "stripView", "az", "el",
 ]);
 const camel = (s) => s.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
 
@@ -514,6 +517,9 @@ function pageUrl(origin, s) {
   set("at", s.at);
   set("frames", s.frames);
   set("strip", s.strip);
+  set("stripView", s.stripView);
+  set("az", s.az);
+  set("el", s.el);
   set("cols", s.cols);
   set("mpp", s.mpp);
   set("bg", s.bg);
