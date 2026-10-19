@@ -6,7 +6,7 @@
 // y = 0, centred on x = z = 0.
 //
 // Construction (boxes, capped tubes, smooth tubes, lathes, flat plates and annuli, all triangle soups merged per
-// material, so the static room is 14 meshes; every triangle is wound away from a point inside its solid):
+// material, so the static room is 12 meshes; every triangle is wound away from a point inside its solid):
 //   SHELL     floor quad with a small mosaic grout grid and a drain grate; the -X and -Z walls as 10 cm boxes with a
 //             tile grout grid and dark section caps where the cutaway opens them.
 //   TUB       a deep square tub (0.92 x 0.82 m, rim 0.5 m) as wall boxes, a floor slab and a rim band, a recessed
@@ -19,27 +19,30 @@
 //   WASH      a wall mixer tap with two handles and a spout, a shower head on its hose in a holder on a riser bar, a
 //             mirror over a shelf with three bottles (pump, tall, squat), a low wash stool and a yellow basin (oke).
 //   WINDOW    a small frosted window high on the -Z wall over the tub: frame, stile, sill, pane with a fine grid.
-//   STEAM     eight wisps (tapered S-curved smooth tubes) on joints steam0..7, three ripple rings on ripple0..2.
+//   STEAM     five wisps, each a stack of five overlapping soft puffs shrinking upward in an S, on joints steam0..4,
+//             and three ripple rings on ripple0..2. All wisps are ONE mesh and all rings ONE mesh: pose() rewrites
+//             their vertices, normals and hull normals from the joints' transforms (as the gachapon's cranks).
 // Proportions (real size, base unit the wall height H = 2.2 m): interior 1.6 (x) by 2.0 (z); tub x -0.12..0.8,
 //   z -1.0..-0.18, rim 0.5, water 0.47; tap 0.55, shelf 0.84, mirror 0.95-1.5, shower bar 0.85-1.75; window
 //   1.4-1.85; stool seat 0.235, oke 0.12 tall.
 // Options: build(THREE, kit, colors, { height }): height scales the whole room uniformly so the wall top is `height`
 //   (default 2.2 m).
-// Clip (build() returns clips { steam: 4 }; pose("steam@1.5")): the wisps rise ~0.95 m from the water, swell, sway
-//   and shrink away as they climb, eight on staggered phases; the ripple rings spread from the middle of the open
+// Clip (build() returns clips { steam: 4 }; pose("steam@1.5")): the wisps rise ~0.9 m from the water, swell, sway
+//   and shrink away as they climb, five on staggered phases; the ripple rings spread from the middle of the open
 //   water and sink under the surface at the end, twice per loop. Loops exactly at 4 s. Rest is the clip at 1.2 s.
-// Budget: ~4.2k triangles, 25 meshes (14 static materials, 8 wisps, 3 rings).
-// Ink in pixels: walls, floor, tub 3; fittings, bottles, lid, water 2; steam 2 in the sky tone (soft edges, not ink).
+// Budget: ~4.8k triangles, 14 meshes (12 static materials, the steam, the ripples).
+// Ink in pixels: walls, floor 3; tub, fittings, bottles, lid, water 2; steam 2 in sclera (a soft rim, not ink).
 // Colours (meadow, one script), base / shade:
 //   wall tiles                moon #f7f3e1 / sky #d7ecef, threshold 0.1; grout sky #d7ecef flat
 //   floor mosaic              sky #d7ecef flat, grout sclera #f6f3ee
 //   tub, apron, rim           sclera #f6f3ee / sky #d7ecef (white enamel)
 //   water                     sclera #f6f3ee crests / sky #d7ecef body, threshold 0.85 (pale aqua, white ripples)
-//   ripples, glints, steam    sclera #f6f3ee / sky #d7ecef
+//   ripples, glints           sclera #f6f3ee flat
+//   steam (vapour)            sky #d7ecef / moon #f7f3e1 at 0.3, hull sclera #f6f3ee
 //   lid, stool                line #a9d16e / iris #3f8a47 (green plastic)
 //   tap, shower, bar, shelf, window frame  sclera #f6f3ee / sky #d7ecef
 //   mirror, frosted pane      sky #d7ecef flat; the pane's grid sclera
-//   oke                       practical #f2c94c / skin #f0c2ae
+//   oke                       practical #f2c94c / skin #f0c2ae, its water sky
 //   bottles                   accent #d9483b, iris #3f8a47 / hair #2c5131, moon / skin
 //   caps, hose, drain, pump   hair #2c5131 flat or inked (lines)
 
@@ -53,7 +56,8 @@ export const meta = {
     floor: "#d7ecef", floorGrout: "#f6f3ee",
     tub: "#f6f3ee", tubShade: "#d7ecef",
     water: "#d7ecef", waterLit: "#f6f3ee",
-    foam: "#f6f3ee", foamShade: "#d7ecef",
+    foam: "#f6f3ee",
+    vapour: "#d7ecef", vapourShade: "#f7f3e1", vapourInk: "#f6f3ee",
     green: "#a9d16e", greenShade: "#3f8a47",
     metal: "#f6f3ee", metalShade: "#d7ecef",
     mirror: "#d7ecef",
@@ -355,33 +359,44 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   // oke (basin): a yellow tapered bowl beside the stool, on the floor
   const OX = -0.1, OZ = 0.58;
   lathe("oke", [OX, 0, OZ], [[0.095, 0], [0.105, 0.01], [0.125, 0.11], [0.13, 0.12]], 14);
-  annulus("okeIn", [OX, 0.1205, OZ], 0.0, 0.112, 14); // the inside seen as a disc
+  annulus("floor", [OX, 0.1205, OZ], 0.0, 0.112, 14); // water in the basin, seen as a disc
   annulus("dark", [OX, 0.1206, OZ], 0.112, 0.118, 14);
 
-  // ---------- steam and ripples on joints ----------
-  const WISPS = 8, RINGS = 3;
-  const wisp = (i) => { // a tapered S-curved tube, local origin at its root
-    const n = 14, pts = [], rad = [];
-    const bend = i % 2 ? 1 : -1, ht = 0.3 + 0.05 * (i % 3);
-    for (let k = 0; k <= n; k++) {
-      const t = k / n;
-      pts.push([bend * 0.05 * Math.sin(t * Math.PI * 1.5), t * ht, 0.02 * Math.sin(t * Math.PI)]);
-      rad.push(0.008 + 0.064 * Math.sin(Math.PI * Math.min(1, t * 1.1)) ** 0.6 * (1 - 0.45 * t));
-    }
-    tube(`steam${i}`, pts, rad, 8);
-  };
-  for (let i = 0; i < WISPS; i++) wisp(i);
+  // ---------- steam and ripples: one mesh each, rewritten by pose() ----------
+  // Each wisp is a stack of five overlapping soft puffs (squashed ellipsoids) that shrink upward and step side to side in an S,
+  // authored at its own root; each ripple is a thin ring of unit radius. Every frame at() places each piece by its
+  // joint's transform (joints steam0..4, ripple0..2 carry position / rotation / scale) and writes the transformed
+  // vertices, normals and hull normals into the one merged geometry, so the hull follows.
+  const WISPS = 5, RINGS = 3;
+  function blob(key, ctr, r, nu = 10, nv = 6) {
+    const pt = (i, j) => {
+      const v = -Math.PI / 2 + (Math.PI * i) / nv, u = (2 * Math.PI * j) / nu;
+      const d = [Math.cos(v) * Math.cos(u), Math.sin(v), Math.cos(v) * Math.sin(u)];
+      return { q: add(ctr, [r[0] * d[0], r[1] * d[1], r[2] * d[2]]), n: nrm([d[0] / r[0], d[1] / r[1], d[2] / r[2]]) };
+    };
+    for (let i = 0; i < nv; i++)
+      for (let j = 0; j < nu; j++) {
+        const a = pt(i, j), b = pt(i, j + 1), d = pt(i + 1, j + 1), f = pt(i + 1, j);
+        tri(key, a.q, b.q, d.q, ctr, a.n, b.n, d.n);
+        tri(key, a.q, d.q, f.q, ctr, a.n, d.n, f.n);
+      }
+  }
+  const PUFF = [[0, 0.0, 0.1], [1, 0.08, 0.085], [-0.6, 0.155, 0.07], [0.6, 0.22, 0.055], [-0.2, 0.27, 0.04]]; // [side, y, radius]
+  for (let i = 0; i < WISPS; i++) {
+    const s = i % 2 ? 1 : -1;
+    for (const [side, y, r] of PUFF) blob(`steam${i}`, [s * side * 0.04, y, 0], [r * 1.2, r * 0.95, r]);
+  }
   for (let k = 0; k < RINGS; k++) annulus(`ripple${k}`, [0, 0, 0], 0.86, 1, 22, 0.62);
 
   // ---------- meshes: static ones merged per material signature ----------
-  const fit = [c.metal, c.metalShade, 0.3, 2];
+  const fit = [c.metal, c.metalShade, 0.25, 2];
   const MAT = {
     floor: [c.floor, c.floor, 0.1, 3],
     fgrout: [c.floorGrout, c.floorGrout, 0.1, 0],
     wall: [c.wall, c.wallShade, 0.1, 3],
     grout: [c.grout, c.grout, 0.1, 0],
     dark: [c.dark, c.dark, 0.1, 0],
-    tub: [c.tub, c.tubShade, 0.2, 3],
+    tub: [c.tub, c.tubShade, 0.25, 2],
     water: [c.waterLit, c.water, 0.85, 2],
     foam: [c.foam, c.foam, 0.1, 0],
     green: [c.green, c.greenShade, 0.15, 2],
@@ -390,7 +405,6 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     frost: [c.frost, c.frost, 0.1, 0],
     fgrid: [c.frostGrid, c.frostGrid, 0.1, 0],
     oke: [c.oke, c.okeShade, 0.15, 2],
-    okeIn: [c.okeShade, c.okeShade, 0.1, 0],
     red: [c.red, c.red, 0.1, 2],
     leaf: [c.leaf, c.leafShade, 0.15, 2],
     cream: [c.cream, c.creamShade, 0.15, 2],
@@ -414,48 +428,74 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     mesh.name = key;
     body.add(mesh);
   }
-  const steam = [], ripples = [];
-  for (let i = 0; i < WISPS; i++) {
-    const j = new THREE.Group();
-    j.name = `steam${i}`;
-    const mesh = mk(soups[`steam${i}`].p, soups[`steam${i}`].n, c.foam, c.foamShade, 0.2, 2, c.foamShade);
-    mesh.name = `wisp${i}`;
-    j.add(mesh);
-    body.add(j);
-    joints[j.name] = j;
-    steam.push(j);
+  // one merged mesh per moving set: base vertices per piece, rewritten through each piece's joint
+  function dynamic(name, keys, mat, opts) {
+    const p = [], n = [], spans = [];
+    for (const key of keys) {
+      const s = soups[key], v0 = p.length / 3;
+      p.push(...s.p), n.push(...s.n);
+      spans.push([v0, p.length / 3]);
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(p, 3));
+    g.setAttribute("normal", new THREE.Float32BufferAttribute(n, 3));
+    const mesh = kit.toon(g, mat[0], mat[1], opts);
+    mesh.name = name;
+    body.add(mesh);
+    kit.hullNormals(g); // shared with the hull, so it is computed once here on the rest geometry and moved with it
+    const base = { p: Float32Array.from(p), n: Float32Array.from(n), h: Float32Array.from(g.attributes.hullNormal.array) };
+    const js = keys.map((key) => {
+      const j = new THREE.Group();
+      j.name = key;
+      body.add(j);
+      joints[key] = j;
+      return j;
+    });
+    const nm = new THREE.Matrix3(), a = new THREE.Vector3();
+    function update() {
+      const P = g.attributes.position.array, N = g.attributes.normal.array, H = g.attributes.hullNormal.array;
+      js.forEach((j, k) => {
+        j.updateMatrix();
+        nm.getNormalMatrix(j.matrix);
+        for (let v = spans[k][0]; v < spans[k][1]; v++) {
+          const i = v * 3;
+          a.set(base.p[i], base.p[i + 1], base.p[i + 2]).applyMatrix4(j.matrix), P[i] = a.x, P[i + 1] = a.y, P[i + 2] = a.z;
+          a.set(base.n[i], base.n[i + 1], base.n[i + 2]).applyMatrix3(nm).normalize(), N[i] = a.x, N[i + 1] = a.y, N[i + 2] = a.z;
+          a.set(base.h[i], base.h[i + 1], base.h[i + 2]).applyMatrix3(nm).normalize(), H[i] = a.x, H[i + 1] = a.y, H[i + 2] = a.z;
+        }
+      });
+      g.attributes.position.needsUpdate = g.attributes.normal.needsUpdate = g.attributes.hullNormal.needsUpdate = true;
+      g.computeBoundingSphere(), g.computeBoundingBox();
+    }
+    return { js, update };
   }
-  for (let k = 0; k < RINGS; k++) {
-    const j = new THREE.Group();
-    j.name = `ripple${k}`;
-    const mesh = mk(soups[`ripple${k}`].p, soups[`ripple${k}`].n, c.foam, c.foam, 0.1, 0);
-    mesh.name = `ring${k}`;
-    j.add(mesh);
-    body.add(j);
-    joints[j.name] = j;
-    ripples.push(j);
-  }
+  const STEAM = dynamic("steam", Array.from({ length: WISPS }, (_, i) => `steam${i}`), [c.vapour, c.vapourShade],
+    { threshold: 0.3, px: 2, ink: c.vapourInk });
+  const RIPPLE = dynamic("ripples", Array.from({ length: RINGS }, (_, k) => `ripple${k}`), [c.foam, c.foam],
+    { threshold: 0.1, outline: false });
+  const steam = STEAM.js, ripples = RIPPLE.js;
 
   // ---------- clip: steam (4 s loop) ----------
-  // Wisp i: phase f = frac(t / 4 + i / 6). It rises from the water by 0.95 m over the loop, swelling in then
-  // shrinking away (scale sin(pi f)), swaying in x and turning slowly. Ripple k: phase frac(t / 2 + k / 3); radius
+  // Wisp i: phase f = frac(t / 4 + i / 5). It rises from the water by 0.9 m over the loop, swelling in then
+  // shrinking away (scale sin(pi f), stretched as it climbs), swaying in x and turning slowly. Ripple k: phase frac(t / 2 + k / 3); radius
   // 0.03 -> 0.19 m around the middle of the open water, sunk under the surface for the last 15 % (it fades out).
   const CLIPS = { steam: 4 };
-  const ROOTS = [[0.12, -0.5], [0.42, -0.32], [0.62, -0.56], [0.26, -0.62], [0.5, -0.42], [0.04, -0.34], [0.34, -0.5], [0.7, -0.36]];
+  const ROOTS = [[0.14, -0.48], [0.46, -0.36], [0.66, -0.52], [0.3, -0.58], [0.04, -0.36]];
   const frac = (v) => v - Math.floor(v);
   function at(t) {
     for (let i = 0; i < WISPS; i++) {
       const f = frac(t / CLIPS.steam + i / WISPS), s = Math.sin(Math.PI * f) ** 0.7;
       const [x, z] = ROOTS[i];
-      steam[i].position.set(x + 0.06 * Math.sin(2 * Math.PI * (f + i * 0.17)), WL + 0.02 + f * 0.95, z + 0.03 * f);
-      steam[i].scale.set(0.6 + 0.6 * s, 0.4 + 0.9 * s, 0.6 + 0.6 * s).multiplyScalar(Math.max(0.001, s));
-      steam[i].rotation.set(0, 0.6 * i + 2 * Math.PI * f * 0.25, 0.15 * Math.sin(2 * Math.PI * f));
+      steam[i].position.set(x + 0.07 * Math.sin(2 * Math.PI * (f + i * 0.21)), WL + 0.03 + f * 0.9, z + 0.04 * f);
+      steam[i].scale.set(0.7 + 0.5 * f, 0.75 + 0.35 * f, 0.7 + 0.5 * f).multiplyScalar(Math.max(0.001, s));
+      steam[i].rotation.set(0, 0.9 * i + Math.PI * f * 0.5, 0.12 * Math.sin(2 * Math.PI * f));
     }
     for (let k = 0; k < RINGS; k++) {
       const f = frac(t / 2 + k / RINGS), r = 0.03 + 0.16 * f;
       ripples[k].position.set(RC[0], f < 0.85 ? WL + 0.0025 : WL - 0.01, RC[1]);
       ripples[k].scale.set(r, 1, r);
     }
+    STEAM.update(), RIPPLE.update();
   }
   function pose(name) {
     const m = /^(\w+)@(-?[\d.]+)$/.exec(name);
