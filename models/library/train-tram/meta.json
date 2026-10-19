@@ -1,0 +1,121 @@
+{
+  "id": "train-tram",
+  "name": "Modern tram (low-floor streetcar)",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "tram",
+    "streetcar",
+    "light rail",
+    "railway",
+    "city",
+    "japan"
+  ],
+  "style": "low-poly, flat colours (Kenney Train Kit)",
+  "height": 5.2,
+  "script": "indigo",
+  "colors": {
+    "body": "#f0c36a",
+    "bodyShade": "#e7a04a",
+    "livery": "#f6f3ee",
+    "liveryShade": "#d5e2ff",
+    "roof": "#e7eefc",
+    "roofShade": "#d5e2ff",
+    "trim": "#1b2d6b",
+    "trimShade": "#16141c",
+    "glass": "#16141c",
+    "glassShade": "#16141c",
+    "chassis": "#1b2d6b",
+    "chassisShade": "#16141c"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#7c8199": "body",
+    "colormap#61677f": "body",
+    "colormap#656b82": "body",
+    "colormap#6a6f87": "body",
+    "colormap#6f748c": "body",
+    "colormap#757b92": "body",
+    "colormap#80859c": "body",
+    "colormap#5c627a": "body",
+    "colormap#9d9fb9": "roof",
+    "colormap#9296b3": "roof",
+    "colormap#a6adcf": "roof",
+    "colormap#3e3e46": "chassis",
+    "colormap#bcc1dd": "trim",
+    "colormap#b1b8d8": "trim",
+    "colormap#c4caeb": "trim",
+    "colormap#5b65c4": "livery",
+    "colormap#5e72ca": "livery",
+    "colormap#6384d2": "livery",
+    "colormap#617ecf": "livery",
+    "colormap#9bbeec": "glass"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Train Kit",
+    "page": "https://kenney.nl/assets/train-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney train-tram-modern (the kit also has train-tram-classic and train-tram-round). FBX member plus its colormap texture, flattened to 20 colours, as train-bullet. Scaled with the same factor as train-bullet and train-commuter (kit units x 2.26): 5.20 m to the top of the raised pantograph, roof about 3.4 m above the rail (a real Japanese low-floor tram such as Hiroshima Green Mover or Toyama Portram is about 3.6-3.7 m to the roof). Stylized proportions as the other Kenney trains: 6.07 m long and 2.55 m wide (a real single tram car module is ~2.45 m wide; whole low-floor sets are 18-30 m long). Amber body, white lower band, navy roof and skirt, so it reads apart from the white-and-navy bullet train and the silver-and-red commuter train; the pantograph shares the body colour in the source texture, so it is amber too. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/train-kit",
+      "sha256": "cf50d77e8cbacbf38dd50826d4bce5392db8e4f67373d3c4e583b0ed0e474475",
+      "bytes": 5266588
+    },
+    "member": "Models/FBX format/train-tram-modern.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 5.2,
+    "yaw": 0,
+    "maxColors": 20,
+    "memberSha256": "83a18656b490832b52259c535ae88ca655163bd45164e81e1e3eb3c87354aab2"
+  },
+  "file": "model.glb",
+  "sha256": "74c53e1c5ad2d2fbfaf8161f3ef0a8e047863f71a8e581fd463988f88ea37a15",
+  "bytes": 60180,
+  "triangles": 1498,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#7c8199": "#7c8199",
+    "colormap#61677f": "#61677f",
+    "colormap#656b82": "#656b82",
+    "colormap#6a6f87": "#6a6f87",
+    "colormap#6f748c": "#6f748c",
+    "colormap#757b92": "#757b92",
+    "colormap#80859c": "#80859c",
+    "colormap#5c627a": "#5c627a",
+    "colormap#9d9fb9": "#9d9fb9",
+    "colormap#9296b3": "#9296b3",
+    "colormap#a6adcf": "#a6adcf",
+    "colormap#3e3e46": "#3e3e46",
+    "colormap#bcc1dd": "#bcc1dd",
+    "colormap#b1b8d8": "#b1b8d8",
+    "colormap#c4caeb": "#c4caeb",
+    "colormap#5b65c4": "#5b65c4",
+    "colormap#5e72ca": "#5e72ca",
+    "colormap#6384d2": "#6384d2",
+    "colormap#617ecf": "#617ecf",
+    "colormap#9bbeec": "#9bbeec"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 5.2,
+    "heightError": 0,
+    "minY": -0.0001,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1498,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
