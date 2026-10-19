@@ -1,0 +1,105 @@
+{
+  "id": "kart",
+  "name": "Race kart",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "kart",
+    "go-kart",
+    "race",
+    "racing"
+  ],
+  "style": "low-poly, flat colours (Kenney Car Kit)",
+  "height": 0.75,
+  "script": "festival",
+  "colors": {
+    "body": "#ffb020",
+    "bodyShade": "#ff4d6d",
+    "trim": "#ff4d6d",
+    "trimShade": "#24143a",
+    "lower": "#24143a",
+    "lowerShade": "#1a1020",
+    "metal": "#f6f3ee",
+    "metalShade": "#ffd7a1",
+    "accent": "#ff4d6d",
+    "accentShade": "#ffb020",
+    "tyre": "#1a1020",
+    "tyreShade": "#24143a"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#414149": "tyre",
+    "colormap#37373c": "tyre",
+    "colormap#797d96": "metal",
+    "colormap#ffb349": "accent",
+    "colormap#a0a8c9": "body",
+    "colormap#a8b0d3": "metal",
+    "colormap#8f95b3": "lower",
+    "colormap#b1b3e3": "body",
+    "colormap#bfc7ec": "body",
+    "colormap#897bdd": "trim",
+    "colormap#9587e4": "trim",
+    "colormap#8275da": "trim"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Car Kit",
+    "page": "https://kenney.nl/assets/car-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney kart-oobi (the plan's row) with its driver removed (ingest.drop the 'character' object): all five kit karts (oobi, oodi, ooli, oopi, oozi) are the same kart body with a different big-headed chibi driver and paint, and an empty kart is more useful (any library character can sit in it) and keeps the kit's vehicle proportions without a head twice the kart's height. FBX like car-sedan, car-suv and cone from the same kit and pin; the plan named the GLB member, which references Textures/colormap.png. Same kit scale as car-sedan (1.3 units -> 1.45 m): the empty kart is 0.673 units tall, so 0.75 m (to the top of the twin exhausts), 1.59 m long and 1.09 m wide (a real kart is ~1.8-2.1 m long, ~1.4 m wide; toy proportions, kept so it sits right beside the kit's cars). Seat, for a driver: the cockpit floor is at y = 0.36-0.39 m from z = +0.15 to -0.46 m (x = 0); hips at about (0, 0.39, -0.35) m against the rear bulkhead (top y = 0.58 m at z = -0.54 m); the steering column (no wheel modelled) peaks at (0, 0.59, +0.32) m, feet go forward to about z = +0.2 m. Recoloured in the festival script so it differs from the red car-sedan and amber car-suv: Kenney's grey body panels to practical yellow with the accent pink as shade, its purple seat tub, side rails and strips to the accent pink with the dark sky as shade (clear of the ink outline), the lower bumpers dark, the rims and exhaust pipes paper white over warm moon, the orange wheel rings and exhaust tips pink. Wheels are separate nodes in the source; static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/car-kit",
+      "sha256": "fac7dacac5c7874348cf19729af3ef205f3d366493edaf0a827d93f4fdf3d0c4",
+      "bytes": 4814237
+    },
+    "member": "Models/FBX format/kart-oobi.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "drop": [
+      "character"
+    ],
+    "height": 0.75,
+    "maxColors": 12,
+    "memberSha256": "4dae6311ff6520ed3ccef38d78f0344ecf86f88424dd0a8c6503cc5441d8d2f6"
+  },
+  "file": "model.glb",
+  "sha256": "68bf1c2bbc870763f461b50a4a24c517a8564bf95c5ae73d008d03ee114f39eb",
+  "bytes": 34024,
+  "triangles": 1908,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#414149": "#414149",
+    "colormap#37373c": "#37373c",
+    "colormap#797d96": "#797d96",
+    "colormap#ffb349": "#ffb349",
+    "colormap#a0a8c9": "#a0a8c9",
+    "colormap#a8b0d3": "#a8b0d3",
+    "colormap#8f95b3": "#8f95b3",
+    "colormap#b1b3e3": "#b1b3e3",
+    "colormap#bfc7ec": "#bfc7ec",
+    "colormap#897bdd": "#897bdd",
+    "colormap#9587e4": "#9587e4",
+    "colormap#8275da": "#8275da"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.75,
+    "heightError": -0.0001,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1908,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

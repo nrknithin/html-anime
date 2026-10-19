@@ -1,0 +1,124 @@
+{
+  "id": "chest",
+  "name": "Treasure chest",
+  "category": "misc prop",
+  "tags": [
+    "prop",
+    "chest",
+    "treasure",
+    "box",
+    "loot",
+    "animated"
+  ],
+  "style": "low-poly, flat colours, banded wooden chest with gold trim and lock (Quaternius 2021)",
+  "height": 0.6,
+  "script": "noon",
+  "colors": {
+    "wood": "#c4452d",
+    "woodShade": "#5c3d32",
+    "iron": "#241c16",
+    "ironShade": "#5c3d32",
+    "gold": "#f2d7ae",
+    "goldShade": "#5c3d32",
+    "goldDark": "#5c3d32",
+    "goldDarkShade": "#c4452d"
+  },
+  "materials": {
+    "Wood": "wood",
+    "DarkMetal": "iron",
+    "Metal": "gold",
+    "Gold": "gold",
+    "Gold_Dark": "goldDark"
+  },
+  "clips": {
+    "open": "Chest_Open",
+    "close": "Chest_Close"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Platformer Pack (Dec 2021)",
+    "page": "https://quaternius.itch.io/ultimate-platformer-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (Quaternius's animated treasure chest on poly.pizza, clips Chest_Open and Chest_Close) is behind a Cloudflare challenge. This is the same Quaternius chest as shipped in the Ultimate Platformer Pack on itch.io (free download; License.txt in the zip: CC0 1.0): Level and Mechanics/Chest.fbx, the pack's only chest, rigged (Root, Chest_Bottom, Chest_Top) with the plan's two clips, a domed banded lid, a hasp, studs and a heap of star coins inside. The FBX carries each clip twice (Chest_Open and Chest_Open_, Chest_Close and Chest_Close_); keepActions keeps one of each. Both clips are cartoon: the box rocks back with a squash before the lid flips about 180 degrees onto its back (open, 0.79 s), and the reverse with a settle (close, 0.92 s); they play once (loop false) and ground clamp keeps the rocking corner from sinking. Hold the end frames with the poses 'opened' and 'shut'. Size: 0.71 m wide, 0.62 m deep, 0.60 m tall closed (height set so the width lands in the 0.6-0.8 m of a real chest). Lock faces +Z (front). Colours on noon: accent red-brown wood shading to iris brown, iron bands and rims hair-dark shading to iris, hasp, studs and coins in the pale sky cream as gold (noon has no yellow; on festival or indigo map gold to practical), the coin stars iris."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/ultimate-platformer-pack",
+      "upload": "Ultimate Platformer Pack by Quaternius.zip",
+      "sha256": "2d0cac0f3cb58f6845f779a4c6b4a92be6fa27d118ee0b976ead55c6834a53d4",
+      "bytes": 18863631
+    },
+    "member": "Ultimate Platformer Pack - Dec 2021/Level and Mechanics/FBX/Chest.fbx",
+    "height": 0.6,
+    "yaw": 0,
+    "memberSha256": "d59cd3dc539de9c71fa2e411caf013ba70bfe670e51196b1d20c9005873e9df9",
+    "keepActions": [
+      "Chest_Open",
+      "Chest_Close"
+    ]
+  },
+  "file": "model.glb",
+  "sha256": "c0d479364a35e3fe1cef463c2bd6499e00dd17351b26edffc5c7ef4fc9ef2fd3",
+  "bytes": 76800,
+  "triangles": 7942,
+  "bones": 3,
+  "sourceMaterials": {
+    "DarkMetal": "#949494",
+    "Wood": "#a57c45",
+    "Metal": "#757575",
+    "Gold": "#e5b55c",
+    "Gold_Dark": "#a88544"
+  },
+  "clipInfo": {
+    "Chest_Close": {
+      "seconds": 0.9167,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Chest_Open": {
+      "seconds": 0.7917,
+      "loop": false,
+      "ground": "clamp"
+    }
+  },
+  "preview": {
+    "clip": "open"
+  },
+  "poseDefs": {
+    "shut": [
+      "close",
+      0.9167
+    ],
+    "opened": [
+      "open",
+      0.7917
+    ]
+  },
+  "qa": {
+    "height": 0.6,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 7942,
+    "clips": {
+      "open": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.17
+      },
+      "close": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.17
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + open"
+  }
+}
