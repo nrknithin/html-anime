@@ -1,0 +1,106 @@
+{
+  "id": "helicopter",
+  "name": "Helicopter",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "helicopter",
+    "aircraft",
+    "rescue",
+    "air ambulance",
+    "rotor",
+    "sky"
+  ],
+  "style": "low-poly, flat colours (rescue helicopter, Sketchfab/OpenGameArt)",
+  "height": 3.6,
+  "script": "noon",
+  "colors": {
+    "body": "#c4452d",
+    "bodyShade": "#5c3d32",
+    "stripe": "#fff6e4",
+    "stripeShade": "#f2d7ae",
+    "metal": "#5c3d32",
+    "metalShade": "#241c16",
+    "dark": "#241c16",
+    "darkShade": "#2c261f",
+    "glass": "#241c16",
+    "glassShade": "#2c261f"
+  },
+  "materials": {
+    "Material.005": "stripe",
+    "Material": "body",
+    "Material.001": "metal",
+    "Material.004": "dark",
+    "Material.002": "glass"
+  },
+  "smooth": false,
+  "clips": {
+    "fly": "Take 01"
+  },
+  "preview": {
+    "clip": "fly"
+  },
+  "source": {
+    "license": "CC-BY-4.0",
+    "author": "blueskinrulez (https://sketchfab.com/blueskinrulez)",
+    "pack": "Rescue Helicopter (low poly)",
+    "page": "https://opengameart.org/content/rescue-helicopter-low-poly",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "changes": "converted from glTF, scaled to 3.6 m, turned to face +Z, recompressed (meshopt), recoloured to the noon palette (yellow body to red, red stripes to cream).",
+    "note": "Plan row #143 was a gap (no helicopter in any planned pack). Uploaded to OpenGameArt by brylie from Sketchfab (https://sketchfab.com/models/0c4d0167c739469a992b5dab8fde510f); the page's licence is CC BY 4.0 and its attribution notice and the zip's AUTHOR file name blueskinrulez (https://sketchfab.com/blueskinrulez). Candidates checked: whitaker's 'Simple Helicopter' (CC0) is an ASCII FBX, which Blender cannot import; drummyfish's helicopter.obj from '32 low poly models' (CC0) is 194 triangles in one mesh with no materials (one flat colour, rotor fused to the body). Size: 3.6 m tall to the rotor hub, 10.2 m long nose to tail fin, main rotor about 9 m across (a light twin such as an EC135 is 3.5 m tall, 10.2 m long, 10.2 m rotor). Noon script: the source's yellow body goes to accent red over iris shade, its red stripes and hub to cream (moon over sky), skids and tail parts iris over line, rotor blades and windows near-black (line over ink). Faceted (smooth false). No tail rotor in the source. ROTOR: the source's own clip 'Take 01' (mapped to fly, looping, 0.417 s) turns the four main blades (nodes Cube.003-Cube.006, Cube003-Cube006 in three.js) and the hub (Cylinder.004) a quarter turn about the mast, so the loop is seamless for a four-blade rotor; play it faster (scale the time) for a faster spin. The blade nodes' origins are NOT on the mast (the clip animates translation and rotation together), so spin the rotor with the clip rather than by rotating the nodes yourself."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/rescue_helicopter_free_low_poly_model.gltf_.zip",
+      "sha256": "4bc8c1f459f54b5d9e3873d6b7eae1327934a6dfbe3dc70c0848696560c207ea",
+      "bytes": 111426,
+      "resolved": "https://opengameart.org/sites/default/files/rescue_helicopter_free_low_poly_model.gltf_.zip"
+    },
+    "member": "scene.gltf",
+    "extraMembers": [
+      "scene.bin"
+    ],
+    "height": 3.6,
+    "yaw": 180,
+    "memberSha256": "948c328de5bd1a5f9b5ffc53887d06cf5ef3c04edbf5107a3f1d1919d19f7756"
+  },
+  "file": "model.glb",
+  "sha256": "5cfa89767d070b16bffdcc6bf5ff6163c908779d835a3da651d9ac36d9c6ce4d",
+  "bytes": 86968,
+  "triangles": 8661,
+  "bones": 0,
+  "sourceMaterials": {
+    "Material": "#e7e74e",
+    "Material.002": "#525d65",
+    "Material.005": "#be5529",
+    "Material.001": "#5f5f5f",
+    "Material.004": "#222222"
+  },
+  "clipInfo": {
+    "Take 01": {
+      "seconds": 0.4167,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 3.6002,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 8661,
+    "clips": {
+      "fly": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 10.99
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + fly"
+  }
+}

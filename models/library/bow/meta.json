@@ -1,0 +1,81 @@
+{
+  "id": "bow",
+  "name": "Wooden bow",
+  "category": "prop",
+  "tags": [
+    "bow",
+    "archery",
+    "weapon",
+    "wooden",
+    "recurve",
+    "hunting",
+    "fantasy",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2018), chunky stylized limbs",
+  "height": 1.4,
+  "script": "indigo",
+  "colors": {
+    "wood": "#e7a04a",
+    "woodShade": "#1b2d6b",
+    "grip": "#e23b4a",
+    "gripShade": "#1b2d6b",
+    "string": "#d5e2ff",
+    "stringShade": "#1b2d6b"
+  },
+  "materials": {
+    "DarkWood": "wood",
+    "LightWood": "grip",
+    "White": "string"
+  },
+  "thresholds": {
+    "wood": 0.1,
+    "grip": 0.1
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · LowPoly Medieval Weapons (Sept 2018)",
+    "page": "https://opengameart.org/content/lowpoly-medieval-weapons",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 197 named Quaternius's static 'Bow' on the poly.pizza CDN, which is blocked (Cloudflare challenge). This is Bow_Wooden.fbx from Quaternius's LowPoly Medieval Weapons pack on OpenGameArt (CC0 on the page), very likely the same wooden bow. No free Japanese yumi was found: OpenGameArt 3D search for 'yumi' had nothing; KayKit Adventurers (672074b) and Skeletons (15b62b9) ship only crossbows, arrows and quivers. Candidates rendered and rejected: Bow_Wooden2 (same pack, stiffer stepped limbs), Quaternius RPG Characters Ranger_Bow (spiky fantasy bow with a big hand guard) and tbbk's Low Poly Composite Bow (CC0, clean recurve but 1 cm deep, so it turns into a hairline in cel). Orientation: standing upright on its lower tip, string vertical; the arrow direction is +Z (back of the bow towards +Z, string at -Z), so the left view shows it broadside with the back to image-left and the front view shows it edge-on. Grip: the red-wrapped section at mid-height, about 0.6-0.8 m up (centre ~0.7 m), on the bow's centre line; the string runs between the nocks just inside the two tips.Shipped at 1.4 m tip to tip, a short recurve-style hunting bow (real bows 1.2-2 m); the limbs are chunky and stylized, so it reads as a game/fantasy bow, not a slender longbow or yumi. Static, no clips. Colours (indigo): wood in iris over sky with threshold 0.1 so only the undersides shade, the leather grip in accent, the string in moon."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Medieval%20Weapons%20Pack%20-%20Sept%202018.zip",
+      "sha256": "b8a18124c460387a02b9ed3e940229eaa091b540699fad75627d0c0291d33912",
+      "bytes": 3741460,
+      "resolved": "https://opengameart.org/sites/default/files/Medieval%20Weapons%20Pack%20-%20Sept%202018.zip"
+    },
+    "member": "Medieval Weapons Pack - Sept 2018/FBX/Bow_Wooden.fbx",
+    "height": 1.4,
+    "memberSha256": "af0055bf6391d17a4cc156d4b063f9687d2e01b01e600dbffce545b54f7ce804",
+    "yaw": 90
+  },
+  "file": "model.glb",
+  "sha256": "364b027573982b93dd9b2247c22248f6b5ad253dc46de16a72b6ec53e28c3fa3",
+  "bytes": 13440,
+  "triangles": 728,
+  "bones": 0,
+  "sourceMaterials": {
+    "DarkWood": "#704c36",
+    "LightWood": "#865b40",
+    "White": "#e7e7e7"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.4,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 728,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
