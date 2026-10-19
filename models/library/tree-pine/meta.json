@@ -15,12 +15,12 @@
   ],
   "style": "low-poly, flat colours, tiered faceted canopy (Quaternius 2019)",
   "height": 10,
-  "script": "noon",
+  "script": "meadow",
   "colors": {
-    "leaves": "#5c3d32",
-    "leavesShade": "#241c16",
-    "trunk": "#c4452d",
-    "trunkShade": "#5c3d32"
+    "leaves": "#3f8a47",
+    "leavesShade": "#2c5131",
+    "trunk": "#f0c2ae",
+    "trunkShade": "#d9483b"
   },
   "materials": {
     "Wood": "trunk",
@@ -34,7 +34,7 @@
     "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
     "page": "https://opengameart.org/content/low-poly-nature-pack-1",
     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-    "note": "The plan names Quaternius static models on poly.pizza, which is behind a Cloudflare challenge; this is PineTree_4 from the same Quaternius Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0) that the broadleaf tree entry uses, so the two read as one set. Of the five PineTree variants it has the leaning, kinked bare trunk and a crown of stacked tiers held high: the silhouette of a Japanese black pine (kuromatsu) at a shrine or on a coast (PineTree_3 is the fuller Christmas-tree conifer). Height 10 m: a mature kuromatsu in a shrine ground, park or coastal windbreak is about 8-15 m (wild ones reach 20+); at 10 m the crown starts near 5 m, so people walk under it, and it stands clearly above the 7 m broadleaf tree. Colours on noon (no green): the canopy is iris over hair, darker than the broadleaf tree's vermilion so it reads as evergreen beside it; the trunk is vermilion over iris, the red-brown bark anime pines are painted with. Static: no clips."
+    "note": "The plan names Quaternius static models on poly.pizza, which is behind a Cloudflare challenge; this is PineTree_4 from the same Quaternius Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0) that the broadleaf tree entry uses, so the two read as one set. Of the five PineTree variants it has the leaning, kinked bare trunk and a crown of stacked tiers held high: the silhouette of a Japanese black pine (kuromatsu) at a shrine or on a coast (PineTree_3 is the fuller Christmas-tree conifer). Height 10 m: a mature kuromatsu in a shrine ground, park or coastal windbreak is about 8-15 m (wild ones reach 20+); at 10 m the crown starts near 5 m, so people walk under it, and it stands clearly above the 7 m broadleaf tree. Colours on meadow: the needles are iris (mid green) over hair (deep green), an evergreen crown. Meadow has no brown, so the trunk is skin (warm tan) over accent (red): the warm, reddish bark anime pines are painted with, kept off green so the trunk stays apart from the crown's shade; accent over hair was tried and its green shade side merged with the canopy shadow. Static: no clips."
   },
   "ingest": {
     "fetch": {
