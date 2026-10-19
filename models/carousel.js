@@ -18,14 +18,14 @@
 //                      dome, and a gold finial with a ball and a pennant. Canopy, valance and crown share one hull.
 //            chariots  two carriage benches (extruded scroll side panels, seat, back, dash) in the inner ring.
 //   HORSES   one joint per horse (child of the rotor), bobbing up and down its pole. One horse geometry, built once
-//            from ellipsoids (barrel, chest, rump, jowl) and lofted tubes (arched neck, bowed head, crest mane, tail,
-//            two-segment legs in the carousel "jumper" pose: fore legs tucked, hind legs stretched back), with ears,
+//            low-poly from lofted tubes (one body tube, arched neck, bowed head, crest mane, tail, four-sided legs
+//            through the knee in the carousel "jumper" pose: fore legs tucked, hind legs stretched back), with ears,
 //            eyes, a saddle blanket and seat and gilded hooves as material groups: one mesh and one hull per horse,
 //            coloured per horse from a three-coat sequence (white, cream, pink).
 // Proportions (real size, base unit the platform radius R = 6 m, a 12 m ride): floor 0.55 m up, ceiling 3.75 m, rounding
 //   board to 4.62 m, canopy rim r 6.6 m at 4.6 m, cone to r 0.9 m at 7.3 m, crown 7.75 m, dome 8.2 m, finial and pennant
 //   to 9.05 m. Column r 1.2 m. Horse rings r 4.9 m (outer) and 3.3 m (inner, two slots are chariots); horses 1.6 m nose
-//   to tail, body 1.15 m over the floor at mid-stroke, bob +-0.22 m. About 40k triangles (1.6k a horse), 28 meshes.
+//   to tail, body 1.15 m over the floor at mid-stroke, bob +-0.22 m. About 21k triangles (770 a horse), 28 meshes.
 // Options: build(THREE, kit, colors, { height, horses, night }): height scales uniformly (default meta.height); horses
 //   = slots per ring, 8-12 (default 10: 10 outer horses, 8 inner horses and 2 chariots); night lights every bulb
 //   (practical) and the column mirrors (moon).
@@ -276,54 +276,53 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   // hind hooves (-0.78, -0.60) and (-0.68, -0.66).
   const horseGeo = (() => {
     const H = bag();
-    H.geo("coat", ell(0, 0, 0, 0.17, 0.2, 0.46));
-    H.geo("coat", ell(0, 0.04, 0.3, 0.165, 0.22, 0.24));
-    H.geo("coat", ell(0, 0.05, -0.32, 0.175, 0.22, 0.26));
+    // barrel, chest and rump as one tube from the buttock to the breast
+    H.geo("coat", tube([[0, 0.06, -0.58], [0, 0.04, -0.3], [0, 0, 0], [0, 0.04, 0.3], [0, 0.06, 0.54]],
+      (t) => { const k = Math.sin(Math.PI * t) ** 0.4; return [0.175 * k, 0.215 * k]; }, { steps: 6, seg: 8, dome: 0.9 }));
     // arched neck from the chest up to the poll
     H.geo("coat", tube([[0, 0.06, 0.36], [0, 0.32, 0.5], [0, 0.55, 0.58], [0, 0.68, 0.63]],
-      (t) => [lerp1(0.125, 0.075, t), lerp1(0.17, 0.095, t)], { steps: 6 }));
-    // head bowed forward and down, jowl, muzzle
+      (t) => [lerp1(0.125, 0.075, t), lerp1(0.17, 0.1, t)], { steps: 4, seg: 6 }));
+    // head bowed forward and down, deep at the jowl
     H.geo("coat", tube([[0, 0.71, 0.6], [0, 0.65, 0.74], [0, 0.53, 0.87], [0, 0.42, 0.95]],
-      (t) => [lerp1(0.075, 0.06, t), lerp1(0.1, 0.068, t) + 0.012 * Math.sin(Math.PI * t)], { steps: 6, dome: 0.7 }));
-    H.geo("coat", ell(0, 0.62, 0.7, 0.08, 0.1, 0.1, 8, 5));
+      (t) => [lerp1(0.08, 0.06, t), lerp1(0.11, 0.068, t) + 0.015 * Math.sin(Math.PI * t)], { steps: 4, seg: 6, dome: 0.7 }));
     for (const s of [1, -1]) {
-      const ear = new THREE.ConeGeometry(0.032, 0.13, 6);
+      const ear = new THREE.ConeGeometry(0.032, 0.13, 4);
       ear.rotateX(-0.35).translate(s * 0.045, 0.79, 0.6);
       H.geo("coat", ear);
-      H.geo("eye", ell(s * 0.066, 0.64, 0.77, 0.022, 0.026, 0.03, 6, 4));
+      H.geo("eye", ell(s * 0.066, 0.64, 0.77, 0.022, 0.026, 0.03, 5, 3));
     }
     // mane along the crest, in lumps; forelock
     H.geo("mane", tube([[0, 0.17, 0.25], [0, 0.4, 0.4], [0, 0.6, 0.5], [0, 0.78, 0.58]],
-      (t) => [0.05 - 0.015 * t, (0.07 + 0.025 * Math.abs(Math.sin(t * Math.PI * 4))) * (t < 0.9 ? 1 : 1 - (t - 0.9) * 6)], { steps: 12, seg: 6 }));
+      (t) => [0.05 - 0.015 * t, (0.07 + 0.03 * Math.abs(Math.sin(t * Math.PI * 3))) * (t < 0.88 ? 1 : 1 - (t - 0.88) * 6)], { steps: 8, seg: 4 }));
     // tail, flowing down
     H.geo("mane", tube([[0, 0.14, -0.5], [0, 0.12, -0.68], [0, -0.05, -0.8], [0, -0.32, -0.82]],
-      (t) => [0.05 * (1 - t) + 0.008, (0.06 + 0.06 * Math.sin(Math.PI * Math.min(1, t * 1.4))) * (1 - t * 0.85)], { steps: 8, seg: 6 }));
-    // legs: upper segment knob at the joint, lower starts inside it, gilded hoof at the end
+      (t) => [0.05 * (1 - t) + 0.01, (0.06 + 0.06 * Math.sin(Math.PI * Math.min(1, t * 1.4))) * (1 - t * 0.85)], { steps: 5, seg: 4 }));
+    // legs: one four-sided tube each, shoulder -> knee -> fetlock, gilded hoof at the end
     const leg = (x, top, mid, end, r0, r1, r2) => {
-      H.geo("coat", tube([[x, ...top], [x, ...mid]], (t) => [lerp1(r0, r1, t), lerp1(r0, r1, t)], { steps: 2, seg: 6, dome: 0.7 }));
       const d = norm(sub([x, ...end], [x, ...mid])), e2 = add([x, ...end], mul(d, -0.03));
-      H.geo("coat", tube([[x, ...mid], e2], (t) => [lerp1(r1 * 0.85, r2, t), lerp1(r1 * 0.85, r2, t)], { steps: 2, seg: 6 }));
-      const hoof = new THREE.CylinderGeometry(r2 * 1.05, r2 * 1.25, 0.08, 6);
+      H.geo("coat", tube([[x, ...top], [x, ...mid], e2], (t) => {
+        const r = t < 0.5 ? lerp1(r0, r1, t * 2) : lerp1(r1, r2, t * 2 - 1);
+        return [r, r];
+      }, { steps: 4, seg: 4, dome: 0.6 }));
+      const hoof = new THREE.CylinderGeometry(r2 * 1.1, r2 * 1.35, 0.08, 4);
+      hoof.rotateY(Math.PI / 4);
       const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, -1, 0), new THREE.Vector3(...d));
       hoof.applyQuaternion(q);
-      const hc = add([x, ...end], mul(d, 0.005));
-      hoof.translate(...hc);
+      hoof.translate(...add([x, ...end], mul(d, 0.005)));
       H.geo("hoof", hoof);
     };
     // [y, z] pairs
     const yz = (z, y) => [y, z];
-    leg(0.085, yz(0.36, -0.06), yz(0.62, -0.2), yz(0.5, -0.44), 0.07, 0.048, 0.038); // near fore, tucked high
-    leg(-0.085, yz(0.33, -0.06), yz(0.5, -0.36), yz(0.36, -0.55), 0.07, 0.048, 0.038); // off fore, lower
-    leg(0.09, yz(-0.34, -0.02), yz(-0.58, -0.36), yz(-0.78, -0.6), 0.09, 0.052, 0.04); // near hind, stretched back
-    leg(-0.09, yz(-0.32, -0.02), yz(-0.52, -0.38), yz(-0.68, -0.66), 0.09, 0.052, 0.04); // off hind
-    // saddle blanket and seat
-    H.geo("blanket", ell(0, 0.035, 0.0, 0.18, 0.185, 0.21, 10, 6));
-    H.geo("seat", ell(0, 0.2, 0.0, 0.13, 0.055, 0.17, 8, 5));
-    H.geo("seat", ell(0, 0.24, -0.13, 0.11, 0.05, 0.05, 6, 4)); // cantle
-    H.geo("seat", ell(0, 0.24, 0.13, 0.07, 0.05, 0.045, 6, 4)); // pommel
-    // reins: a gold strap from the muzzle to the pommel
+    leg(0.085, yz(0.36, -0.06), yz(0.62, -0.2), yz(0.5, -0.44), 0.07, 0.05, 0.04); // near fore, tucked high
+    leg(-0.085, yz(0.33, -0.06), yz(0.5, -0.36), yz(0.36, -0.55), 0.07, 0.05, 0.04); // off fore, lower
+    leg(0.09, yz(-0.34, -0.02), yz(-0.58, -0.36), yz(-0.78, -0.6), 0.09, 0.055, 0.042); // near hind, stretched back
+    leg(-0.09, yz(-0.32, -0.02), yz(-0.52, -0.38), yz(-0.68, -0.66), 0.09, 0.055, 0.042); // off hind
+    // saddle blanket, seat with cantle, reins from the muzzle to the seat
+    H.geo("blanket", ell(0, 0.04, 0.0, 0.2, 0.2, 0.21, 8, 4));
+    H.geo("seat", ell(0, 0.2, 0.0, 0.13, 0.06, 0.17, 6, 4));
+    H.geo("seat", ell(0, 0.24, -0.13, 0.11, 0.05, 0.05, 5, 3));
     H.geo("seat", tube([[0, 0.47, 0.9], [0, 0.48, 0.72], [0, 0.36, 0.42], [0, 0.26, 0.16]],
-      () => [0.071, 0.012], { steps: 8, seg: 4 }));
+      () => [0.071, 0.012], { steps: 4, seg: 3 }));
     return grouped(H, ["coat", "mane", "blanket", "seat", "hoof", "eye"]);
   })();
   // coat, mane, blanket per variant
@@ -351,21 +350,21 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     sh.quadraticCurveTo(-0.5, 1.36, -0.62, 1.2);
     sh.lineTo(-0.56, 0.06);
     for (const s of [1, -1]) {
-      const g = new THREE.ExtrudeGeometry(sh, { depth: 0.08, bevelEnabled: false, curveSegments: 6 });
+      const g = new THREE.ExtrudeGeometry(sh, { depth: 0.08, bevelEnabled: false, curveSegments: 3 });
       const m = new THREE.Matrix4().makeRotationY(-Math.PI / 2).setPosition(s * 0.6 + 0.04, 0, 0);
       B.geo("chBody", g, m);
     }
     // gold scroll knobs on the side panels
     for (const s of [1, -1]) {
-      B.geo("chTrim", ell(s * 0.6, 1.0, 0.44, 0.07, 0.07, 0.07, 8, 6));
-      B.geo("chTrim", ell(s * 0.6, 1.24, -0.5, 0.07, 0.07, 0.07, 8, 6));
+      B.geo("chTrim", ell(s * 0.6, 1.0, 0.44, 0.07, 0.07, 0.07, 6, 4));
+      B.geo("chTrim", ell(s * 0.6, 1.24, -0.5, 0.07, 0.07, 0.07, 6, 4));
     }
     return B;
   })();
 
   // ---------- static base ----------
   const S0 = bag();
-  S0.lathe([[0, 0], [6.4, 0], [6.4, 0.07], [6.2, 0.2], [0, 0.2]], 72, (j, i) => "base");
+  S0.lathe([[0, 0], [6.4, 0], [6.4, 0.07], [6.2, 0.2], [0, 0.2]], 48, (j, i) => "base");
   body.add(meshOf(S0, ["base"], { base: [c.column, c.columnShade, 0.2] }, { px: 3, name: "base" }));
 
   // ---------- rotor ----------
@@ -375,7 +374,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   joints.rotor = rotor;
   const R = bag();
   // platform: skirt, gold lip, floor
-  R.lathe([[0, 0.2], [6, 0.2], [6, 0.47], [6, 0.55], [0, 0.55]], 72, (j, i) => ["skirt", "skirt", "gold", "floor"][i]);
+  R.lathe([[0, 0.2], [6, 0.2], [6, 0.47], [6, 0.55], [0, 0.55]], 48, (j, i) => ["skirt", "skirt", "gold", "floor"][i]);
   // column: 12-gon with gold bands
   R.lathe([[0, FLOOR], [COL_R, FLOOR], [COL_R, CEIL], [0, CEIL]], 12, (j, i) => (i === 1 ? "column" : null), { facet: true });
   for (const [y0, y1] of [[FLOOR, FLOOR + 0.32], [CEIL - 0.3, CEIL]])
@@ -392,8 +391,8 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   for (let k = 0; k < 12; k++) {
     const phi = ((k + 0.5) / 12) * TAU;
     const at = (d, y) => new THREE.Matrix4().makeRotationY(phi).setPosition(...P(ap + d, phi, y));
-    R.geo("gold", new THREE.ExtrudeGeometry(arch(0.52, 2.3), { depth: 0.05, bevelEnabled: false, curveSegments: 8 }), at(-0.01, FLOOR + 0.46));
-    R.geo(k % 2 ? "panel" : "mirror", new THREE.ExtrudeGeometry(arch(0.38, 2.12), { depth: 0.07, bevelEnabled: false, curveSegments: 8 }), at(-0.01, FLOOR + 0.55));
+    R.geo("gold", new THREE.ExtrudeGeometry(arch(0.52, 2.3), { depth: 0.05, bevelEnabled: false, curveSegments: 3 }), at(-0.01, FLOOR + 0.46));
+    R.geo(k % 2 ? "panel" : "mirror", new THREE.ExtrudeGeometry(arch(0.38, 2.12), { depth: 0.07, bevelEnabled: false, curveSegments: 3 }), at(-0.01, FLOOR + 0.55));
     if (k % 2 === 0)
       for (const [y, w] of [[1.25, 0.09], [1.5, 0.05]]) {
         const g = new THREE.Shape();
@@ -402,17 +401,17 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       }
   }
   // ceiling, rounding board and its rails
-  R.lathe([[0, CEIL], [BOARD_R, CEIL], [BOARD_R, BOARD_TOP], [0, BOARD_TOP]], 72, (j, i) => (i === 0 ? "ceiling" : i === 1 ? "board" : null));
-  R.lathe([[BOARD_R - 0.05, CEIL - 0.06], [BOARD_R + 0.06, CEIL - 0.06], [BOARD_R + 0.06, CEIL + 0.06], [BOARD_R - 0.05, CEIL + 0.06], [BOARD_R - 0.05, CEIL - 0.06]], 72, () => "gold");
+  R.lathe([[0, CEIL], [BOARD_R, CEIL], [BOARD_R, BOARD_TOP], [0, BOARD_TOP]], 48, (j, i) => (i === 0 ? "ceiling" : i === 1 ? "board" : null));
+  R.lathe([[BOARD_R - 0.05, CEIL - 0.06], [BOARD_R + 0.06, CEIL - 0.06], [BOARD_R + 0.06, CEIL + 0.06], [BOARD_R - 0.05, CEIL + 0.06], [BOARD_R - 0.05, CEIL - 0.06]], 48, () => "gold");
   for (let k = 0; k < 12; k++) {
     const a = (k / 12) * TAU;
     R.rod("trim", P(COL_R + 0.1, a, CEIL - 0.08), P(BOARD_R - 0.05, a, CEIL - 0.08), 0.06, 6);
   }
   // canopy cone in stripes, closed underneath
-  const stripeKey = (j) => (Math.floor(j / 3) % 2 ? "stripeB" : "stripeA");
-  R.lathe([[0, RIM_Y], [RIM_R, RIM_Y], [TOP_R, TOP_Y], [0, TOP_Y]], STRIPES * 3, (j, i) => (i === 0 ? "ceiling" : i === 1 ? stripeKey(j) : "gold"));
+  const stripeKey = (j) => (j % 2 ? "stripeB" : "stripeA");
+  R.lathe([[0, RIM_Y], [RIM_R, RIM_Y], [TOP_R, TOP_Y], [0, TOP_Y]], STRIPES, (j, i) => (i === 0 ? "ceiling" : i === 1 ? stripeKey(j) : "gold"));
   // scalloped valance: a thin slab per stripe hanging from the rim, one rounded lobe each
-  const V_TOP = RIM_Y + 0.05, V_EDGE = RIM_Y - 0.3, V_DEPTH = 0.4, VR0 = RIM_R - 0.03, VR1 = RIM_R + 0.03, VSUB = 10;
+  const V_TOP = RIM_Y + 0.05, V_EDGE = RIM_Y - 0.3, V_DEPTH = 0.4, VR0 = RIM_R - 0.03, VR1 = RIM_R + 0.03, VSUB = 6;
   for (let s = 0; s < STRIPES; s++) {
     const k = s % 2 ? "stripeB" : "stripeA";
     const th = (u) => ((s + u) / STRIPES) * TAU;
@@ -465,9 +464,9 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       R.put(chariot, new THREE.Matrix4().makeRotationY(sl.a + Math.PI / 2).setPosition(...P(sl.r, sl.a, FLOOR)));
       continue;
     }
-    R.rod("pole", P(sl.r, sl.a, FLOOR), P(sl.r, sl.a, CEIL), 0.045, 8);
-    R.rod("trim", P(sl.r, sl.a, FLOOR), P(sl.r, sl.a, FLOOR + 0.14), 0.075, 8);
-    R.rod("trim", P(sl.r, sl.a, CEIL - 0.14), P(sl.r, sl.a, CEIL), 0.075, 8);
+    R.rod("pole", P(sl.r, sl.a, FLOOR), P(sl.r, sl.a, CEIL), 0.045, 6);
+    R.rod("trim", P(sl.r, sl.a, FLOOR), P(sl.r, sl.a, FLOOR + 0.14), 0.075, 6);
+    R.rod("trim", P(sl.r, sl.a, CEIL - 0.14), P(sl.r, sl.a, CEIL), 0.075, 6);
   }
   // bulbs: under every lobe, between lobes on the board, up every stripe seam, round the crown
   const B = bag();
@@ -475,14 +474,14 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const a = (s / STRIPES) * TAU, am = ((s + 0.5) / STRIPES) * TAU;
     B.bulb("bulb", P(RIM_R + 0.05, am, V_EDGE - V_DEPTH - 0.08), 0.1);
     B.bulb("bulb", P(BOARD_R + 0.04, a, CEIL + 0.33), 0.1);
-    for (const t of [0.16, 0.36, 0.56, 0.76]) {
+    for (const t of [0.25, 0.6]) {
       const r = lerp1(RIM_R, TOP_R, t), y = lerp1(RIM_Y, TOP_Y, t);
       B.bulb("bulb", add(P(r, a, y), mul(norm(P(2.7, a, 5.7)), 0.06)), 0.1);
     }
   }
   // a row of bulbs under every ceiling sweep
   for (let k = 0; k < 12; k++)
-    for (let r = 1.9; r < BOARD_R - 0.3; r += 0.85) B.bulb("bulb", P(r, (k / 12) * TAU, CEIL - 0.17), 0.08);
+    for (let r = 2.2; r < BOARD_R - 0.3; r += 1.3) B.bulb("bulb", P(r, (k / 12) * TAU, CEIL - 0.17), 0.08);
   for (let k = 0; k < 12; k++) B.bulb("bulb", P(CR + 0.03, ((k + 0.5) / 12) * TAU, (C0 + C1) / 2), 0.09);
   const lit = night ? c.bulbLit : c.bulb;
   rotor.add(meshOf(B, ["bulb"], { bulb: [lit, lit, -0.25] }, { outline: false, name: "bulbs" }));
