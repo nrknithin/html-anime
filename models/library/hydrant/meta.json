@@ -1,0 +1,101 @@
+{
+  "id": "hydrant",
+  "name": "Fire hydrant",
+  "category": "prop-street",
+  "tags": [
+    "prop",
+    "street",
+    "hydrant",
+    "fire",
+    "city",
+    "sidewalk"
+  ],
+  "style": "low-poly, gradient atlas flattened (KayKit City Builder Bits 2023)",
+  "height": 0.75,
+  "script": "noon",
+  "colors": {
+    "body": "#c4452d",
+    "bodyShade": "#5c3d32"
+  },
+  "materials": {
+    "citybits_texture": "body",
+    "citybits_texture#c8212a": "body",
+    "citybits_texture#c2202c": "body",
+    "citybits_texture#c0202d": "body",
+    "citybits_texture#c5202b": "body",
+    "citybits_texture#bd1f2e": "body",
+    "citybits_texture#de3d41": "body",
+    "citybits_texture#c9212a": "body",
+    "citybits_texture#d82f34": "body",
+    "citybits_texture#d12228": "body",
+    "citybits_texture#b41e31": "body",
+    "citybits_texture#b91f30": "body",
+    "citybits_texture#b71f30": "body"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kay Lousberg",
+    "pack": "KayKit · City Builder Bits 1.0",
+    "page": "https://github.com/KayKit-Game-Assets/KayKit-City-Builder-Bits-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan row was the Quaternius hydrant on the poly.pizza CDN, which answers with a Cloudflare challenge; substituted with KayKit City Builder Bits firehydrant.gltf (+ .bin and the citybits_texture.png atlas) from the pack GitHub repo, pinned to commit 63976910ca04d16f0fc531b9c614244be8128713 (LICENSE.txt: CC0, Kay Lousberg). Chosen over KayKit Mixed Bag 1 fire_hydrant (itch zip) because this one is already reachable as pinned raw files and reads as a classic squat red hydrant: domed cap, collar, big octagonal pumper outlet facing +Z and two side outlets. The atlas flattens to twelve near-identical reds, all mapped to one body role (paper-noon accent red, iris brown shade, clear of the ink). Height 0.75 m (real hydrants 0.7-0.9 m); the stylized body is 0.45 m wide, chunkier than a real one. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-City-Builder-Bits-1.0/63976910ca04d16f0fc531b9c614244be8128713/addons/kaykit_city_builder_bits/Assets/gltf/firehydrant.gltf",
+      "extraFiles": [
+        {
+          "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-City-Builder-Bits-1.0/63976910ca04d16f0fc531b9c614244be8128713/addons/kaykit_city_builder_bits/Assets/gltf/firehydrant.bin",
+          "path": "firehydrant.bin",
+          "sha256": "02cab93bf6af8c16da083c6ac92dcc5997bed24dabc1e746ee780e623b07b3de"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-City-Builder-Bits-1.0/63976910ca04d16f0fc531b9c614244be8128713/addons/kaykit_city_builder_bits/Assets/gltf/citybits_texture.png",
+          "path": "citybits_texture.png",
+          "sha256": "6d2d9a5a13bce32209cd8c04572ab170504d68f34b1519165c9b0c41871e235b"
+        }
+      ],
+      "sha256": "0a3f9fb95e8b4805602ad26050ee552408553682b41f3e54981a69dfa92a7f3b",
+      "bytes": 3067,
+      "resolved": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-City-Builder-Bits-1.0/63976910ca04d16f0fc531b9c614244be8128713/addons/kaykit_city_builder_bits/Assets/gltf/firehydrant.gltf"
+    },
+    "height": 0.75
+  },
+  "file": "model.glb",
+  "sha256": "f1e939c541df2dd4c75f5ad8782d8e5152614aa8e88bb65a95159079d7372717",
+  "bytes": 17216,
+  "triangles": 180,
+  "bones": 0,
+  "sourceMaterials": {
+    "citybits_texture": "texture",
+    "citybits_texture#c8212a": "#c8212a",
+    "citybits_texture#c2202c": "#c2202c",
+    "citybits_texture#c0202d": "#c0202d",
+    "citybits_texture#c5202b": "#c5202b",
+    "citybits_texture#bd1f2e": "#bd1f2e",
+    "citybits_texture#de3d41": "#de3d41",
+    "citybits_texture#c9212a": "#c9212a",
+    "citybits_texture#d82f34": "#d82f34",
+    "citybits_texture#d12228": "#d12228",
+    "citybits_texture#b41e31": "#b41e31",
+    "citybits_texture#b91f30": "#b91f30",
+    "citybits_texture#b71f30": "#b71f30"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.75,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 180,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

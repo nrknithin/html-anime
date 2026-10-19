@@ -1,0 +1,100 @@
+{
+  "id": "door-shoji",
+  "name": "Japanese sliding door (shoji)",
+  "category": "prop",
+  "tags": [
+    "door",
+    "shoji",
+    "fusuma",
+    "japanese",
+    "school",
+    "classroom",
+    "interior",
+    "static"
+  ],
+  "style": "low-poly game prop (herio 2021); Textures.com photo textures dropped, flat colours",
+  "height": 1.8,
+  "script": "noon",
+  "colors": {
+    "paper": "#fffaf2",
+    "paperShade": "#f2d7ae",
+    "wood": "#5c3d32",
+    "woodShade": "#5c3d32"
+  },
+  "thresholds": {
+    "paper": 0.2
+  },
+  "materials": {
+    "oldWood ": "wood",
+    "oldWood #684b36": "wood",
+    "oldWood #896441": "wood",
+    "paper": "paper",
+    "paper#83847f": "paper"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC-BY-4.0",
+    "author": "herio",
+    "pack": "herio · Japanese school",
+    "page": "https://opengameart.org/content/japanese-school",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "note": "Wave-1 row 145 named a Quaternius Japanese door (poly.pizza, behind a Cloudflare challenge). This is the paper sliding door from herio's CC-BY 4.0 Japanese school wall kit on OpenGameArt: only the `door` object of school.blend is kept. It is a Japanese school-classroom sliding door: a wooden frame with a solid lower panel, six recessed paper panes in a 2x3 lattice and a finger-pull groove, not a fine kumiko shoji grid. The source is 0.85 x 1.49 m; it is scaled to a real 1.8 m door height (1.03 m wide). Front faces +Z, bottom on y = 0. Static, no clips. The source's Textures.com photo textures are only sampled for flat colours and are not shipped (the GLB has no images).",
+    "changes": "kept only the `door` object of school.blend (walls, floor, roof and column removed); scaled from 1.49 m to a real 1.8 m door height; photo textures removed and replaced by flat cel colours; normalized, recompressed."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/school2.zip",
+      "sha256": "e8f43223a967fcba3f72bcef78877a3ba85f09bb24274771ca69d844e3395a4a",
+      "bytes": 5428797,
+      "resolved": "https://opengameart.org/sites/default/files/school2.zip"
+    },
+    "member": "school2/school.blend",
+    "extraMembers": [
+      "school2/textures/TexturesCom_WoodPlanksBare0467_2_seamless_S.jpg",
+      "school2/textures/TexturesCom_PaperCloseup0009_1_seamless_S.jpg"
+    ],
+    "maxColors": 2,
+    "height": 1.8,
+    "yaw": 0,
+    "drop": [
+      "door wall",
+      "door wall.001",
+      "windoWall inside",
+      "windoWall inside.001",
+      "wallA",
+      "wallB",
+      "floor",
+      "roof",
+      "colum"
+    ],
+    "memberSha256": "65154e7bd92993bf15333253a417053d4692f7df4ac052a1a0a18ea108de811b"
+  },
+  "file": "model.glb",
+  "sha256": "127512996dbf93a9cba76a88f667e2bcd6d8bc2e8649cda865b4c4dd0d2f9f1d",
+  "bytes": 5992,
+  "triangles": 158,
+  "bones": 0,
+  "sourceMaterials": {
+    "oldWood ": "texture",
+    "paper": "texture",
+    "oldWood #684b36": "#684b36",
+    "oldWood #896441": "#896441",
+    "paper#83847f": "#83847f"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 158,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
