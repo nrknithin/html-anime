@@ -1,0 +1,135 @@
+{
+  "id": "zebra",
+  "name": "Zebra",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "zebra",
+    "savanna",
+    "wild",
+    "quadruped"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2018)",
+  "height": 2,
+  "script": "noon",
+  "colors": {
+    "coat": "#fffaf2",
+    "coatShade": "#f2d7ae",
+    "stripe": "#241c16",
+    "stripeShade": "#5c3d32"
+  },
+  "materials": {
+    "White": "coat",
+    "Black": "stripe"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "run": "Run",
+    "jump": "Jump",
+    "death": "Death"
+  },
+  "preview": {
+    "clip": "run"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · LowPoly Animated Farm Animal Pack",
+    "page": "https://opengameart.org/content/lowpoly-animated-farm-animal-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 20 named the Quaternius zebra from poly.pizza (now behind a Cloudflare challenge). This is the same Quaternius zebra from the Farm Animals pack on OpenGameArt. Height 2.0 m is the ear tips; the withers sit at about 1.37 m, a plains zebra's real shoulder height."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip",
+      "sha256": "9ff42b7e2445eaf259e4734c08172637db92e4b59a6145909ac56d946152c39b",
+      "bytes": 6965696,
+      "resolved": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip"
+    },
+    "member": "Farm Animals by @Quaternius/FBX/Zebra.fbx",
+    "height": 2,
+    "memberSha256": "ecbfe34a4d1f5f0695d573e04f0287b03f8f37b8e4ddbf37f7ea9737063ae200"
+  },
+  "file": "model.glb",
+  "sha256": "9f78c0720833703ea7dde76c8691b9d928fe99324e6c3ab9ef9e51923999346d",
+  "bytes": 188164,
+  "triangles": 1354,
+  "bones": 28,
+  "sourceMaterials": {
+    "White": "#e7e7e7",
+    "Black": "#303030"
+  },
+  "clipInfo": {
+    "Death": {
+      "seconds": 1.125,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Idle": {
+      "seconds": 6.2917,
+      "loop": true
+    },
+    "Jump": {
+      "seconds": 1.5417,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Run": {
+      "seconds": 0.875,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Walk": {
+      "seconds": 2.7083,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "WalkSlow": {
+      "seconds": 2.0417,
+      "loop": true,
+      "ground": "clamp"
+    }
+  },
+  "qa": {
+    "height": 2,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1354,
+    "clips": {
+      "idle": {
+        "minY": -0.0012,
+        "touches": true,
+        "maxSize": 2.64
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.68
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 3.03
+      },
+      "jump": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 3.12
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.61
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + run"
+  }
+}
