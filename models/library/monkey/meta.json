@@ -1,0 +1,204 @@
+{
+  "id": "monkey",
+  "name": "Monkey",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "monkey",
+    "macaque",
+    "primate",
+    "zoo",
+    "wild",
+    "quadruped",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets), coloured as a Japanese macaque (snow monkey): pale grey-white fur, red face and ear insides; stylized size: 0.6 m to the top of the head, about a real macaque's height sitting up or standing with its head raised (0.45-0.55 m at the shoulder on all fours), so it sits under the cube-pet panda (0.9 m) and lion (1.3 m) in roughly the real animals' ratio and reaches a 1.7 m adult's knee; rigid parts moved by node tracks, no skin; colour map flattened to flat colours",
+  "height": 0.6,
+  "script": "indigo",
+  "colors": {
+    "fur": "#e7eefc",
+    "furShade": "#d5e2ff",
+    "face": "#e23b4a",
+    "faceShade": "#f0c2ae",
+    "mouth": "#16141c",
+    "mouthShade": "#16141c",
+    "eye": "#f6f3ee",
+    "eyeShade": "#e7eefc",
+    "dark": "#16141c",
+    "darkShade": "#16141c"
+  },
+  "materials": {
+    "colormap": "fur",
+    "colormap#c4714e": "fur",
+    "colormap#d27d58": "fur",
+    "colormap#e38b63": "fur",
+    "colormap#e78e65": "fur",
+    "colormap#b66545": "fur",
+    "colormap#ea9168": "fur",
+    "colormap#be6c4b": "fur",
+    "colormap#b96848": "fur",
+    "colormap#dd865f": "fur",
+    "colormap#d47f59": "fur",
+    "colormap#cd7955": "fur",
+    "colormap#cc7854": "fur",
+    "colormap#d7815b": "fur",
+    "colormap#c06e4c": "fur",
+    "colormap#e89066": "fur",
+    "colormap#d37e58": "fur",
+    "colormap#c97552": "fur",
+    "colormap#e08861": "fur",
+    "colormap#e28b62": "fur",
+    "colormap#db845d": "fur",
+    "colormap#e7b691": "face",
+    "colormap#e792bd": "mouth",
+    "colormap#ededf4": "eye",
+    "colormap#4c4f5d": "dark"
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "dance": "dance",
+    "eat": "eat"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (wave-1 row 24). Same zip and route as the panda and lion: ingested through Blender, with Textures/colormap.png as an extra member; the colour map flattens to 24 clusters: the 20 orange-brown clusters (a baked top-to-bottom gradient on the fur) -> fur, the tan face plate and ear insides (#e7b691) -> face, the pink tongue (#e792bd) -> mouth, #4c4f5d -> dark (eyes, nose), #ededf4 -> eye. Recoloured from Kenney's brown monkey to a snow monkey (pale fur, red face) on the indigo script."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-monkey.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.6,
+    "yaw": 0,
+    "maxColors": 24,
+    "memberSha256": "4f1ba41bd6380f0daa6205442f8fb797c167d7abceaaa58943eae0e6fc9044a6"
+  },
+  "file": "model.glb",
+  "sha256": "0d037e1dcd43dd497ff4b838d422b9fe9073b16457a9f3f51613240f8f2f3b9d",
+  "bytes": 104288,
+  "triangles": 918,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#c4714e": "#c4714e",
+    "colormap#d27d58": "#d27d58",
+    "colormap#e38b63": "#e38b63",
+    "colormap#e78e65": "#e78e65",
+    "colormap#b66545": "#b66545",
+    "colormap#ea9168": "#ea9168",
+    "colormap#be6c4b": "#be6c4b",
+    "colormap#b96848": "#b96848",
+    "colormap#dd865f": "#dd865f",
+    "colormap#d47f59": "#d47f59",
+    "colormap#cd7955": "#cd7955",
+    "colormap#cc7854": "#cc7854",
+    "colormap#d7815b": "#d7815b",
+    "colormap#c06e4c": "#c06e4c",
+    "colormap#e89066": "#e89066",
+    "colormap#d37e58": "#d37e58",
+    "colormap#c97552": "#c97552",
+    "colormap#e08861": "#e08861",
+    "colormap#e28b62": "#e28b62",
+    "colormap#db845d": "#db845d",
+    "colormap#e7b691": "#e7b691",
+    "colormap#e792bd": "#e792bd",
+    "colormap#ededf4": "#ededf4",
+    "colormap#4c4f5d": "#4c4f5d"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the lower edge of the face dips 1.5 cm through the ground as the monkey bobs its head down to eat while all four feet stay planted (clamping would float the monkey)"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "static": {
+      "seconds": 0.0833,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "thresholds": {
+    "face": -0.6
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 0.6,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 918,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.74
+      },
+      "walk": {
+        "minY": 0.0014,
+        "touches": true,
+        "maxSize": 0.74
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.74
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.74
+      },
+      "eat": {
+        "minY": -0.015,
+        "touches": true,
+        "maxSize": 0.74
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}

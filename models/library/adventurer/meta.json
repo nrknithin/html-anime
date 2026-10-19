@@ -1,0 +1,190 @@
+{
+  "id": "adventurer",
+  "name": "Adventurer",
+  "category": "character",
+  "tags": [
+    "human",
+    "man",
+    "adventurer",
+    "explorer",
+    "cowboy",
+    "outdoor",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
+  "height": 1.8,
+  "script": "noon",
+  "colors": {
+    "shirt": "#f2d7ae",
+    "shirtShade": "#5c3d32",
+    "vest": "#c4452d",
+    "vestShade": "#5c3d32",
+    "pants": "#241c16",
+    "pantsShade": "#5c3d32",
+    "hat": "#241c16",
+    "hatShade": "#5c3d32",
+    "band": "#c4452d",
+    "bandShade": "#5c3d32",
+    "scarf": "#fff6e4",
+    "scarfShade": "#f2d7ae",
+    "skin": "#f0c2ae",
+    "skinShade": "#c4452d",
+    "eye": "#241c16",
+    "eyeShade": "#241c16"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Jacket": "shirt",
+    "Top": "vest",
+    "Scarf": "scarf",
+    "HatBrown": "hat",
+    "Pants": "pants",
+    "Face": "eye",
+    "HatLightBrown": "band",
+    "Hair": "hat"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 71 named the Quaternius Adventurer from the Animated Characters (24-clip rig) set on poly.pizza, now behind a Cloudflare challenge. Substituted with Cowboy_Male from the Quaternius Ultimate Animated Character Pack (Nov 2019) on OpenGameArt (same zip as man-casual). The pack has no adventurer or explorer; of its 50 characters the cowboy (wide-brimmed hat, neckerchief, vest over a shirt, mustache) is the closest outdoor-adventure character, ahead of Pirate_Male (nautical) and Worker_Male (row 77). It ships 11 clips (idle, walk, punch, hit, sit, pick-up, one-handed shoot, victory, defeat), not 24: no run, jump, death, sword or gun idles."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Cowboy_Male.fbx",
+    "height": 1.8,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "596824313b36cf96f6cba31e792f20c7593c958d4b4e0ec0418a31746d0bbc8d"
+  },
+  "file": "model.glb",
+  "sha256": "697b04117cf0a03e530444a2bc9c793d8e144a6437bb9f2a63c22c1436775d07",
+  "bytes": 238532,
+  "triangles": 3176,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#1f1f1f",
+    "Jacket": "#834720",
+    "Top": "#4e381a",
+    "Scarf": "#831813",
+    "HatBrown": "#83593c",
+    "Pants": "#3d2115",
+    "Face": "#fffff8",
+    "HatLightBrown": "#e7a577",
+    "Hair": "#83593c"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.1667,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.25,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.75,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.625,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5417,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 0.9583,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.875,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.25,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.25,
+      "loop": true
+    }
+  },
+  "thresholds": {
+    "skin": -0.6,
+    "shirt": -0.25,
+    "vest": -0.25
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 1.8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 3176,
+    "clips": {
+      "idle": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.79
+      },
+      "walk": {
+        "minY": -0.0014,
+        "touches": true,
+        "maxSize": 1.79
+      },
+      "attack": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.71
+      },
+      "hit": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.76
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.76
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
