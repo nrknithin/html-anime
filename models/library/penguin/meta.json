@@ -1,0 +1,269 @@
+{
+  "id": "penguin",
+  "name": "Penguin",
+  "category": "bird",
+  "tags": [
+    "animal",
+    "penguin",
+    "bird",
+    "antarctic",
+    "zoo",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets); stylized size: 0.7 m to the top of the crest, the standing height of a gentoo or Adelie penguin (an emperor stands ~1.1 m), so it sits between the library's fox (0.48 m) and pig (0.85 m) and comes up to about the cube-pet lion's (1.3 m) shoulder, the same near-real scale the lion uses, while the big cube head keeps it chibi; rigid parts moved by node tracks, no skin; colour map flattened to flat colours",
+  "height": 0.7,
+  "script": "indigo",
+  "colors": {
+    "body": "#1b2d6b",
+    "bodyShade": "#16141c",
+    "belly": "#f6f3ee",
+    "bellyShade": "#d5e2ff",
+    "beak": "#e7a04a",
+    "beakShade": "#e23b4a"
+  },
+  "smooth": false,
+  "thresholds": {
+    "beak": -0.2,
+    "body": 0.55
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#e68d47": "beak",
+    "colormap#e28344": "beak",
+    "colormap#df7941": "beak",
+    "colormap#eb9b4c": "beak",
+    "colormap#ea994b": "beak",
+    "colormap#ec9e4d": "beak",
+    "colormap#f7f7fa": "belly",
+    "colormap#f5f5f9": "belly",
+    "colormap#f4f4f8": "belly",
+    "colormap#f2f2f7": "belly",
+    "colormap#f0f0f6": "belly",
+    "colormap#efeff5": "belly",
+    "colormap#ececf3": "belly",
+    "colormap#eaeaf2": "belly",
+    "colormap#e8e8f0": "belly",
+    "colormap#e7e7f0": "belly",
+    "colormap#e6e6ef": "belly",
+    "colormap#e5e5ee": "belly",
+    "colormap#e3e3ed": "belly",
+    "colormap#d6d6e5": "belly",
+    "colormap#d5d5e5": "belly",
+    "colormap#d5d5e4": "belly",
+    "colormap#d4d4e4": "belly",
+    "colormap#d0d0e1": "belly",
+    "colormap#d1d1e2": "belly",
+    "colormap#cacadd": "belly",
+    "colormap#ccccdf": "belly",
+    "colormap#c6c6db": "belly",
+    "colormap#c5c5da": "belly",
+    "colormap#c3c3d9": "belly",
+    "colormap#c2c2d8": "belly",
+    "colormap#c1c1d8": "belly",
+    "colormap#4b4e5c": "body",
+    "colormap#4c4f5d": "body",
+    "colormap#4d505e": "body",
+    "colormap#4d505f": "body",
+    "colormap#4e5160": "body",
+    "colormap#4f5261": "body",
+    "colormap#505362": "body",
+    "colormap#4a4d5b": "body",
+    "colormap#454856": "body",
+    "colormap#484b59": "body",
+    "colormap#505463": "body",
+    "colormap#515463": "body",
+    "colormap#3e414d": "body",
+    "colormap#3d404c": "body",
+    "colormap#4e5260": "body",
+    "colormap#4d515f": "body",
+    "colormap#494c5a": "body",
+    "colormap#525564": "body",
+    "colormap#4e515f": "body",
+    "colormap#40434f": "body",
+    "colormap#414450": "body",
+    "colormap#444754": "body",
+    "colormap#4b4e5d": "body",
+    "colormap#e99449": "beak",
+    "colormap#e78f48": "beak",
+    "colormap#3f414d": "body",
+    "colormap#3d3f4b": "body"
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "dance": "dance",
+    "eat": "eat"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (wave-1 row 34). Same zip and Blender route as the elephant and lion, with Textures/colormap.png as an extra member and maxColors 64. Compared with the Quaternius Textured Cute Monster Pack penguin (OpenGameArt, CC0, Blends/Penguin.blend, ingested and rendered side by side): that one is a round head-only blob with no legs or feet and huge eyes, which reads as a monster more than a penguin; the Kenney cube pet stands upright on orange feet with flippers, a white front and a beak, so it reads as a penguin at a glance and ships. Look: the eyes are flat discs in the same dark grey as the body (they cannot be split by colour), so the body uses threshold 0.55 and faceted shading: the eye discs then always fall in the near-black shade and stay black through every clip, instead of flickering to navy when the head tilts up. All greys -> body, whites -> belly, oranges -> beak and feet."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-penguin.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.7,
+    "yaw": 0,
+    "maxColors": 64,
+    "memberSha256": "ff3d7ccae941ab06773a348b03446f97650043594ab1121a26514c3e2ea6cb29"
+  },
+  "file": "model.glb",
+  "sha256": "419135726d2ad4fd715d0ba2e51371bcfdb34fdf6efab78ba6174e0458b6240d",
+  "bytes": 113780,
+  "triangles": 558,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#e68d47": "#e68d47",
+    "colormap#e28344": "#e28344",
+    "colormap#df7941": "#df7941",
+    "colormap#eb9b4c": "#eb9b4c",
+    "colormap#ea994b": "#ea994b",
+    "colormap#ec9e4d": "#ec9e4d",
+    "colormap#f7f7fa": "#f7f7fa",
+    "colormap#f5f5f9": "#f5f5f9",
+    "colormap#f4f4f8": "#f4f4f8",
+    "colormap#f2f2f7": "#f2f2f7",
+    "colormap#f0f0f6": "#f0f0f6",
+    "colormap#efeff5": "#efeff5",
+    "colormap#ececf3": "#ececf3",
+    "colormap#eaeaf2": "#eaeaf2",
+    "colormap#e8e8f0": "#e8e8f0",
+    "colormap#e7e7f0": "#e7e7f0",
+    "colormap#e6e6ef": "#e6e6ef",
+    "colormap#e5e5ee": "#e5e5ee",
+    "colormap#e3e3ed": "#e3e3ed",
+    "colormap#d6d6e5": "#d6d6e5",
+    "colormap#d5d5e5": "#d5d5e5",
+    "colormap#d5d5e4": "#d5d5e4",
+    "colormap#d4d4e4": "#d4d4e4",
+    "colormap#d0d0e1": "#d0d0e1",
+    "colormap#d1d1e2": "#d1d1e2",
+    "colormap#cacadd": "#cacadd",
+    "colormap#ccccdf": "#ccccdf",
+    "colormap#c6c6db": "#c6c6db",
+    "colormap#c5c5da": "#c5c5da",
+    "colormap#c3c3d9": "#c3c3d9",
+    "colormap#c2c2d8": "#c2c2d8",
+    "colormap#c1c1d8": "#c1c1d8",
+    "colormap#4b4e5c": "#4b4e5c",
+    "colormap#4c4f5d": "#4c4f5d",
+    "colormap#4d505e": "#4d505e",
+    "colormap#4d505f": "#4d505f",
+    "colormap#4e5160": "#4e5160",
+    "colormap#4f5261": "#4f5261",
+    "colormap#505362": "#505362",
+    "colormap#4a4d5b": "#4a4d5b",
+    "colormap#454856": "#454856",
+    "colormap#484b59": "#484b59",
+    "colormap#505463": "#505463",
+    "colormap#515463": "#515463",
+    "colormap#3e414d": "#3e414d",
+    "colormap#3d404c": "#3d404c",
+    "colormap#4e5260": "#4e5260",
+    "colormap#4d515f": "#4d515f",
+    "colormap#494c5a": "#494c5a",
+    "colormap#525564": "#525564",
+    "colormap#4e515f": "#4e515f",
+    "colormap#40434f": "#40434f",
+    "colormap#414450": "#414450",
+    "colormap#444754": "#444754",
+    "colormap#4b4e5d": "#4b4e5d",
+    "colormap#e99449": "#e99449",
+    "colormap#e78f48": "#e78f48",
+    "colormap#3f414d": "#3f414d",
+    "colormap#3d3f4b": "#3d3f4b"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the lower front edge of the body dips up to 18 mm (2.5 % of the height) through the ground as the penguin tips forward to peck while both feet stay planted (clamping would float the feet 18 mm)"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "static": {
+      "seconds": 0.0833,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 0.7,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 558,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.96
+      },
+      "walk": {
+        "minY": 0.0016,
+        "touches": true,
+        "maxSize": 0.96
+      },
+      "run": {
+        "minY": -0.0059,
+        "touches": true,
+        "maxSize": 0.96
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.96
+      },
+      "eat": {
+        "minY": -0.0177,
+        "touches": true,
+        "maxSize": 0.96
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}

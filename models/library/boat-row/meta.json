@@ -1,0 +1,95 @@
+{
+  "id": "boat-row",
+  "name": "Row boat",
+  "category": "vehicle-water",
+  "tags": [
+    "vehicle",
+    "boat",
+    "rowboat",
+    "lake",
+    "pond"
+  ],
+  "style": "low-poly, flat colours (Kenney Watercraft Kit)",
+  "height": 1.19,
+  "script": "noon",
+  "colors": {
+    "hull": "#fff6e4",
+    "hullShade": "#f2d7ae",
+    "trim": "#c4452d",
+    "trimShade": "#5c3d32",
+    "deck": "#5c3d32",
+    "deckShade": "#241c16"
+  },
+  "materials": {
+    "colormap": "hull",
+    "colormap#eb9268": "trim",
+    "colormap#d57f59": "trim",
+    "colormap#e18961": "trim",
+    "colormap#d5d5e5": "deck",
+    "colormap#e2e2ed": "hull",
+    "colormap#ebebf2": "hull",
+    "colormap#efeff5": "hull",
+    "colormap#e6e6ef": "hull",
+    "colormap#c2c2d8": "hull",
+    "colormap#d3d3e3": "hull",
+    "colormap#cacade": "hull",
+    "colormap#c06e4c": "trim"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Watercraft Kit",
+    "page": "https://kenney.nl/assets/watercraft-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney boat-row-large (GLB with the kit colormap), same kit and fetch pin as boat-fishing and boat-sail. Chosen over boat-row-small (all-wood, stubby 1.9:1 hull, two cramped seats): the large one has a painted hull with wooden gunwale, thwarts and oars, a 2.4:1 hull and room for a rower and a passenger. Height 1.19 m (keel to the raised oar grips) gives a 4.0 m hull and 2.0 m beam (chunky toy proportions, beam on the wide side); that is about 0.85x the kit scale of boat-fishing/boat-sail, which would make it a 4.7 m boat. Bow (the narrow end with a small foredeck) faces +Z. y = 0 is the flat hull bottom; the chine is at y = 0.45 m and the waterline sits at about y = 0.3 m, so a film sinks the boat 0.3 m into its water plane. Floor y = 0.34 m (z -1.67..+0.79); gunwale top y = 0.90 m; seat tops y = 0.56 m, 0.66 m either side of x = 0: middle thwart z -0.45..+0.04 (rower, facing -Z), stern seat z -1.67..-1.18 (passenger, facing +Z), and a foredeck at the same height z +0.79..+1.61. Seats sit only 0.22 m above the floor (toy depth), so a sitting character's legs go forward along the floor. Rowlock blocks on the gunwale at y 0.79 m, z -1.0..+0.45; the two oars (one source object, 'paddles') rest shipped up and outboard at z -0.37..-0.80, blades down near the water, spanning 3.86 m. Cream hull, red gunwale, thwarts, foredeck and oars (the source wood), dark-brown floor. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/watercraft-kit",
+      "sha256": "cd1470c1cf441c7f46d0944ae6d0d897242365dc97677c5079b3238965d659f3",
+      "bytes": 1870991
+    },
+    "member": "Models/GLB format/boat-row-large.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 1.19,
+    "memberSha256": "25eed6585c7398654522d338ec575509615443887362ca8e598559b4eca142a3"
+  },
+  "file": "model.glb",
+  "sha256": "332feb3e5eb3a6ec0514af772e84a5b81d0b24f77431820c7663bf49ebe4557c",
+  "bytes": 20296,
+  "triangles": 174,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#eb9268": "#eb9268",
+    "colormap#d57f59": "#d57f59",
+    "colormap#e18961": "#e18961",
+    "colormap#d5d5e5": "#d5d5e5",
+    "colormap#e2e2ed": "#e2e2ed",
+    "colormap#ebebf2": "#ebebf2",
+    "colormap#efeff5": "#efeff5",
+    "colormap#e6e6ef": "#e6e6ef",
+    "colormap#c2c2d8": "#c2c2d8",
+    "colormap#d3d3e3": "#d3d3e3",
+    "colormap#cacade": "#cacade",
+    "colormap#c06e4c": "#c06e4c"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.19,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 174,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
