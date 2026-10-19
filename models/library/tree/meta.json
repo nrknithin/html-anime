@@ -14,12 +14,12 @@
   ],
   "style": "low-poly, flat colours, rounded faceted canopy (Quaternius 2019)",
   "height": 7,
-  "script": "noon",
+  "script": "meadow",
   "colors": {
-    "leaves": "#c4452d",
-    "leavesShade": "#5c3d32",
-    "trunk": "#241c16",
-    "trunkShade": "#2c261f"
+    "leaves": "#a9d16e",
+    "leavesShade": "#3f8a47",
+    "trunk": "#2c5131",
+    "trunkShade": "#2c5131"
   },
   "materials": {
     "Wood": "trunk",
