@@ -11,14 +11,14 @@
 //   CHANNEL  a narrow ditch (0.45 m of water at y = 0.14, higher than the field) between the +X levee and a lower outer
 //            bank, the full depth of the plot. The SLUICE stands in the levee gap: two square posts, a plank board with
 //            two cleats slotted between them holding the channel back, a lifting bar on studs; field water runs into it.
-//   RICE     ONE mesh, rows along X 0.40 m apart, hills 0.32 m apart, tiny deterministic jitter (a sine hash, no
+//   RICE     ONE mesh, rows along X 0.40 m apart, hills 0.36 m apart, tiny deterministic jitter (a sine hash, no
 //            Math.random), a 0.5 m ring of open water inside the levees. Blades are thin closed wedges (tetrahedra):
 //            a two-sided sheet z-fights with its own hull and goes black.
 //            spring: young 4-blade tufts 0.24-0.34 m tall standing in open water (their tips fringe above the levees
 //            in the low hero view). summer: each row one hedge solid, sampled every half hill (crowns and dips) with a
-//            peaked cross-section (stem base 0.10 m wide, 0.30 m at 0.52 m, crest 0.80-0.86 m), three leaf blades
+//            peaked cross-section (stem base 0.10 m wide, 0.30 m at 0.52 m, crest 0.80-0.86 m), two leaf blades
 //            fanning out of every crown to ~1.0 m: rows of dense green with dark furrows between. autumn: the hedge
-//            shorter, bulging out at 0.6 m, with four bent heads per crown (a wedge whose fourth corner is the knee)
+//            shorter, bulging out at 0.6 m, with two bent heads per crown (a wedge whose fourth corner is the knee)
 //            nodding out and down over the furrows: heavy-headed gold.
 //   SCARECROW kakashi: a post into the field and a crossbar (wood boxes), an old jacket (a flared box torso, box
 //            sleeves along the bar, a patch on the chest), straw tufts (cones) out of the cuffs and the hem, a cloth
@@ -34,7 +34,7 @@
 //              the sluice keep their places relative to the field.
 //   height     scales the whole plot uniformly so its top is `height` (default: the natural top, 1.96 m with the
 //              scarecrow, else the rice or the sluice posts).
-// Budget: summer 18.4k triangles, autumn 20.9k, spring 10.8k (rice is all but ~700 of them).
+// Budget: summer and autumn 14.1k triangles, spring 9.7k (rice is all but ~700 of them).
 // Colours (meadow: the only script with field greens and a pale sky for the water; autumn gold from its practical):
 //   water sky #d7ecef flat, glints moon #f7f3e1 flat (no ink: paint on the water);
 //   levee and bank grass line #a9d16e / iris #3f8a47; path skin #f0c2ae flat (meadow has no brown: the warm pale
@@ -179,7 +179,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
 
   // ---------- rice: one mesh ----------
   const RK = "rice";
-  const dx = 0.32, dz = 0.4, RM = 0.5; // hill spacing along a row, row spacing, open water margin to the levee toe
+  const dx = 0.36, dz = 0.4, RM = 0.5; // hill spacing along a row, row spacing, open water margin to the levee toe
   const nx = Math.floor((W - 2 * RM) / dx), nz = Math.floor((D - 2 * RM) / dz);
   const autumn = season === "autumn";
   for (let j = 0; j <= nz; j++) {
@@ -209,15 +209,15 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       const cx = x0 + k * step;
       if (crown && !autumn) { // leaf blades fanning out of the crown: the rice silhouette above the hedge
         const a0 = hash(k, j, 9) * Math.PI;
-        for (let b = 0; b < 3; b++) {
-          const a = a0 + (b * Math.PI * 2) / 3, ca = Math.cos(a), sa = Math.sin(a);
+        for (let b = 0; b < 2; b++) {
+          const a = a0 + b * Math.PI + 0.6 * (hash(k, j, 11 + b) - 0.5), ca = Math.cos(a), sa = Math.sin(a);
           const L = 0.16 + 0.1 * hash(k, j, 20 + b), H = 0.14 + 0.1 * hash(k, j, 30 + b), w = 0.03, y0 = yt - 0.08;
           blade(RK, [cx - sa * w, y0, zc + ca * w], [cx + sa * w, y0, zc - ca * w], [cx - ca * 0.02, y0 + 0.06, zc - sa * 0.02], [cx + ca * L, yt + H, zc + sa * L * 0.8]);
         }
       }
       if (crown && autumn) { // heavy heads: each a blade bent at a knee, nodding out over the furrows
-        for (let b = 0; b < 4; b++) {
-          const side = b % 2 ? 1 : -1, along = (b < 2 ? -1 : 1) * (0.04 + 0.05 * hash(k, j, 20 + b));
+        for (let b = 0; b < 2; b++) {
+          const side = b % 2 ? 1 : -1, along = ((k / 2 + j) % 2 ? -1 : 1) * (b ? 1 : -1) * (0.04 + 0.05 * hash(k, j, 20 + b));
           const r = 0.2 + 0.06 * hash(k, j, 30 + b), w = 0.035, y0 = yt - 0.06;
           const base1 = [cx + along - w, y0, zc + side * 0.03], base2 = [cx + along + w, y0, zc + side * 0.03];
           const knee = [cx + along * 1.6, yt + 0.09, zc + side * 0.12];
