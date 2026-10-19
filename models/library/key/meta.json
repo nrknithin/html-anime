@@ -1,0 +1,68 @@
+{
+  "id": "key",
+  "name": "Key",
+  "category": "misc prop",
+  "tags": [
+    "prop",
+    "key",
+    "gold",
+    "pickup",
+    "treasure",
+    "static"
+  ],
+  "style": "low-poly, flat colours, chunky old-style gold key (Quaternius 2021)",
+  "height": 0.12,
+  "script": "indigo",
+  "colors": {
+    "gold": "#f0c36a",
+    "goldShade": "#e7a04a"
+  },
+  "materials": {
+    "Gold": "gold"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Platformer Pack (Dec 2021)",
+    "page": "https://quaternius.itch.io/ultimate-platformer-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius key on poly.pizza) is behind a Cloudflare challenge. This is the same Quaternius key as shipped in the Ultimate Platformer Pack on itch.io (free download; License.txt in the zip: CC0 1.0; the same zip and sha256 as the chest and cloud entries): Powerups and Pickups/FBX/Key.fbx, the pack's only key, a static chunky old-style key with a ring bow, a round shaft and two bit teeth, one Gold material. Orientation: the source lies on its edge with the long axis horizontal; ingest.roll -90 (about the facing axis, applied before the yaw) stands it upright, bow up and bit down, and yaw 180 turns it so the bit points to the right in the front view with the flat of the bow facing the camera (front, three4 and hero all read as a key at a glance). Hand offset: grip the shaft just below the bow, y about 0.05-0.065 m (0.055-0.07 m below the top, i.e. the top 1 cm of shaft above the bit), the bit pointing away from the palm. Size: 0.12 m tall (the length, now vertical, is the normalised dimension), mid-range for a hand-held old-style key (7-15 cm); the bow is 0.061 m across and the key 0.02 m thick, game-pickup chunky. Colours on indigo: practical gold shading to iris amber, with ink (noon has no yellow). Flat shading (smooth false) was tried and looked the same, so smooth stays. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/ultimate-platformer-pack",
+      "upload": "Ultimate Platformer Pack by Quaternius.zip",
+      "sha256": "2d0cac0f3cb58f6845f779a4c6b4a92be6fa27d118ee0b976ead55c6834a53d4",
+      "bytes": 18863631
+    },
+    "member": "Ultimate Platformer Pack - Dec 2021/Powerups and Pickups/FBX/Key.fbx",
+    "height": 0.12,
+    "roll": -90,
+    "yaw": 180,
+    "memberSha256": "9cd5d46b8fdfca0440ce96ff3d5efafe33e957af55a7fffe232e0e54b16d86ee"
+  },
+  "file": "model.glb",
+  "sha256": "a793b613c4b8fdc9282c28b2eebbbf6776a4557ecad512ae82a76be0d9a6b9cc",
+  "bytes": 5356,
+  "triangles": 472,
+  "bones": 0,
+  "sourceMaterials": {
+    "Gold": "#e5b55c"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.12,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 472,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
