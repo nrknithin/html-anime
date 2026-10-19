@@ -20,7 +20,7 @@
 //             and stacks of board games, every spine blank, a box shoved on top of each; a cardboard box on the floor
 //             overflowing with props (a wooden sword, a top hat, a folded cloth, a ball); two boxes stacked in the far
 //             corner and a stack of comics by the sofa end.
-//   CENTRE    two long tables pushed together (dark tops, a steel apron, tube legs), five folding chairs round them,
+//   CENTRE    two long tables pushed together (pale tops, a steel apron, tube legs), five folding chairs round them,
 //             pulled out and turned (fixed numbers, no randomness); on the tables an open laptop (blank dark screen),
 //             two closed laptops, four teacups, three snack bags, loose sheets.
 // Proportions (real size, base unit the storey H = 2.7 m = meta.height): interior 4.2 (x) by 4.8 (z); window sill
@@ -32,9 +32,10 @@
 // Ink in pixels: walls, floor edge and caps 3; wood, steel, props and cloth 2 (a room is seen small).
 // Colours (noon, the warm wood-brown script), base / shade:
 //   walls                  moon #fff6e4 / sky #f2d7ae, threshold 0.35 (the -X wall lit, the -Z wall falls to sky)
-//   floor                  skin #f0c2ae flat; plank seams, scribbles, calendar grid iris #5c3d32 flat
-//   dark wood (table tops, window frame, sill, tray, sofa legs, sword, some binders and games)  iris #5c3d32 flat
-//   tan (cardboard, cabinet, rug, file boxes, games, poster)  sky #f2d7ae / skin #f0c2ae
+//   floor                  iris #5c3d32 / skin #f0c2ae (old boards; it faces the light, so it reads iris), plank
+//                          seams hair flat; scribbles and calendar grid iris #5c3d32 flat
+//   dark wood (window frame, sill, tray, sofa legs, sword, some binders and games)  iris #5c3d32 flat
+//   tan (table tops, cardboard, cabinet, rug, file boxes, games, poster)  sky #f2d7ae / skin #f0c2ae
 //   steel (shelves, chairs, table legs, laptops, cups, teapot, board frame, rail, blanket)  sclera #f6f3ee / sky
 //   red (sofa, kettle, binders, games, snack bags, hat, rug border, floor cushion, magnets)  accent #c4452d / iris
 //   paper (board face, sheets)  sclera #f6f3ee flat;  glass and calendar sheet sky #f2d7ae flat (the calendar is
@@ -48,7 +49,7 @@ export const meta = {
   script: "noon",
   colors: {
     wall: "#fff6e4", wallShade: "#f2d7ae",
-    floor: "#f0c2ae", seam: "#5c3d32",
+    floor: "#5c3d32", floorShade: "#f0c2ae", seam: "#5c3d32",
     wood: "#5c3d32",
     tan: "#f2d7ae", tanShade: "#f0c2ae",
     steel: "#f6f3ee", steelShade: "#f2d7ae",
@@ -185,7 +186,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   quad("floor", [-W, 0, -L], [W, 0, -L], [W, 0, L], [-W, 0, L], [0, -1, 0]);
   for (let i = 1; i < 12; i++) { // plank seams running along z
     const x = -W + (i * 2 * W) / 12;
-    quad("seam", [x - 0.008, 0.0015, -L], [x + 0.008, 0.0015, -L], [x + 0.008, 0.0015, L], [x - 0.008, 0.0015, L], [x, -1, 0]);
+    quad("dark", [x - 0.008, 0.0015, -L], [x + 0.008, 0.0015, -L], [x + 0.008, 0.0015, L], [x - 0.008, 0.0015, L], [x, -1, 0]);
   }
   const wall = (x0, x1, y0, y1, z0, z1, cut) => {
     box("wall", x0, x1, y0, cut ? y1 - CAP : y1, z0, z1);
@@ -407,7 +408,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const TX = 0.4, TZ = 0.4, TL = 1.8, TD = 0.6, TH = 0.7;
   for (const dz of [-TD / 2, TD / 2]) {
     const z = TZ + dz;
-    box("wood", TX - TL / 2, TX + TL / 2, TH - 0.03, TH, z - TD / 2 + 0.003, z + TD / 2 - 0.003);
+    box("tan", TX - TL / 2, TX + TL / 2, TH - 0.03, TH, z - TD / 2 + 0.003, z + TD / 2 - 0.003);
     box("steel", TX - TL / 2 + 0.06, TX + TL / 2 - 0.06, TH - 0.09, TH - 0.03, z - TD / 2 + 0.05, z + TD / 2 - 0.05); // apron
     for (const sx of [-1, 1]) for (const sz of [-1, 1])
       rod("steel", [TX + sx * (TL / 2 - 0.1), 0.01, z + sz * (TD / 2 - 0.08)], [TX + sx * (TL / 2 - 0.1), TH - 0.06, z + sz * (TD / 2 - 0.08)], 0.016, 6);
@@ -465,7 +466,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   // ---------- meshes: one per material signature ----------
   const MAT = {
     wall: [c.wall, c.wallShade, 0.35, 3],
-    floor: [c.floor, c.floor, 0.1, 3],
+    floor: [c.floor, c.floorShade, 0.1, 3],
     seam: [c.seam, c.seam, 0.1, 0],
     cap: [c.dark, c.dark, 0.1, 3],
     dark: [c.dark, c.dark, 0.1, 0],
