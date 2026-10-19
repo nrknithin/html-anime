@@ -57,7 +57,7 @@ Safe to run many at once: every run has its own server port, Chrome profile and 
 | `right` | -X | the right side, face to the image right |
 | `top` | +Y | face to the top of the image, the model's left on the image left |
 | `three4` | perspective, front-left, 20 degrees above | lit side, shaded front, lit top |
-| `hero` | perspective, front-left, 7 degrees below | low three-quarter |
+| `hero` | perspective, front-left, 7 degrees below (raised in steps for low, wide sets so the camera stays above the floor) | low three-quarter |
 
 All orthographic cells share one meters-per-pixel scale (the footer prints it), so proportions compare across views. Each has a ground line, faint lines every 0.25 m (coarser or finer for big or small models), `0`/`1 m` labels, a scale bar, a dotted line at the model's x=0 / z=0, and its name. Perspective cells are fit to the silhouette. Backgrounds: white in `sil`, light gray in `clay`, mid gray in `cel`, so the ink reads on any script. The footer prints name, pose, mode, bbox (x y z), triangles, meshes and the scale, plus up to two warnings.
 
