@@ -6,58 +6,58 @@
 //   QUILT    the kakebuton is ONE indexed ring grid around the frame, not a box. Each column starts on the frame's
 //            rounded-square edge (sides: the point slides along the edge; corners: it stays on the corner and its
 //            outward direction fans through 90 deg), and runs out along a drape profile integrated from its heading:
-//            flat under the top plate, a 6 cm bend over the frame edge, a drop splayed 13 deg out, a 10 cm fillet onto
-//            the floor and a run across it to the hem. Rows sit at fixed arc lengths near the top and at fixed
-//            distances from the hem below, so the pattern band follows the cloth. Soft folds: an outward offset of the
-//            drop and the floor run, a sum of three perimeter sines (3-4 folds a side, the corners pushed out into soft
-//            cones), growing from 0 at the edge; the floor run puffs up where a fold bulges. The hem line wanders (two
-//            more sines) and the corners hang 14 cm longer and spill onto the floor. A rounded rim 4.5 cm thick closes
-//            the hem down to y = 0 and a fan closes the floor, so the quilt is one closed shell with one hull; winding
-//            from the signed volume. Material groups: field (two tones, threshold 0.1 so the drop facing the camera
-//            stays lit), an ichimatsu check band 8-15 cm from the hem, and the hem rim + floor in flat field colour
-//            (they face down, and the shade tone there read as a dark slab). The hull draws only silhouettes, so the
-//            folds also get creases: tapered ink strokes 3 mm proud down the drop at every fold valley.
-//   TABLE    the top plate (0.80 x 0.80 x 0.025) rests on the quilt, a dark edge band 3 mm proud on its four sides.
+//            flat under the top plate, a 6 cm bend over the frame edge, a drop splayed 10 deg out, a tight 6 cm
+//            fillet onto the floor and a short run across it to the hem, so it reads as a heavy quilt resting on the
+//            floor. Rows sit at fixed arc lengths near the top and at fixed distances from the hem below, so the border
+//            stripe follows the cloth. Soft folds: an outward offset of the drop (and, at half strength, the floor run),
+//            a sum of three perimeter sines (3-4 folds a side, the corners pushed out into soft cones), growing from 0
+//            at the edge; the floor run puffs up a little where a fold bulges. The hem wanders by ~1 cm and the corners
+//            hang 7 cm longer. A rounded rim 4.5 cm thick closes the hem down to y = 0 and a fan closes the floor, so
+//            the quilt is one closed shell with one hull; winding from the signed volume. Material groups: field (two
+//            tones, threshold 0.1 so the drop facing the camera stays lit), a solid border stripe 7.5-12 cm from the
+//            hem, and the hem rim + floor in flat field colour (they face down; the shade tone there read as a slab).
+//            The hull draws only silhouettes, so the folds also get creases: tapered dark strokes 3 mm proud down the
+//            drop at every fold valley.
+//   TABLE    the top plate (0.80 x 0.80 x 0.025) rests on the quilt, a darker edge band 3 mm proud on its four sides.
 //            The frame and legs are all under the quilt, so they are not built.
 //   OPTIONS  mikan: a white bowl (closed lathe) with four oblate mandarins, one more loose on the plate, and a leaf.
 //            cushions: 0..4 zabuton, domed superellipsoid pillows with a centre tassel, just past the hem on the +Z,
-//            -X, +X, -Z sides in that order. rug: a 2.5 m square floor rug with a border; the rest of the
-//            set rides 9 mm up on it (top 0.517, inside the lab's 2 % height check).
+//            -Z, -X, +X sides in that order (so two face each other). rug: a 2.5 m square floor rug with a border;
+//            the rest of the set rides 9 mm up on it.
 // Proportions (real size, base unit the frame half width T = 0.35 m): top plate top 0.38, quilt surface on the frame
-//   0.355, hang 0.50 (+0.14 at the corners), hem 0.62-0.72 from the centre on the sides, ~0.8 at the corners;
-//   zabuton 0.55 x 0.60, 0.10 at the dome; mikan r 0.034 (oblate 0.82); the pile tops out at 0.508.
-// Options: build(THREE, kit, colors, { quilt: "red" | "blue" | "green", mikan = true, cushions = 0, rug = false, height }).
-//   height scales the whole set so its top is `height` (default: the natural top, 0.508 with mikan, 0.38 without, so
-//   the lab's meta.height check warns for mikan: false).
+//   0.355, hang 0.44 (+0.07 at the corners), hem ~0.6 from the centre on the sides (0.2 past the plate edge), the
+//   corners rounding out to a 1.2 m footprint; zabuton 0.55 x 0.60, 0.10 at the dome; mikan r 0.034 (oblate 0.82); the pile
+//   tops out at 0.508.
+// Options: build(THREE, kit, colors, { quilt: "red" | "cream", mikan = true, cushions = 0, rug = false, height }).
+//   height scales the whole set so its top is `height` (default: the natural top, 0.508 with mikan, 0.38 without).
 // Budget: quilt 2.3k triangles, creases 0.1k, plate 60, mikan set 0.74k; each zabuton 0.16k; rug 60.
 //   Defaults 3.2k, every option on 4.0k.
-// Colours (meadow, a day-lit winter room; one script has a red, a green and a pale blue): quilt red accent #d9483b /
-//   hair #2c5131, blue sky #d7ecef / line #a9d16e, green iris #3f8a47 / hair; check band moon #f7f3e1 / sky (on blue:
-//   iris / hair); creases ink #1c261b; plate wood practical #f2c94c / skin #f0c2ae with a hair edge band (flat);
-//   mikan practical / accent; leaf iris / hair; bowl sclera #f6f3ee / sky; zabuton iris / hair (accent / hair under a
-//   green quilt), tassel moon / sky; rug skin / moon with an iris border. meadow has no browns, so the table is
-//   honey-yellow wood, and the red quilt's shade is the dark green hair (it shows only on the far -X side).
+// Colours (noon, warm wood): quilt red accent #c4452d / iris #5c3d32 with a moon #fff6e4 / sky #f2d7ae stripe, or
+//   cream moon / sky with an accent / iris stripe; creases hair #241c16; plate wood iris / hair with a hair edge
+//   band (flat); mikan accent / iris (noon has no orange), leaf iris / hair; bowl sclera #f6f3ee / sky; zabuton
+//   iris / hair (accent / iris under the cream quilt), tassel moon / sky; rug sky / skin #f0c2ae with an iris border.
+//   noon has no blue or green, so the quilt colours are red and cream. hair is darker than ink and is used only for
+//   thin lines (creases, edge band) and shade, as the house does.
 
 export const meta = {
   name: "kotatsu",
   height: 0.508,
-  script: "meadow",
+  script: "noon",
   colors: {
-    quiltRed: "#d9483b", quiltRedShade: "#2c5131",
-    quiltBlue: "#d7ecef", quiltBlueShade: "#a9d16e",
-    quiltGreen: "#3f8a47", quiltGreenShade: "#2c5131",
-    band: "#f7f3e1", bandShade: "#d7ecef",
-    bandDark: "#3f8a47", bandDarkShade: "#2c5131",
-    wood: "#f2c94c", woodShade: "#f0c2ae",
-    edge: "#2c5131",
-    crease: "#1c261b",
-    mikan: "#f2c94c", mikanShade: "#d9483b",
-    leaf: "#3f8a47", leafShade: "#2c5131",
-    bowl: "#f6f3ee", bowlShade: "#d7ecef",
-    cushion: "#3f8a47", cushionShade: "#2c5131",
-    cushionAlt: "#d9483b", cushionAltShade: "#2c5131",
-    rug: "#f0c2ae", rugShade: "#f7f3e1",
-    rugBorder: "#3f8a47",
+    quiltRed: "#c4452d", quiltRedShade: "#5c3d32",
+    quiltCream: "#fff6e4", quiltCreamShade: "#f2d7ae",
+    band: "#fff6e4", bandShade: "#f2d7ae",
+    bandRed: "#c4452d", bandRedShade: "#5c3d32",
+    wood: "#5c3d32", woodShade: "#241c16",
+    edge: "#241c16",
+    crease: "#241c16",
+    mikan: "#c4452d", mikanShade: "#5c3d32",
+    leaf: "#5c3d32", leafShade: "#241c16",
+    bowl: "#f6f3ee", bowlShade: "#f2d7ae",
+    cushion: "#5c3d32", cushionShade: "#241c16",
+    cushionAlt: "#c4452d", cushionAltShade: "#5c3d32",
+    rug: "#f2d7ae", rugShade: "#f0c2ae",
+    rugBorder: "#5c3d32",
   },
   poses: ["rest"],
 };
@@ -82,7 +82,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const TAU = Math.PI * 2;
 
   // ---------- the drape profile: arc length s -> (outward h, y, on-floor weight) ----------
-  const T = 0.35, R0 = 0.03, Y0 = 0.355, TH = 0.045, BEND = 0.06, SPLAY = 0.22, FILLET = 0.1;
+  const T = 0.35, R0 = 0.03, Y0 = 0.355, TH = 0.045, BEND = 0.06, SPLAY = 0.18, FILLET = 0.06;
   const prof = []; // every 2 mm
   {
     let h = 0, y = Y0, a = 0, phase = 0, hF = 0; // a: heading below horizontal; hF: where the run starts
@@ -133,29 +133,29 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const tot = len.reduce((a, b) => a + b, 0);
     cols.forEach((col, j) => { col.phi = (acc + len[j] / 2) / tot; acc += len[j]; });
   }
-  const fold = (phi) => 0.65 * Math.sin(TAU * 13 * phi + 0.7) + 0.35 * Math.sin(TAU * 6 * phi + 2.1) + 0.2 * Math.sin(TAU * 21 * phi + 4.0);
+  const fold = (phi) => 0.65 * Math.sin(TAU * 13 * phi + 0.7) + 0.3 * Math.sin(TAU * 6 * phi + 2.1) + 0.15 * Math.sin(TAU * 21 * phi + 4.0);
   for (const col of cols) {
     col.wcp = Math.max(0, col.wc) ** 1.5;
-    col.smax = 0.5 + 0.14 * col.wcp + 0.03 * Math.sin(TAU * 11 * col.phi + 1.3) + 0.02 * Math.sin(TAU * 5 * col.phi + 0.4);
-    col.f = fold(col.phi) + 0.9 * col.wcp; // corners bulge out: a soft cone
+    col.smax = 0.44 + 0.07 * col.wcp + 0.01 * Math.sin(TAU * 11 * col.phi + 1.3) + 0.008 * Math.sin(TAU * 5 * col.phi + 0.4);
+    col.f = fold(col.phi) + 0.5 * col.wcp; // corners bulge out: a soft cone
   }
   // rows: absolute arc lengths near the frame, distances from the hem below; the band and piping are rows
   const rowsAt = (sm) => {
     const top = [0, 0.025, 0.055, 0.09, 0.13, 0.18, 0.24];
     const lo = sm - 0.15, mid = [0.24 + (lo - 0.24) / 2];
-    return [...top, ...mid, lo, sm - 0.115, sm - 0.08, sm - 0.045, sm - 0.02, sm];
+    return [...top, ...mid, lo, sm - 0.12, sm - 0.075, sm - 0.045, sm - 0.02, sm];
   };
   const K = rowsAt(0.5).length;
-  const BAND0 = 8, BAND1 = 10; // cell rows [8,10): the check band
+  const BAND = 9; // cell row [9,10): the border stripe, 7.5-12 cm from the hem
   const pos = [];
   const vtx = (x, y, z) => (pos.push(x, y, z), pos.length / 3 - 1);
   const grid = cols.map((col) => {
     const ss = rowsAt(col.smax);
     return ss.map((s) => {
       const [h, y, fl] = P(s);
-      const amp = 0.04 * (1 + 0.5 * col.wcp) * Math.min(1, Math.max(0, s - 0.02) / 0.22);
+      const amp = 0.022 * (1 + 0.5 * col.wcp) * Math.min(1, Math.max(0, s - 0.02) / 0.22) * (1 - 0.45 * fl); // flatter on the floor
       const off = h + R0 + amp * col.f;
-      const lift = fl * 0.02 * Math.max(0, col.f) * Math.min(1, (col.smax - s) / 0.06 + 0.2);
+      const lift = fl * 0.012 * Math.max(0, col.f) * Math.min(1, (col.smax - s) / 0.06 + 0.2);
       return vtx(col.e[0] + col.d[0] * off, y + lift, col.e[1] + col.d[1] * off);
     });
   });
@@ -164,7 +164,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   for (let j = 0; j < M; j++) {
     const A = grid[j], B = grid[(j + 1) % M];
     for (let k = 0; k < K - 1; k++) {
-      const g = k >= BAND0 && k < BAND1 && (j + k) % 2 ? 1 : 0; // ichimatsu check band
+      const g = k === BAND ? 1 : 0;
       face(A[k], B[k], B[k + 1], g), face(A[k], B[k + 1], A[k + 1], g);
     }
   }
@@ -201,9 +201,9 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     let start = 0;
     buckets.forEach((b, k) => (g.addGroup(start, b.length, k), (start += b.length)));
     g.computeVertexNormals();
-    const field = { red: [c.quiltRed, c.quiltRedShade], blue: [c.quiltBlue, c.quiltBlueShade], green: [c.quiltGreen, c.quiltGreenShade] }[quilt];
-    if (!field) throw new Error(`unknown quilt "${quilt}" (red, blue, green)`);
-    const band = quilt === "blue" ? [c.bandDark, c.bandDarkShade] : [c.band, c.bandShade];
+    const field = { red: [c.quiltRed, c.quiltRedShade], cream: [c.quiltCream, c.quiltCreamShade] }[quilt];
+    if (!field) throw new Error(`unknown quilt "${quilt}" (red, cream)`);
+    const band = quilt === "cream" ? [c.bandRed, c.bandRedShade] : [c.band, c.bandShade];
     const mesh = kit.toon(g, field[0], field[1], { threshold: 0.1, px: 3.5 });
     mesh.material = [kit.cel(field[0], field[1], { threshold: 0.1 }), kit.cel(band[0], band[1], { threshold: 0.1 }), kit.cel(field[0], field[0])];
     mesh.name = "quilt";
@@ -300,7 +300,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     g.computeVertexNormals();
     return g;
   };
-  const SEATS = [[0, 1], [-1, 0], [1, 0], [0, -1]];
+  const SEATS = [[0, 1], [0, -1], [-1, 0], [1, 0]];
   for (let i = 0; i < cushions; i++) {
     const [sx, sz] = SEATS[i], D = 1.0;
     put("cushion", pillow(), mat(sx * D, 0, sz * D, 1, 1, 1, sx ? Math.PI / 2 : 0));
@@ -316,7 +316,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     boxAt("rugBorder", -RW, -RW + BW, RT, y1, -RW + BW, RW - BW);
   }
 
-  const cushionPair = quilt === "green" ? [c.cushionAlt, c.cushionAltShade] : [c.cushion, c.cushionShade];
+  const cushionPair = quilt === "cream" ? [c.cushionAlt, c.cushionAltShade] : [c.cushion, c.cushionShade];
   const MAT = {
     wood: [c.wood, c.woodShade, 0.1, 3.5, false],
     edge: [c.edge, c.edge, 0.1, 0, false],
