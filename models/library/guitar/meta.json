@@ -1,0 +1,108 @@
+{
+  "id": "guitar",
+  "name": "Acoustic guitar",
+  "category": "prop",
+  "tags": [
+    "prop",
+    "guitar",
+    "acoustic",
+    "music",
+    "instrument",
+    "club",
+    "static"
+  ],
+  "style": "low-poly, flat colours",
+  "height": 1,
+  "script": "noon",
+  "colors": {
+    "top": "#f2d7ae",
+    "topShade": "#f0c2ae",
+    "body": "#c4452d",
+    "bodyShade": "#5c3d32",
+    "trim": "#fff6e4",
+    "trimShade": "#f2d7ae",
+    "neck": "#5c3d32",
+    "neckShade": "#5c3d32",
+    "bridge": "#5c3d32",
+    "bridgeShade": "#5c3d32",
+    "metal": "#fff6e4",
+    "metalShade": "#f2d7ae",
+    "frets": "#fff6e4",
+    "fretsShade": "#fff6e4",
+    "strings": "#fffaf2",
+    "stringsShade": "#fff6e4"
+  },
+  "materials": {
+    "Material": "top",
+    "Material.012": "trim",
+    "Material.011": "body",
+    "Material.001": "neck",
+    "Material.005": "frets",
+    "Material.003": "metal",
+    "Material.006": "metal",
+    "Material.007": "metal",
+    "Material.004": "bridge",
+    "Material.009": "strings"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "MonoTone",
+    "pack": "OpenGameArt · Classical Guitar",
+    "page": "https://opengameart.org/content/classical-guitar",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan row q-guitar-5fp8gpomrb pointed at poly.pizza (blocked). Candidates rendered: KayKit Mixed Bag 1 (free, CC0) guitar_A/guitar_B is a Flying-V electric (same mesh, two colours), not acoustic, so it was rejected; MonoTone's Classical Guitar on OpenGameArt (CC0 on the page) is a properly modelled nylon-string classical: slotted headstock with six tuners, 18 frets, six strings, rosette, tie-block bridge, a real sound hole with an interior. The FBX ships upright with the soundboard toward +X, so yaw -90 turns the sound hole to +Z; no pitch/roll needed. Rest pose: upright, neck up, the bottom of the body (end block) on y = 0. Height 1.0 m is the whole instrument (a real classical guitar is 0.97 to 1.0 m); lower bout 0.41 m across X (real ~0.37 m, slightly generous), body depth about 0.1 m. Landmarks: body from y 0 to about 0.52 m (neck joint and heel at about 0.52 m, back side), sound hole centre at about y 0.34 m, bridge at about y 0.17 m, nut at about y 0.84 m, headstock 0.84 to 1.0 m. Grip: fretting hand on the neck, y 0.55 to 0.82 m; strumming hand over the sound hole on the +Z face, y 0.25 to 0.38 m; the lower bout rests on the right thigh with the waist at about y 0.3 m. A classical guitar has no strap buttons: for a strap, tie to the end of the body (y 0, back centre) and to the heel (y 0.52 m, -Z side). Colours on noon: spruce top paper tan (shade skin, threshold -0.5 so the soundboard stays lit from the front), sides and back accent red-brown shading to iris (the sound-hole interior reads dark iris), neck/fretboard and bridge iris, binding and rosette, frets, nut/saddle/tuners pale moon, strings practical white. Strings, frets and trim are drawn without ink: their hulls otherwise turned the fretboard into a black slab and gave the sound hole a jagged rim. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/classicalguitar.zip",
+      "sha256": "35a4010940d3c9a6435cf28b54d257a5093f1fe6a294a3cf28aa85ab2de12bee",
+      "bytes": 533384,
+      "resolved": "https://opengameart.org/sites/default/files/classicalguitar.zip"
+    },
+    "member": "ClassicalGuitar.fbx",
+    "height": 1,
+    "yaw": -90,
+    "memberSha256": "5ada0265496aa688dc83bc2dd2d40db5c3a278fede2b4ba996979a6c68705087"
+  },
+  "file": "model.glb",
+  "sha256": "fd0dfdc67aea604413f19db8b5ab0e6df881769ae95146101aadc7013f84ee0b",
+  "bytes": 43908,
+  "triangles": 4929,
+  "bones": 0,
+  "sourceMaterials": {
+    "Material": "#c08124",
+    "Material.011": "#713300",
+    "Material.012": "#ffac35",
+    "Material.001": "#562700",
+    "Material.003": "#b0b0b0",
+    "Material.005": "#575757",
+    "Material.006": "#e7e7e7",
+    "Material.007": "#252525",
+    "Material.004": "#000000",
+    "Material.009": "#ffffff"
+  },
+  "clipInfo": {},
+  "noInk": [
+    "strings",
+    "frets",
+    "trim"
+  ],
+  "thresholds": {
+    "top": -0.5
+  },
+  "qa": {
+    "height": 1,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 4929,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

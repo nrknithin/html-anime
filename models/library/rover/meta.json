@@ -1,0 +1,82 @@
+{
+  "id": "rover",
+  "name": "Planetary rover",
+  "category": "vehicle-space",
+  "tags": [
+    "vehicle",
+    "rover",
+    "space",
+    "mars",
+    "moon",
+    "planetary",
+    "sci-fi",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Space Kit)",
+  "height": 3.3,
+  "script": "noon",
+  "colors": {
+    "hull": "#fff6e4",
+    "hullShade": "#f2d7ae",
+    "deck": "#c4452d",
+    "deckShade": "#5c3d32",
+    "chassis": "#f2d7ae",
+    "chassisShade": "#5c3d32",
+    "tyre": "#5c3d32",
+    "tyreShade": "#5c3d32"
+  },
+  "materials": {
+    "metal": "hull",
+    "metalRed": "deck",
+    "metalDark": "chassis",
+    "dark": "tyre"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Space Kit",
+    "page": "https://kenney.nl/assets/space-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (Kenney Space Kit `rover.glb`, zip pinned by sha256; no other library entry used this kit yet, so this pin is the first; the kit page currently links https://kenney.nl/media/pages/assets/space-kit/20874c75ac-1677698978/kenney_space-kit.zip). A small six-wheeled Mars-rover-style buggy: sloped nose with a hex camera lens, flat deck, a mast leaning back. Turned 180 degrees (`ingest.yaw`) so the sloped nose faces +Z. Height 3.3 m to the mast tip, which makes it 3.0 m long and 2.6 m wide, about Curiosity's length (body top at 2.1 m, near Curiosity's 2.2 m mast). Noon script for a warm martian/desert ground: hull cream (`moon`) over paper (`sky`), deck vermilion (`accent`) over dark brown (`iris`), chassis band paper over dark brown, tyres and mast flat dark brown (`iris` both tones: the script has no dark shade lighter than ink). Kept faceted (`smooth: false`), 172 tris. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/space-kit",
+      "sha256": "d5d7cdf2635ed5a43a9187deaf409b6f47484e402321128341d3c3698e9ef4d9",
+      "bytes": 6677531,
+      "resolved": "https://kenney.nl/media/pages/assets/space-kit/20874c75ac-1677698978/kenney_space-kit.zip"
+    },
+    "member": "Models/GLTF format/rover.glb",
+    "yaw": 180,
+    "height": 3.3,
+    "memberSha256": "9784549775017e540ab84e6fc0eb8a1902dbeff9ba4285cecb97c086d2937fa5"
+  },
+  "file": "model.glb",
+  "sha256": "f21d75e98ece5aec0874397e4aae9fb7f49de6511bee02530da590e989b09059",
+  "bytes": 7420,
+  "triangles": 172,
+  "bones": 0,
+  "sourceMaterials": {
+    "dark": "#8f949e",
+    "metal": "#edf0f5",
+    "metalRed": "#ffd07c",
+    "metalDark": "#d6dbe4"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 3.3,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 172,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
