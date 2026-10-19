@@ -1,0 +1,207 @@
+{
+  "id": "rabbit-realistic",
+  "name": "Rabbit (realistic)",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "rabbit",
+    "bunny",
+    "hare",
+    "pet",
+    "moon",
+    "wild",
+    "quadruped"
+  ],
+  "style": "mid-poly, realistic proportions (CDmir 2015); photo texture flattened to flat colours; height 0.3 m to the ear tips at rest (crouched on all fours; 0.32 m sitting, 0.4 m standing up in Guarding), a real domestic rabbit's size",
+  "height": 0.3,
+  "script": "indigo",
+  "colors": {
+    "coat": "#f6f3ee",
+    "coatShade": "#d5e2ff",
+    "eye": "#16141c",
+    "eyeShade": "#1b2d6b"
+  },
+  "materials": {
+    "Fur.001": "coat",
+    "Fur.001#090605": "eye",
+    "Fur.001#402c1c": "coat",
+    "Fur.001#c3ad99": "coat",
+    "Fur.001#b29986": "coat",
+    "Fur.001#9a8e7c": "coat",
+    "Fur.001#b1a492": "coat",
+    "Fur.001#968169": "coat",
+    "Fur.001#a58f78": "coat",
+    "Fur.001#bba490": "coat",
+    "Fur.001#b48f70": "coat",
+    "Fur.001#d3ab88": "coat",
+    "Fur.001#ede1d6": "coat",
+    "Fur.001#89786d": "coat",
+    "Fur.001#86715b": "coat",
+    "Fur.001#988672": "coat",
+    "Fur.001#ae957f": "coat",
+    "Fur.001#6f5b46": "coat",
+    "Fur.001#907a64": "coat",
+    "Fur.001#796853": "coat",
+    "Fur.001#dec8b5": "coat",
+    "Fur.001#d0b9a6": "coat",
+    "Fur.001#a69c89": "coat",
+    "Fur.001#c09e80": "coat",
+    "Fur.001#534234": "coat"
+  },
+  "clips": {
+    "idle": "Sitting.000",
+    "sit": "Sitting.000",
+    "run": "Running",
+    "jump": "Jump",
+    "death": "Dying.000"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "CDmir (Čestmír Dammer)",
+    "pack": "CDmir · Rabbit (animated, Kelgar)",
+    "page": "https://opengameart.org/content/rabbit-0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 16 named the rabbit from Quaternius's Animated Animals on poly.pizza, which sits behind a Cloudflare challenge (and Quaternius's Google Drive is quota-blocked); no reachable Quaternius pack has a rabbit. This is the realistic CC0 rabbit CDmir made for Kelgar (the same author and series as the library's chicken); the Kenney Cube Pets bunny (entry 'rabbit') is the chibi alternative. Its .blend uses legacy Blender Internal materials with three packed images; ingest.legacyImage picks the colour map 'rabbot-skinn' (the others are the fur-card texture and a normal map). The fur-card shell mesh 'Fur' and the ground 'Plane' are dropped. The photo texture is flattened to 24 clusters: every fur cluster goes to one white coat (a white moon rabbit), and the near-black cluster (#090605), which holds the eyes and the whisker strands, goes to 'eye', drawn flat black without an ink hull, so the whiskers read as fine lines instead of inked sticks. Clips: Sitting.000 (a sit with slow head turns) is idle and sit; Running is a bounding run, Jump a single hop, Dying.000 a slump to the ground; Guarding (standing up on the hind legs) and the duplicates keep their source names. Running, Jump, Guarding and the Dying clips clamp to the ground (the feet dipped up to 3 cm at landings and as the body slumps)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://opengameart.org/sites/default/files/rabbit.blend",
+      "sha256": "bb6deef1ee91b21380355138374cae87946451ce864502b1af68eb60f4750843",
+      "bytes": 5996916,
+      "resolved": "https://opengameart.org/sites/default/files/rabbit.blend"
+    },
+    "height": 0.3,
+    "yaw": 0,
+    "drop": [
+      "Fur",
+      "Plane"
+    ],
+    "legacyImage": "rabbot-skinn",
+    "maxColors": 24
+  },
+  "file": "model.glb",
+  "sha256": "be39bb66b750f7a0387e5669609fcb2e12aaff3328bfa02abef33ad7a89fe7a1",
+  "bytes": 362256,
+  "triangles": 1700,
+  "bones": 37,
+  "sourceMaterials": {
+    "Fur.001": "#ffffff",
+    "Fur.001#090605": "#090605",
+    "Fur.001#402c1c": "#402c1c",
+    "Fur.001#c3ad99": "#c3ad99",
+    "Fur.001#b29986": "#b29986",
+    "Fur.001#9a8e7c": "#9a8e7c",
+    "Fur.001#b1a492": "#b1a492",
+    "Fur.001#968169": "#968169",
+    "Fur.001#a58f78": "#a58f78",
+    "Fur.001#bba490": "#bba490",
+    "Fur.001#b48f70": "#b48f70",
+    "Fur.001#d3ab88": "#d3ab88",
+    "Fur.001#ede1d6": "#ede1d6",
+    "Fur.001#89786d": "#89786d",
+    "Fur.001#86715b": "#86715b",
+    "Fur.001#988672": "#988672",
+    "Fur.001#ae957f": "#ae957f",
+    "Fur.001#6f5b46": "#6f5b46",
+    "Fur.001#907a64": "#907a64",
+    "Fur.001#796853": "#796853",
+    "Fur.001#dec8b5": "#dec8b5",
+    "Fur.001#d0b9a6": "#d0b9a6",
+    "Fur.001#a69c89": "#a69c89",
+    "Fur.001#c09e80": "#c09e80",
+    "Fur.001#534234": "#534234"
+  },
+  "clipInfo": {
+    "Basic": {
+      "seconds": 0,
+      "loop": true
+    },
+    "Dead": {
+      "seconds": 0,
+      "loop": true
+    },
+    "Dying.000": {
+      "seconds": 0.8333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Dying.001": {
+      "seconds": 0.8333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Guarding": {
+      "seconds": 16.6667,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Jump": {
+      "seconds": 1,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Running": {
+      "seconds": 0.6667,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Sitting.000": {
+      "seconds": 22.9167,
+      "loop": true
+    },
+    "Sitting.001": {
+      "seconds": 22.9167,
+      "loop": true
+    }
+  },
+  "noInk": [
+    "eye"
+  ],
+  "thresholds": {
+    "eye": -1
+  },
+  "preview": {
+    "clip": "run"
+  },
+  "qa": {
+    "height": 0.3,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1700,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.32
+      },
+      "sit": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.32
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.51
+      },
+      "jump": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.52
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.39
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + run"
+  }
+}
