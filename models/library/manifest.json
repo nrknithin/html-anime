@@ -19,7 +19,7 @@
       ],
       "style": "low-poly, flat colours, stacked faceted leaf mounds (Quaternius 2019)",
       "height": 1,
-      "script": "noon",
+      "script": "meadow",
       "file": "models/library/bush/model.glb",
       "bytes": 6216,
       "sha256": "e20ab9db4f1148f96eb123bce88b52bf149a4382ada239a97bc34ab10bdb360d",
@@ -32,7 +32,7 @@
         "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
         "page": "https://opengameart.org/content/low-poly-nature-pack-1",
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "note": "The plan's source (a Quaternius static bush on poly.pizza) is behind a Cloudflare challenge; this is Bush_2 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the tree, tree-pine and tree-autumn entries, so they read as one set. Of the four bushes in the pack (Bush_1, Bush_2, BushBerries_1, BushBerries_2) it has the roundest footprint (1.2 x 1.2 m; Bush_1 is an elongated 1.1 x 1.4 m) and no berries, so it works as a plain garden shrub or hedge piece. The mesh is a closed solid, so it is not double-sided. Height 1 m: a garden shrub, azalea or a clipped hedge clump along a park path is 0.8-1.2 m, about hip to waist on a 1.6 m person. Colours on noon (no green), as the broadleaf tree: leaves vermilion (accent) shading to iris, so the bush sits under the tree as the same foliage. Its unused Berry material (no faces in Bush_2) maps to leaves. Static: no clips."
+        "note": "The plan's source (a Quaternius static bush on poly.pizza) is behind a Cloudflare challenge; this is Bush_2 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the tree, tree-pine and tree-autumn entries, so they read as one set. Of the four bushes in the pack (Bush_1, Bush_2, BushBerries_1, BushBerries_2) it has the roundest footprint (1.2 x 1.2 m; Bush_1 is an elongated 1.1 x 1.4 m) and no berries, so it works as a plain garden shrub or hedge piece. The mesh is a closed solid, so it is not double-sided. Height 1 m: a garden shrub, azalea or a clipped hedge clump along a park path is 0.8-1.2 m, about hip to waist on a 1.6 m person. Colours on meadow: leaves a rounded mid green (iris) shading to deep green (hair), lighter than the ink, so the clump reads darker and fuller than the light-green grass beside it. Its unused Berry material (no faces in Bush_2) maps to leaves. Static: no clips."
       }
     }
   ]
