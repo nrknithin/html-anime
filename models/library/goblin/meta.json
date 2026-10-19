@@ -1,0 +1,170 @@
+{
+  "id": "goblin",
+  "name": "Goblin",
+  "category": "character",
+  "tags": [
+    "fantasy",
+    "goblin",
+    "monster",
+    "creature",
+    "villain",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019); height 1.2 m because goblins are short (about 1.1-1.3 m), not the pack's adult scale",
+  "height": 1.2,
+  "script": "indigo",
+  "colors": {
+    "skin": "#e7a04a",
+    "skinShade": "#e23b4a",
+    "pants": "#1b2d6b",
+    "pantsShade": "#1b2d6b",
+    "teeth": "#f6f3ee",
+    "teethShade": "#d5e2ff",
+    "eye": "#16141c",
+    "eyeShade": "#16141c"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Pants": "pants",
+    "Teeth": "teeth",
+    "Face": "eye"
+  },
+  "thresholds": {
+    "skin": -0.2,
+    "pants": -0.4
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 101 named the Quaternius Goblin (Animated models, misc) on poly.pizza, now behind a Cloudflare challenge. Substituted with Goblin_Male from the Quaternius Ultimate Animated Character Pack (Nov 2019) on OpenGameArt (same zip and pin as man-casual and worker). Goblin_Male was chosen over Goblin_Female: bald head, big pointed ears, two lower tusks and a scowl read as a goblin at a glance, while the female's long hair covers the ears and she has no visible fangs, so she reads as a human girl. The source skin is olive green; no colour script has a green, so the skin is painted indigo amber (iris #e7a04a, shaded accent red), which still reads non-human. It ships 11 clips (idle, walk, punch, hit, sit, walk-carry, pick-up, one-handed shoot, victory, defeat, stand-up), not the plan's 7: no run, jump or death."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Goblin_Male.fbx",
+    "height": 1.2,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "6a4ff766878e7a861afcb22d9287fdbf58269cadfd095d930048f9c123cb7ba4"
+  },
+  "file": "model.glb",
+  "sha256": "b408e85f958ca2186eff4e0f0d21a54b309cd32ffbc15c656577c851ea456cf2",
+  "bytes": 222100,
+  "triangles": 2462,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#595d2b",
+    "Pants": "#5d4f31",
+    "Teeth": "#8b8a64",
+    "Face": "#272726"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5417,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.2083,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.7917,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5833,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 1,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.3333,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.9167,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.2917,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.2917,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.2,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2462,
+    "clips": {
+      "idle": {
+        "minY": -0.0003,
+        "touches": true,
+        "maxSize": 1.19
+      },
+      "walk": {
+        "minY": -0.001,
+        "touches": true,
+        "maxSize": 1.19
+      },
+      "attack": {
+        "minY": -0.0006,
+        "touches": true,
+        "maxSize": 1.13
+      },
+      "hit": {
+        "minY": -0.0003,
+        "touches": true,
+        "maxSize": 1.18
+      },
+      "sit": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.17
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
