@@ -105,14 +105,14 @@ node harness/lab/shoot.mjs --model models/frog.js --montage rest,puff-1,puff-2,p
 **`--az <deg>` `--el <deg>`** replace the azimuth and elevation of every perspective cell (`hero`, `three4`); the auto distance and centering are unchanged. `0` looks at the model's front from +Z, `90` at its left side from +X, `180` at its back; `--el` is degrees above the horizon (negative looks up from below). Without `--el` each view keeps its own elevation, with the hero's floor stepping; with it the camera sits exactly there, even if that is under the floor. The footer shows `camera az .. el ..`. Shoot a long alley down its length, or a riverbank square to its face:
 
 ```
-node harness/lab/shoot.mjs --model models/alley.js --views hero --az 0 --el 8 --out renders/down-the-alley.png
+node harness/lab/shoot.mjs --model models/horse.js --views hero --az 0 --el 8 --out renders/head-on.png
 node harness/lab/shoot.mjs --model models/horse.js --views hero,three4 --az 90 --out renders/side.png
 ```
 
 **`--strip-view <view>`** picks which view `--strip` draws its frames in (default `left`); any of the seven views, so a front-facing part (a washer drum, a face) can be watched turning:
 
 ```
-node harness/lab/shoot.mjs --model models/washer.js --views hero --strip spin --strip-view front --out renders/spin.png
+node harness/lab/shoot.mjs --model models/yokocho.js --views hero --strip sway --strip-view front --out renders/sway.png
 ```
 
 ## Library models
