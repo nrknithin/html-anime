@@ -1,0 +1,209 @@
+{
+  "id": "ghost",
+  "name": "Ghost",
+  "category": "creature",
+  "tags": [
+    "creature",
+    "ghost",
+    "spirit",
+    "monster",
+    "cute",
+    "halloween",
+    "yokai"
+  ],
+  "style": "low-poly chibi, painted texture flattened to flat colours (Quaternius 2020)",
+  "height": 0.8,
+  "script": "indigo",
+  "colors": {
+    "body": "#e7eefc",
+    "bodyShade": "#d5e2ff",
+    "dark": "#16141c",
+    "darkShade": "#1b2d6b",
+    "tongue": "#e23b4a",
+    "tongueShade": "#1b2d6b",
+    "teeth": "#f6f3ee",
+    "teethShade": "#e7eefc",
+    "glint": "#f6f3ee",
+    "glintShade": "#f6f3ee"
+  },
+  "materials": {
+    "Texture": "body",
+    "Texture#787878": "body",
+    "Texture#8a8a8a": "body",
+    "Texture#8d8d8d": "body",
+    "Texture#868686": "body",
+    "Texture#8f8f8f": "body",
+    "Texture#818181": "body",
+    "Texture#8b8b8b": "body",
+    "Texture#888888": "body",
+    "Texture#666666": "body",
+    "Texture#232323": "dark",
+    "Texture#918d6f": "teeth",
+    "Texture#62284a": "tongue",
+    "Texture#161616": "dark",
+    "Texture#141414": "dark",
+    "Texture#151515": "dark",
+    "Texture#b6b6b6": "glint"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "jump": "Jump",
+    "death": "Death",
+    "hit": "HitRecieve",
+    "attack": "Bite_Front",
+    "dance": "Dance"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Textured Cute Monster Pack (Aug 2020)",
+    "page": "https://opengameart.org/content/textured-cute-monster-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 103 named the Ghost from Quaternius's poly.pizza \"Cute Monsters\" set (8 clips incl. Flying_Idle, Fast_Flying, Punch); poly.pizza is behind a Cloudflare challenge and Quaternius's Google Drive is quota-blocked, so that flying version is unreachable. This is the Ghost from the same author's Textured Cute Monster Pack (Aug 2020) on OpenGameArt: same character family, ten ground clips, no flying clips. Its .blend expects Ghost_Texture.png beside itself; the pipeline relinks it from the zip's Textures folder. The painted grey texture is flattened to 16 clusters: body greys -> body, the near-black eye, brow and mouth clusters -> dark, the eye catchlight -> glint, the purple tongue -> tongue, the cream teeth -> teeth. The #666666 cluster is shared by the lower rim of each eye and a patch low on the body's side, so it goes to body (a pale lower lid) rather than leave a dark stain on the side. Ground: this ghost has no tail; its flat, open base rests on the ground and every clip hops, rocks or tips on it, so it touches rather than hovers; Walk, Jump, Death, HitRecieve, Dance and Yes clamp to the ground (the tumble in Death would otherwise sink 16 cm). For a floating ghost, lift the root in the film. Height 0.8 m is a chibi choice: a ghost has no real size, and 0.8 m puts the big-eyed blob at a child's height, about the waist of a 1.7 m adult, matching the pack's cute scale."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/cute_animated_monsters_-_aug_2020.zip",
+      "sha256": "844824c04936a9af954ee82011f98ad8c14ba291a20a0dd0b83c172764ba0eb2",
+      "bytes": 10181866,
+      "resolved": "https://opengameart.org/sites/default/files/cute_animated_monsters_-_aug_2020.zip"
+    },
+    "member": "Cute Animated Monsters - Aug 2020/Blends/Ghost.blend",
+    "extraMembers": [
+      "Cute Animated Monsters - Aug 2020/Textures/Ghost_Texture.png"
+    ],
+    "height": 0.8,
+    "maxColors": 16,
+    "memberSha256": "e4cb134618b0384e21d198a12b60afed6a8f26863b024272a5365279fcc43908"
+  },
+  "file": "model.glb",
+  "sha256": "56bafd4c5d4f42c0723d47cb65ff87a85dccddec3f4fc07210f61fda6a3b3d8f",
+  "bytes": 85776,
+  "triangles": 1000,
+  "bones": 7,
+  "sourceMaterials": {
+    "Texture": "#e7e7e7",
+    "Texture#787878": "#787878",
+    "Texture#8a8a8a": "#8a8a8a",
+    "Texture#8d8d8d": "#8d8d8d",
+    "Texture#868686": "#868686",
+    "Texture#8f8f8f": "#8f8f8f",
+    "Texture#818181": "#818181",
+    "Texture#8b8b8b": "#8b8b8b",
+    "Texture#888888": "#888888",
+    "Texture#666666": "#666666",
+    "Texture#232323": "#232323",
+    "Texture#918d6f": "#918d6f",
+    "Texture#62284a": "#62284a",
+    "Texture#161616": "#161616",
+    "Texture#141414": "#141414",
+    "Texture#151515": "#151515",
+    "Texture#b6b6b6": "#b6b6b6"
+  },
+  "clipInfo": {
+    "Bite_Front": {
+      "seconds": 0.5,
+      "loop": false
+    },
+    "Bite_InPlace": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Dance": {
+      "seconds": 0.8333,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Death": {
+      "seconds": 0.4583,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "HitRecieve": {
+      "seconds": 0.375,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Idle": {
+      "seconds": 2.5,
+      "loop": true
+    },
+    "Jump": {
+      "seconds": 0.5417,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "No": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 0.5417,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Yes": {
+      "seconds": 0.5,
+      "loop": true,
+      "ground": "clamp"
+    }
+  },
+  "noInk": [
+    "glint"
+  ],
+  "preview": {
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 0.8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1000,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.84
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1
+      },
+      "jump": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.94
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.03
+      },
+      "hit": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.91
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.07
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.91
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
