@@ -1,0 +1,185 @@
+{
+  "id": "crab",
+  "name": "Crab",
+  "category": "sea life",
+  "tags": [
+    "animal",
+    "crab",
+    "sea",
+    "beach",
+    "crustacean",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets); stylized size: 0.18 m tall, which makes the claw-tip span about 0.3 m, the width of a large edible crab (a 15-20 cm shell plus raised claws), so it sits at a 1.7 m adult's ankle; the cube body is far taller than a real crab's flat shell, so the height follows the width, not the other way round; rigid parts moved by node tracks, no skin; colour map flattened to flat colours",
+  "height": 0.18,
+  "script": "noon",
+  "colors": {
+    "shell": "#c4452d",
+    "shellShade": "#5c3d32",
+    "eye": "#241c16",
+    "eyeShade": "#5c3d32",
+    "white": "#f6f3ee",
+    "whiteShade": "#f2d7ae"
+  },
+  "materials": {
+    "colormap": "shell",
+    "colormap#a43936": "shell",
+    "colormap#b5433f": "shell",
+    "colormap#c64e4a": "shell",
+    "colormap#d6574d": "shell",
+    "colormap#dc5a4b": "shell",
+    "colormap#d5564d": "shell",
+    "colormap#ec6346": "shell",
+    "colormap#f16644": "shell",
+    "colormap#e45e48": "shell",
+    "colormap#da594c": "shell",
+    "colormap#f46843": "shell",
+    "colormap#ea6246": "shell",
+    "colormap#f96a42": "shell",
+    "colormap#fa6b41": "shell",
+    "colormap#eb6346": "shell",
+    "colormap#d4564e": "shell",
+    "colormap#eb6246": "shell",
+    "colormap#4b4e5c": "eye",
+    "colormap#ededf4": "white"
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "dance": "dance",
+    "eat": "eat"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 45 names this model (Kenney Cube Pets, animal-crab.glb). The Crab from Quaternius's Textured Cute Monster Pack (Aug 2020, OpenGameArt, CC0) was rendered as an alternative and rejected: it is a round blob with flat paddle claws, many stub legs and a monster face (dark eye sockets, teeth), and its near-black maroon texture flattens to 12 near-identical reds. The Cube Pets crab has two raised pincers, legs, a red shell and a clear cartoon face, and reads as a crab at a glance; it is deliberately blocky. Colour map flattened to 20 clusters (at 12 the dark leg undersides fell into the pupil cluster and showed as black wedges): the slate pupil-and-mouth cluster #4b4e5c -> eye, the white #ededf4 -> white (eye whites), the 17 red clusters -> shell. Ground: run hops and its landings sink up to 4 mm, so it clamps; walk is a bouncy trot that never sinks and is left as authored; eat tips the whole body forward so its front edge dips 7 mm through the ground while the back legs stay planted (sinkAllowed). Ingested through Blender like the other Cube Pets."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-crab.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.18,
+    "yaw": 0,
+    "maxColors": 20,
+    "memberSha256": "80fa5fd7c3652938d9e3c3024bb97dc9391a0e174fcc8b9459b63c613ed050f6"
+  },
+  "file": "model.glb",
+  "sha256": "feb7bafd971fd609f432122cb99d620e084412209e01b22646887d72a5b92dbc",
+  "bytes": 78164,
+  "triangles": 676,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#a43936": "#a43936",
+    "colormap#b5433f": "#b5433f",
+    "colormap#c64e4a": "#c64e4a",
+    "colormap#d6574d": "#d6574d",
+    "colormap#dc5a4b": "#dc5a4b",
+    "colormap#d5564d": "#d5564d",
+    "colormap#ec6346": "#ec6346",
+    "colormap#f16644": "#f16644",
+    "colormap#e45e48": "#e45e48",
+    "colormap#da594c": "#da594c",
+    "colormap#f46843": "#f46843",
+    "colormap#ea6246": "#ea6246",
+    "colormap#f96a42": "#f96a42",
+    "colormap#fa6b41": "#fa6b41",
+    "colormap#eb6346": "#eb6346",
+    "colormap#d4564e": "#d4564e",
+    "colormap#eb6246": "#eb6246",
+    "colormap#4b4e5c": "#4b4e5c",
+    "colormap#ededf4": "#ededf4"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the body tips forward to eat and its front edge dips 7 mm through the ground while the back legs stay planted (clamping would float the crab)"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": false
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": false
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "static": {
+      "seconds": 0.0833,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 0.18,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 676,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.29
+      },
+      "walk": {
+        "minY": 0.0005,
+        "touches": true,
+        "maxSize": 0.29
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.29
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.29
+      },
+      "eat": {
+        "minY": -0.0069,
+        "touches": true,
+        "maxSize": 0.29
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
