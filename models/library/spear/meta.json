@@ -1,0 +1,80 @@
+{
+  "id": "spear",
+  "name": "Spear",
+  "category": "prop",
+  "tags": [
+    "prop",
+    "weapon",
+    "spear",
+    "polearm",
+    "fantasy",
+    "medieval",
+    "guard",
+    "hunter"
+  ],
+  "style": "low-poly, hard-surface, flat colours (Quaternius 2018)",
+  "height": 2,
+  "script": "indigo",
+  "colors": {
+    "steel": "#d5e2ff",
+    "steelShade": "#1b2d6b",
+    "wood": "#e7a04a",
+    "woodShade": "#1b2d6b"
+  },
+  "materials": {
+    "Steel": "steel",
+    "LightSteel": "steel",
+    "LightWood": "wood",
+    "DarkWood": "wood"
+  },
+  "clips": {},
+  "smooth": false,
+  "thresholds": {
+    "steel": 0.2
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Medieval Weapons Pack (Sept 2018)",
+    "page": "https://opengameart.org/content/lowpoly-medieval-weapons",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan row 199 (Quaternius static Spear via poly.pizza) is blocked, so this is Spear.fbx from Quaternius's own CC0 Medieval Weapons Pack on OpenGameArt (same author, licence on the page; the same zip and pin as the sword and axe entries). Height 2.0 m is the whole spear, butt to point (a common infantry or hunting spear is 1.8-2.2 m). Rest pose: upright, point at +Y, butt on y = 0; the leaf-shaped head is flat in the XY plane (edges along X, about 0.10 m wide, 2 cm thick along Z). The pipeline centres the bounding box; the shaft axis runs at about x = -0.003 m, z = 0 (the stylized shaft wobbles: it drifts to x = -0.017 m near y 1.0 m and the butt kinks to x = +0.04 m below y 0.1 m). Cord-wrapped lower grip from y 0.16 to 0.60 m (rear hand at about y 0.35 m); bare shaft above it (lead hand for a two-handed thrust at about y 0.95 m, axis x = -0.017 m); a second binding from 1.39 to 1.61 m under the head; steel head 1.61 to 2.00 m. To put it in a hand: parent to the hand, offset by (+0.003, -0.35, 0) m in the spear's frame (or (+0.017, -0.95, 0) for the lead hand), then rotate so Y runs along the fist's thumb direction and the point faces the thrust. Colours match the sword and axe: head pale steel (moon over sky), shaft and both cord bindings amber over sky (the bindings read by their ink rings)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Medieval%20Weapons%20Pack%20-%20Sept%202018.zip",
+      "sha256": "b8a18124c460387a02b9ed3e940229eaa091b540699fad75627d0c0291d33912",
+      "bytes": 3741460,
+      "resolved": "https://opengameart.org/sites/default/files/Medieval%20Weapons%20Pack%20-%20Sept%202018.zip"
+    },
+    "member": "Medieval Weapons Pack - Sept 2018/FBX/Spear.fbx",
+    "height": 2,
+    "memberSha256": "229b3bacb9bd4a00d151b82618d411f90b8cdc1394349e3e697b772383aafea7"
+  },
+  "file": "model.glb",
+  "sha256": "9be89fba1355847dbc7ace87a5ba8559f48da831aaa1a0ebfbc0c35632d1d338",
+  "bytes": 20220,
+  "triangles": 1202,
+  "bones": 0,
+  "sourceMaterials": {
+    "Steel": "#a5aab1",
+    "LightWood": "#865b40",
+    "DarkWood": "#704c36",
+    "LightSteel": "#b5bac2"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 2,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1202,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
