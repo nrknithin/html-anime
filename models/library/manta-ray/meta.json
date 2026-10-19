@@ -1,0 +1,89 @@
+{
+  "id": "manta-ray",
+  "name": "Manta ray",
+  "category": "fish",
+  "tags": [
+    "animal",
+    "fish",
+    "ray",
+    "manta",
+    "sea",
+    "ocean",
+    "reef",
+    "water",
+    "swim"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2018)",
+  "height": 0.719,
+  "script": "indigo",
+  "colors": {
+    "back": "#1b2d6b",
+    "backShade": "#16141c",
+    "belly": "#f6f3ee",
+    "bellyShade": "#d5e2ff"
+  },
+  "materials": {
+    "Top": "back",
+    "Bottom": "belly"
+  },
+  "clips": {
+    "swim": "Swim"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated Fish",
+    "page": "https://opengameart.org/content/animated-fish",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 40 named Quaternius Low Poly Sea Animals (poly.pizza, behind a Cloudflare challenge). This is the Manta ray from Quaternius's Animated Fish pack on OpenGameArt (CC0; the same zip as the koi and shark entries, the same mesh family as itch.io 'LowPoly Animated Fish'). Its only clip is Swim, a slow 4.25 s wing-beat loop (the pectoral wings flap down and up, cephalic fins and whip tail follow). Coloured in the indigo script as a navy back over a white belly, like a reef manta's dark dorsal and pale ventral sides (the mesh has no shoulder patches). Sized by wingspan, not height: at the source's proportions a rest height of 0.719 m (belly to the dorsal fin tip) gives a 4.49 m wingspan, a typical adult reef manta (3 to 5 m); the stylized whip tail makes the nose-to-tail length 6.28 m, longer than a real manta's. A fish has no ground: like every entry its lowest rest point is at y = 0; films lift it into the water."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Animated%20Fish%20Pack%20by%20%40Quaternius.zip",
+      "sha256": "c56a4bf3468e900ed9d881037334152dc203f93b656373347c8a7fc3dedb1855",
+      "bytes": 1024233,
+      "resolved": "https://opengameart.org/sites/default/files/Animated%20Fish%20Pack%20by%20%40Quaternius.zip"
+    },
+    "member": "Animated Fish Pack by @Quaternius/FBX/Manta ray.fbx",
+    "height": 0.719,
+    "yaw": 0,
+    "memberSha256": "bde315d4f35205215e1c0a2443f8256e7f5b3641c765686c941040530aaa81ec"
+  },
+  "file": "model.glb",
+  "sha256": "227cb45369b1198a253ed7fabfbc29270aa2e15878770850d53ca20da47958a0",
+  "bytes": 38472,
+  "triangles": 696,
+  "bones": 13,
+  "sourceMaterials": {
+    "Top": "#506d9c",
+    "Bottom": "#e7e7e7"
+  },
+  "clipInfo": {
+    "Swim": {
+      "seconds": 4.25,
+      "loop": true,
+      "sinkAllowed": "a manta swims by flapping: on the downstroke the wing tips sweep up to 0.6 m below the belly while the body stays level; a fish has no ground (films lift it into the water), and clamping would heave the whole body 0.6 m every beat"
+    }
+  },
+  "qa": {
+    "height": 0.7188,
+    "heightError": -0.0003,
+    "minY": 0.0002,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 696,
+    "clips": {
+      "swim": {
+        "minY": -0.5966,
+        "touches": false,
+        "maxSize": 6.28
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + swim"
+  }
+}
