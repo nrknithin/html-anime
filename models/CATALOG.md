@@ -243,6 +243,7 @@
 
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| <img src="library/airplane/preview.png" width="240"> | `airplane` | Airplane (airliner)<br>*low-poly, flat colours* | 11 m | 2264 | - | CC0 1.0 | [OpenGameArt · Jet Airplane (passengerjet_gear_up.blend)](https://opengameart.org/content/jet-airplane) |
 | <img src="library/bicycle/preview.png" width="240"> | `bicycle` | Bicycle<br>*low-poly, flat colours; simple diamond-frame street bike with round tubes, no spokes, chain or pedals (Quaternius Public Transport, 2017)* | 1 m | 2812 | - | CC0 1.0 | [Quaternius · LowPoly Public Transport](https://opengameart.org/content/lowpoly-public-transport) |
 | <img src="library/car-ambulance/preview.png" width="240"> | `car-ambulance` | Ambulance<br>*low-poly, flat colours (Kenney Car Kit)* | 2.6 m | 2746 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
 | <img src="library/car-delivery/preview.png" width="240"> | `car-delivery` | Delivery truck<br>*low-poly, flat colours (Kenney Car Kit)* | 2.8 m | 2476 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
