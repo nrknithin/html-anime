@@ -1,0 +1,198 @@
+{
+  "id": "robot",
+  "name": "Robot",
+  "category": "character",
+  "tags": [
+    "robot",
+    "character",
+    "humanoid",
+    "sci-fi",
+    "expressive"
+  ],
+  "style": "low-poly, flat colours (Quaternius, three.js examples)",
+  "height": 1.6,
+  "script": "indigo",
+  "colors": {
+    "body": "#f0c36a",
+    "bodyShade": "#e7a04a",
+    "metal": "#d5e2ff",
+    "metalShade": "#1b2d6b",
+    "dark": "#1b2d6b",
+    "darkShade": "#16141c"
+  },
+  "materials": {
+    "Main": "body",
+    "Grey": "metal",
+    "Black": "dark"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walking",
+    "run": "Running",
+    "jump": "Jump",
+    "attack": "Punch",
+    "death": "Death",
+    "wave": "Wave",
+    "dance": "Dance",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Tomás Laulhé (Quaternius); modifications by Don McCurdy",
+    "pack": "three.js examples · RobotExpressive",
+    "page": "https://github.com/mrdoob/three.js/tree/r186/examples/models/gltf/RobotExpressive",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Licence from examples/models/gltf/RobotExpressive/README.md at tag r186: 'Model by Tomás Laulhé ... CC0 1.0. Modifications by Don McCurdy: added three facial expression morph targets, converted with FBX2GLTF, removed duplicate materials and reduced material metalness.'"
+  },
+  "ingest": {
+    "via": "gltf",
+    "fetch": {
+      "type": "file",
+      "url": "https://raw.githubusercontent.com/mrdoob/three.js/r186/examples/models/gltf/RobotExpressive/RobotExpressive.glb",
+      "sha256": "047f5e5fb3bb6d378bd1df16ca6137f2a596c99b3a1b5690b4020c05aaf6f319",
+      "bytes": 463988,
+      "resolved": "https://raw.githubusercontent.com/mrdoob/three.js/r186/examples/models/gltf/RobotExpressive/RobotExpressive.glb"
+    },
+    "height": 1.6
+  },
+  "file": "model.glb",
+  "sha256": "d9f8331a723f9237367542a7536a21f6f24d0965c007a03772685fa336aa6174",
+  "bytes": 183700,
+  "triangles": 3237,
+  "bones": 43,
+  "sourceMaterials": {
+    "Grey": "#a5a49d",
+    "Main": "#ca9337",
+    "Black": "#3d3d3d"
+  },
+  "clipInfo": {
+    "Dance": {
+      "seconds": 3.3333,
+      "loop": true
+    },
+    "Death": {
+      "seconds": 0.9583,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Idle": {
+      "seconds": 3.3333,
+      "loop": true
+    },
+    "Jump": {
+      "seconds": 0.7083,
+      "loop": false
+    },
+    "No": {
+      "seconds": 1.6667,
+      "loop": true
+    },
+    "Punch": {
+      "seconds": 0.8333,
+      "loop": false
+    },
+    "Running": {
+      "seconds": 0.9583,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Sitting": {
+      "seconds": 0.4167,
+      "loop": false
+    },
+    "Standing": {
+      "seconds": 0.4167,
+      "loop": false
+    },
+    "ThumbsUp": {
+      "seconds": 1.5833,
+      "loop": true
+    },
+    "Walking": {
+      "seconds": 0.9583,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "WalkJump": {
+      "seconds": 0.8333,
+      "loop": false
+    },
+    "Wave": {
+      "seconds": 1.8333,
+      "loop": true
+    },
+    "Yes": {
+      "seconds": 1.6667,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.6,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 3237,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.61
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.63
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.62
+      },
+      "jump": {
+        "minY": -0.0059,
+        "touches": true,
+        "maxSize": 1.82
+      },
+      "attack": {
+        "minY": -0.0158,
+        "touches": true,
+        "maxSize": 1.61
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.78
+      },
+      "wave": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.7
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.07
+      },
+      "yes": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.67
+      },
+      "no": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.61
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
