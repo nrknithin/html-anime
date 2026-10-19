@@ -1,0 +1,86 @@
+{
+  "id": "axe",
+  "name": "Axe (one-handed)",
+  "category": "prop",
+  "tags": [
+    "prop",
+    "weapon",
+    "axe",
+    "hatchet",
+    "fantasy",
+    "medieval",
+    "viking",
+    "woodcutter"
+  ],
+  "style": "low-poly, hard-surface, flat colours (Quaternius 2018)",
+  "height": 0.75,
+  "script": "indigo",
+  "colors": {
+    "steel": "#d5e2ff",
+    "steelShade": "#1b2d6b",
+    "wood": "#e7a04a",
+    "woodShade": "#1b2d6b",
+    "gold": "#f0c36a",
+    "goldShade": "#1b2d6b"
+  },
+  "materials": {
+    "Steel": "steel",
+    "LightSteel": "steel",
+    "DarkSteel": "steel",
+    "LightWood": "wood",
+    "DarkWood": "wood",
+    "Gold": "gold"
+  },
+  "clips": {},
+  "smooth": false,
+  "thresholds": {
+    "steel": 0.2
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Medieval Weapons Pack (Sept 2018)",
+    "page": "https://opengameart.org/content/lowpoly-medieval-weapons",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan row 198 (Quaternius static Axe via poly.pizza) is blocked, so this is Axe_Small.fbx from Quaternius's own CC0 Medieval Weapons Pack on OpenGameArt (same author, licence on the page; the same zip and pin as the sword entry). The pack has three axes: Axe (crescent battle-axe head with a top spike), Axe_Double (two-bladed labrys) and Axe_Small (a bearded one-handed axe); Axe_Small was taken because its single broad bearded head is the plainest axe silhouette and reads at a glance in the hero view. Height 0.75 m is the whole axe, heel to the top of the poll (a one-handed axe; the head is chunky for its size, about 0.30 m from poll to edge, as the stylized source draws it). Rest pose: upright, haft along +Y, heel on y = 0; head flat in the XY plane with the cutting edge toward +X (about 4-6 cm thick along Z). The pipeline centres the bounding box, so the haft is not on the origin: the haft axis runs at x = -0.115 m, z = 0 (its curved heel ends near x = -0.10 m). Grip (cord-wrapped) from y 0.19 to 0.43 m, hold at about y 0.27 m; bare flared heel 0 to 0.19 m; steel collar 0.52 m; head from y 0.37 (beard tip) to 0.73 m, steel poll cap 0.56 to 0.75 m. To put it in a hand: parent to the hand, offset by (+0.115, -0.27, 0) m in the axe's frame, then rotate so Y runs along the fist's thumb direction and +X (the edge) faces the swing. Colours match the sword: head, poll and collar pale steel (moon over sky), haft amber over sky."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Medieval%20Weapons%20Pack%20-%20Sept%202018.zip",
+      "sha256": "b8a18124c460387a02b9ed3e940229eaa091b540699fad75627d0c0291d33912",
+      "bytes": 3741460,
+      "resolved": "https://opengameart.org/sites/default/files/Medieval%20Weapons%20Pack%20-%20Sept%202018.zip"
+    },
+    "member": "Medieval Weapons Pack - Sept 2018/FBX/Axe_Small.fbx",
+    "height": 0.75,
+    "memberSha256": "c89df799b922f572481519c12ac6be2071a33e15f632dd00b86600dda5af08fa"
+  },
+  "file": "model.glb",
+  "sha256": "f4d340fc7d502f9e19a8ded912054866d07dd00b66ee8dd8a9dee57825cc1ab0",
+  "bytes": 16348,
+  "triangles": 966,
+  "bones": 0,
+  "sourceMaterials": {
+    "Steel": "#a5aab1",
+    "Gold": "#c7b66f",
+    "LightWood": "#865b40",
+    "DarkWood": "#704c36",
+    "LightSteel": "#b5bac2",
+    "DarkSteel": "#8d8d82"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.75,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 966,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
