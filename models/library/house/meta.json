@@ -1,0 +1,98 @@
+{
+  "id": "house",
+  "name": "House (two-storey, gable roof)",
+  "category": "building",
+  "tags": [
+    "building",
+    "house",
+    "home",
+    "residential",
+    "town",
+    "gable-roof",
+    "two-storey",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Quaternius Ultimate Building Pack, 'Models with Materials')",
+  "height": 7,
+  "script": "noon",
+  "colors": {
+    "wall": "#fff6e4",
+    "wallShade": "#f2d7ae",
+    "brick": "#f2d7ae",
+    "brickShade": "#f0c2ae",
+    "roof": "#c4452d",
+    "roofShade": "#5c3d32",
+    "timber": "#5c3d32",
+    "timberShade": "#5c3d32",
+    "frame": "#fffaf2",
+    "frameShade": "#f6f3ee",
+    "door": "#c4452d",
+    "doorShade": "#5c3d32",
+    "glass": "#5c3d32",
+    "glassShade": "#5c3d32"
+  },
+  "materials": {
+    "Main": "wall",
+    "White": "wall",
+    "Bricks": "brick",
+    "Dark": "roof",
+    "RoofBricks": "timber",
+    "Light": "timber",
+    "Wood": "frame",
+    "DarkWood": "door",
+    "Glass": "glass"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Textured Building Pack",
+    "page": "https://opengameart.org/content/lowpoly-buildings-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 151 named a Quaternius static house on poly.pizza (Cloudflare challenge). This is 2Story_GableRoof_Mat from the same author's Ultimate Textured Building Pack on OpenGameArt (CC0), the flat-material variant (\"Models with Materials\"): a narrow two-storey house, stone plinth, timber string course with corbels, white-framed windows, a gable roof. Scaled to 7 m to the ridge (two storeys of ~2.8 m plus the gable); footprint 4.8 x 5.3 m; door ~1.9 m. Front door faces +Z. The older Quaternius Lowpoly Buildings pack (opengameart.org/content/lowpoly-buildings: House..House5, cosy suburban homes with porches and pitched roofs) was tried first, but its colours live in a 32 px palette texture that its FBX and OBJ do not reference and its .blend wires through a Diffuse BSDF from a ../Textures folder, so the pipeline flattens it to one grey. Other houses in the same Ultimate pack for later rows: 1Story_GableRoof_Mat (a one-storey gable cottage), 2Story_Sidehouse_Mat (two storeys with a lower side wing), 2Story_Mat, 2Story_Wide_Mat, 3Story_Slim_Mat and 2Story_Balcony_Mat (flat-roofed town houses, row 152)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_textured_building_pack_by_quaternius.zip",
+      "sha256": "ff876502f53f6d4c35104378e8322ec8253fd0ee45c8ec28d9dc81df54b80e85",
+      "bytes": 29961262,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_textured_building_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Textured Building Pack - Dec 2019/Models with Materials/FBX/2Story_GableRoof_Mat.fbx",
+    "height": 7,
+    "yaw": 0,
+    "memberSha256": "490dab6a2a9841dd157ff8fa3ad00ccbf9cf8e1e11e71718707c909e711d3630"
+  },
+  "file": "model.glb",
+  "sha256": "22e26b8d24673bbe1b5baace192d8e5372e11cde11cddd6892dd8e305235a773",
+  "bytes": 41412,
+  "triangles": 3200,
+  "bones": 0,
+  "sourceMaterials": {
+    "Bricks": "#71978c",
+    "Light": "#9da580",
+    "Main": "#5f7f76",
+    "Dark": "#4a5f5e",
+    "White": "#c9c9c9",
+    "Wood": "#86533d",
+    "DarkWood": "#664630",
+    "Glass": "#748a9b",
+    "RoofBricks": "#405352"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 7,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 3200,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
