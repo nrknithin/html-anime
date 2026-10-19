@@ -1,0 +1,182 @@
+{
+  "id": "worker",
+  "name": "Construction worker",
+  "category": "character",
+  "tags": [
+    "human",
+    "man",
+    "worker",
+    "construction",
+    "builder",
+    "hard hat",
+    "hi-vis",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
+  "height": 1.8,
+  "script": "festival",
+  "colors": {
+    "hat": "#ffb020",
+    "hatShade": "#ff4d6d",
+    "vest": "#ffb020",
+    "vestShade": "#ff4d6d",
+    "shirt": "#fff1ea",
+    "shirtShade": "#ffd7a1",
+    "pants": "#24143a",
+    "pantsShade": "#1a1020",
+    "skin": "#f0c2ae",
+    "skinShade": "#ff4d6d",
+    "eye": "#1a1020",
+    "eyeShade": "#1a1020"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Shirt": "shirt",
+    "Vest": "vest",
+    "Pants": "pants",
+    "Hat": "hat",
+    "Face": "eye"
+  },
+  "thresholds": {
+    "skin": -0.6,
+    "shirt": -0.25,
+    "vest": -0.25,
+    "hat": -0.2
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 77 named the Quaternius Worker from the Animated Characters (24-clip rig) set on poly.pizza, now behind a Cloudflare challenge. Substituted with Worker_Male from the Quaternius Ultimate Animated Character Pack (Nov 2019) on OpenGameArt (same zip and pin as man-casual and adventurer): the same character concept (hard hat, vest over a T-shirt, shorts). It ships 11 clips (idle, walk, punch, hit, sit, walk-carry, pick-up, one-handed shoot, victory, defeat, stand-up), not 24: no run, jump, death or gun idles. The source vest is brown and the hat dull gold; both are painted festival amber here so the hard hat and hi-vis read at a glance."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Worker_Male.fbx",
+    "height": 1.8,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "833d26026f32d96699c8cf667cbec849adda93d43cea447a7449fc4d72c3a20d"
+  },
+  "file": "model.glb",
+  "sha256": "1647efea08b1b31f2bdd26b8eb86f8f956b0858bc1f1298f609fbad4ceb695ed",
+  "bytes": 225484,
+  "triangles": 2524,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#1f1f1f",
+    "Shirt": "#aab2aa",
+    "Vest": "#795538",
+    "Pants": "#3d5870",
+    "Hat": "#a39940",
+    "Face": "#fffff8"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.1667,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.25,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.75,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.625,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5417,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 0.9583,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.875,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.25,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.25,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2524,
+    "clips": {
+      "idle": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.79
+      },
+      "walk": {
+        "minY": -0.0014,
+        "touches": true,
+        "maxSize": 1.78
+      },
+      "attack": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.7
+      },
+      "hit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.76
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.75
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
