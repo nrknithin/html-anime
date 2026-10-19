@@ -1,0 +1,116 @@
+{
+  "id": "train-locomotive",
+  "name": "Steam locomotive",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "train",
+    "steam locomotive",
+    "steam engine",
+    "locomotive",
+    "railway"
+  ],
+  "style": "low-poly, flat colours (Kenney Train Kit)",
+  "height": 3.75,
+  "script": "indigo",
+  "colors": {
+    "body": "#e23b4a",
+    "bodyShade": "#1b2d6b",
+    "livery": "#1b2d6b",
+    "liveryShade": "#1b2d6b",
+    "steel": "#e7eefc",
+    "steelShade": "#d5e2ff",
+    "chassis": "#1b2d6b",
+    "chassisShade": "#16141c"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#38383d": "chassis",
+    "colormap#3d3d44": "chassis",
+    "colormap#44444e": "chassis",
+    "colormap#353539": "chassis",
+    "colormap#a2aacc": "steel",
+    "colormap#bbc5e9": "steel",
+    "colormap#ba353b": "livery",
+    "colormap#bf393f": "livery",
+    "colormap#cb4248": "livery",
+    "colormap#b53137": "livery",
+    "colormap#c53d43": "livery",
+    "colormap#d0464c": "livery",
+    "colormap#6a6f87": "body",
+    "colormap#5d627a": "body",
+    "colormap#787d95": "body",
+    "colormap#747a91": "body",
+    "colormap#7c8199": "body",
+    "colormap#8388a0": "body",
+    "colormap#d74c52": "livery",
+    "colormap#e9615c": "livery"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Train Kit",
+    "page": "https://kenney.nl/assets/train-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney train-locomotive-b (the plan row named train-locomotive-a; the kit has three steam locomotives, a, b and c, and b reads best as a classic steam engine at a glance: tall chimney, steam and sand domes, open cab, big spoked drivers with coupling rods; a is a green side-tank engine, c a long blue tender-style engine whose colour map flattens noisily). FBX member plus its colormap texture, flattened to 20 colours, as train-bullet. Scaled with the same factor as train-bullet, train-commuter and train-tram (kit units x 2.26), so it couples with them at the same size: 3.75 m from rail to cab roof (a real small tank engine is ~3.8-4.0 m). Stylized proportions as the other Kenney trains: 5.88 m long and 2.97 m wide. Red boiler with navy panels, cab and underframe, white wheels, in the red-and-navy of train-commuter. The wheels are separate nodes (wheel, wheel_1..3 the drivers, wheels-front the leading truck), so they can be spun in code. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/train-kit",
+      "sha256": "cf50d77e8cbacbf38dd50826d4bce5392db8e4f67373d3c4e583b0ed0e474475",
+      "bytes": 5266588
+    },
+    "member": "Models/FBX format/train-locomotive-b.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 3.75,
+    "yaw": 0,
+    "maxColors": 20,
+    "memberSha256": "c6845f62e474c7d2e358f40ea90cb308e46c96c84e4e278ec022b9fff2edbc53"
+  },
+  "file": "model.glb",
+  "sha256": "10737f4087279598cb58c134db12322ee1d5cb0f8b17e882b1438d5cfd5c1653",
+  "bytes": 89752,
+  "triangles": 1542,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#38383d": "#38383d",
+    "colormap#3d3d44": "#3d3d44",
+    "colormap#44444e": "#44444e",
+    "colormap#353539": "#353539",
+    "colormap#a2aacc": "#a2aacc",
+    "colormap#bbc5e9": "#bbc5e9",
+    "colormap#ba353b": "#ba353b",
+    "colormap#bf393f": "#bf393f",
+    "colormap#cb4248": "#cb4248",
+    "colormap#b53137": "#b53137",
+    "colormap#c53d43": "#c53d43",
+    "colormap#d0464c": "#d0464c",
+    "colormap#6a6f87": "#6a6f87",
+    "colormap#5d627a": "#5d627a",
+    "colormap#787d95": "#787d95",
+    "colormap#747a91": "#747a91",
+    "colormap#7c8199": "#7c8199",
+    "colormap#8388a0": "#8388a0",
+    "colormap#d74c52": "#d74c52",
+    "colormap#e9615c": "#e9615c"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 3.75,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1542,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
