@@ -1,0 +1,100 @@
+{
+  "id": "bench",
+  "name": "Bench (park / street)",
+  "category": "prop",
+  "tags": [
+    "prop",
+    "bench",
+    "park bench",
+    "park",
+    "street",
+    "seat",
+    "sit",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Holiday Kit)",
+  "height": 1,
+  "script": "noon",
+  "colors": {
+    "slat": "#c4452d",
+    "slatShade": "#5c3d32",
+    "frame": "#fff6e4",
+    "frameShade": "#f2d7ae"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Holiday Kit",
+    "page": "https://kenney.nl/assets/holiday-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Covers plan rows #209 (Kenney Mini Skate bench.glb) and #186 (Quaternius Bench on poly.pizza, blocked by its Cloudflare challenge). Candidates rendered in the lab: Mini Skate bench.glb (the plan's own; a chunky solid seat and backrest, green, little slat detail), Furniture Kit 2.0 bench / benchCushion (indoor chair-like benches, 0.68 m wide), the Graveyard Kit bench.glb (identical geometry to the Holiday Kit one), and the Holiday Kit bench.glb, used here: two seat slats and two backrest slats on splayed side frames, the classic slatted park bench of a Japanese koen or station street. City Kit Roads has no bench. Zip pinned by sha256 (read from the kit page, as for every Kenney entry). Scale: height 1.0 m (top of the backrest), chosen so the seat is real size: seat top surface at y = 0.45 m (underside 0.37 m), length 1.53 m (real 1.5-1.8 m), depth 0.87 m with the splayed feet. Seating a character: seat top y = 0.45 m, seat slats span z = -0.14 to +0.34 m (front edge +0.34 m; seat centre about z = +0.10 m) and x = -0.76 to +0.76 m; the front faces +Z, backrest at the back (-Z). Look (noon): slats painted vermilion (accent) over dark brown (iris) shade, the side frames cream (moon) over paper (sky) shade; slat threshold -0.15 so the long seat front edge, whose source normals are bent at its bevelled ends, stays lit instead of splitting mid-face. Faceted (smooth false), 160 tris. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/holiday-kit",
+      "sha256": "fde4d514d7297388d98058e8933ff614e071886f7ce57f9aea4b00d7698dd769",
+      "bytes": 4482244
+    },
+    "member": "Models/GLB format/bench.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 1,
+    "memberSha256": "e37ffcbb074679098d16db68aa50ce34a3ca2f1900a20110da9509d312039554"
+  },
+  "materials": {
+    "colormap": "slat",
+    "colormap#be6c4b": "slat",
+    "colormap#c6724f": "slat",
+    "colormap#d17c57": "slat",
+    "colormap#b86747": "slat",
+    "colormap#8b92ae": "frame",
+    "colormap#989fbf": "frame",
+    "colormap#a6add0": "frame",
+    "colormap#b0b9dd": "frame",
+    "colormap#b6bfe5": "frame",
+    "colormap#abb3d6": "frame",
+    "colormap#bdc5ed": "frame",
+    "colormap#7d829a": "frame"
+  },
+  "file": "model.glb",
+  "sha256": "7059a03b45d9c382fb17de433efd4bcb9de147be21355473da540b2015fcb36d",
+  "bytes": 16612,
+  "triangles": 160,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#be6c4b": "#be6c4b",
+    "colormap#c6724f": "#c6724f",
+    "colormap#d17c57": "#d17c57",
+    "colormap#b86747": "#b86747",
+    "colormap#8b92ae": "#8b92ae",
+    "colormap#989fbf": "#989fbf",
+    "colormap#a6add0": "#a6add0",
+    "colormap#b0b9dd": "#b0b9dd",
+    "colormap#b6bfe5": "#b6bfe5",
+    "colormap#abb3d6": "#abb3d6",
+    "colormap#bdc5ed": "#bdc5ed",
+    "colormap#7d829a": "#7d829a"
+  },
+  "clipInfo": {},
+  "thresholds": {
+    "slat": -0.15
+  },
+  "qa": {
+    "height": 1,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 160,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

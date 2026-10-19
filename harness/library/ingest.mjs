@@ -7,9 +7,9 @@
 // models/library/<id>/meta.json holds the recipe under "ingest" (see harness/library/README.md):
 //   fetch   { type: "file"|"zip"|"kenney"|"itch", url, page, upload, sha256 }  where the download comes from
 //   member  path inside the zip ("Farm Animals/FBX/Horse.fbx"); omitted for a single file
-//   height, yaw, pitch, roll, drop, dropBackfaces, keepActions, attach      handed to convert.py
+//   height, yaw, pitch, roll, drop, dropBackfaces, centerOn, keepActions, attach     handed to convert.py
 // Steps: download (cached under <tmp>/html-anime-library-cache, sha256 pinned in meta.json on the first fetch and
-// checked on every later one) -> unzip the member (in Node) -> convert.py (Blender: import, normalize, GLB) ->
+// checked on every later one) -> unzip the member (in Node; a .7z through un7z.py) -> convert.py (Blender: import, normalize, GLB) ->
 // gltf-transform optimize (meshopt, no simplify, no palette, materials kept) -> models/library/<id>/model.glb, and
 // the measured facts written back into meta.json (sha256, bytes, triangles, bones, clipInfo, sourceMaterials).
 
@@ -151,6 +151,10 @@ export function unzipMember(buf, want) {
   const near = names.filter((n) => n.toLowerCase().endsWith(path.extname(want).toLowerCase())).slice(0, 40);
   throw new Error(`zip has no "${want}". Files with that extension:\n  ${near.join("\n  ")}`);
 }
+/** True for a .7z archive (signature 37 7A BC AF 27 1C). */
+export function is7z(buf) {
+  return buf.length > 6 && buf.readUInt32BE(0) === 0x377abcaf && buf.readUInt16BE(4) === 0x271c;
+}
 export function zipList(buf) {
   const out = [];
   let eocd = -1;
@@ -205,31 +209,43 @@ async function main() {
       if (!to.startsWith(srcDir + path.sep)) throw new Error(`zip path ${rel} leaves the scratch folder`);
       return to;
     };
-    const data = unzipMember(buf, ing.member);
-    src = inside(ing.member);
-    await fsp.mkdir(path.dirname(src), { recursive: true });
-    await fsp.writeFile(src, data);
-    for (const extra of ing.extraMembers || []) {
-      const to = inside(extra);
-      await fsp.mkdir(path.dirname(to), { recursive: true });
-      await fsp.writeFile(to, unzipMember(buf, extra));
+    let data;
+    if (is7z(buf)) {
+      // A .7z pack (an OpenGameArt crocodile.7z): un7z.py, in LIBRARY_PYTHON with py7zr, writes the member and its
+      // extras at their archive paths; nothing in the archive is run.
+      const archive = path.join(tmp, "source.7z");
+      await fsp.writeFile(archive, buf);
+      run(process.env.LIBRARY_PYTHON || "python3.11", ["-I", path.join(HERE, "un7z.py"), archive, srcDir, ing.member, ...(ing.extraMembers || [])], "un7z.py (a .7z source needs py7zr in LIBRARY_PYTHON)", { cwd: tmp });
+      src = inside(ing.member);
+      data = await fsp.readFile(src);
+    } else {
+      data = unzipMember(buf, ing.member);
+      src = inside(ing.member);
+      await fsp.mkdir(path.dirname(src), { recursive: true });
+      await fsp.writeFile(src, data);
+      for (const extra of ing.extraMembers || []) {
+        const to = inside(extra);
+        await fsp.mkdir(path.dirname(to), { recursive: true });
+        await fsp.writeFile(to, unzipMember(buf, extra));
+      }
     }
     ing.memberSha256 = sha256(data);
   } else {
     src = path.join(srcDir, ing.filename || path.basename(new URL(url || ing.fetch.url).pathname));
     await fsp.writeFile(src, buf);
-    // fetch.extraFiles: [{ url, path }] a multi-file source (a .gltf's .bin and textures, Poly Haven), each pinned
-    // by sha256 like the main file and saved at `path` relative to it.
-    for (const x of ing.fetch.extraFiles || []) {
-      const to = path.resolve(srcDir, x.path);
-      if (!to.startsWith(srcDir + path.sep)) throw new Error(`extraFiles: ${x.path} leaves the scratch folder`);
-      const { buf: xb } = await fetchSource({ type: "file", url: x.url }, refetch);
-      const h = sha256(xb);
-      if (x.sha256 && x.sha256 !== h) throw new Error(`${id}: ${x.path} sha256 ${h} does not match the pinned ${x.sha256}`);
-      x.sha256 = h;
-      await fsp.mkdir(path.dirname(to), { recursive: true });
-      await fsp.writeFile(to, xb);
-    }
+  }
+  // fetch.extraFiles: [{ url, path }] more single files, each pinned by sha256 like the main download and saved at
+  // `path` under the scratch folder: a multi-file source (a .gltf's .bin and textures, Poly Haven), or a prop from
+  // another source for ingest.attach beside a zip member (a katana in a pack character's hand).
+  for (const x of ing.fetch.extraFiles || []) {
+    const to = path.resolve(srcDir, x.path);
+    if (!to.startsWith(srcDir + path.sep)) throw new Error(`extraFiles: ${x.path} leaves the scratch folder`);
+    const { buf: xb } = await fetchSource({ type: "file", url: x.url }, refetch);
+    const h = sha256(xb);
+    if (x.sha256 && x.sha256 !== h) throw new Error(`${id}: ${x.path} sha256 ${h} does not match the pinned ${x.sha256}`);
+    x.sha256 = h;
+    await fsp.mkdir(path.dirname(to), { recursive: true });
+    await fsp.writeFile(to, xb);
   }
 
   // 3. convert + normalize: Blender, or for via "gltf" a GLB kept as is under a new root node (normalize.mjs)
@@ -251,6 +267,8 @@ async function main() {
   if (ing.maxColors) cargs.push("--max-colors", String(ing.maxColors));
   if (ing.dropMaterials?.length) cargs.push("--drop-materials", ing.dropMaterials.join(","));
   if (ing.dropBackfaces) cargs.push("--drop-backfaces");
+  if (ing.centerOn) cargs.push("--center-on", [].concat(ing.centerOn).join(","));
+  if (ing.legacyImage) cargs.push("--legacy-image", ing.legacyImage);
   if (ing.attach?.length) {
     if (ing.via === "gltf") throw new Error(`${id}: ingest.attach needs the Blender path (drop "via": "gltf")`);
     cargs.push(...attachArgs(ing.attach, srcDir));
