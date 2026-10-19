@@ -1,0 +1,203 @@
+{
+  "id": "deer",
+  "name": "Deer",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "deer",
+    "stag",
+    "forest",
+    "wild",
+    "quadruped"
+  ],
+  "style": "mid-poly, realistic proportions (CDmir 2015); textures dropped, flat material colours",
+  "height": 2.15,
+  "script": "noon",
+  "colors": {
+    "coat": "#c4452d",
+    "coatShade": "#5c3d32",
+    "antler": "#f2d7ae",
+    "antlerShade": "#5c3d32",
+    "eye": "#241c16",
+    "eyeShade": "#5c3d32"
+  },
+  "materials": {
+    "Head": "coat",
+    "Body": "coat",
+    "Antlers": "antler",
+    "Eye": "eye"
+  },
+  "clips": {
+    "idle": "Idle.000",
+    "eat": "Eat.001",
+    "run": "Run",
+    "death": "Die.000"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "CDmir (TinyWorlds)",
+    "pack": "CDmir · Old Deer Male (Kelgar)",
+    "page": "https://opengameart.org/content/old-deer-male",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 5 named the Quaternius Ultimate Animated Animals deer (poly.pizza, now behind a Cloudflare challenge; its Google Drive is quota-blocked), and no reachable Quaternius pack has a deer. This is the best reachable free animated deer: a CC0 rigged stag on OpenGameArt with idle, eat, look-around, run and death clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://opengameart.org/sites/default/files/deer1.blend",
+      "sha256": "729f47b10f29e13d128aa2e0a2a5ba47be40cb6593e1e86ac31e236e93bef003",
+      "bytes": 7710492,
+      "resolved": "https://opengameart.org/sites/default/files/deer1.blend"
+    },
+    "height": 2.15,
+    "yaw": 0,
+    "drop": [
+      "Plane.001"
+    ],
+    "keepActions": [
+      "Idle.000",
+      "LookAround.000",
+      "Eat.001",
+      "Run",
+      "Die.000"
+    ]
+  },
+  "file": "model.glb",
+  "sha256": "8ffed600fb9094dcd8b4a3915174b87fae8d592947afd2fac217523fb65566a8",
+  "bytes": 144312,
+  "triangles": 4924,
+  "bones": 31,
+  "sourceMaterials": {
+    "Head": "#be7c4a",
+    "Body": "#bc8867",
+    "Antlers": "#be9480",
+    "Eye": "#ffffff"
+  },
+  "clipInfo": {
+    "Die.000": {
+      "seconds": 0.6667,
+      "loop": false,
+      "lift": [
+        [
+          0.0392,
+          0
+        ],
+        [
+          0.1961,
+          0.029
+        ],
+        [
+          0.3137,
+          0.03
+        ],
+        [
+          0.3529,
+          0.046
+        ],
+        [
+          0.5098,
+          0.05
+        ]
+      ]
+    },
+    "Eat.001": {
+      "seconds": 4.9167,
+      "loop": true
+    },
+    "Idle.000": {
+      "seconds": 6.6667,
+      "loop": true
+    },
+    "LookAround.000": {
+      "seconds": 5.8333,
+      "loop": true
+    },
+    "Run": {
+      "seconds": 0.5833,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.019
+        ],
+        [
+          0.0243,
+          0.012
+        ],
+        [
+          0.0729,
+          0.016
+        ],
+        [
+          0.0972,
+          0.008
+        ],
+        [
+          0.1215,
+          0.023
+        ],
+        [
+          0.1458,
+          0
+        ],
+        [
+          0.4618,
+          0
+        ],
+        [
+          0.4861,
+          0.03
+        ],
+        [
+          0.559,
+          0.029
+        ],
+        [
+          0.5833,
+          0.019
+        ]
+      ]
+    }
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "clip": "run"
+  },
+  "qa": {
+    "height": 2.15,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 4924,
+    "clips": {
+      "idle": {
+        "minY": 0.0002,
+        "touches": true,
+        "maxSize": 2.16
+      },
+      "eat": {
+        "minY": 0.0002,
+        "touches": true,
+        "maxSize": 2.18
+      },
+      "run": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 2.28
+      },
+      "death": {
+        "minY": 0.0002,
+        "touches": true,
+        "maxSize": 2.15
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + run"
+  }
+}

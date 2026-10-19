@@ -1,0 +1,118 @@
+{
+  "id": "building-tower",
+  "name": "Skyscraper",
+  "category": "building",
+  "tags": [
+    "building",
+    "skyscraper",
+    "tower",
+    "office",
+    "highrise",
+    "city",
+    "street",
+    "japan"
+  ],
+  "style": "low-poly, flat colours (Kenney City Kit Commercial)",
+  "height": 56,
+  "script": "indigo",
+  "colors": {
+    "wall": "#f6f3ee",
+    "wallShade": "#d5e2ff",
+    "trim": "#1b2d6b",
+    "trimShade": "#1b2d6b",
+    "base": "#16141c",
+    "baseShade": "#16141c",
+    "window": "#f0c36a",
+    "windowShade": "#e7a04a"
+  },
+  "materials": {
+    "colormap": "wall",
+    "colormap#4c4f5d": "base",
+    "colormap#454856": "base",
+    "colormap#3d3f4b": "base",
+    "colormap#525564": "trim",
+    "colormap#5a6278": "trim",
+    "colormap#697187": "trim",
+    "colormap#646981": "trim",
+    "colormap#71768d": "trim",
+    "colormap#82869b": "trim",
+    "colormap#777c93": "trim",
+    "colormap#7c8197": "trim",
+    "colormap#f8f8fb": "wall",
+    "colormap#c4c2d4": "wall",
+    "colormap#e9e9f1": "wall",
+    "colormap#d8d8e6": "wall",
+    "colormap#e1e1ec": "wall",
+    "colormap#d2d2e3": "wall",
+    "colormap#e6e6ef": "wall",
+    "colormap#aecdf3": "window",
+    "colormap#bad6f7": "window"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · City Kit Commercial",
+    "page": "https://kenney.nl/assets/city-kit-commercial",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney building-skyscraper-d, picked from the kit's five skyscrapers: the slimmest and tallest, a continuous glass curtain wall on all four sides with a sun-shade louvre at every floor, a glazed street lobby and a rooftop vent, which reads as a narrow Tokyo office tower (a and e are squat or blank-sided, b has no roof detail, c is only 7 office floors). FBX member plus its colormap texture, flattened to 20 colours, same recipe and indigo mapping as building-apartment so they read as one city. Height: a double-height lobby (about 8.5 m with its transfer band) and 11 office floors at ~3.7 m (measured from the louvre spacing), plus parapet and roof vent = 56 m; it is then 13.1 m wide and 14.2 m deep. Turned 180 degrees so the glazed entrance faces +Z (the kit has a service door there). Static, no clips. Indigo script: lit office glass (practical/iris), navy curtain-wall frames and cornices, pale spandrels and lobby band, near-black stone base and roof deck."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/city-kit-commercial",
+      "sha256": "f8b09b081c2bb88bcc126e2dec1cb40fd0dad7e7e591b6c26aaefe96fb35276b",
+      "bytes": 4096974
+    },
+    "member": "Models/FBX format/building-skyscraper-d.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 56,
+    "maxColors": 20,
+    "memberSha256": "a1b8c3a6bcd2d980582805a4c1828b325f715909d0124c4996717d6dc719148f",
+    "yaw": 180
+  },
+  "file": "model.glb",
+  "sha256": "b2d0b67b4586c8785a837d82db961ec0607d722d0a5345fe619c5f436140521f",
+  "bytes": 48576,
+  "triangles": 1892,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#4c4f5d": "#4c4f5d",
+    "colormap#454856": "#454856",
+    "colormap#3d3f4b": "#3d3f4b",
+    "colormap#525564": "#525564",
+    "colormap#5a6278": "#5a6278",
+    "colormap#697187": "#697187",
+    "colormap#646981": "#646981",
+    "colormap#71768d": "#71768d",
+    "colormap#82869b": "#82869b",
+    "colormap#777c93": "#777c93",
+    "colormap#7c8197": "#7c8197",
+    "colormap#f8f8fb": "#f8f8fb",
+    "colormap#c4c2d4": "#c4c2d4",
+    "colormap#e9e9f1": "#e9e9f1",
+    "colormap#d8d8e6": "#d8d8e6",
+    "colormap#e1e1ec": "#e1e1ec",
+    "colormap#d2d2e3": "#d2d2e3",
+    "colormap#e6e6ef": "#e6e6ef",
+    "colormap#aecdf3": "#aecdf3",
+    "colormap#bad6f7": "#bad6f7"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 56,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1892,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
