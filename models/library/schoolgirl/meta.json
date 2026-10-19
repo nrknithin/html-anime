@@ -1,0 +1,491 @@
+{
+  "id": "schoolgirl",
+  "name": "Schoolgirl (school uniform)",
+  "category": "people",
+  "tags": [
+    "person",
+    "girl",
+    "student",
+    "schoolgirl",
+    "school uniform",
+    "seifuku",
+    "teen",
+    "character",
+    "chibi",
+    "mini"
+  ],
+  "style": "chibi low-poly, flat colour map (Kenney 2024), recoloured as a Japanese school uniform",
+  "height": 1.55,
+  "script": "indigo",
+  "colors": {
+    "skin": "#f0c2ae",
+    "skinShade": "#e7a04a",
+    "hair": "#16141c",
+    "hairShade": "#1b2d6b",
+    "eye": "#16141c",
+    "eyeShade": "#16141c",
+    "shirt": "#f6f3ee",
+    "shirtShade": "#d5e2ff",
+    "skirt": "#1b2d6b",
+    "skirtShade": "#16141c",
+    "sole": "#16141c",
+    "soleShade": "#1b2d6b",
+    "ribbon": "#e23b4a",
+    "ribbonShade": "#e7a04a",
+    "band": "#e23b4a",
+    "bandShade": "#e7a04a"
+  },
+  "materials": {
+    "colormap": "shirt",
+    "colormap#d6805a": "skin",
+    "colormap#ca7652": "skin",
+    "colormap#e99066": "skin",
+    "colormap#b46444": "skin",
+    "colormap#be6c4a": "skin",
+    "colormap#e0a57e": "sole",
+    "colormap#d6956e": "sole",
+    "colormap#797e96": "hair",
+    "colormap#6d738a": "hair",
+    "colormap#71778e": "hair",
+    "colormap#d5d5e5": "ribbon",
+    "colormap#d3554e": "band",
+    "colormap#f96a41": "band",
+    "colormap#e45e48": "skirt",
+    "colormap#5d6dc7": "skirt",
+    "colormap#595ec1": "skirt",
+    "colormap#6282d1": "shirt",
+    "colormap#7c8199": "hair",
+    "colormap#767b92": "hair",
+    "colormap#61677e": "hair",
+    "colormap#696f86": "hair",
+    "colormap#7f849c": "hair",
+    "colormap#595e75": "eye",
+    "colormap#656a82": "hair"
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "sprint",
+    "jump": "jump",
+    "sit": "sit",
+    "death": "die",
+    "attack": "attack-melee-right",
+    "attack-kick-left": "attack-kick-left",
+    "attack-kick-right": "attack-kick-right",
+    "attack-melee-left": "attack-melee-left",
+    "crouch": "crouch",
+    "drive": "drive",
+    "emote-no": "emote-no",
+    "emote-yes": "emote-yes",
+    "fall": "fall",
+    "holding-both": "holding-both",
+    "holding-both-shoot": "holding-both-shoot",
+    "holding-left": "holding-left",
+    "holding-left-shoot": "holding-left-shoot",
+    "holding-right": "holding-right",
+    "holding-right-shoot": "holding-right-shoot",
+    "interact-left": "interact-left",
+    "interact-right": "interact-right",
+    "pick-up": "pick-up",
+    "static": "static",
+    "wheelchair-look-left": "wheelchair-look-left",
+    "wheelchair-look-right": "wheelchair-look-right",
+    "wheelchair-move-back": "wheelchair-move-back",
+    "wheelchair-move-forward": "wheelchair-move-forward",
+    "wheelchair-move-left": "wheelchair-move-left",
+    "wheelchair-move-right": "wheelchair-move-right",
+    "wheelchair-sit": "wheelchair-sit"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Mini Characters",
+    "page": "https://kenney.nl/assets/mini-characters",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 P1 #87 is a gap (no free schoolgirl model found; PLAN.md suggests outfitting a Kenney mini character). This is a recolour of the library's mini-female-c (Kenney Mini Characters, character-female-c.fbx): same fetch, member and pins, only roles, colours, height and name differ. It was picked over the Quaternius women (woman-casual, woman-casual-2/woman-dress, woman-suit) because it is the only female base with a skirt: the Quaternius women all wear trousers, and woman-suit's jacket and trousers are one material. Its colour-map clusters separate top, waistband, skirt, headband, bead necklace, hair, soles and skin, so the uniform is painted by role mapping alone: white top, navy high-waisted pleat-less skirt (waistband + skirt), the bead necklace as a red neck ribbon, the headband as a red hair ribbon, black hair. Her tights share Kenney's hair swatch, so they read as dark tights; the necklace swatch also paints a band at each ankle (red cuffs); the shoe uppers share the face's skin swatch and stay skin-toned (no loafers possible by role mapping). Height 1.55 m (a teen); Kenney minis are chibi (head about 40 % of the body), so at teen height the head is large: that is the kit's style. The FBX rest pose is a T-pose, so views use idle@0. Ground: moving clips use ground clamp; sit, drive and the wheelchair poses are lifted onto the ground plane by her probed depths at this height (set their lift to 0 to seat her on a chair or wheelchair at the authored height)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/mini-characters",
+      "sha256": "9e1d48e6d7b8479ebbe84df71eb5bd8e1b3f0da546dea641890dccc8a02d0999",
+      "bytes": 2403059
+    },
+    "member": "Models/FBX format/character-female-c.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 1.55,
+    "memberSha256": "2fe73a8d5e616ef344a3eca848d7fdd2221eed29620f8646b8978ede48df1b76",
+    "maxColors": 24
+  },
+  "smooth": false,
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "clipInfo": {
+    "attack-kick-left": {
+      "seconds": 0.5667,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "attack-kick-right": {
+      "seconds": 0.5667,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "attack-melee-left": {
+      "seconds": 0.4333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "attack-melee-right": {
+      "seconds": 0.4333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "crouch": {
+      "seconds": 0.2,
+      "loop": true
+    },
+    "die": {
+      "seconds": 0.3667,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "drive": {
+      "seconds": 0.2,
+      "loop": true,
+      "lift": 0.182
+    },
+    "emote-no": {
+      "seconds": 0.7,
+      "loop": true
+    },
+    "emote-yes": {
+      "seconds": 0.7,
+      "loop": true
+    },
+    "fall": {
+      "seconds": 0.3667,
+      "loop": true
+    },
+    "holding-both": {
+      "seconds": 0.2,
+      "loop": true
+    },
+    "holding-both-shoot": {
+      "seconds": 0.2333,
+      "loop": true
+    },
+    "holding-left": {
+      "seconds": 0.2,
+      "loop": true
+    },
+    "holding-left-shoot": {
+      "seconds": 0.2333,
+      "loop": true
+    },
+    "holding-right": {
+      "seconds": 0.2,
+      "loop": true
+    },
+    "holding-right-shoot": {
+      "seconds": 0.2333,
+      "loop": true
+    },
+    "idle": {
+      "seconds": 1.3667,
+      "loop": true
+    },
+    "interact-left": {
+      "seconds": 0.7,
+      "loop": true
+    },
+    "interact-right": {
+      "seconds": 0.7,
+      "loop": true
+    },
+    "jump": {
+      "seconds": 0.5167,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "pick-up": {
+      "seconds": 0.3667,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "sit": {
+      "seconds": 0.2,
+      "loop": true,
+      "lift": 0.189
+    },
+    "sprint": {
+      "seconds": 0.5167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "static": {
+      "seconds": 0.1167,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.7,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "wheelchair-look-left": {
+      "seconds": 0.3667,
+      "loop": true,
+      "lift": 0.187
+    },
+    "wheelchair-look-right": {
+      "seconds": 0.3667,
+      "loop": true,
+      "lift": 0.187
+    },
+    "wheelchair-move-back": {
+      "seconds": 0.5167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "wheelchair-move-forward": {
+      "seconds": 0.5167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "wheelchair-move-left": {
+      "seconds": 0.5167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "wheelchair-move-right": {
+      "seconds": 0.5167,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "wheelchair-sit": {
+      "seconds": 0.2,
+      "loop": true,
+      "lift": 0.187
+    }
+  },
+  "thresholds": {
+    "skin": -0.2,
+    "shirt": 0,
+    "skirt": 0,
+    "hair": -0.3,
+    "eye": 0.35,
+    "ribbon": 0,
+    "band": 0
+  },
+  "file": "model.glb",
+  "sha256": "454703b1e689c58e20025efd5280d9d7760d2be6b660664887305487fd91387c",
+  "bytes": 171020,
+  "triangles": 732,
+  "bones": 6,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#d6805a": "#d6805a",
+    "colormap#ca7652": "#ca7652",
+    "colormap#e99066": "#e99066",
+    "colormap#b46444": "#b46444",
+    "colormap#be6c4a": "#be6c4a",
+    "colormap#e0a57e": "#e0a57e",
+    "colormap#d6956e": "#d6956e",
+    "colormap#797e96": "#797e96",
+    "colormap#6d738a": "#6d738a",
+    "colormap#71778e": "#71778e",
+    "colormap#d5d5e5": "#d5d5e5",
+    "colormap#d3554e": "#d3554e",
+    "colormap#f96a41": "#f96a41",
+    "colormap#e45e48": "#e45e48",
+    "colormap#5d6dc7": "#5d6dc7",
+    "colormap#595ec1": "#595ec1",
+    "colormap#6282d1": "#6282d1",
+    "colormap#7c8199": "#7c8199",
+    "colormap#767b92": "#767b92",
+    "colormap#61677e": "#61677e",
+    "colormap#696f86": "#696f86",
+    "colormap#7f849c": "#7f849c",
+    "colormap#595e75": "#595e75",
+    "colormap#656a82": "#656a82"
+  },
+  "qa": {
+    "height": 1.55,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 732,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.57
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.64
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.62
+      },
+      "jump": {
+        "minY": 0.0218,
+        "touches": true,
+        "maxSize": 1.54
+      },
+      "sit": {
+        "minY": 0.0004,
+        "touches": true,
+        "maxSize": 1.44
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.63
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.59
+      },
+      "attack-kick-left": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.63
+      },
+      "attack-kick-right": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.63
+      },
+      "attack-melee-left": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.59
+      },
+      "crouch": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.54
+      },
+      "drive": {
+        "minY": 0.0009,
+        "touches": true,
+        "maxSize": 1.43
+      },
+      "emote-no": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.56
+      },
+      "emote-yes": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.61
+      },
+      "fall": {
+        "minY": -0.0011,
+        "touches": true,
+        "maxSize": 1.57
+      },
+      "holding-both": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.55
+      },
+      "holding-both-shoot": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.55
+      },
+      "holding-left": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.55
+      },
+      "holding-left-shoot": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.55
+      },
+      "holding-right": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.55
+      },
+      "holding-right-shoot": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.55
+      },
+      "interact-left": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.56
+      },
+      "interact-right": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.56
+      },
+      "pick-up": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.56
+      },
+      "static": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.55
+      },
+      "wheelchair-look-left": {
+        "minY": 0.0003,
+        "touches": true,
+        "maxSize": 1.46
+      },
+      "wheelchair-look-right": {
+        "minY": 0.0003,
+        "touches": true,
+        "maxSize": 1.46
+      },
+      "wheelchair-move-back": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.47
+      },
+      "wheelchair-move-forward": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.49
+      },
+      "wheelchair-move-left": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.48
+      },
+      "wheelchair-move-right": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.48
+      },
+      "wheelchair-sit": {
+        "minY": 0.0003,
+        "touches": true,
+        "maxSize": 1.46
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
