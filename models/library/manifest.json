@@ -344,6 +344,35 @@
       }
     },
     {
+      "id": "boat-row",
+      "name": "Row boat",
+      "category": "vehicle-water",
+      "tags": [
+        "vehicle",
+        "boat",
+        "rowboat",
+        "lake",
+        "pond"
+      ],
+      "style": "low-poly, flat colours (Kenney Watercraft Kit)",
+      "height": 1.19,
+      "script": "noon",
+      "file": "models/library/boat-row/model.glb",
+      "bytes": 20296,
+      "sha256": "332feb3e5eb3a6ec0514af772e84a5b81d0b24f77431820c7663bf49ebe4557c",
+      "triangles": 174,
+      "bones": 0,
+      "clips": [],
+      "source": {
+        "license": "CC0",
+        "author": "Kenney",
+        "pack": "Kenney · Watercraft Kit",
+        "page": "https://kenney.nl/assets/watercraft-kit",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "note": "Kenney boat-row-large (GLB with the kit colormap), same kit and fetch pin as boat-fishing and boat-sail. Chosen over boat-row-small (all-wood, stubby 1.9:1 hull, two cramped seats): the large one has a painted hull with wooden gunwale, thwarts and oars, a 2.4:1 hull and room for a rower and a passenger. Height 1.19 m (keel to the raised oar grips) gives a 4.0 m hull and 2.0 m beam (chunky toy proportions, beam on the wide side); that is about 0.85x the kit scale of boat-fishing/boat-sail, which would make it a 4.7 m boat. Bow (the narrow end with a small foredeck) faces +Z. y = 0 is the flat hull bottom; the chine is at y = 0.45 m and the waterline sits at about y = 0.3 m, so a film sinks the boat 0.3 m into its water plane. Floor y = 0.34 m (z -1.67..+0.79); gunwale top y = 0.90 m; seat tops y = 0.56 m, 0.66 m either side of x = 0: middle thwart z -0.45..+0.04 (rower, facing -Z), stern seat z -1.67..-1.18 (passenger, facing +Z), and a foredeck at the same height z +0.79..+1.61. Seats sit only 0.22 m above the floor (toy depth), so a sitting character's legs go forward along the floor. Rowlock blocks on the gunwale at y 0.79 m, z -1.0..+0.45; the two oars (one source object, 'paddles') rest shipped up and outboard at z -0.37..-0.80, blades down near the water, spanning 3.86 m. Cream hull, red gunwale, thwarts, foredeck and oars (the source wood), dark-brown floor. Static, no clips."
+      }
+    },
+    {
       "id": "boat-sail",
       "name": "Sailboat",
       "category": "vehicle-water",

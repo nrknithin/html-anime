@@ -247,6 +247,7 @@
 | preview | id | model | height | tris | clips | licence | source |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | <img src="library/boat-fishing/preview.png" width="240"> | `boat-fishing` | Fishing boat<br>*low-poly, flat colours (Kenney Watercraft Kit)* | 4.2 m | 237 | - | CC0 1.0 | [Kenney · Watercraft Kit](https://kenney.nl/assets/watercraft-kit) |
+| <img src="library/boat-row/preview.png" width="240"> | `boat-row` | Row boat<br>*low-poly, flat colours (Kenney Watercraft Kit)* | 1.19 m | 174 | - | CC0 1.0 | [Kenney · Watercraft Kit](https://kenney.nl/assets/watercraft-kit) |
 | <img src="library/boat-sail/preview.png" width="240"> | `boat-sail` | Sailboat<br>*low-poly, flat colours (Kenney Watercraft Kit)* | 8 m | 386 | - | CC0 1.0 | [Kenney · Watercraft Kit](https://kenney.nl/assets/watercraft-kit) |
 | <img src="library/boat-speed/preview.png" width="240"> | `boat-speed` | Speed boat<br>*low-poly, flat colours (Kenney Watercraft Kit)* | 2.15 m | 154 | - | CC0 1.0 | [Kenney · Watercraft Kit](https://kenney.nl/assets/watercraft-kit) |
 | <img src="library/ship-liner/preview.png" width="240"> | `ship-liner` | Ocean liner<br>*low-poly, flat colours (Kenney Watercraft Kit)* | 70 m | 2796 | - | CC0 1.0 | [Kenney · Watercraft Kit](https://kenney.nl/assets/watercraft-kit) |
