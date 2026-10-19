@@ -19,7 +19,7 @@
       ],
       "style": "low-poly, flat colours, curved segmented trunk under a crown of faceted fronds (Quaternius 2019)",
       "height": 8,
-      "script": "noon",
+      "script": "meadow",
       "file": "models/library/tree-palm/model.glb",
       "bytes": 28996,
       "sha256": "4cbc59080512804da5a4fe3fbca478f5e0b2adb17b31b7f5c59157d36508ee30",
@@ -32,7 +32,7 @@
         "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
         "page": "https://opengameart.org/content/low-poly-nature-pack-1",
         "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
-        "note": "The plan's source (a Quaternius static palm tree on poly.pizza) is behind a Cloudflare challenge; this is PalmTree_1 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the tree, tree-pine, tree-autumn and bush entries, so they read as one set. Of the four palms in the pack it has the fullest crown (more than a dozen fronds, 5.2 x 4.7 m) on the classic S-curved coconut-palm trunk; PalmTree_3 is straighter and thinner-crowned, PalmTree_4 has only eight fronds, and PalmTree_2 leans so far that its base sits 3.5 m off the crown's centre. The fronds are closed shells (a doubleSided render was identical), so they are not double-sided. Its Coconuts material is buried in the crown and never shows, so it maps to trunk. Height 8 m: a coconut palm on a beach or resort promenade is 6-10 m when young to mid-age (old ones reach 20-30 m); at 8 m the fronds spring from about 7 m and droop to 5.5 m, high over a 1.6 m person, as in an anime beach or island background. Colours on noon (no green), as the broadleaf tree: fronds vermilion (accent) shading to iris, so the palm sits with the other trees as the same foliage; the trunk is pale skin-tan shading to iris, a light, distinct trunk against the near-black trunk of the broadleaf tree and the vermilion trunk of the pine. Static: no clips."
+        "note": "The plan's source (a Quaternius static palm tree on poly.pizza) is behind a Cloudflare challenge; this is PalmTree_1 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the tree, tree-pine, tree-autumn and bush entries, so they read as one set. Of the four palms in the pack it has the fullest crown (more than a dozen fronds, 5.2 x 4.7 m) on the classic S-curved coconut-palm trunk; PalmTree_3 is straighter and thinner-crowned, PalmTree_4 has only eight fronds, and PalmTree_2 leans so far that its base sits 3.5 m off the crown's centre. The fronds are closed shells (a doubleSided render was identical), so they are not double-sided. Its Coconuts material is buried in the crown and never shows, so it maps to trunk. Height 8 m: a coconut palm on a beach or resort promenade is 6-10 m when young to mid-age (old ones reach 20-30 m); at 8 m the fronds spring from about 7 m and droop to 5.5 m, high over a 1.6 m person, as in an anime beach or island background. Colours on meadow: fronds the mid green (iris) shading to the deep green (hair), a richer green than the willow's light foliage; the trunk is pale skin-tan shading to vermilion (accent). Meadow has no brown: of its non-green pairs, skin over accent gives the clearest two-tone on the thin trunk and the warmest, closest read of a sun-bleached palm trunk (skin over practical and practical over skin barely separate, and moon over skin is the willow's trunk). The red shade is a little hot up close. Static: no clips."
       }
     }
   ]
