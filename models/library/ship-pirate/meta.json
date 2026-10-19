@@ -1,0 +1,103 @@
+{
+  "id": "ship-pirate",
+  "name": "Pirate ship",
+  "category": "vehicle-water",
+  "tags": [
+    "vehicle",
+    "ship",
+    "pirate",
+    "sailing",
+    "sea"
+  ],
+  "style": "low-poly, flat colours (Kenney Pirate Kit)",
+  "height": 20,
+  "script": "noon",
+  "colors": {
+    "hull": "#f2d7ae",
+    "hullShade": "#5c3d32",
+    "trim": "#c4452d",
+    "trimShade": "#5c3d32",
+    "sail": "#5c3d32",
+    "sailShade": "#241c16",
+    "emblem": "#fff6e4",
+    "emblemShade": "#f2d7ae",
+    "emblemDark": "#f2d7ae",
+    "emblemDarkShade": "#5c3d32"
+  },
+  "materials": {
+    "colormap": "hull",
+    "colormap#d9835c": "hull",
+    "colormap#e78f66": "hull",
+    "colormap#c87552": "hull",
+    "colormap#ba6948": "hull",
+    "colormap#a05c41": "trim",
+    "colormap#915841": "trim",
+    "colormap#985a41": "trim",
+    "colormap#3f424d": "sail",
+    "colormap#444754": "sail",
+    "colormap#4d505e": "sail",
+    "colormap#b5bbd8": "emblem",
+    "colormap#777b92": "emblemDark"
+  },
+  "smooth": false,
+  "doubleSided": [
+    "sail"
+  ],
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Pirate Kit",
+    "page": "https://kenney.nl/assets/pirate-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney ship-pirate-medium (GLB with the kit colormap; License.txt in the zip: CC0). Two-masted pirate ship with a bowsprit jib and a stern castle. Height 20 m keel to masthead (the mast tops of a medium sailing ship sit about 20 m up) gives a 21.3 m length bowsprit to stern and a 9.6 m beam (chunky toy proportions, beam about twice a real ship's). y = 0 is the keel; the waterline sits at about y = 1.8 m (the lower hull chine, where the dark underbody band ends), so a film sinks the ship 1.8 m into its water plane. Kenney's black sails with a bone-white skull are kept: tan hull planks, red rails and masts, dark brown sails and pennants (sails and pennants are one-sided, drawn double-sided). Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/pirate-kit",
+      "sha256": "667ed2caf92954ddb98f7b7cede831fe99ab75063c26b25e23d32715bee9c943",
+      "bytes": 3154665,
+      "resolved": "https://kenney.nl/media/pages/assets/pirate-kit/e6d4bb1525-1771333093/kenney_pirate-kit.zip"
+    },
+    "member": "Models/GLB format/ship-pirate-medium.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 20,
+    "memberSha256": "193590503ed533ace1260e4a4c6b30e13b13bf7c2ce6f5fad667cde5979859cc"
+  },
+  "file": "model.glb",
+  "sha256": "22e490e4e74153ae15404bf6c319863f21faff2f6536ec271c5e99798f63c919",
+  "bytes": 51012,
+  "triangles": 1812,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#a05c41": "#a05c41",
+    "colormap#915841": "#915841",
+    "colormap#985a41": "#985a41",
+    "colormap#b5bbd8": "#b5bbd8",
+    "colormap#c87552": "#c87552",
+    "colormap#d9835c": "#d9835c",
+    "colormap#ba6948": "#ba6948",
+    "colormap#e78f66": "#e78f66",
+    "colormap#3f424d": "#3f424d",
+    "colormap#444754": "#444754",
+    "colormap#4d505e": "#4d505e",
+    "colormap#777b92": "#777b92"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 19.9998,
+    "heightError": 0,
+    "minY": 0.0002,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1812,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
