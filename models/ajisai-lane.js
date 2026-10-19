@@ -12,37 +12,42 @@
 //   WALL     a sujibei-style temple wall: a stone plinth, a plastered body with five pale horizontal lines (the
 //            temple-rank stripes) near the top, and a small gabled tile cap: an eave fascia slab, a gable prism, a ridge
 //            box, tile-row lines and eave-tile ends on the street slope.
-//   AJISAI   each bush is a leaf mound (three bumped, squashed spheres), ~10 pointed leaves (closed 5-point pyramids)
-//            fanned out of the mound's lower half, and 5-7 blossom balls (bumped spheres, the facets read as florets)
-//            seated on the upper half. One colour per bush (blue, pink, white) with an odd ball of a neighbour's colour.
-//            Back bushes 0.95-1.15 m, front 0.7-0.85 m and gapped so the paving shows in the hero view.
+//   AJISAI   each bush is a leaf mound (three bumped, squashed spheres), six broad pointed-oval leaves (closed
+//            hexagon bipyramids, bent down along the midrib) drooping out under and between the heads, and 5-6 mophead
+//            heads: a crowning head and a ring below it, spaced so a rim of leaf shows round each. A head is an inked
+//            core dome under 14 four-petal florets (low square pyramids, each turned at random) spread over its outer
+//            cap on a golden-angle spiral, so it reads as a dome of small flowers, not one rock. One tone per bush on a
+//            fixed cycle per bed (~46 % blue, 36 % pink, 18 % white of the heads), with an odd head of another tone.
+//            Back bushes 0.92-1.06 m (heads 0.17 m), front 0.52-0.62 m (0.14 m) and gapped so the paving shows.
 //   PROPS    a kasuga-style stone lantern (hexagonal lathes: base, shaft, platform, light box with dark windows, roof,
 //            jewel) in a gap of the back bed; three stepping stones across the front bed; an open umbrella (a scalloped
 //            cone shell on 8 inked ribs, shaft and handle) with its crown against the wall and its handle on the lane.
-//   RAIN     clip "rain" (1.2 s loop): ONE mesh of crossed thin quads (straight streaks, slanted by a light wind) that
-//            fall 3 wraps of the band per loop; ONE mesh of drops that swell at leaf, umbrella-rim and lantern-roof
-//            tips, fall under gravity and vanish into the ground; ONE mesh of ripple rings growing on the puddles.
-//            Positions are rewritten in pose() from literal per-item tables; nothing reads a clock.
+//   RAIN     clip "rain" (1.2 s loop): crossed thin quads (straight streaks, slanted by a light wind) that fall 3
+//            wraps of the band per loop, and teardrops that swell at leaf, umbrella-rim and lantern-roof tips, fall under
+//            gravity and vanish into the ground, all in ONE mesh; ripple rings growing on the puddles ride on the pale
+//            mesh after the wall stripes and glints. Positions are rewritten in pose(); nothing reads a clock.
 //   Every closed part is wound from a point inside it or an explicit outward normal, never by hand.
 // Proportions (real size; base unit the lane width 1.5 m): length 6 m (4 lane widths); kerbs 0.12 m; beds 0.68 m
 // deep; wall plinth 0.3, body to 1.5, cap ridge 1.80 m (1.2 lane widths); lantern 1.42 m; umbrella 1.0 m across;
-// ajisai balls 0.11-0.16 m radius; rain band 2.2 m (the top of the set with rain on).
+// ajisai heads 0.13-0.19 m radius; rain band 2.2 m (the top of the set with rain on).
 // Options: build(THREE, kit, colors, { length, rain, height }).
 //   length  lane length in m (default 6); bushes, slabs, puddles and rain scale with it; the umbrella and stepping
 //           stones stay ~0.65 / 1.0 m from the +X end, the lantern at 0.1 length.
 //   rain    true (default) | false | a density number (1 = ~150 streaks over 6 m). false drops the rain meshes and
 //           the clip; the top is then the wall cap.
 //   height  scales the whole set uniformly so its rest top is `height`.
-// Budget: 12.9k triangles at the defaults (ajisai ~9.5k, rain ~1.5k), 18 meshes. The front bed stops 1.5 m short of the
-// +X end (stepping stones on grass there) and the umbrella stands at that end, so the low hero camera sees the paving.
+// Budget: 14.3k triangles at the defaults (ajisai ~10.6k, rain ~1.6k), 13 meshes (one per material pair: tiles,
+// lantern windows and umbrella ribs share the dark mesh). The front bed stops 1.5 m short of the +X end (stepping
+// stones on grass there) and the umbrella stands at that end, so the low hero camera sees the paving.
 // Colours (meadow, the one script: greens and a pale sky; no brown):
 //   moss line #a9d16e / iris #3f8a47; paving, kerbs, lantern, stepping stones, plinth moon #f7f3e1 / skin #f0c2ae
 //   (pale wet granite; shade only on far faces); puddles sky #d7ecef flat, glints and ripples sclera #f6f3ee flat;
 //   wall plaster practical #f2c94c / skin (the ochre sujibei, the one warm field the hydrangeas sit against), stripes
-//   sclera flat; tiles hair #2c5131 flat with iris tile lines; leaves iris / hair; blossoms blue sky / skin (the
-//   mauve flush of a turning bloom), pink skin / accent #d9483b, white sclera / sky; lantern windows hair flat;
-//   umbrella accent / hair at -0.5 (the strong red spot; the camera-facing inside stays red), ribs and handle hair; rain streaks sky, drops sclera / sky
-//   with a 2 px hull. hair stays lighter than ink #1c261b and differs from the leaf base.
+//   sclera flat; tiles, lantern windows, umbrella ribs and handle hair #2c5131 flat (inked) with iris tile lines;
+//   leaves iris / hair; heads blue sky / iris at 0.4 (cool sky florets with deep green in their shade facets, the
+//   only blue the script has), pink skin / accent #d9483b, white sclera / line (the green-white of a fresh head);
+//   umbrella accent / hair at -0.5 (the strong red spot; the camera-facing inside stays red); rain streaks and drops
+//   sky, unlit and uninked. hair stays lighter than ink #1c261b and differs from the leaf base.
 
 export const meta = {
   name: "ajisai-lane",
@@ -51,16 +56,15 @@ export const meta = {
   colors: {
     moss: "#a9d16e", mossShade: "#3f8a47",
     stone: "#f7f3e1", stoneShade: "#f0c2ae",
-    puddle: "#d7ecef", glint: "#f6f3ee",
-    plaster: "#f2c94c", plasterShade: "#f0c2ae", stripe: "#f6f3ee",
+    puddle: "#d7ecef", pale: "#f6f3ee",
+    plaster: "#f2c94c", plasterShade: "#f0c2ae",
     tile: "#2c5131", tileLine: "#3f8a47",
     leaf: "#3f8a47", leafShade: "#2c5131",
-    blue: "#d7ecef", blueShade: "#f0c2ae",
+    blue: "#d7ecef", blueShade: "#3f8a47",
     pink: "#f0c2ae", pinkShade: "#d9483b",
-    white: "#f6f3ee", whiteShade: "#d7ecef",
-    window: "#2c5131",
-    umbrella: "#d9483b", umbrellaShade: "#2c5131", rib: "#2c5131",
-    rain: "#d7ecef", drop: "#f6f3ee", dropShade: "#d7ecef",
+    white: "#f6f3ee", whiteShade: "#a9d16e",
+    umbrella: "#d9483b", umbrellaShade: "#2c5131",
+    rain: "#d7ecef",
   },
   poses: ["rest"],
 };
@@ -199,26 +203,26 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     puddles.push([cx, cz, rx, rz]);
     prism("puddle", blobOutline(cx, cz, rx, rz, i), PY - 0.004, PY + 0.004);
     const gy = PY + 0.0055, gx = cx - rx * 0.25, gz = cz - rz * 0.25;
-    tri("glint", [gx - rx * 0.4, gy, gz + 0.012], [gx + rx * 0.35, gy, gz - 0.025], [gx + rx * 0.4, gy, gz + 0.008], [gx, gy - 1, gz]);
-    tri("glint", [gx - rx * 0.4, gy, gz + 0.012], [gx + rx * 0.4, gy, gz + 0.008], [gx - rx * 0.3, gy, gz + 0.04], [gx, gy - 1, gz]);
+    tri("pale", [gx - rx * 0.4, gy, gz + 0.012], [gx + rx * 0.35, gy, gz - 0.025], [gx + rx * 0.4, gy, gz + 0.008], [gx, gy - 1, gz]);
+    tri("pale", [gx - rx * 0.4, gy, gz + 0.012], [gx + rx * 0.4, gy, gz + 0.008], [gx - rx * 0.3, gy, gz + 0.04], [gx, gy - 1, gz]);
   }
 
   // ---------- wall ----------
   const WT = 0.34, ZB = ZW - WT;
   box("stone", -L / 2, L / 2, 0, 0.3, ZB - 0.03, ZW + 0.03);
   box("plaster", -L / 2 + 0.01, L / 2 - 0.01, 0.3, 1.5, ZB, ZW);
-  for (let i = 0; i < 5; i++) box("stripe", -L / 2 + 0.02, L / 2 - 0.02, 1.1 + i * 0.075, 1.13 + i * 0.075, ZW - 0.01, ZW + 0.004);
+  for (let i = 0; i < 5; i++) box("pale", -L / 2 + 0.02, L / 2 - 0.02, 1.1 + i * 0.075, 1.13 + i * 0.075, ZW - 0.01, ZW + 0.004);
   // tile cap: fascia slab, gable prism, ridge box
   const ZC = (ZW + ZB) / 2, OV = 0.16;
-  box("tile", -L / 2 - 0.04, L / 2 + 0.04, 1.5, 1.56, ZB - OV, ZW + OV);
+  box("dark", -L / 2 - 0.04, L / 2 + 0.04, 1.5, 1.56, ZB - OV, ZW + OV);
   {
     const sec = [[ZW + OV, 1.56], [ZC, 1.74], [ZB - OV, 1.56]], ref = [0, 1.6, ZC];
     for (let i = 0; i < 3; i++) {
       const [z0, y0] = sec[i], [z1, y1] = sec[(i + 1) % 3];
-      quad("tile", [-L / 2 - 0.04, y0, z0], [L / 2 + 0.04, y0, z0], [L / 2 + 0.04, y1, z1], [-L / 2 - 0.04, y1, z1], ref);
+      quad("dark", [-L / 2 - 0.04, y0, z0], [L / 2 + 0.04, y0, z0], [L / 2 + 0.04, y1, z1], [-L / 2 - 0.04, y1, z1], ref);
     }
-    for (const x of [-L / 2 - 0.04, L / 2 + 0.04]) tri("tile", [x, sec[0][1], sec[0][0]], [x, sec[1][1], sec[1][0]], [x, sec[2][1], sec[2][0]], ref);
-    box("tile", -L / 2 - 0.06, L / 2 + 0.06, 1.71, 1.8, ZC - 0.07, ZC + 0.07);
+    for (const x of [-L / 2 - 0.04, L / 2 + 0.04]) tri("dark", [x, sec[0][1], sec[0][0]], [x, sec[1][1], sec[1][0]], [x, sec[2][1], sec[2][0]], ref);
+    box("dark", -L / 2 - 0.06, L / 2 + 0.06, 1.71, 1.8, ZC - 0.07, ZC + 0.07);
     // tile rows down the street slope (decals 3 mm above it), round eave-tile ends on the fascia
     const dz = ZC - (ZW + OV), dy = 1.74 - 1.56, ln = Math.hypot(dz, dy), nz = dy / ln, ny = -dz / ln; // slope normal (+z, +y)
     const off = 0.004, n = Math.round(L / 0.16);
@@ -246,7 +250,8 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       const nx = Math.cos(a + Math.PI / 6 + Math.PI / 6), nzz = Math.sin(a + Math.PI / 6 + Math.PI / 6);
       const ap = 0.16 * Math.cos(Math.PI / 6) + 0.003, tx = -nzz, tz = nx, w = 0.055;
       const P = (s, y) => [xL + nx * ap + tx * s, y, LZ + nzz * ap + tz * s];
-      quadN("window", P(-w, 0.92), P(w, 0.92), P(w, 1.05), P(-w, 1.05), [nx, 0, nzz]);
+      const Q = (sv, y, o) => [P(sv, y)[0] + nx * o, y, P(sv, y)[2] + nzz * o];
+      hex("dark", [Q(-w, 0.92, -0.006), Q(w, 0.92, -0.006), Q(w, 1.05, -0.006), Q(-w, 1.05, -0.006), Q(-w, 0.92, 0.004), Q(w, 0.92, 0.004), Q(w, 1.05, 0.004), Q(-w, 1.05, 0.004)]);
     }
   }
   // stepping stones across the front bed
@@ -288,12 +293,12 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     };
     for (let j = 0; j < n; j += 2) {
       const p = inner(j), q = midI(j);
-      beam("rib", [q[0], q[1] - 0.012, q[2]], [p[0] * 0.99, p[1] - 0.012, p[2] * 0.99], 0.014);
-      beam("rib", [0, -0.05, 0], [q[0], q[1] - 0.012, q[2]], 0.014);
+      beam("dark", [q[0], q[1] - 0.012, q[2]], [p[0] * 0.99, p[1] - 0.012, p[2] * 0.99], 0.014);
+      beam("dark", [0, -0.05, 0], [q[0], q[1] - 0.012, q[2]], 0.014);
     }
-    beam("rib", [0, 0.06, 0], [0, -0.86, 0], 0.026);
-    beam("rib", [0, -0.84, 0], [0, -0.93, 0.07], 0.034);
-    beam("rib", [0, -0.93, 0.07], [0, -0.88, 0.13], 0.034);
+    beam("dark", [0, 0.06, 0], [0, -0.86, 0], 0.026);
+    beam("dark", [0, -0.84, 0], [0, -0.93, 0.07], 0.034);
+    beam("dark", [0, -0.93, 0.07], [0, -0.88, 0.13], 0.034);
     // drip points: the two lowest rim points
     const rim = Array.from({ length: n }, (_, j) => X(outer(j))).sort((a, b) => a[1] - b[1]);
     drips.push([rim[0][0], rim[0][1] - 0.01, rim[0][2]], [rim[2][0], rim[2][1] - 0.01, rim[2][2]]);
@@ -303,6 +308,9 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   for (const a of [Math.PI / 6 + Math.PI / 3, Math.PI / 6 - Math.PI / 3]) drips.push([xL + 0.36 * Math.cos(a), 1.08, LZ + 0.36 * Math.sin(a)]);
 
   // ---------- ajisai ----------
+  // tones run down a fixed cycle (10 blue, 6 pink, 4 white in 20; with the odd
+  // mixed head that lands at ~46 % blue, 36 % pink, 18 % white of the heads), so no stretch of the lane goes one colour
+  const CYCLE = "bwbpbpwbpbbpwbpbwbpb".split("").map((ch) => ({ b: "blue", p: "pink", w: "white" })[ch]);
   const bushes = [];
   for (const side of [-1, 1]) {
     const step = side < 0 ? 0.66 : 0.95, n = Math.max(2, Math.round((L - 0.3) / step));
@@ -312,68 +320,84 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       if (side > 0 && x > xS - 0.5) continue; // the front bed stops short of the +X end, so the lane shows in the hero view
       const zc = side < 0 ? (ZW + -BZ0) / 2 + 0.02 : (BZ0 + ZF) / 2 - 0.02;
       const R = (side < 0 ? 0.42 : 0.34) + 0.06 * hash(i, side, 32);
-      const H = side < 0 ? 0.98 + 0.16 * hash(i, side, 33) : 0.56 + 0.12 * hash(i, side, 33);
-      const hz = hash(i, side, 34), tone = hz < 0.47 ? "blue" : hz < 0.87 ? "pink" : "white";
-      bushes.push({ x, z: zc + (hash(i, side, 35) - 0.5) * 0.08, R, H, tone, side, id: i * 2 + (side > 0 ? 1 : 0) });
+      const H = side < 0 ? 0.92 + 0.14 * hash(i, side, 33) : 0.52 + 0.1 * hash(i, side, 33);
+      bushes.push({ x, z: zc + (hash(i, side, 35) - 0.5) * 0.08, R, H, side, id: i * 2 + (side > 0 ? 1 : 0) });
     }
+  }
+  for (const side of [-1, 1]) // each bed runs the cycle from its own start, so neither side goes one colour
+    bushes.filter((b) => b.side === side).forEach((b, i) => (b.tone = CYCLE[(i + (side > 0 ? 7 : 0)) % CYCLE.length]));
+  const nrm = (q) => { const l = Math.hypot(...q) || 1; return q.map((v) => v / l); };
+  // a mophead: an inked core dome under ~16 four-petal florets (low square pyramids) spread over its outer cap
+  function head(key, p, rb, ax, seed) {
+    blob(key, p, [rb * 0.8, rb * 0.72, rb * 0.8], 7, 4, 0.05, seed);
+    const t0 = nrm(cross(ax, Math.abs(ax[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0])), t1 = cross(ax, t0);
+    const NF = 14, s = rb * 0.36;
+    for (let f = 0; f < NF; f++) {
+      const th = Math.acos(1 - ((f + 0.5) / NF) * 1.3), ph = f * 2.39996 + seed; // golden-angle spiral over ~105 deg
+      const n = nrm([0, 1, 2].map((q) => ax[q] * Math.cos(th) + Math.sin(th) * (t0[q] * Math.cos(ph) + t1[q] * Math.sin(ph))));
+      const a = nrm(cross(n, Math.abs(n[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0])), b2 = cross(n, a);
+      const rot = hash(seed, f, 7) * Math.PI, ca = Math.cos(rot), sa = Math.sin(rot);
+      const u = [0, 1, 2].map((q) => a[q] * ca + b2[q] * sa), v = [0, 1, 2].map((q) => b2[q] * ca - a[q] * sa);
+      const q0 = [0, 1, 2].map((q) => p[q] + n[q] * rb * 0.74);
+      const P = (i, j) => [0, 1, 2].map((q) => q0[q] + (u[q] * i + v[q] * j) * s);
+      const c4 = [P(1, 0), P(0, 1), P(-1, 0), P(0, -1)], apex = [0, 1, 2].map((q) => q0[q] + n[q] * s * 0.5);
+      const ref = [0, 1, 2].map((q) => q0[q] + n[q] * s * 0.15);
+      for (let k = 0; k < 4; k++) tri(key, c4[k], c4[(k + 1) % 4], apex, ref);
+      tri(key, c4[0], c4[1], c4[2], ref); tri(key, c4[0], c4[2], c4[3], ref);
+    }
+  }
+  // a broad pointed oval leaf: a flat hexagon outline lifted along its midrib (closed bipyramid)
+  function leaf(r0, dir, ln, wd) {
+    const side = nrm([-dir[2], 0, dir[0]]), up = nrm(cross(side, dir));
+    const at = (sv, w) => [0, 1, 2].map((q) => r0[q] + dir[q] * ln * sv + side[q] * w - up[q] * 0.07 * ln * sv * sv * 2);
+    const rim = [at(0, 0), at(0.3, wd), at(0.68, wd * 0.78), at(1, 0), at(0.68, -wd * 0.78), at(0.3, -wd)];
+    const mid = at(0.45, 0), top = [0, 1, 2].map((q) => mid[q] + up[q] * 0.018), bot = [0, 1, 2].map((q) => mid[q] - up[q] * 0.008);
+    for (let k = 0; k < 6; k++) { tri("leaf", rim[k], rim[(k + 1) % 6], top, mid); tri("leaf", rim[k], rim[(k + 1) % 6], bot, mid); }
+    return rim[3];
   }
   for (const b of bushes) {
     const { x, z, R, H, id, side } = b, my = H * 0.4;
     blob("leaf", [x, my, z], [R, H * 0.39, R * 0.82], 8, 5, 0.12, id);
-    blob("leaf", [x - R * 0.55, H * 0.28, z + side * 0.04], [R * 0.6, H * 0.26, R * 0.6], 7, 4, 0.12, id + 100);
-    blob("leaf", [x + R * 0.55, H * 0.3, z - side * 0.03], [R * 0.6, H * 0.26, R * 0.6], 7, 4, 0.12, id + 200);
-    // leaves fanning out of the mound's lower half, mostly toward the lane and the ends
-    for (let k = 0; k < 10; k++) {
-      const a = (k / 10) * 2 * Math.PI + hash(id, k, 1) * 0.5, el = -0.15 + 0.5 * hash(id, k, 2);
-      const d = [Math.cos(a) * Math.cos(el), Math.sin(el), Math.sin(a) * Math.cos(el) * 0.85];
-      const r0 = [x + d[0] * R * 0.8, my + d[1] * H * 0.38, z + d[2] * R * 0.8];
-      const ln = 0.17 + 0.07 * hash(id, k, 3), wd = 0.06;
-      const t = [r0[0] + d[0] * ln, r0[1] + d[1] * ln - 0.04, r0[2] + d[2] * ln];
-      const sd = [-d[2], 0, d[0]], sl = Math.hypot(...sd) || 1;
-      const mid = [0, 1, 2].map((q) => r0[q] + (t[q] - r0[q]) * 0.45);
-      const l = [0, 1, 2].map((q) => mid[q] + (sd[q] / sl) * wd), rr = [0, 1, 2].map((q) => mid[q] - (sd[q] / sl) * wd);
-      const u = [mid[0], mid[1] + 0.025, mid[2]];
-      const ref = [0, 1, 2].map((q) => (r0[q] + t[q] + l[q] + rr[q] + u[q]) / 5);
-      tri("leaf", r0, l, u, ref); tri("leaf", l, t, u, ref); tri("leaf", t, rr, u, ref); tri("leaf", rr, r0, u, ref);
-      tri("leaf", r0, l, t, ref); tri("leaf", r0, t, rr, ref);
-    }
-    // blossom balls on the upper half
-    const nb = 6 + Math.floor(hash(id, 41) * 3);
-    for (let k = 0; k < nb; k++) {
-      const a = (k / nb) * 2 * Math.PI + hash(id, k, 42), el = 0.35 + 0.75 * hash(id, k, 43);
-      const rb = 0.1 + 0.045 * hash(id, k, 44);
+    blob("leaf", [x - R * 0.55, H * 0.27, z + side * 0.04], [R * 0.58, H * 0.25, R * 0.58], 6, 3, 0.1, id + 100);
+    blob("leaf", [x + R * 0.55, H * 0.29, z - side * 0.03], [R * 0.58, H * 0.25, R * 0.58], 6, 3, 0.1, id + 200);
+    // heads: one crowning, a ring below it; centres spaced so each head keeps a rim of leaf around it
+    const m = R > 0.4 ? 5 : 4, az0 = hash(id, 41) * 2 * Math.PI, rb0 = side < 0 ? 0.17 : 0.14, heads = [[hash(id, 46) * 6.28, 1.35]];
+    for (let k = 0; k < m; k++) heads.push([az0 + (k / m) * 2 * Math.PI, 0.42 + 0.1 * hash(id, k, 43)]);
+    heads.forEach(([a, el], k) => {
       const d = [Math.cos(a) * Math.cos(el), Math.sin(el), Math.sin(a) * Math.cos(el)];
-      const p = [x + d[0] * (R * 0.92), my + d[1] * (H * 0.42) + rb * 0.15, z + d[2] * (R * 0.78)];
-      const tone = hash(id, k, 45) < 0.12 ? (b.tone === "pink" ? "blue" : "pink") : b.tone;
-      blob(tone, p, [rb, rb * 0.9, rb], 8, 6, 0.22, id * 31 + k);
-    }
-    // drips from the lane-side leaf tips
-    for (let k = 0; k < 2; k++) {
-      const xx = x + (k ? 0.5 : -0.4) * R * hash(id, k, 51), zz = z - side * R * 0.95;
-      drips.push([xx, 0.32 + 0.1 * hash(id, k, 52), zz]);
+      const rb = rb0 * (0.9 + 0.2 * hash(id, k, 44));
+      const p = [x + d[0] * (R + rb * 0.2), my + d[1] * (H * 0.39 + rb * 0.25), z + d[2] * (R * 0.82 + rb * 0.2)];
+      const tone = hash(id, k, 45) < 0.1 ? (b.tone === "pink" ? "blue" : "pink") : b.tone;
+      head(tone, p, rb, nrm([d[0], d[1] + 0.5, d[2]]), id * 31 + k);
+    });
+    // six broad leaves under and between the ring heads, drooping out over the bed
+    for (let k = 0; k < 6; k++) {
+      const a = az0 + ((k + 0.5) / 6) * 2 * Math.PI, el = 0.05 + 0.25 * hash(id, k, 2);
+      const d = nrm([Math.cos(a) * Math.cos(el), Math.sin(el), Math.sin(a) * Math.cos(el) * 0.85]);
+      const r0 = [x + d[0] * R * 0.75, my + d[1] * H * 0.36, z + d[2] * R * 0.62];
+      const tip = leaf(r0, d, 0.26 + 0.06 * hash(id, k, 3), 0.085);
+      if ((side < 0 ? d[2] > 0.3 : d[2] < -0.3) && tip[1] > 0.12) drips.push([tip[0], tip[1] - 0.012, tip[2]]);
     }
   }
 
-  // ---------- static meshes ----------
+  // ---------- static meshes (one per material pair) ----------
   const MAT = {
     moss: [c.moss, c.mossShade, 0.3, true, 3],
     stone: [c.stone, c.stoneShade, 0.2, true, 3],
     puddle: [c.puddle, c.puddle, 0.35, true, 2],
-    glint: [c.glint, c.glint, 0.35, false],
     plaster: [c.plaster, c.plasterShade, 0.1, true, 4],
-    stripe: [c.stripe, c.stripe, 0.35, false],
-    tile: [c.tile, c.tile, 0.35, true, 3],
+    dark: [c.tile, c.tile, 0.35, true, 2], // tiles, lantern windows, umbrella ribs, shaft and handle
     tileLine: [c.tileLine, c.tileLine, 0.35, false],
     leaf: [c.leaf, c.leafShade, 0.25, true, 2],
-    blue: [c.blue, c.blueShade, 0.15, true, 2],
-    pink: [c.pink, c.pinkShade, 0.15, true, 2],
-    white: [c.white, c.whiteShade, 0.15, true, 2],
-    window: [c.window, c.window, 0.35, false],
+    blue: [c.blue, c.blueShade, 0.4, true, 1.5],
+    pink: [c.pink, c.pinkShade, 0.2, true, 1.5],
+    white: [c.white, c.whiteShade, 0.2, true, 1.5],
     umbrella: [c.umbrella, c.umbrellaShade, -0.5, true, 3],
-    rib: [c.rib, c.rib, 0.35, true, 1.5],
+    pale: [c.pale, c.pale, -2, false], // wall stripes and puddle glints; the ripples join it when it rains
   };
   const sb = new THREE.Box3();
   for (const [key, arr] of Object.entries(soups)) {
+    if (key === "pale" && density > 0) continue;
     const [base, shade, threshold, outline, px] = MAT[key];
     const g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.Float32BufferAttribute(arr, 3));
@@ -385,7 +409,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     sb.union(g.boundingBox);
   }
 
-  // ---------- rain: streaks, drops, ripples (rewritten per frame) ----------
+  // ---------- rain: streaks and drops in one mesh, ripples on the pale mesh (rewritten per frame) ----------
   const T = 1.2, HB = 2.2, LS = 0.42, WRAPS = 3, SLANT = -0.1, G = 9.8;
   const dyn = [];
   if (density > 0) {
@@ -394,13 +418,22 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const zr = [ZW + 0.08, ZF - 0.05], streaks = [];
     for (let i = 0; i < ns; i++)
       streaks.push([-L / 2 + 0.3 + hash(i, 61) * (L - 0.3), zr[0] + hash(i, 62) * (zr[1] - zr[0]), hash(i, 63) * PB]);
-    const sp = new Float32Array(ns * 24 * 3);
+    // drops: a teardrop (tip up) after the streaks in the same buffer
+    const tpl = [[0, 1.7, 0], ...Array.from({ length: 6 }, (_, i) => [Math.cos((i / 6) * 2 * Math.PI), 0, Math.sin((i / 6) * 2 * Math.PI)]), [0, -1, 0]];
+    const faces = [];
+    for (let i = 0; i < 6; i++) faces.push([0, 1 + ((i + 1) % 6), 1 + i], [7, 1 + i, 1 + ((i + 1) % 6)]);
+    const S0 = ns * 24 * 3, sp = new Float32Array(S0 + drips.length * faces.length * 9), DR = 0.018;
     const g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.BufferAttribute(sp, 3));
     const mesh = kit.toon(g, c.rain, c.rain, { threshold: -2, outline: false, doubleSided: true });
     mesh.name = "rain";
     mesh.frustumCulled = false;
     body.add(mesh);
+    const dropAt = (i, cx, cy, cz, s, sy) => {
+      let o = S0 + i * faces.length * 9;
+      for (const f of faces) for (const v of f) { sp[o++] = cx + tpl[v][0] * s; sp[o++] = cy + tpl[v][1] * s * sy; sp[o++] = cz + tpl[v][2] * s; }
+    };
+    const dph = drips.map((_, i) => hash(i, 71));
     dyn.push((t) => {
       let o = 0;
       const put = (p) => (sp[o++] = p[0], sp[o++] = p[1], sp[o++] = p[2]);
@@ -413,58 +446,31 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
           put(a); put(e); put(b); put(a); put(d); put(e);
         }
       }
-      g.attributes.position.needsUpdate = true;
-      g.computeBoundingBox(); g.computeBoundingSphere();
-    });
-    // drops: a teardrop (tip up), swells at its tip for 55 % of its cycle, then falls and vanishes into the ground
-    const tpl = [[0, 1.7, 0], ...Array.from({ length: 6 }, (_, i) => [Math.cos((i / 6) * 2 * Math.PI), 0, Math.sin((i / 6) * 2 * Math.PI)]), [0, -1, 0]];
-    const faces = [];
-    for (let i = 0; i < 6; i++) faces.push([0, 1 + ((i + 1) % 6), 1 + i], [7, 1 + i, 1 + ((i + 1) % 6)]);
-    const dp = new Float32Array(drips.length * faces.length * 9), dn = new Float32Array(dp.length);
-    const DR = 0.014;
-    const dropAt = (i, cx, cy, cz, s, sy) => {
-      let o = i * faces.length * 9;
-      for (const f of faces) for (const v of f) { dp[o++] = cx + tpl[v][0] * s; dp[o++] = cy + tpl[v][1] * s * sy; dp[o++] = cz + tpl[v][2] * s; }
-    };
-    drips.forEach((p, i) => dropAt(i, p[0], p[1], p[2], DR, 1));
-    const g2 = new THREE.BufferGeometry();
-    g2.setAttribute("position", new THREE.BufferAttribute(dp, 3));
-    g2.computeVertexNormals();
-    // hull normals from the template (radial), so they stay valid when a drop moves, stretches or collapses
-    for (let i = 0; i < dp.length / 3; i++) {
-      const v = tpl[faces[Math.floor((i % (faces.length * 3)) / 3)][i % 3]], l = Math.hypot(...v);
-      dn.set([v[0] / l, v[1] / l, v[2] / l], i * 3);
-    }
-    g2.setAttribute("hullNormal", new THREE.BufferAttribute(dn, 3));
-    const dm = kit.toon(g2, c.drop, c.dropShade, { threshold: 0.2, px: 2 });
-    dm.name = "drops";
-    dm.frustumCulled = false;
-    body.add(dm);
-    const dph = drips.map((_, i) => hash(i, 71));
-    dyn.push((t) => {
+      // each drop swells at its tip for 55 % of its cycle, falls under gravity, then vanishes into the ground
       drips.forEach(([x, y, z], i) => {
         const u = ((((t / T + dph[i]) % 1) + 1) % 1), tf = Math.sqrt((2 * (y - GY)) / G) / T;
         if (u < 0.55) dropAt(i, x, y - DR * 0.4 * (u / 0.55), z, DR * (0.45 + 0.55 * (u / 0.55)), 1);
         else if (u < 0.55 + tf) { const tau = (u - 0.55) * T; dropAt(i, x, y - 0.5 * G * tau * tau, z, DR, 1.6); }
         else dropAt(i, x, GY * 0.5, z, 0, 1);
       });
-      g2.attributes.position.needsUpdate = true;
-      g2.computeBoundingBox(); g2.computeBoundingSphere();
+      g.attributes.position.needsUpdate = true;
+      g.computeVertexNormals(); g.computeBoundingBox(); g.computeBoundingSphere();
     });
-    // ripples: two rings per puddle, half a loop apart, growing and thinning
+    // ripples: two rings per puddle, half a loop apart, growing and thinning; written after the static pale parts
     const rings = [];
     puddles.forEach(([cx, cz, rx, rz], i) => {
       for (let k = 0; k < 2; k++) rings.push([cx + (hash(i, k, 81) - 0.5) * rx * 0.5, cz + (hash(i, k, 82) - 0.5) * rz * 0.4, rz * 0.62, k * 0.5 + hash(i, 83) * 0.2]);
     });
-    const RS = 14, rp = new Float32Array(rings.length * RS * 18);
+    const pale = soups.pale ?? [], RS = 14, rp = new Float32Array(pale.length + rings.length * RS * 18);
+    rp.set(pale);
     const g3 = new THREE.BufferGeometry();
     g3.setAttribute("position", new THREE.BufferAttribute(rp, 3));
-    const rm = kit.toon(g3, c.glint, c.glint, { threshold: -2, outline: false });
-    rm.name = "ripples";
+    const rm = kit.toon(g3, c.pale, c.pale, { threshold: -2, outline: false });
+    rm.name = "pale";
     rm.frustumCulled = false;
     body.add(rm);
     dyn.push((t) => {
-      let o = 0;
+      let o = pale.length;
       const put = (x, y, z) => (rp[o++] = x, rp[o++] = y, rp[o++] = z);
       const y = PY + 0.006;
       for (const [cx, cz, rmax, ph] of rings) {
