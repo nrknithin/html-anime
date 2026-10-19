@@ -1,0 +1,89 @@
+{
+  "id": "ufo",
+  "name": "UFO (flying saucer)",
+  "category": "vehicle-space",
+  "tags": [
+    "vehicle",
+    "ufo",
+    "flying saucer",
+    "space",
+    "sci-fi",
+    "alien",
+    "static"
+  ],
+  "style": "low-poly, flat colours, colour map flattened (Kenney Tower Defense Kit)",
+  "height": 5.2,
+  "script": "indigo",
+  "colors": {
+    "hull": "#d5e2ff",
+    "hullShade": "#1b2d6b",
+    "metal": "#e7eefc",
+    "metalShade": "#1b2d6b",
+    "lights": "#e23b4a",
+    "lightsShade": "#1b2d6b",
+    "dome": "#f0c36a",
+    "domeShade": "#e7a04a"
+  },
+  "materials": {
+    "colormap": "hull",
+    "colormap#9ca3c4": "hull",
+    "colormap#80869e": "metal",
+    "colormap#d1d3e6": "dome",
+    "colormap#8a5fd5": "lights",
+    "colormap#7851ca": "lights"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Tower Defense Kit",
+    "page": "https://kenney.nl/assets/tower-defense-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's pack (Kenney Tower Defense Kit, zip pinned by sha256), but `enemy-ufo-c` instead of the plan's `enemy-ufo-a`. All four kit saucers (a, b, c, d) were rendered: a is squat with a raised turret collar, b has a green bumper ring, d is a stacked double disc; c is the classic flying saucer (a wide, thin faceted disc, a raised ring and a big dome) and reads best. Also compared Quaternius Ultimate Spaceships (May 2021, OpenGameArt, used by the `spaceship` entry): its only disc ship, Pancake, is a gunship with a fighter cockpit, not a classic saucer. Real size: a film flying saucer is about 8-12 m across; at a 5.2 m rest height (dome top) this model is 9.9 m across. Bottom of the belly at y = 0 (films lift it). Kenney ships every triangle twice, back to back, so `ingest.dropBackfaces` removes the inward copies (440 -> 220 tris); otherwise their ink hulls paint the surface black. The colour map is flattened to 5 colours: silver disc panels -> hull (moon over sky), the purple disc panels and rim -> lights (indigo accent red over sky), the darker raised ring and belly -> metal (line over sky), the white dome and its collar -> dome (practical amber over iris, a lit canopy for a night sky). Kept faceted (`smooth: false`). Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/tower-defense-kit",
+      "sha256": "d4c887680b709218315e4e1c17ae18c160635dcdfc4199763eeba97c02c77f00",
+      "bytes": 5404433,
+      "resolved": "https://kenney.nl/media/pages/assets/tower-defense-kit/a402493eaa-1726471567/kenney_tower-defense-kit.zip"
+    },
+    "member": "Models/GLB format/enemy-ufo-c.glb",
+    "height": 5.2,
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "maxColors": 5,
+    "dropBackfaces": true,
+    "memberSha256": "84d5f618e7498f97869fad53c23054a7ba629c9e70b1ce3862536355d32728db"
+  },
+  "file": "model.glb",
+  "sha256": "9eb4295b357e7317cefa0ca11d6a3eb7811d1cdd5ece93205b951faff5844a2f",
+  "bytes": 9188,
+  "triangles": 220,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#9ca3c4": "#9ca3c4",
+    "colormap#80869e": "#80869e",
+    "colormap#d1d3e6": "#d1d3e6",
+    "colormap#8a5fd5": "#8a5fd5",
+    "colormap#7851ca": "#7851ca"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 5.2,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 220,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
