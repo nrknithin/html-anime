@@ -3,7 +3,7 @@
 // its left is +X, stands on y = 0, centred on x = 0, z = 0 (the bbox of the whole set).
 //
 // Construction (triangle soups merged per material across every piece, so the whole spread is 8 meshes):
-//   SHEET    the "blue sheet": one closed heightfield slab (80 x 80 grid, smooth normals, 4 mm thick, flat bottom).
+//   SHEET    the "blue sheet": one closed heightfield slab (56 x 56 grid, smooth normals, 4 mm thick, flat bottom).
 //            Soft wrinkles are ridges, each a Gaussian cross-section along a short segment with a sine envelope: two
 //            fanning in from every weighted corner, a few running in from the edges. They fade to flat under every
 //            item's footprint, so things sit on the sheet. The sheet's tone pair is inverted on purpose: base = the
@@ -17,7 +17,7 @@
 //   PROPS    a thermos with a red cup-cap, three paper cups (tea surfaces), two cans and one on its side, two pairs of
 //            chopsticks on the open tier's flank, two zabuton cushions (superellipsoids), four rocks pinning the
 //            corners, a pair of sneakers left at the front edge, heels to the sheet.
-//   PETALS   flat notched sakura petals (2 mm prisms, no ink), scattered by a seeded hash (mulberry32), tilted to the
+//   PETALS   flat notched sakura petals (a 4-triangle fan facing up, no ink), scattered by a seeded hash (mulberry32), tilted to the
 //            sheet's slope; most on the sheet away from the items, a few on the ground around it, some on the lid
 //            and the cushions.
 //   Built from THREE geometries (non-indexed, transformed, wound by three.js, never mirrored) plus the custom sheet,
@@ -112,13 +112,13 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const ridge = (x0, z0, ang, len, amp, w) => ridges.push({ x0, z0, dx: Math.cos(ang), dz: Math.sin(ang), len, amp, w });
   for (const [sx, sz] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) {
     const base = Math.atan2(-sz, -sx); // toward the centre
-    for (const k of [-1, 1]) ridge(sx * (HALF - 0.14), sz * (HALF - 0.14), base + k * (0.28 + 0.12 * rand()), 0.55 + 0.4 * rand(), 0.028 + 0.012 * rand(), 0.05 + 0.02 * rand());
+    for (const k of [-1, 1]) ridge(sx * (HALF - 0.14), sz * (HALF - 0.14), base + k * (0.28 + 0.12 * rand()), 0.55 + 0.4 * rand(), 0.036 + 0.012 * rand(), 0.075 + 0.025 * rand());
   }
   for (let e = 0; e < 4; e++)
     for (let k = 0; k < 2; k++) {
       const u = (rand() - 0.5) * 1.6, ang = (e * Math.PI) / 2 + Math.PI + (rand() - 0.5) * 0.7;
       const [x0, z0] = [[HALF, u], [u, HALF], [-HALF, u], [u, -HALF]][e];
-      ridge(x0, z0, ang, 0.3 + 0.3 * rand(), 0.022 + 0.01 * rand(), 0.045 + 0.02 * rand());
+      ridge(x0, z0, ang, 0.3 + 0.3 * rand(), 0.028 + 0.01 * rand(), 0.07 + 0.02 * rand());
     }
   const smooth = (a, b, v) => { const t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); };
   function lift(x, z) {
@@ -147,7 +147,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
 
   // sheet slab
   {
-    const N = 80, s = S("sheet");
+    const N = 56, s = S("sheet");
     const V = [], Nn = [];
     const e = 0.004;
     for (let j = 0; j <= N; j++)
@@ -246,7 +246,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       tri.quadraticCurveTo(...P, ...B);
     }
     tri.closePath();
-    const oni = new THREE.ExtrudeGeometry(tri, { depth: 0.016, bevelEnabled: true, bevelThickness: 0.008, bevelSize: 0.006, bevelSegments: 3, curveSegments: 5 });
+    const oni = new THREE.ExtrudeGeometry(tri, { depth: 0.016, bevelEnabled: true, bevelThickness: 0.008, bevelSize: 0.006, bevelSegments: 2, curveSegments: 3 });
     oni.translate(0, R / 2 + 0.006, -0.008); // base on y = 0, centred in depth
     const nori = new THREE.BoxGeometry(0.032, 0.036, 0.036);
     nori.translate(0, 0.018, 0);
@@ -292,26 +292,26 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   }
 
   // ---------- drinks ----------
-  cyl("white", [thermosAt[0], T, thermosAt[1]], 0.045, 0.045, 0.25, 18);
-  cyl("white", [thermosAt[0], T + 0.25, thermosAt[1]], 0.036, 0.045, 0.02, 18);
-  cyl("lacquer", [thermosAt[0], T + 0.268, thermosAt[1]], 0.047, 0.04, 0.058, 18);
+  cyl("white", [thermosAt[0], T, thermosAt[1]], 0.045, 0.045, 0.25, 12);
+  cyl("white", [thermosAt[0], T + 0.25, thermosAt[1]], 0.036, 0.045, 0.02, 12);
+  cyl("lacquer", [thermosAt[0], T + 0.268, thermosAt[1]], 0.047, 0.04, 0.058, 12);
   for (const [x, z] of cupsAt) {
-    cyl("white", [x, T, z], 0.037, 0.027, 0.085, 14);
-    cyl("tea", [x, T + 0.085, z], 0.031, 0.031, 0.0015, 14);
+    cyl("white", [x, T, z], 0.037, 0.027, 0.085, 10);
+    cyl("tea", [x, T + 0.085, z], 0.031, 0.031, 0.0015, 10);
   }
   const canKeys = ["egg", "lacquer"];
   cansAt.forEach(([x, z], k) => {
-    cyl(canKeys[k], [x, T + 0.008, z], 0.033, 0.033, 0.106, 16);
-    cyl("white", [x, T, z], 0.03, 0.027, 0.008, 16);
-    cyl("white", [x, T + 0.114, z], 0.028, 0.033, 0.008, 16);
+    cyl(canKeys[k], [x, T + 0.008, z], 0.033, 0.033, 0.106, 10);
+    cyl("white", [x, T, z], 0.03, 0.027, 0.008, 10);
+    cyl("white", [x, T + 0.114, z], 0.028, 0.033, 0.008, 10);
   });
-  geo("pale", new THREE.CylinderGeometry(0.033, 0.033, 0.12, 16), [canLyingAt[0], T + 0.033, canLyingAt[1]], [0, 0.9, Math.PI / 2]);
+  geo("pale", new THREE.CylinderGeometry(0.033, 0.033, 0.12, 10), [canLyingAt[0], T + 0.033, canLyingAt[1]], [0, 0.9, Math.PI / 2]);
 
   // ---------- cushions, rocks, shoes ----------
-  superBall("egg", [cushA[0], T, cushA[1]], [0.275, 0.05, 0.295], 0.3, 0.75, 0.2);
-  superBall("pale", [cushB[0], T, cushB[1]], [0.275, 0.05, 0.295], 0.3, 0.75, -0.15);
+  superBall("egg", [cushA[0], T, cushA[1]], [0.275, 0.05, 0.295], 0.3, 0.75, 0.2, 12);
+  superBall("pale", [cushB[0], T, cushB[1]], [0.275, 0.05, 0.295], 0.3, 0.75, -0.15, 12);
   for (const [x, z] of rocksAt) {
-    const g = new THREE.IcosahedronGeometry(1, 1);
+    const g = new THREE.IcosahedronGeometry(1, 0);
     const p = g.attributes.position;
     for (let i = 0; i < p.count; i++) {
       // deterministic lumps keyed on the vertex direction, so shared corners move together
@@ -325,7 +325,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   for (const [x, a] of [[0.12, 0.08], [0.25, -0.05]]) {
     const z = HALF + 0.17;
     const M = new THREE.Matrix4().compose(tmpP.set(x, 0, z), tmpQ.setFromEuler(tmpE.set(0, a, 0)), tmpS.set(1, 1, 1));
-    const sole = new THREE.SphereGeometry(1, 16, 8);
+    const sole = new THREE.SphereGeometry(1, 10, 6);
     const pp = sole.attributes.position;
     for (let i = 0; i < pp.count; i++) {
       const f = (v, k) => Math.sign(v) * Math.abs(v) ** k;
@@ -334,9 +334,9 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     sole.computeVertexNormals();
     geo("white", sole, [0, 0.012, 0], [0, 0, 0], [0.046, 0.012, 0.13], M);
     // upper: a dome dropping toward the toe, a raised heel collar, a white toe cap and a dark opening
-    geo("lacquer", new THREE.SphereGeometry(1, 16, 10), [0, 0.038, -0.01], [0.14, 0, 0], [0.041, 0.034, 0.108], M);
-    geo("lacquer", new THREE.CylinderGeometry(0.034, 0.038, 0.06, 14), [0, 0.042, -0.07], [-0.12, 0, 0], [1, 1, 1], M);
-    geo("black", new THREE.CylinderGeometry(0.028, 0.028, 0.004, 14), [0, 0.073, -0.074], [-0.12, 0, 0], [1, 1, 1.25], M);
+    geo("lacquer", new THREE.SphereGeometry(1, 10, 6), [0, 0.038, -0.01], [0.14, 0, 0], [0.041, 0.034, 0.108], M);
+    geo("lacquer", new THREE.CylinderGeometry(0.034, 0.038, 0.06, 8), [0, 0.042, -0.07], [-0.12, 0, 0], [1, 1, 1], M);
+    geo("black", new THREE.CylinderGeometry(0.028, 0.028, 0.004, 8), [0, 0.073, -0.074], [-0.12, 0, 0], [1, 1, 1.25], M);
     geo("white", new THREE.SphereGeometry(1, 12, 6), [0, 0.02, 0.078], [0, 0, 0], [0.038, 0.02, 0.04], M);
   }
   // zabuton tufts (the centre tie)
@@ -344,15 +344,15 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
 
   // ---------- petals ----------
   {
-    const sh = new THREE.Shape(), L = 0.044, W = 0.032;
-    sh.moveTo(0, 0);
-    sh.bezierCurveTo(W * 0.55, L * 0.25, W * 0.6, L * 0.75, W * 0.28, L);
-    sh.lineTo(0, L * 0.86); // the notch
-    sh.lineTo(-W * 0.28, L);
-    sh.bezierCurveTo(-W * 0.6, L * 0.75, -W * 0.55, L * 0.25, 0, 0);
-    const g = new THREE.ExtrudeGeometry(sh, { depth: 0.002, bevelEnabled: false, curveSegments: 3 });
-    g.translate(0, -L / 2, 0);
-    g.rotateX(-Math.PI / 2); // lie flat, extruded upward
+    // one flat, upward-facing fan of 4 triangles: base, two flanks, two lobes and the notch between them
+    const L = 0.044, W = 0.032;
+    const pts = [[0, -L / 2], [W * 0.5, -L * 0.02], [W * 0.3, L / 2], [0, L * 0.34], [-W * 0.3, L / 2], [-W * 0.5, -L * 0.02]];
+    const pos = [];
+    for (let k = 1; k < 5; k++)
+      for (const [x, z] of [pts[0], pts[k + 1], pts[k]]) pos.push(x, 0.0012, z); // wound counter-clockwise seen from +Y
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute("normal", new THREE.Float32BufferAttribute(pos.map((v, i) => (i % 3 === 1 ? 1 : 0)), 3));
     const blocked = (x, z) => keep.some(([kx, kz, kr]) => Math.hypot(x - kx, z - kz) < kr + 0.02) || (x > -0.05 && x < 0.4 && z > HALF + 0.02 && z < HALF + 0.33);
     let placed = 0, tries = 0;
     const onLid = Math.min(petals, 4), onCush = Math.min(Math.max(0, petals - onLid), 6);
