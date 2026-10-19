@@ -13,7 +13,7 @@
 //   TENT    a dome (ellipsoid cap, 2.1 m across, 1.15 m high), two red poles crossing over it, a dark doorway patch on
 //           its front, the door flap propped out as an awning on two poles, guy lines to pegs.
 //   FIRE    eleven stones in a ring, four logs in a teepee, flame tongues (red outside, yellow core in front), an iron
-//           tripod with a chain and a pot. Smoke puffs rise above the pot.
+//           tripod with a chain and a pot. Four small smoke puffs drift sideways above the pot, shrinking as they rise.
 //   CAMP    two low folding chairs (sling seat and back on X legs) facing the fire, a folding table (wood slats, X legs)
 //           with two mugs and a lantern, a firewood stack (3-2-1 logs), a backpack by the awning.
 //   PINES   trunks with stacked 8-point star cones, the anime pine silhouette.
@@ -21,8 +21,8 @@
 // 0.68 m; table 0.62 x 0.42 x 0.38 m; pines 4.0 m and 3.3 m (the top of the set, meta.height = 4.0).
 // Options: build(THREE, kit, colors, { height }): scales the whole set uniformly so the tall pine's top is `height`.
 // Clip: fire (2 s loop, pose("fire@0.5")): the flame and smoke meshes are rewritten per frame from their rest vertices
-// (flames sway and stretch by height along the tongue, smoke puffs rise, drift and swell, then shrink away). Integer
-// frequencies over 2 s, so the loop closes.
+// (flames sway and stretch by height along the tongue; four small smoke puffs rise to about the tent ridge, drifting
+// sideways and shrinking). Integer frequencies over 2 s, so the loop closes.
 // Script: meadow (greens, pale sky, red accent, yellow practical; no brown, so wood is skin over accent as tree-pine).
 // Two-tone pairs (base / shade): grass line #a9d16e / iris #3f8a47; tufts iris flat; needles iris #3f8a47 / hair
 // #2c5131 (also the backpack); wood skin #f0c2ae / accent #d9483b; canvas moon #f7f3e1 / sky #d7ecef (tent, awning,
@@ -321,7 +321,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   tongue("core", F.x - 0.03, F.z + 0.14, 0.075, 0.27, 0.85);
 
   // ---------- smoke puffs ----------
-  const PUFFS = 7;
+  const PUFFS = 4;
   const puffGeo = new THREE.IcosahedronGeometry(1, 1);
   for (let k = 0; k < PUFFS; k++) {
     owner = 1000 + k;
@@ -351,7 +351,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   }
   const face = (x, z) => Math.atan2(F.x - x, F.z - z);
   chair(1.5, -0.1, face(1.5, -0.1));
-  chair(-0.45, 1.3, face(-0.45, 1.3));
+  chair(-0.3, 1.4, face(-0.3, 1.4) + 0.35); // turned a little, opening the view to the backpack in hero
 
   // ---------- table, mugs, lantern ----------
   {
@@ -402,7 +402,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
 
   // ---------- backpack ----------
   {
-    const BX = -2.25, BZ = 0.75, yaw = 0.7, lean = -0.12;
+    const BX = -2.7, BZ = 1.2, yaw = 0.7, lean = -0.12;
     const P = M(BX, G, BZ, lean, yaw, 0);
     geoM("needle", (() => {
       const g = new THREE.SphereGeometry(1, 12, 8);
@@ -527,8 +527,8 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
         const i = v * 3, k = L.o[v] - 1000;
         const u = (((t / PER + k / PUFFS) % 1) + 1) % 1;
         const sm = (a, b, x) => { const q = Math.min(1, Math.max(0, (x - a) / (b - a))); return q * q * (3 - 2 * q); };
-        const s = (0.05 + 0.3 * u) * (0.85 + 0.3 * ((k * 0.618) % 1)) * sm(0, 0.12, u) * (1 - sm(0.72, 1, u));
-        const cx = F.x + 0.6 * u ** 1.4 + 0.1 * Math.sin(TAU * u * 2 + k), cy = G + 1.12 + 1.6 * u, cz = F.z - 0.25 * u + 0.05 * Math.cos(TAU * u + k);
+        const s = 0.085 * (1 - 0.6 * u) * sm(0, 0.15, u) * (1 - sm(0.8, 1, u)); // small puffs, shrinking as they rise
+        const cx = F.x + 0.45 * u ** 1.2 + 0.03 * Math.sin(TAU * u + k), cy = G + 1.0 + 0.48 * u, cz = F.z - 0.15 * u;
         P3[i] = cx + L.p[i] * s;
         P3[i + 1] = cy + L.p[i + 1] * s * 0.85;
         P3[i + 2] = cz + L.p[i + 2] * s;
