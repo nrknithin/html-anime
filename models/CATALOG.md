@@ -215,6 +215,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | <img src="library/bicycle/preview.png" width="240"> | `bicycle` | Bicycle<br>*low-poly, flat colours; simple diamond-frame street bike with round tubes, no spokes, chain or pedals (Quaternius Public Transport, 2017)* | 1 m | 2812 | - | CC0 1.0 | [Quaternius · LowPoly Public Transport](https://opengameart.org/content/lowpoly-public-transport) |
 | <img src="library/car-delivery/preview.png" width="240"> | `car-delivery` | Delivery truck<br>*low-poly, flat colours (Kenney Car Kit)* | 2.8 m | 2476 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
+| <img src="library/car-firetruck/preview.png" width="240"> | `car-firetruck` | Fire truck<br>*low-poly, flat colours (Kenney Car Kit)* | 3 m | 2767 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
 | <img src="library/car-hatchback/preview.png" width="240"> | `car-hatchback` | Hatchback sports<br>*low-poly, flat colours (Kenney Car Kit)* | 1.4 m | 2088 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
 | <img src="library/car-police/preview.png" width="240"> | `car-police` | Police car<br>*low-poly, flat colours (Kenney Car Kit)* | 1.6 m | 2304 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
 | <img src="library/car-sedan/preview.png" width="240"> | `car-sedan` | Sedan<br>*low-poly, flat colours (Kenney Car Kit)* | 1.45 m | 2032 | - | CC0 1.0 | [Kenney · Car Kit](https://kenney.nl/assets/car-kit) |
