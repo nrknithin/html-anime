@@ -1,0 +1,139 @@
+{
+  "id": "snake",
+  "name": "Snake",
+  "category": "reptile",
+  "tags": [
+    "animal",
+    "snake",
+    "reptile",
+    "serpent",
+    "enemy",
+    "cute",
+    "cartoon"
+  ],
+  "style": "low-poly, flat colours, cartoon (Quaternius 2019): oversized head and eyes, fangs, forked tongue",
+  "height": 0.2,
+  "script": "noon",
+  "colors": {
+    "scale": "#c4452d",
+    "scaleShade": "#5c3d32",
+    "belly": "#f2d7ae",
+    "bellyShade": "#f0c2ae",
+    "eye": "#fff6e4",
+    "eyeShade": "#f2d7ae",
+    "pupil": "#241c16",
+    "pupilShade": "#5c3d32",
+    "mouth": "#f0c2ae",
+    "mouthShade": "#5c3d32",
+    "fang": "#fffaf2",
+    "fangShade": "#f2d7ae",
+    "tongue": "#5c3d32",
+    "tongueShade": "#5c3d32"
+  },
+  "materials": {
+    "DarkGreen": "scale",
+    "LightGreen": "belly",
+    "Yellow": "eye",
+    "DarkRed": "pupil",
+    "Red": "mouth",
+    "Teeth": "fang",
+    "Purple": "tongue"
+  },
+  "clips": {
+    "idle": "Snake_Idle",
+    "walk": "Snake_Walk",
+    "jump": "Snake_Jump",
+    "attack": "Snake_Attack"
+  },
+  "preview": {
+    "clip": "attack"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Easy Animated Enemy Pack (Jan 2019)",
+    "page": "https://quaternius.itch.io/animated-easy-enemies",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan row 49 names the snake from Quaternius Animated Creatures/Dinosaurs on poly.pizza (clips Snake_Attack, Snake_Idle, Snake_Jump, Snake_Walk); poly.pizza is behind a Cloudflare challenge, so it comes from the same author's Easy Animated Enemy Pack (Jan 2019) on itch.io, which carries exactly those four clips. The itch page states CC0; the zip ships no licence file. The pack has two snakes, Snake.fbx and Snake_angry.fbx (the same body plus dark brow ridges); the plain one is used, because the brows read as horns or ears in the cel look and lock the face to one expression. It is a cartoon snake (head and eyes about twice real proportion), so the height is a chosen size, not a measured one: 0.2 m to the top of the reared head at rest, which makes the body about 0.5 m long and 7 cm thick, a small snake such as a corn snake. Colours on the noon script: accent-red scales with iris-brown shade (a corn snake), tan belly with skin shade, cream eyes with near-black slit pupils, skin-pink mouth, cream fangs, brown tongue. Ground: no clip sinks (probe min y 0 on every frame); Snake_Jump leaves the ground for real (up to 8.7 cm) and lands, so it is not clamped."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/animated-easy-enemies",
+      "upload": "Easy Animated Enemy Pack - Jan 2019.zip",
+      "sha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+      "bytes": 3093543
+    },
+    "member": "Easy Animated Enemy Pack - Jan 2019/FBX/Snake.fbx",
+    "height": 0.2,
+    "yaw": 0,
+    "memberSha256": "36bb0a014f38530a751738d8c6acc95ac6454a639939209c94738ffd98af56d0"
+  },
+  "file": "model.glb",
+  "sha256": "26185b4813c27b9738d9bfaf7c428dc684b7311a3a076a80764a30fa91a64662",
+  "bytes": 88048,
+  "triangles": 1618,
+  "bones": 15,
+  "sourceMaterials": {
+    "DarkGreen": "#79b99c",
+    "LightGreen": "#a5ccb3",
+    "Yellow": "#ffcc56",
+    "DarkRed": "#b95549",
+    "Red": "#ff5b6e",
+    "Teeth": "#ffcfa7",
+    "Purple": "#72415b"
+  },
+  "clipInfo": {
+    "Snake_Attack": {
+      "seconds": 0.7083,
+      "loop": false
+    },
+    "Snake_Idle": {
+      "seconds": 2.125,
+      "loop": true
+    },
+    "Snake_Jump": {
+      "seconds": 1,
+      "loop": false
+    },
+    "Snake_Walk": {
+      "seconds": 0.875,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 0.2,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1618,
+    "clips": {
+      "idle": {
+        "minY": 0.0003,
+        "touches": true,
+        "maxSize": 0.21
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.2
+      },
+      "jump": {
+        "minY": 0.0003,
+        "touches": true,
+        "maxSize": 0.22
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.32
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + attack"
+  }
+}
