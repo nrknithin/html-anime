@@ -1,0 +1,173 @@
+{
+  "id": "ninja",
+  "name": "Ninja",
+  "category": "character",
+  "tags": [
+    "human",
+    "ninja",
+    "shinobi",
+    "fighter",
+    "japan",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
+  "height": 1.75,
+  "script": "indigo",
+  "colors": {
+    "skin": "#f0c2ae",
+    "skinShade": "#e7a04a",
+    "suit": "#1b2d6b",
+    "suitShade": "#16141c",
+    "sash": "#e23b4a",
+    "sashShade": "#16141c",
+    "trim": "#e7eefc",
+    "trimShade": "#d5e2ff",
+    "eye": "#f6f3ee",
+    "eyeShade": "#f6f3ee"
+  },
+  "thresholds": {
+    "skin": -0.2
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "attack"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Main": "suit",
+    "Details": "sash",
+    "Grey": "trim",
+    "Face": "eye"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 99 named the Quaternius ninja from 'Animated models (misc)' on poly.pizza (now behind a Cloudflare challenge). Substituted with Ninja_Male from the Quaternius Ultimate Animated Character Pack (Nov 2019) on OpenGameArt, the same CC0 pack and character scale as man-casual. Height 1.75 m like man-casual: the chibi proportions (big head) are the artist's, the overall size is a grown man's."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Ninja_Male.fbx",
+    "height": 1.75,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "1c974511a00ac0cc431cd41bcc59c01ae9a6d8446fd2acf4c7b5259f9c3061f3"
+  },
+  "file": "model.glb",
+  "sha256": "de2076070e1ac16c6cd882cd5fa7d110201970625409fe7fe0e4f4c5ce5f2083",
+  "bytes": 230996,
+  "triangles": 2720,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#1f1f1f",
+    "Main": "#161616",
+    "Details": "#441942",
+    "Grey": "#4b4b4b",
+    "Face": "#fffff8"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.1667,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.25,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.75,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.625,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5417,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 0.9583,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.875,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.25,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.25,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.75,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2720,
+    "clips": {
+      "idle": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.74
+      },
+      "walk": {
+        "minY": -0.0015,
+        "touches": true,
+        "maxSize": 1.73
+      },
+      "attack": {
+        "minY": -0.0009,
+        "touches": true,
+        "maxSize": 1.65
+      },
+      "hit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.72
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.7
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + attack"
+  }
+}

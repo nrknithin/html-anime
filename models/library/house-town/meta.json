@@ -1,0 +1,102 @@
+{
+  "id": "house-town",
+  "name": "Town house (narrow, three-storey, flat roof)",
+  "category": "building",
+  "tags": [
+    "building",
+    "house",
+    "home",
+    "residential",
+    "town",
+    "town-house",
+    "flat-roof",
+    "three-storey",
+    "balcony",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Quaternius Ultimate Building Pack, 'Models with Materials')",
+  "height": 10,
+  "script": "noon",
+  "colors": {
+    "wall": "#c4452d",
+    "wallShade": "#5c3d32",
+    "stone": "#f0c2ae",
+    "stoneShade": "#c4452d",
+    "trim": "#fff6e4",
+    "trimShade": "#f2d7ae",
+    "frame": "#fffaf2",
+    "frameShade": "#f6f3ee",
+    "door": "#f2d7ae",
+    "doorShade": "#c4452d",
+    "glass": "#5c3d32",
+    "glassShade": "#5c3d32",
+    "vent": "#fffaf2",
+    "ventShade": "#f2d7ae"
+  },
+  "materials": {
+    "Main": "wall",
+    "Bricks": "stone",
+    "Light": "trim",
+    "Dark": "trim",
+    "White": "vent",
+    "Wood": "frame",
+    "DarkWood": "door",
+    "Glass": "glass",
+    "Windows": "frame",
+    "Black": "glass"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Textured Building Pack",
+    "page": "https://opengameart.org/content/lowpoly-buildings-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 152 named a Quaternius static town house on poly.pizza (Cloudflare challenge). This is 3Story_Balcony_Mat from the same Ultimate Textured Building Pack on OpenGameArt (CC0) as the house entry, flat-material variant (\"Models with Materials\"), so the two read as one street: a narrow three-storey town house with a flat roof behind a corniced parapet, stone plinth, a front door up a stoop and French doors with small balconies on the two upper floors, two windows per floor. Scaled to 10 m to the top of the roof vents: three storeys of ~3 m (string courses at 3 m and 6 m) plus a parapet to ~9.6 m; footprint 5.1 x 6.0 m; doors ~2.3 m. Front door faces +Z. Candidates rendered and rejected: 3Story_Slim_Mat (narrowest, 2.8 m, but no windows at all, reads as a tower), 2Story_Slim_Mat (no windows either), 2Story_Mat and 2Story_Balcony_Mat (two storeys, 7-8 m wide), 3Story_Small_Mat (three storeys, windows only, plainer). Walls are red with brown shade so a street can mix it with the cream house."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_textured_building_pack_by_quaternius.zip",
+      "sha256": "ff876502f53f6d4c35104378e8322ec8253fd0ee45c8ec28d9dc81df54b80e85",
+      "bytes": 29961262,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_textured_building_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Textured Building Pack - Dec 2019/Models with Materials/FBX/3Story_Balcony_Mat.fbx",
+    "height": 10,
+    "yaw": 0,
+    "memberSha256": "2bce401391158dbfdc4c4862de69bc989d220a7f61d22137b0e7e78dc8812972"
+  },
+  "file": "model.glb",
+  "sha256": "60d208bb20d76b449c7e74c008dbdde99af5374f47588c831c220dbdeaedaa72",
+  "bytes": 57408,
+  "triangles": 5204,
+  "bones": 0,
+  "sourceMaterials": {
+    "Bricks": "#71978c",
+    "Light": "#9da580",
+    "Main": "#5f7f76",
+    "Dark": "#4a5f5e",
+    "White": "#c9c9c9",
+    "Wood": "#86533d",
+    "DarkWood": "#664630",
+    "Glass": "#748a9b",
+    "Windows": "#a0a0a0",
+    "Black": "#494949"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 10,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 5204,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
