@@ -1,0 +1,76 @@
+{
+  "id": "lilypad",
+  "name": "Lily pad",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "lily pad",
+    "water lily",
+    "lotus",
+    "pond",
+    "water",
+    "garden",
+    "shrine",
+    "flower",
+    "background",
+    "static"
+  ],
+  "style": "low-poly, flat colours, a round notched pad with a cupped pink water-lily bloom (Quaternius 2019)",
+  "height": 0.092,
+  "script": "meadow",
+  "colors": {
+    "pad": "#3f8a47",
+    "padShade": "#2c5131",
+    "petals": "#f7f3e1",
+    "petalsShade": "#f0c2ae"
+  },
+  "materials": {
+    "Green": "pad",
+    "Pink": "petals"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
+    "page": "https://opengameart.org/content/low-poly-nature-pack-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius static lily pad on poly.pizza) is behind a Cloudflare challenge; this is Lilypad.fbx from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip and pin as the tree, tree-palm, tree-pine, tree-autumn, bush and flowers entries, so they read as one set. It is a round pad with the classic notch and a cupped water-lily bloom (two rings of pointed petals) in the middle; the pack's only lily pad. Size normalised on the pad's diameter, not the height: the source is 1.20 x 0.22 x 1.20 m (pad diameter x bloom top x diameter), scaled so the pad is 0.50 m across (a water lily or lotus pad in a garden or shrine pond is 0.2-0.6 m; 0.5 m is a full-grown one), which puts the top of the bloom at 0.092 m, so height and ingest.height are 0.092. The pad itself is about 1 cm thick. Colours on meadow: pad mid green (iris) shading to deep green (hair), so it reads as a leaf against a pale or dark water surface; the pink bloom is cream (moon) shading to pale skin pink, so it reads as a pink-white lily and stays apart from the pad. The petals are closed shells (a doubleSided render was identical), so nothing is double-sided. Its lowest point sits on y = 0; a film places it at the water line. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip",
+      "sha256": "92daf8b532f60ac0fb53371144d0f8e9ec2f82a2fa408effdf1a64cb8fbaee09",
+      "bytes": 22990249,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip"
+    },
+    "member": "Ultimate Nature Pack - Jun 2019/FBX/Lilypad.fbx",
+    "height": 0.092,
+    "yaw": 0,
+    "memberSha256": "02b71356e0de314539125bab90b8617cf8be498a22e69557b0805c15aebe89ec"
+  },
+  "file": "model.glb",
+  "sha256": "ea708d85ef40d987d84f3b67992339ff8faac8f0de8cc20195d600598e5a0a9e",
+  "bytes": 9000,
+  "triangles": 372,
+  "bones": 0,
+  "sourceMaterials": {
+    "Green": "#536d45",
+    "Pink": "#b65e90"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.092,
+    "heightError": -0.0001,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 372,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

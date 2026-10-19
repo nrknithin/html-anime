@@ -1,0 +1,179 @@
+{
+  "id": "woman-kimono",
+  "name": "Woman (kimono)",
+  "category": "character",
+  "tags": [
+    "human",
+    "woman",
+    "kimono",
+    "yukata",
+    "japanese",
+    "traditional",
+    "festival",
+    "shrine",
+    "townsfolk",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
+  "height": 1.65,
+  "script": "festival",
+  "colors": {
+    "kimono": "#ff4d6d",
+    "kimonoShade": "#24143a",
+    "obi": "#ffb020",
+    "obiShade": "#24143a",
+    "skin": "#f0c2ae",
+    "skinShade": "#ff4d6d",
+    "hair": "#1a1020",
+    "hairShade": "#24143a",
+    "eye": "#1a1020",
+    "eyeShade": "#1a1020"
+  },
+  "thresholds": {
+    "skin": -0.6,
+    "kimono": -0.3,
+    "obi": -0.6
+  },
+  "materials": {
+    "Skin": "skin",
+    "Clothes": "kimono",
+    "Band": "obi",
+    "Face": "eye",
+    "Hair": "hair"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Japanese-setting addition (traditional dress for festival and shrine scenes), not a numbered wave-1 row: Kimono_Female from the Quaternius Ultimate Animated Character Pack (Nov 2019) on OpenGameArt, the same zip, rig and clips as woman-casual and woman-suit (idle, walk, punch, hit, sit and six more; no run, jump or death clip). Height 1.65 m like woman-casual: the chibi proportions (big head) are the artist's, the overall size is a grown woman's."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Kimono_Female.fbx",
+    "height": 1.65,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "39fa041f5af9497624a7b182b4bcdc33a6d9f29251d959c7c52d66639f65cf97"
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "file": "model.glb",
+  "sha256": "0c73fa5130ef4bfc7f010f4c90d27a8933896d929f91323fbf6e9ea3f52187bc",
+  "bytes": 272656,
+  "triangles": 9236,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#1f1f1f",
+    "Clothes": "#c5c5c5",
+    "Band": "#853528",
+    "Face": "#fffff8",
+    "Hair": "#88486a"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5417,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.2083,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.7917,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5833,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 1,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.3333,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.9167,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.2917,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.2917,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.65,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 9236,
+    "clips": {
+      "idle": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.65
+      },
+      "walk": {
+        "minY": -0.0014,
+        "touches": true,
+        "maxSize": 1.64
+      },
+      "attack": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.55
+      },
+      "hit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.63
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.61
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
