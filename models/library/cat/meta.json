@@ -1,0 +1,104 @@
+{
+  "id": "cat",
+  "name": "Cat",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "cat",
+    "pet",
+    "house",
+    "quadruped",
+    "feline"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2017)",
+  "height": 0.4,
+  "script": "indigo",
+  "colors": {
+    "coat": "#1b2d6b",
+    "coatShade": "#16141c",
+    "bib": "#f6f3ee",
+    "bibShade": "#d5e2ff",
+    "ear": "#f0c2ae",
+    "earShade": "#e23b4a"
+  },
+  "materials": {
+    "Grey": "coat",
+    "White": "bib",
+    "Pink": "ear"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walking"
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animal Pack Vol.2",
+    "page": "https://opengameart.org/content/animated-animales-low-poly",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 10 named the Quaternius Animated Animals cat (poly.pizza, behind a Cloudflare challenge; its Google Drive is quota-blocked). This is the reachable Quaternius tuxedo cat from Animal Pack Vol.2 (OpenGameArt, CC0), with Idle and Walking only. No better free animated cat was reachable: Kenney's Cube Pets cat is blocky, the CC0 OpenGameArt 'low poly cat thing' is Collada only, and the itch.io cats are paid or under custom licences. height 0.4 m is the raised tail tip; the ear tips sit at 0.30 m, a house cat's real size."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Animal%20Pack%20Vol.2%20by%20%40Quaternius.zip",
+      "sha256": "6d8f6789d65dbdb352ebad98a4209f26b41b384e87d81bc05e9ca76139db1248",
+      "bytes": 2069972,
+      "resolved": "https://opengameart.org/sites/default/files/Animal%20Pack%20Vol.2%20by%20%40Quaternius.zip"
+    },
+    "member": "Animal Pack Vol.2 by @Quaternius/Blends/Cat.blend",
+    "height": 0.4,
+    "yaw": -90,
+    "memberSha256": "e9836027dc8591fd2da03e6d8d6575972bc5c7aebaa17a0762b82f7bc37264de"
+  },
+  "file": "model.glb",
+  "sha256": "c44646ff0b844a607102f543a4bef44bd7784c1d782769842e307418dbb6aef4",
+  "bytes": 69232,
+  "triangles": 807,
+  "bones": 24,
+  "sourceMaterials": {
+    "Grey": "#4b494a",
+    "White": "#e7e7e7",
+    "Pink": "#ffcaf6"
+  },
+  "clipInfo": {
+    "Idle": {
+      "seconds": 1.6667,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Walking": {
+      "seconds": 1.6667,
+      "loop": true,
+      "ground": "clamp"
+    }
+  },
+  "qa": {
+    "height": 0.4,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 807,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.51
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.54
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
