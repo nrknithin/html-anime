@@ -21,6 +21,11 @@
 //          inner shell so low angles never see through it.
 //   limbs  ring lofts per segment, pivots at the real joints; hands = palm + finger and thumb capsules.
 //
+// Poses rest, wave, run (literal tables). Clips: build() returns clips { idle: 6, walk: 1.04, run: 0.62 } (s), and
+// pose("walk@0.3") is that clip at 0.3 s, looping. In place; the feet are solved by IK on ground tracks (planted, no
+// sliding, soles on y = 0; idle keeps rest's footing), the walk's pelvis height from knee-bend aims; the ponytail
+// swings about its tie and the skirt about the waist, both lagging the body.
+//
 // Colour script "indigo" (Indigo moon). Base / shade pairs:
 //   skin     skin #f0c2ae / iris #e7a04a        hair    sky #1b2d6b / hair #16141c (blue-black: lit top reads navy)
 //   blouse   line #e7eefc / moon #d5e2ff        collar, skirt, socks  sky #1b2d6b / ink #101628
@@ -80,6 +85,21 @@ const POSES = {
     shoulderR: [-50, 0, -10], elbowR: [-80, 0, 0],
     shoulderL: [40, 0, 10], elbowL: [-70, 0, 0],
   },
+};
+// Looping clips, seconds: pose("walk@0.3"). The legs are solved (see clip() in build); a gait row sets the foot track:
+// duty = stance share of the cycle per foot, S = metres the planted foot travels, zc = track centre (z), x = track
+// half-width, heel / toe = roll angles (deg) over heelT / toeT of the cycle, lift / kick = swing arc height and backward
+// heel kick (m). Pelvis height: the walk solves it from knee = stance knee bend aims (deg) at stance 0 / 0.25 / 0.65 / 1;
+// the run sets it, drop + bob (m). bobAt = phase of the lowest pelvis (the follow-through keys off it). The rest are
+// degrees unless named: sway = pelvis side sway (m); yaw / roll = pelvis turn and hip drop; twist = chest counter-turn;
+// arm = shoulder swing about armOff; elbow = [hanging, extra when forward]; lean = spine + chest pitch; skirt = hem
+// pitch [mean, swing, phase of the most forward hem] (twice a cycle: each thigh drives it).
+const CLIPS = { idle: 6, walk: 1.04, run: 0.62 };
+const GAIT = {
+  walk: { duty: 0.6, S: 0.36, zc: -0.01, x: 0.052, heel: 11, heelT: 0.09, toe: 30, toeT: 0.2, lift: 0.045, kick: 0.03,
+    knee: [4, 14, 7, 4], bobAt: 0.06, sway: 0.014, yaw: 8, roll: 3.5, twist: 9, arm: 13, armOff: -2, elbow: [-10, -12], lean: 2, skirt: [-1.5, 2, 0.03] },
+  run: { duty: 0.32, S: 0.5, zc: -0.065, x: 0.045, heel: 0, heelT: 0.01, toe: 30, toeT: 0.14, lift: 0.26, kick: 0.2, run: true,
+    drop: -0.046, bob: 0.015, bobAt: 0.16, sway: 0.01, yaw: 10, roll: 3, twist: 12, arm: 40, armOff: -6, elbow: [-62, -22], lean: 13, skirt: [-9, 6, 0.2] },
 };
 const DEG = Math.PI / 180;
 const SKIN = { threshold: -0.2 };
@@ -477,10 +497,12 @@ export function build(THREE, kit, colors = meta.colors) {
   // Side locks framing the face.
   for (const s of [-1, 1])
     lock([hp(s * 1.0, 0.6, 0.02), hp(s * 1.22, 0.12, 0.024), [s * 0.086, HEAD.cy - 0.06, HEAD.cz + 0.0], [s * 0.08, HEAD.cy - 0.11, HEAD.cz + 0.004], [s * 0.066, HEAD.cy - 0.15, HEAD.cz + 0.012]], 0.042, 0.013, 0.55);
-  // Ponytail from a tie high on the back of the head.
+  // Ponytail from a tie high on the back of the head. Its pivot sits at the head origin with no transform at rest
+  // (so rest is bit-for-bit the unpivoted build); clips turn it about the tie by moving the pivot (tie - R tie).
   const tie = [0, HEAD.cy + 0.07, HEAD.cz - 0.098];
+  const tail = joint("ponytail", head, 0, 0, 0);
   for (const [dx, dz, len, w] of [[0, 0, 1, 0.056], [-0.022, 0.01, 0.9, 0.04], [0.022, 0.01, 0.92, 0.04], [0, -0.02, 0.8, 0.04]])
-    put(head, kit.toon(tube([tie, [dx * 0.5, tie[1] + 0.02, tie[2] - 0.06 + dz], [dx, tie[1] - 0.07, tie[2] - 0.1 + dz], [dx * 1.4, tie[1] - 0.24 * len, tie[2] - 0.09 + dz], [dx * 1.8, tie[1] - 0.38 * len, tie[2] - 0.05 + dz]],
+    put(tail, kit.toon(tube([tie, [dx * 0.5, tie[1] + 0.02, tie[2] - 0.06 + dz], [dx, tie[1] - 0.07, tie[2] - 0.1 + dz], [dx * 1.4, tie[1] - 0.24 * len, tie[2] - 0.09 + dz], [dx * 1.8, tie[1] - 0.38 * len, tie[2] - 0.05 + dz]],
       (t) => [w * Math.pow(1 - t, 0.7) * (1 + 0.5 * Math.sin(Math.PI * t)) + 0.001, w * 0.7 * Math.pow(1 - t, 0.7) + 0.001], () => V3(1, 0, 0), 12, 6), ...hairMat));
   // Hair tie.
   // scrunchie: one fat torus around the tail root, its axis along the tail
@@ -562,17 +584,146 @@ export function build(THREE, kit, colors = meta.colors) {
     put(an, kit.toon(smooth(shoeG), c.shoe, c.shoeShade), 0, -0.07, 0.0);
   }
 
+  // ---------- clips ----------
+  // Feet: the ankle follows a ground track. In stance it is carried back at the ground speed (in place, like library
+  // walk clips) while the foot rolls heel -> flat -> toe about a point on the sole, so the contact never slides; in
+  // swing a Hermite arc joins toe-off to the next strike with matched velocities, plus a lift and a heel kick. A
+  // two-bone IK in the pelvis frame turns each ankle target into hip [rx, 0, rz] + knee rx (knees only fold back), and
+  // the ankle takes the world foot pitch. Idle plants the feet where rest has them. Everything is periodic in t.
+  const L1 = 0.35, L2 = 0.38, SOLE = 0.067, HEEL = -0.045, TOE = 0.145; // thigh, shin; ankle frame: sole depth, heel / toe on it
+  const TAU = Math.PI * 2;
+  const ease = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x));
+  const cyc = (n, ph, lag = 0) => Math.cos(TAU * n * (ph - lag));
+  const syc = (n, ph, lag = 0) => Math.sin(TAU * n * (ph - lag));
+  // Stance phase u in [0, duty): ankle [z, y] and foot pitch (deg, + toe down), rolling about the heel or toe point.
+  function stance(g, u) {
+    let p = 0, zp = 0;
+    if (u < g.heelT) (p = -g.heel * (1 - ease(u / g.heelT))), (zp = HEEL);
+    else if (u > g.duty - g.toeT) (p = g.toe * ease((u - g.duty + g.toeT) / g.toeT)), (zp = TOE);
+    const r = p * DEG, zf = g.zc + g.S / 2 - (g.S * u) / g.duty;
+    return [zf + zp * (1 - Math.cos(r)) + SOLE * Math.sin(r), SOLE * Math.cos(r) + zp * Math.sin(r), p];
+  }
+  function track(g, u) {
+    if (u < g.duty) return stance(g, u);
+    const w = (u - g.duty) / (1 - g.duty), e = 1e-4, span = 1 - g.duty;
+    const a = stance(g, g.duty - e), a0 = stance(g, g.duty - 2 * e), b = stance(g, 0), b1 = stance(g, e);
+    const h = [2 * w ** 3 - 3 * w * w + 1, w ** 3 - 2 * w * w + w, -2 * w ** 3 + 3 * w * w, w ** 3 - w * w];
+    const v = a.map((v0, i) => h[0] * v0 + h[1] * ((v0 - a0[i]) / e) * span + h[2] * b[i] + h[3] * ((b1[i] - b[i]) / e) * span);
+    const arc = Math.sin(Math.PI * w) ** 2;
+    v[0] -= g.kick * arc * (1 - w);
+    v[1] += g.lift * Math.sin(Math.PI * Math.pow(w, 0.8)) ** 2;
+    return v;
+  }
+  const _m = new THREE.Matrix4(), _v = V3(0, 0, 0), _q = new THREE.Quaternion(), _qf = new THREE.Quaternion(), _e = new THREE.Euler();
+  function leg(side, x, y, z, pitch) {
+    const hip = joints[`hip${side}`], kn = joints[`knee${side}`], an = joints[`ankle${side}`];
+    _v.set(x, y, z).applyMatrix4(_m.copy(pelvis.matrixWorld).invert()).sub(hip.position);
+    const d = Math.min(_v.length(), L1 + L2 - 1e-6);
+    const k = Math.acos(Math.max(-1, Math.min(1, (d * d - L1 * L1 - L2 * L2) / (2 * L1 * L2))));
+    const yv = -L1 - L2 * Math.cos(k), zv = -L2 * Math.sin(k);
+    const c = Math.asin(Math.max(-1, Math.min(1, -_v.x / yv)));
+    hip.rotation.set(Math.atan2(_v.z, _v.y) - Math.atan2(zv, yv * Math.cos(c)), 0, c);
+    kn.rotation.set(k, 0, 0);
+    hip.updateMatrixWorld(true);
+    kn.getWorldQuaternion(_q).invert();
+    an.quaternion.copy(_q.multiply(_qf.setFromEuler(_e.set(pitch * DEG, 0, 0))));
+  }
+  let restFeet = null; // ankle world positions at rest, for idle
+
+  // Walk: the pelvis height is solved too, so the bob comes out of the legs and no knee is over-stretched: the soft
+  // minimum over both legs of the height where that leg's knee has its aim bend (g.knee over stance, its last key
+  // through swing, where the raised foot leaves the bound slack). Run: a set bob, lowest at mid-stance, highest in
+  // flight; the run's stance stays inside the legs' reach (checked with the probe over 64 frames).
+  const pelvisRot = (g, ph) => [g.run ? 4 : 0, -g.yaw * cyc(1, ph), g.roll * syc(1, ph, 0.03)];
+  const pelvisX = (g, ph) => g.sway * syc(1, ph, 0.04);
+  function kneeAim(g, s) {
+    const K = g.knee, S = [0, 0.25, 0.65, 1], i = s < S[1] ? 0 : s < S[2] ? 1 : 2;
+    return K[i] + (K[i + 1] - K[i]) * ease((s - S[i]) / (S[i + 1] - S[i]));
+  }
+  function heightFor(g, side, ph) {
+    const s = side === "L" ? 1 : -1, u = (ph + (s > 0 ? 1 : 1.5)) % 1, [z, y] = track(g, u), r = pelvisRot(g, ph);
+    const hp = V3(s * 0.072, -0.06, 0).applyEuler(_e.set(r[0] * DEG, r[1] * DEG, r[2] * DEG));
+    const k = kneeAim(g, Math.min(1, u / g.duty)) * DEG, D2 = L1 * L1 + L2 * L2 + 2 * L1 * L2 * Math.cos(k);
+    const h2 = (pelvisX(g, ph) + hp.x - s * g.x) ** 2 + (hp.z - z) ** 2;
+    return y + Math.sqrt(Math.max(0, D2 - h2)) - hp.y;
+  }
+  function pelvisHeight(g, ph) {
+    if (!g.knee) return pelvisY + g.drop - g.bob * cyc(2, ph, g.bobAt);
+    const hL = heightFor(g, "L", ph), hR = heightFor(g, "R", ph), lo = Math.min(hL, hR);
+    return lo - 0.003 * Math.log(Math.exp((lo - hL) / 0.003) + Math.exp((lo - hR) / 0.003));
+  }
+
+  function clip(name, t) {
+    const T = CLIPS[name], ph = (((t % T) + T) % T) / T, g = GAIT[name];
+    const R = Object.fromEntries(Object.entries(REST).map(([k, v]) => [k, [...v]]));
+    let px = 0, py = pelvisY, tl = [0, 0, 0];
+    if (name === "idle") {
+      // two breaths and one slow weight shift per loop; hair and skirt sway come and go with an envelope
+      const b = syc(2, ph), w = syc(1, ph), env = Math.max(0, Math.sin(TAU * ph + 0.6)) ** 2;
+      px = 0.011 * w; py = pelvisY - 0.007 - 0.002 * w * w;
+      R.pelvis = [0, 2 * syc(1, ph, 0.05), 1.6 * w];
+      R.spine = [0.4 * b, -1.2 * syc(1, ph, 0.05), -2.1 * w];
+      R.chest = [-1.1 * b, 0, -0.5 * syc(1, ph, 0.04)];
+      R.neck = [0.4 * b, 0, 0.5 * w];
+      R.head = [-0.6 * b + 1.2 * syc(1, ph, 0.3), 4 * syc(1, ph, 0.12), 1.8 * syc(1, ph, 0.08)];
+      R.shoulderL = [1.2 * syc(1, ph, 0.12), 0, 7 + 0.8 * b + 1.2 * syc(1, ph, 0.1)];
+      R.shoulderR = [-1.2 * syc(1, ph, 0.12), 0, -7 - 0.8 * b + 1.2 * syc(1, ph, 0.1)];
+      R.elbowL = [-8 - 1.5 * syc(1, ph, 0.18), 0, 0]; R.elbowR = [-8 + 1.5 * syc(1, ph, 0.18), 0, 0];
+      R.skirt = [0.6 * syc(2, ph, 0.1), 0, -1.2 * syc(1, ph, 0.05) + 1.4 * env * syc(3, ph, 0.05)];
+      tl = [1.5 * syc(2, ph, 0.12), 0, 3 * syc(1, ph, 0.14) + 3 * env * syc(3, ph, 0.1)];
+    } else {
+      // gait: left heel strikes at ph = 0, right at 0.5. Pelvis yaws the forward hip forward and drops the swing hip;
+      // the chest counter-turns, the head holds the line of travel; arms swing contralaterally, a beat behind.
+      const run = !!g.run, Y = g.yaw, ro = g.roll;
+      px = pelvisX(g, ph);
+      py = pelvisHeight(g, ph);
+      R.pelvis = pelvisRot(g, ph);
+      R.spine = [g.lean * 0.6 + (run ? 2 : 0.6) * cyc(2, ph, g.bobAt + 0.08), 0.6 * Y * cyc(1, ph), -0.8 * ro * syc(1, ph, 0.03)];
+      R.chest = [g.lean * 0.4, 0.4 * Y * cyc(1, ph) + g.twist * cyc(1, ph, 0.02), -0.3 * ro * syc(1, ph, 0.06)];
+      R.neck = [-g.lean * 0.4, -0.5 * g.twist * cyc(1, ph, 0.02), 0.4 * ro * syc(1, ph, 0.06)];
+      R.head = [-g.lean * 0.6 - (run ? 3 : 1) - (run ? 1.5 : 0.8) * cyc(2, ph, g.bobAt + 0.1), -0.5 * g.twist * cyc(1, ph, 0.02), 0.5 * ro * syc(1, ph, 0.08)];
+      for (const [side, s, n] of [["L", 1, 0], ["R", -1, 0.5]]) {
+        const fwd = 0.5 - 0.5 * cyc(1, ph, n + 0.06); // 1 when this arm is fully forward (the other leg leads)
+        R[`shoulder${side}`] = [g.armOff - g.arm * cyc(1, ph, n + 0.54), 0, s * (run ? 13 : 8) + s * (run ? 3 : 1.5) * fwd];
+        R[`elbow${side}`] = [g.elbow[0] + g.elbow[1] * (0.5 - 0.5 * cyc(1, ph, n + 0.1)), 0, 0];
+        R[`wrist${side}`] = [(run ? 6 : 8) * syc(1, ph, n + 0.62), 0, -s * 4];
+      }
+      R.skirt = [g.skirt[0] - g.skirt[1] * cyc(2, ph, g.skirt[2]), Y * (0.7 * cyc(1, ph, 0.1) - cyc(1, ph)), ro * (1.4 * syc(1, ph, 0.14) - syc(1, ph, 0.03))];
+      tl = [(run ? 14 : 3) + (run ? 6 : 4) * cyc(2, ph, g.bobAt + 0.2), 0, (run ? 8 : 6) * syc(1, ph, 0.2)];
+    }
+    for (const [j, v] of Object.entries(R)) joints[j].rotation.set(v[0] * DEG, v[1] * DEG, v[2] * DEG);
+    pelvis.position.set(px, py, 0);
+    tail.rotation.set(tl[0] * DEG, tl[1] * DEG, tl[2] * DEG);
+    tail.position.set(...tie).sub(V3(...tie).applyEuler(tail.rotation));
+    root.updateMatrixWorld(true);
+    if (name === "idle") for (const side of ["L", "R"]) leg(side, ...restFeet[side], 0);
+    else
+      for (const [side, s, n] of [["L", 1, 0], ["R", -1, 0.5]]) {
+        const [z, y, p] = track(g, (ph + n) % 1);
+        leg(side, s * g.x, y, z, p);
+      }
+    root.updateMatrixWorld(true);
+  }
+
   function pose(name) {
+    const m = /^(\w+)@(-?[\d.]+)$/.exec(name);
+    if (m) {
+      if (!CLIPS[m[1]]) throw new Error(`heroine: no clip "${m[1]}" (clips: ${Object.keys(CLIPS).join(", ")})`);
+      return clip(m[1], +m[2]);
+    }
     const rows = POSES[name];
-    if (!rows) throw new Error(`unknown pose "${name}" (${Object.keys(POSES).join(", ")})`);
+    if (!rows) throw new Error(`unknown pose "${name}" (${Object.keys(POSES).join(", ")}, or <clip>@<seconds>)`);
     const table = { ...REST, ...rows };
     for (const [j, v] of Object.entries(table)) {
       if (!joints[j]) continue;
       joints[j].rotation.set(v[0] * DEG, v[1] * DEG, v[2] * DEG);
     }
-    pelvis.position.y = pelvisY + (rows.pelvisY || 0);
+    pelvis.position.set(0, pelvisY + (rows.pelvisY || 0), 0);
+    tail.rotation.set(0, 0, 0);
+    tail.position.set(0, 0, 0);
     root.updateMatrixWorld(true);
   }
   pose("rest");
-  return { root, joints, pose };
+  restFeet = Object.fromEntries(["L", "R"].map((s) => [s, joints[`ankle${s}`].getWorldPosition(V3(0, 0, 0)).toArray()]));
+  return { root, joints, pose, clips: { ...CLIPS } };
 }

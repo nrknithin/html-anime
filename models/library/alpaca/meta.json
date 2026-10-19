@@ -1,0 +1,101 @@
+{
+  "id": "alpaca",
+  "name": "Alpaca",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "alpaca",
+    "llama",
+    "farm",
+    "quadruped"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2018)",
+  "height": 1.5,
+  "script": "noon",
+  "colors": {
+    "coat": "#c4452d",
+    "coatShade": "#5c3d32",
+    "blaze": "#fffaf2",
+    "blazeShade": "#f2d7ae",
+    "hoof": "#241c16",
+    "hoofShade": "#2c261f"
+  },
+  "materials": {
+    "Brown": "coat",
+    "White": "blaze",
+    "Grey": "hoof"
+  },
+  "clips": {
+    "idle": "Idle",
+    "jump": "Jump"
+  },
+  "preview": {
+    "clip": "jump"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · LowPoly Animated Farm Animal Pack",
+    "page": "https://opengameart.org/content/lowpoly-animated-farm-animal-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 13 named the Ultimate Animated Animals alpaca (poly.pizza, now behind a Cloudflare challenge; its Google Drive is quota-blocked). This is the reachable Quaternius llama (Llama.fbx), the same camelid build; the source ships only Idle and Jump, no walk."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip",
+      "sha256": "9ff42b7e2445eaf259e4734c08172637db92e4b59a6145909ac56d946152c39b",
+      "bytes": 6965696,
+      "resolved": "https://opengameart.org/sites/default/files/Farm%20Animals%20by%20%40Quaternius.zip"
+    },
+    "member": "Farm Animals by @Quaternius/FBX/Llama.fbx",
+    "height": 1.5,
+    "memberSha256": "3ff44fd03d5793701b228cf88f00e776f89afefdb3de0b226fee807908ae79c9"
+  },
+  "file": "model.glb",
+  "sha256": "5489e70bde3d922bd22b19a50b0af07fb9a28659a934b65d76096cc2e95c5e5c",
+  "bytes": 67584,
+  "triangles": 662,
+  "bones": 24,
+  "sourceMaterials": {
+    "Brown": "#795740",
+    "White": "#e7e7e7",
+    "Grey": "#7c7c7c"
+  },
+  "clipInfo": {
+    "Idle": {
+      "seconds": 6.2917,
+      "loop": true
+    },
+    "Jump": {
+      "seconds": 1.1667,
+      "loop": false,
+      "ground": "clamp"
+    }
+  },
+  "qa": {
+    "height": 1.5,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 662,
+    "clips": {
+      "idle": {
+        "minY": -0.0011,
+        "touches": true,
+        "maxSize": 1.5
+      },
+      "jump": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.06
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + jump"
+  }
+}
