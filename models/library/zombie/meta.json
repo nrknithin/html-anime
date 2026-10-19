@@ -1,0 +1,189 @@
+{
+  "id": "zombie",
+  "name": "Zombie",
+  "category": "creature",
+  "tags": [
+    "creature",
+    "zombie",
+    "undead",
+    "monster",
+    "halloween",
+    "horror",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
+  "height": 1.7,
+  "script": "indigo",
+  "colors": {
+    "skin": "#d5e2ff",
+    "skinShade": "#1b2d6b",
+    "shirt": "#e7a04a",
+    "shirtShade": "#1b2d6b",
+    "cuff": "#1b2d6b",
+    "cuffShade": "#16141c",
+    "pants": "#1b2d6b",
+    "pantsShade": "#16141c",
+    "flesh": "#e23b4a",
+    "fleshShade": "#1b2d6b",
+    "bone": "#f6f3ee",
+    "boneShade": "#d5e2ff",
+    "brain": "#e23b4a",
+    "brainShade": "#1b2d6b",
+    "eye": "#e23b4a",
+    "eyeShade": "#e23b4a"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Clothes": "shirt",
+    "DarkClothes": "cuff",
+    "Pants": "pants",
+    "Guts": "flesh",
+    "Brain": "brain",
+    "Bones": "bone",
+    "Face": "eye"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 104 named the Quaternius Zombie from 'Animated models (misc)' on poly.pizza (now behind a Cloudflare challenge). Substituted with Zombie_Male from the Quaternius Ultimate Animated Character Pack (Nov 2019) on OpenGameArt (same zip and pin as man-casual and worker). Chosen over Zombie_Female in the same pack: the male's open skull with the brain showing, bare scalp, scowl and torn shirt read as a zombie at a glance, while the female's long hair hides the face and the head wound. It ships the pack's 11 clips (idle, walk, punch, hit, sit, walk-carry, pick-up, one-handed shoot, victory, defeat, stand-up), not the misc set's 8 (no run, jump or death). The source skin is green; no colour script has a green, so it is painted indigo's cold moon-white (bloodless, corpse-pale) with red eyes, brain and guts. Alternative: Kenney's blocky mini character-zombie (Kenney kits, CC0), not used: far less modelled."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Zombie_Male.fbx",
+    "height": 1.7,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "5cf60a92088365e8c91846828a976c1537d9e947d881f3100a60dfbfbea2f3ca"
+  },
+  "file": "model.glb",
+  "sha256": "afae743bdfc23fd1b247312c36498158f8bee78a80fd642b0362af1f6056406f",
+  "bytes": 241676,
+  "triangles": 4046,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#3a4e34",
+    "Clothes": "#53447c",
+    "Guts": "#85330d",
+    "Pants": "#9c9372",
+    "DarkClothes": "#3a3057",
+    "Bones": "#9e957f",
+    "Brain": "#a77382",
+    "Face": "#272726"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5417,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.2083,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.7917,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5833,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 1,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.3333,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.9167,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.2917,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.2917,
+      "loop": true
+    }
+  },
+  "thresholds": {
+    "skin": -0.4,
+    "shirt": -0.25,
+    "pants": -0.25,
+    "brain": 0.55
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 1.7,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 4046,
+    "clips": {
+      "idle": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.69
+      },
+      "walk": {
+        "minY": -0.0015,
+        "touches": true,
+        "maxSize": 1.68
+      },
+      "attack": {
+        "minY": -0.0009,
+        "touches": true,
+        "maxSize": 1.6
+      },
+      "hit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.67
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.65
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
