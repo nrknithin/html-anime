@@ -1,0 +1,328 @@
+{
+  "id": "barbarian-kaykit",
+  "name": "Barbarian (KayKit)",
+  "category": "character",
+  "tags": [
+    "human",
+    "barbarian",
+    "fantasy",
+    "fur",
+    "axe",
+    "shield",
+    "chibi"
+  ],
+  "style": "chibi low-poly, hard-surface, gradient atlas flattened (KayKit 2023)",
+  "height": 1.6,
+  "script": "noon",
+  "colors": {
+    "fur": "#5c3d32",
+    "furShade": "#241c16",
+    "shirt": "#c4452d",
+    "shirtShade": "#5c3d32",
+    "leather": "#5c3d32",
+    "leatherShade": "#241c16",
+    "iron": "#fff6e4",
+    "ironShade": "#5c3d32",
+    "bone": "#f2d7ae",
+    "boneShade": "#5c3d32",
+    "skin": "#f0c2ae",
+    "skinShade": "#c4452d",
+    "eye": "#241c16",
+    "eyeShade": "#241c16"
+  },
+  "materials": {
+    "barbarian_texture": "fur",
+    "barbarian_texture#4e6d84": "shirt",
+    "barbarian_texture#94533f": "leather",
+    "barbarian_texture#97948f": "iron",
+    "barbarian_texture#827c78": "iron",
+    "barbarian_texture#786a61": "fur",
+    "barbarian_texture#c7d0d4": "bone",
+    "barbarian_texture#695b52": "fur",
+    "barbarian_texture#61544c": "fur",
+    "barbarian_texture#574b44": "fur",
+    "barbarian_texture#f6c29e": "skin",
+    "barbarian_texture#f5b790": "skin",
+    "barbarian_texture#151b1e": "eye"
+  },
+  "thresholds": {
+    "fur": -0.2,
+    "shirt": -0.3,
+    "leather": -0.4,
+    "iron": 0,
+    "bone": -0.4,
+    "skin": -0.5
+  },
+  "smooth": false,
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walking_A",
+    "run": "Running_A",
+    "jump": "Jump_Full_Short",
+    "attack": "1H_Melee_Attack_Chop",
+    "hit": "Hit_A",
+    "death": "Death_B",
+    "sit": "Sit_Chair_Idle",
+    "block": "Blocking"
+  },
+  "poseDefs": {
+    "guard": [
+      "block",
+      0.5
+    ],
+    "strike": [
+      "attack",
+      0.65
+    ]
+  },
+  "preview": {
+    "pose": "idle@0",
+    "clip": "attack"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kay Lousberg",
+    "pack": "KayKit · Character Pack Adventures 1.0",
+    "page": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Barbarian.glb from the pack's GitHub mirror, pinned to commit 672074b (LICENSE.txt: CC0, Kay Lousberg). The rig carries every alternative prop; kept 1H_Axe + Barbarian_Round_Shield (the same one-handed weapon-and-shield set as knight-kaykit), dropped 1H_Axe_Offhand, 2H_Axe and Mug. 27 of 76 clips kept (1H weapon-and-shield set; ranged, 2H, dual-wield, spellcast, unarmed and lie-down clips dropped). Height 1.6 m: KayKit characters are chibi (head about a third of the body), so a 1.8 m adult scale makes the head read huge next to realistic props; 1.6 m keeps the head near a real head size, and matches the knight from the same pack."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "file",
+      "url": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Characters/gltf/Barbarian.glb",
+      "sha256": "cefc311a0e10c7858b6141f5ada7e33268727564fb8ac1347aab97d000669cc6",
+      "bytes": 3613268,
+      "resolved": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Characters/gltf/Barbarian.glb"
+    },
+    "height": 1.6,
+    "drop": [
+      "1H_Axe_Offhand",
+      "2H_Axe",
+      "Mug"
+    ],
+    "keepActions": [
+      "Idle",
+      "Walking_A",
+      "Walking_Backwards",
+      "Running_A",
+      "Jump_Full_Short",
+      "Jump_Full_Long",
+      "1H_Melee_Attack_Chop",
+      "1H_Melee_Attack_Slice_Diagonal",
+      "1H_Melee_Attack_Slice_Horizontal",
+      "1H_Melee_Attack_Stab",
+      "Block",
+      "Blocking",
+      "Block_Attack",
+      "Block_Hit",
+      "Hit_A",
+      "Hit_B",
+      "Death_A",
+      "Death_B",
+      "Dodge_Forward",
+      "Dodge_Backward",
+      "Dodge_Left",
+      "Dodge_Right",
+      "Sit_Chair_Idle",
+      "Sit_Floor_Idle",
+      "Cheer",
+      "Interact",
+      "PickUp"
+    ]
+  },
+  "file": "model.glb",
+  "sha256": "b65d26c3603590544904a3e8d9fabd2110e8d0fb5c0405152ba299b53a75f203",
+  "bytes": 887440,
+  "triangles": 5335,
+  "bones": 41,
+  "sourceMaterials": {
+    "barbarian_texture": "texture",
+    "barbarian_texture#4e6d84": "#4e6d84",
+    "barbarian_texture#94533f": "#94533f",
+    "barbarian_texture#97948f": "#97948f",
+    "barbarian_texture#827c78": "#827c78",
+    "barbarian_texture#786a61": "#786a61",
+    "barbarian_texture#c7d0d4": "#c7d0d4",
+    "barbarian_texture#695b52": "#695b52",
+    "barbarian_texture#61544c": "#61544c",
+    "barbarian_texture#574b44": "#574b44",
+    "barbarian_texture#f6c29e": "#f6c29e",
+    "barbarian_texture#f5b790": "#f5b790",
+    "barbarian_texture#151b1e": "#151b1e"
+  },
+  "clipInfo": {
+    "1H_Melee_Attack_Chop": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "1H_Melee_Attack_Slice_Diagonal": {
+      "seconds": 1,
+      "loop": false
+    },
+    "1H_Melee_Attack_Slice_Horizontal": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "1H_Melee_Attack_Stab": {
+      "seconds": 1.6,
+      "loop": false
+    },
+    "Block": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "Block_Attack": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "Block_Hit": {
+      "seconds": 1.0667,
+      "loop": false
+    },
+    "Blocking": {
+      "seconds": 1.0667,
+      "loop": true
+    },
+    "Cheer": {
+      "seconds": 1.6667,
+      "loop": true
+    },
+    "Death_A": {
+      "seconds": 0.8,
+      "loop": false
+    },
+    "Death_B": {
+      "seconds": 2.6333,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "Dodge_Backward": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Dodge_Forward": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Dodge_Left": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Dodge_Right": {
+      "seconds": 0.4,
+      "loop": false
+    },
+    "Hit_A": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Hit_B": {
+      "seconds": 0.8667,
+      "loop": false
+    },
+    "Idle": {
+      "seconds": 1.0667,
+      "loop": true
+    },
+    "Interact": {
+      "seconds": 1.3,
+      "loop": false
+    },
+    "Jump_Full_Long": {
+      "seconds": 2.3333,
+      "loop": false
+    },
+    "Jump_Full_Short": {
+      "seconds": 1.1667,
+      "loop": false,
+      "sinkAllowed": "the 1H axe hangs low in the hand and its blade dips up to 8.5 cm into the ground in the take-off and landing crouches while both feet stay planted; clamping would float the whole body"
+    },
+    "PickUp": {
+      "seconds": 1.3,
+      "loop": false
+    },
+    "Running_A": {
+      "seconds": 0.8,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Sit_Chair_Idle": {
+      "seconds": 3.6,
+      "loop": true
+    },
+    "Sit_Floor_Idle": {
+      "seconds": 4,
+      "loop": true
+    },
+    "Walking_A": {
+      "seconds": 1.0667,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "Walking_Backwards": {
+      "seconds": 1.0667,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.6,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 5335,
+    "clips": {
+      "idle": {
+        "minY": -0.0006,
+        "touches": true,
+        "maxSize": 1.59
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.59
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 1.55
+      },
+      "jump": {
+        "minY": -0.083,
+        "touches": true,
+        "maxSize": 1.72
+      },
+      "attack": {
+        "minY": -0.0207,
+        "touches": true,
+        "maxSize": 1.61
+      },
+      "hit": {
+        "minY": -0.001,
+        "touches": true,
+        "maxSize": 1.59
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 2.53
+      },
+      "sit": {
+        "minY": 0.1071,
+        "touches": false,
+        "maxSize": 1.55
+      },
+      "block": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.55
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + attack"
+  }
+}
