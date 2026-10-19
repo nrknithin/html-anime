@@ -20,14 +20,15 @@
 //   CLUTTER  beer crates stacked as stools (two colours, dark hand slots), one AC unit on a stand at ground level.
 //   PAVING   a dark stone slab with pale joint lines in a running bond, a gutter strip at each foot, and irregular puddle
 //            fans (pale, wet) with lantern-red and sign-amber reflections inside them.
-//   LANTERNS one or two akachochin per bay hung from the eave edge: one mesh each (paper, rib lines and caps as material
-//            groups under one hull, geometry shared), each on its own pivot joint "lantern<i>" at the hook.
+//   LANTERNS one or two akachochin per bay hung from the eave edge, each on its own pivot joint "lantern<i>" at the hook.
+//            They have no meshes of their own: paper, rib lines and caps are vertex ranges in the noren-red, lattice and
+//            wood meshes, and pose() rewrites each lantern's ranges (positions, normals, hull normals) about its pivot.
 // Proportions (real size, base unit the bay B = 2.0 m): alley 2.5 wide between facades (1.25 B), default 8 long (4 bays a
 //   side), buildings 1.0 deep; eave 2.78 at the wall down to 2.52 at 0.6 out; door 1.0 x 1.85; noren 2.22-1.58; lanterns
 //   0.34 wide, 0.48 paper, hook 2.49, bottom 1.92; boards 2.95-3.4, blades 2.95-4.15 and 0.45 out; upper windows
 //   3.55-4.25; bays 4.5-5.2 tall plus a 0.08 lip (top 5.28 = 2.64 B); wires 4.2-4.45.
-// Budget: ~11.9k triangles at the default length: 21 static meshes (one per material) plus 12 lanterns (552 each, one
-//   mesh each so they can swing); length 12 is ~17.6k.
+// Budget: ~12.5k triangles at the default length (12 lanterns at 600 each) in 15 meshes, one per material pair, at
+//   any length; length 12 is ~18.5k.
 // Hero: the lab's hero camera (az 52) sees the +X row's back wall. To check the shot down the alley, turn the set by
 //   +52 deg about y in a scratch copy (set.rotation.y) so that camera looks in at the +Z mouth; a film puts its camera
 //   at the mouth (z ~ length / 2 + 3, eye height) looking down -z.
@@ -40,8 +41,8 @@
 //   walls sky #1b2d6b flat (night ambient); wood (posts, beams, frames, skirts, sign frames, brackets) hair #16141c
 //   flat, lattice bars hair; tin eaves and lips moon #d5e2ff / sky at 0.35 (lit tops pale, alley-facing fascias of the
 //   +X row in sky), corrugation lines sky; practicals at threshold -1 (flat, lit from inside): door and window glow
-//   practical #f0c36a, boards and andons sclera #f6f3ee or practical, lantern paper accent #e23b4a with hair ribs and
-//   caps; noren accent or line #e7eefc flat; pipes and AC units line / moon at 0.35, AC grille hair; crates iris
+//   practical #f0c36a, boards and andons sclera #f6f3ee or practical, lantern paper accent #e23b4a (the noren-red
+//   material) with hair ribs and caps (lattice, wood); noren accent or line #e7eefc flat; pipes and AC units line / moon at 0.35, AC grille hair; crates iris
 //   #e7a04a / accent and accent / sky; paving hair with sky joints; puddles sky (they mirror the night sky) with a
 //   moon glint and accent / practical reflections of the lanterns and signs;
 //   wires hair. hair sits next to ink only in lines and small dark parts: indigo has no tone between sky and ink.
@@ -55,7 +56,6 @@ export const meta = {
     wood: "#16141c",
     tin: "#d5e2ff", tinShade: "#1b2d6b", tinLine: "#1b2d6b",
     glow: "#f0c36a", signWhite: "#f6f3ee", signAmber: "#f0c36a",
-    paper: "#e23b4a", rib: "#16141c",
     norenRed: "#e23b4a", norenWhite: "#e7eefc",
     metal: "#e7eefc", metalShade: "#d5e2ff", grille: "#16141c",
     crate: "#e7a04a", crateShade: "#e23b4a", crateRed: "#e23b4a", crateRedShade: "#1b2d6b",
@@ -306,34 +306,12 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   fbox("wood", 1, gz, PV + 0.12, 0.22, 0.7, 0.04, 0.34);
   for (const e of [-0.3, 0.3]) fbox("wood", 1, gz + e, PV + 0.07, 0.22, 0.04, 0.1, 0.3);
 
-  // ---------- static meshes ----------
-  const FLAT = -1; // practical glow: one flat base tone all round
-  const MAT = {
-    wall: [c.wall, c.wall, 0.35, true], wood: [c.wood, c.wood, 0.35, true], lattice: [c.wood, c.wood, 0.35, false],
-    tin: [c.tin, c.tinShade, 0.35, true], tinLine: [c.tinLine, c.tinLine, 0.35, false],
-    glow: [c.glow, c.glow, FLAT, false], signWhite: [c.signWhite, c.signWhite, FLAT, true], signAmber: [c.signAmber, c.signAmber, FLAT, true],
-    norenRed: [c.norenRed, c.norenRed, FLAT, true], norenWhite: [c.norenWhite, c.norenWhite, FLAT, true],
-    metal: [c.metal, c.metalShade, 0.35, true], grille: [c.grille, c.grille, 0.35, false],
-    crate: [c.crate, c.crateShade, 0.35, true], crateRed: [c.crateRed, c.crateRedShade, 0.35, true],
-    pave: [c.pave, c.pave, 0.35, true], paveLine: [c.paveLine, c.paveLine, 0.35, false], puddle: [c.puddle, c.puddle, FLAT, false],
-    glint: [c.glint, c.glint, FLAT, false], reflRed: [c.reflRed, c.reflRed, FLAT, false], reflAmber: [c.reflAmber, c.reflAmber, FLAT, false],
-    wire: [c.wire, c.wire, 0.35, false],
-  };
-  for (const [key, arr] of Object.entries(soups)) {
-    const [base, shade, threshold, outline] = MAT[key];
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.Float32BufferAttribute(arr, 3));
-    g.computeVertexNormals();
-    const mesh = kit.toon(g, base, shade, { threshold, outline });
-    mesh.name = key;
-    set.add(mesh);
-  }
 
-  // ---------- lanterns: one shared geometry, groups paper / rib / cap ----------
-  // local: hook at the origin, hangs down -y. Paper r(t) = R sqrt(1 - (k t)^2) between the caps, rib lines as thin rows.
-  const R = 0.17, PH = 0.24, PY = -0.33, RE = 0.095, kk = Math.sqrt(1 - (RE / R) ** 2), NS = 12;
-  const groups = [[], [], []];
-  const gtri = (gi, a, b, e, ref) => { const k = "__l"; soups[k] = []; tri(k, a, b, e, ref); groups[gi].push(...soups[k]); };
+  // ---------- lantern template (local: hook at the origin, hangs down -y) ----------
+  // Paper r(t) = R sqrt(1 - (k t)^2) between the caps, rib lines as thin rows. Three parts: paper, ribs, caps.
+  const R = 0.17, PH = 0.24, PY = -0.33, RE = 0.095, kk = Math.sqrt(1 - (RE / R) ** 2), NS = 10;
+  const parts = [[], [], []];
+  const gtri = (gi, a, b, e, ref) => { const k = "__l"; soups[k] = []; tri(k, a, b, e, ref); parts[gi].push(...soups[k]); };
   const ring = (y, r) => Array.from({ length: NS }, (_, j) => [r * Math.cos((j / NS) * 6.2832), y, r * Math.sin((j / NS) * 6.2832)]);
   const rows = [];
   const NB = 8, RIB = 0.006;
@@ -341,13 +319,18 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const t = -1 + (2 * b) / NB;
     for (const dt of b === 0 ? [0, RIB] : b === NB ? [-RIB, 0] : [-RIB, RIB]) {
       const tt = Math.max(-1, Math.min(1, t + dt / PH));
-      rows.push({ y: PY + tt * PH, r: R * Math.sqrt(1 - (kk * tt) ** 2) * (1.02 - 0.02 * Math.abs(Math.cos(Math.PI * NB * (tt + 1) / 2))), rib: b > 0 && b < NB && dt > 0 });
+      rows.push({ y: PY + tt * PH, r: R * Math.sqrt(1 - (kk * tt) ** 2) * (1.02 - 0.02 * Math.abs(Math.cos(Math.PI * NB * (tt + 1) / 2))) });
     }
   }
   for (let q = 0; q + 1 < rows.length; q++) {
     const A = ring(rows[q].y, rows[q].r), Bq = ring(rows[q + 1].y, rows[q + 1].r), ref = [0, (rows[q].y + rows[q + 1].y) / 2, 0];
-    const gi = q % 2 === 0 && q > 0 && q < rows.length - 2 ? 1 : 0; // the thin rows at each rib
-    for (let j = 0; j < NS; j++) { gtri(gi, A[j], A[(j + 1) % NS], Bq[(j + 1) % NS], ref); gtri(gi, A[j], Bq[(j + 1) % NS], Bq[j], ref); }
+    for (let j = 0; j < NS; j++) { gtri(0, A[j], A[(j + 1) % NS], Bq[(j + 1) % NS], ref); gtri(0, A[j], Bq[(j + 1) % NS], Bq[j], ref); }
+    // the thin rows at each rib: a dark band 4 mm proud of the closed paper (the paper keeps one unbroken hull)
+    if (q % 2 === 0 && q > 0 && q < rows.length - 2) {
+      const out = (P) => P.map((v) => [v[0] * (1 + 0.004 / R), v[1], v[2] * (1 + 0.004 / R)]);
+      const [Ao, Bo] = [out(A), out(Bq)];
+      for (let j = 0; j < NS; j++) { gtri(1, Ao[j], Ao[(j + 1) % NS], Bo[(j + 1) % NS], ref); gtri(1, Ao[j], Bo[(j + 1) % NS], Bo[j], ref); }
+    }
   }
   // caps: short closed cylinders overlapping the paper ends; a hanger into the eave
   const capCyl = (y0, y1, r) => {
@@ -362,24 +345,91 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   capCyl(PY - PH - 0.03, PY - PH + 0.02, RE + 0.012);
   capCyl(PY + PH + 0.03, 0.04, 0.012);
   delete soups.__l;
-  const lg = new THREE.BufferGeometry();
-  lg.setAttribute("position", new THREE.Float32BufferAttribute([...groups[0], ...groups[1], ...groups[2]], 3));
-  lg.addGroup(0, groups[0].length / 3, 0);
-  lg.addGroup(groups[0].length / 3, groups[1].length / 3, 1);
-  lg.addGroup((groups[0].length + groups[1].length) / 3, groups[2].length / 3, 2);
-  lg.computeVertexNormals();
-  const lmats = [kit.cel(c.paper, c.paper, { threshold: FLAT }), kit.cel(c.rib, c.rib, { threshold: FLAT }), kit.cel(c.rib, c.rib, { threshold: 0.35 })];
-  const pivots = lanternAt.map((p, i) => {
+
+  // ---------- meshes: one per material pair ----------
+  // Soup keys that share a material are merged (ALIAS). The lanterns ride in the norenRed (paper), lattice (ribs) and
+  // wood (caps) meshes: each lantern owns a vertex range in each, and pose() rewrites those ranges about its pivot.
+  const FLAT = -1; // practical glow: one flat base tone all round
+  const MAT = {
+    wall: [c.wall, c.wall, 0.35, true], wood: [c.wood, c.wood, 0.35, true], lattice: [c.wood, c.wood, 0.35, false],
+    tin: [c.tin, c.tinShade, 0.35, true], skyLine: [c.tinLine, c.tinLine, 0.35, false],
+    glow: [c.glow, c.glow, FLAT, false], signWhite: [c.signWhite, c.signWhite, FLAT, true], signAmber: [c.signAmber, c.signAmber, FLAT, true],
+    norenRed: [c.norenRed, c.norenRed, FLAT, true], norenWhite: [c.norenWhite, c.norenWhite, FLAT, true],
+    metal: [c.metal, c.metalShade, 0.35, true],
+    crate: [c.crate, c.crateShade, 0.35, true], crateRed: [c.crateRed, c.crateRedShade, 0.35, true],
+    glint: [c.glint, c.glint, FLAT, false], reflRed: [c.reflRed, c.reflRed, FLAT, false],
+  };
+  // pave and wire share wood's hair; grille is lattice; paving joints, puddles and corrugation are one sky; reflAmber is glow
+  const ALIAS = { pave: "wood", grille: "lattice", wire: "lattice", tinLine: "skyLine", paveLine: "skyLine", puddle: "skyLine", reflAmber: "glow" };
+  const merged = {};
+  for (const [key, arr] of Object.entries(soups)) (merged[ALIAS[key] ?? key] ??= []).push(...arr);
+  const LPART = ["norenRed", "lattice", "wood"]; // paper, ribs, caps
+  const lanterns = lanternAt.map((p) => {
+    const ranges = LPART.map((key, gi) => {
+      const arr = (merged[key] ??= []), start = arr.length;
+      for (let v = 0; v < parts[gi].length; v += 3) arr.push(parts[gi][v] + p[0], parts[gi][v + 1] + p[1], parts[gi][v + 2] + p[2]);
+      return { key, start, local: parts[gi] };
+    });
+    return { p, ranges };
+  });
+  const meshes = {};
+  for (const [key, arr] of Object.entries(merged)) {
+    const [base, shade, threshold, outline] = MAT[key];
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(arr, 3));
+    g.computeVertexNormals();
+    const mesh = kit.toon(g, base, shade, { threshold, outline });
+    mesh.name = key;
+    set.add(mesh);
+    meshes[key] = mesh;
+  }
+  // rest normals (and hull normals, in cel) of every lantern range, to rotate with it
+  for (const l of lanterns)
+    for (const r of l.ranges) {
+      const g = meshes[r.key].geometry, n = r.local.length;
+      r.normal = g.attributes.normal.array.slice(r.start, r.start + n);
+      if (g.attributes.hullNormal) r.hull = g.attributes.hullNormal.array.slice(r.start, r.start + n);
+    }
+  // pivots stay as joints (for --joints and films); they carry no mesh, pose() reads their rotation
+  const pivots = lanterns.map((l, i) => {
     const pv = new THREE.Group();
     pv.name = `lantern${i}`;
-    pv.position.set(...p);
-    const m = kit.outline(new THREE.Mesh(lg, lmats));
-    m.name = "lanternBody";
-    pv.add(m);
+    pv.position.set(...l.p);
     set.add(pv);
     joints[pv.name] = pv;
     return pv;
   });
+  const v3 = new THREE.Vector3(), m3 = new THREE.Matrix3();
+  function writeLanterns() {
+    const touched = new Set();
+    lanterns.forEach((l, i) => {
+      const pv = pivots[i];
+      pv.updateMatrix();
+      m3.setFromMatrix4(pv.matrix);
+      for (const r of l.ranges) {
+        const g = meshes[r.key].geometry, P = g.attributes.position.array, N = g.attributes.normal.array, Hn = g.attributes.hullNormal?.array;
+        for (let v = 0; v < r.local.length; v += 3) {
+          v3.set(r.local[v], r.local[v + 1], r.local[v + 2]).applyMatrix4(pv.matrix);
+          P[r.start + v] = v3.x; P[r.start + v + 1] = v3.y; P[r.start + v + 2] = v3.z;
+          v3.set(r.normal[v], r.normal[v + 1], r.normal[v + 2]).applyMatrix3(m3);
+          N[r.start + v] = v3.x; N[r.start + v + 1] = v3.y; N[r.start + v + 2] = v3.z;
+          if (Hn && r.hull) {
+            v3.set(r.hull[v], r.hull[v + 1], r.hull[v + 2]).applyMatrix3(m3);
+            Hn[r.start + v] = v3.x; Hn[r.start + v + 1] = v3.y; Hn[r.start + v + 2] = v3.z;
+          }
+        }
+        touched.add(r.key);
+      }
+    });
+    for (const key of touched) {
+      const g = meshes[key].geometry;
+      g.attributes.position.needsUpdate = true;
+      g.attributes.normal.needsUpdate = true;
+      if (g.attributes.hullNormal) g.attributes.hullNormal.needsUpdate = true;
+      g.computeBoundingSphere();
+      g.computeBoundingBox();
+    }
+  }
 
   // ---------- pose and clip ----------
   // Sign convention: +rx swings a lantern's bottom toward -z (along the alley), +rz toward +x.
@@ -390,6 +440,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       if (ph === null) return pv.rotation.set(0, 0, 0);
       pv.rotation.set(6 * D2R * Math.sin(TAU * (ph - i * 0.11)), 0, 2.5 * D2R * Math.sin(TAU * 2 * (ph - i * 0.07) + 0.6));
     });
+    writeLanterns();
     root.updateMatrixWorld(true);
   }
   function pose(name) {
