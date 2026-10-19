@@ -1,0 +1,198 @@
+{
+  "id": "elephant",
+  "name": "Elephant",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "elephant",
+    "safari",
+    "zoo",
+    "wild",
+    "quadruped",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets); stylized size: 2.0 m tall (a real elephant is ~3 m at the shoulder), so it stands above the library's horse (1.7 m) and cow (1.5 m) without a cube 3 m tall dwarfing every scene; rigid parts moved by node tracks, no skin; colour map flattened to flat colours",
+  "height": 2,
+  "script": "indigo",
+  "colors": {
+    "hide": "#d5e2ff",
+    "hideShade": "#1b2d6b",
+    "tusk": "#f6f3ee",
+    "tuskShade": "#e7eefc",
+    "dark": "#16141c",
+    "darkShade": "#16141c"
+  },
+  "materials": {
+    "colormap": "hide",
+    "colormap#989fbe": "hide",
+    "colormap#a5add0": "hide",
+    "colormap#8086a1": "hide",
+    "colormap#a2aacc": "hide",
+    "colormap#949bba": "hide",
+    "colormap#bbc3ea": "hide",
+    "colormap#b9c2e8": "hide",
+    "colormap#b3bce1": "hide",
+    "colormap#b0b8dc": "hide",
+    "colormap#878da9": "hide",
+    "colormap#8a90ad": "hide",
+    "colormap#7c819b": "hide",
+    "colormap#bdc6ee": "hide",
+    "colormap#b5bde3": "hide",
+    "colormap#aab2d5": "hide",
+    "colormap#969dbd": "hide",
+    "colormap#8e94b2": "hide",
+    "colormap#9fa7c8": "hide",
+    "colormap#888fab": "hide",
+    "colormap#949bb9": "hide",
+    "colormap#cacade": "tusk",
+    "colormap#d3d3e3": "tusk",
+    "colormap#ebebf2": "tusk",
+    "colormap#636578": "dark"
+  },
+  "thresholds": {
+    "hide": -0.2
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "dance": "dance",
+    "eat": "eat"
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (wave-1 row 21). The zip's License.txt (CC0) names the pack 'Cube Pets (2.0)' while the file is kenney_cube-pets_1.0.zip. Ingested through Blender, not via gltf: the gltf route stops with 'self is not defined' (three.js GLTFLoader cannot load the external Textures/colormap.png in Node), and would not flatten the single textured material anyway."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-elephant.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 2,
+    "yaw": 0,
+    "maxColors": 24,
+    "memberSha256": "0831346fb8ddb8e99e42e3f92fb48858551049dc7ea49e641d90fdfc65e057be"
+  },
+  "file": "model.glb",
+  "sha256": "e18545cb01848a710876eb490b7a973263f895ff6cf966445e42a804459a62f6",
+  "bytes": 99148,
+  "triangles": 676,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#989fbe": "#989fbe",
+    "colormap#a5add0": "#a5add0",
+    "colormap#8086a1": "#8086a1",
+    "colormap#a2aacc": "#a2aacc",
+    "colormap#949bba": "#949bba",
+    "colormap#bbc3ea": "#bbc3ea",
+    "colormap#b9c2e8": "#b9c2e8",
+    "colormap#b3bce1": "#b3bce1",
+    "colormap#b0b8dc": "#b0b8dc",
+    "colormap#878da9": "#878da9",
+    "colormap#8a90ad": "#8a90ad",
+    "colormap#7c819b": "#7c819b",
+    "colormap#bdc6ee": "#bdc6ee",
+    "colormap#b5bde3": "#b5bde3",
+    "colormap#aab2d5": "#aab2d5",
+    "colormap#969dbd": "#969dbd",
+    "colormap#8e94b2": "#8e94b2",
+    "colormap#9fa7c8": "#9fa7c8",
+    "colormap#888fab": "#888fab",
+    "colormap#949bb9": "#949bb9",
+    "colormap#cacade": "#cacade",
+    "colormap#d3d3e3": "#d3d3e3",
+    "colormap#ebebf2": "#ebebf2",
+    "colormap#636578": "#636578"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the trunk dips through the ground as the head bobs down to eat while all four feet stay planted (clamping would float the elephant 0.39 m)"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "static": {
+      "seconds": 0.1,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.9999,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 676,
+    "clips": {
+      "idle": {
+        "minY": 0.0001,
+        "touches": true,
+        "maxSize": 2.62
+      },
+      "walk": {
+        "minY": 0.0052,
+        "touches": true,
+        "maxSize": 2.62
+      },
+      "run": {
+        "minY": -0.0187,
+        "touches": true,
+        "maxSize": 2.62
+      },
+      "dance": {
+        "minY": 0.0001,
+        "touches": true,
+        "maxSize": 2.62
+      },
+      "eat": {
+        "minY": -0.3899,
+        "touches": true,
+        "maxSize": 2.62
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}

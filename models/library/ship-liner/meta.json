@@ -1,0 +1,101 @@
+{
+  "id": "ship-liner",
+  "name": "Ocean liner",
+  "category": "vehicle-water",
+  "tags": [
+    "vehicle",
+    "ship",
+    "liner",
+    "ocean",
+    "cruise",
+    "sea"
+  ],
+  "style": "low-poly, flat colours (Kenney Watercraft Kit)",
+  "height": 70,
+  "script": "noon",
+  "colors": {
+    "hull": "#fff6e4",
+    "hullShade": "#f2d7ae",
+    "band": "#5c3d32",
+    "bandShade": "#241c16",
+    "funnel": "#f0c2ae",
+    "funnelShade": "#c4452d",
+    "boot": "#c4452d",
+    "bootShade": "#5c3d32",
+    "mast": "#5c3d32",
+    "mastShade": "#241c16"
+  },
+  "materials": {
+    "colormap": "hull",
+    "colormap#d6d7e7": "hull",
+    "colormap#e4e4ee": "hull",
+    "colormap#f8f8fb": "hull",
+    "colormap#eeeef4": "hull",
+    "colormap#f3f3f7": "hull",
+    "colormap#444652": "band",
+    "colormap#505463": "band",
+    "colormap#f09b61": "funnel",
+    "colormap#d8574c": "boot",
+    "colormap#dd5a4b": "boot",
+    "colormap#d3554d": "mast",
+    "colormap#d6805a": "mast"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Watercraft Kit",
+    "page": "https://kenney.nl/assets/watercraft-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney ship-ocean-liner (GLB with the kit colormap), same kit and fetch pin as boat-fishing. A four-funnel Titanic-style liner, stylized and stubby: the toy is only 2.4 times as long as it is tall, so no single scale is real. Height 70 m keel to mast tops (the funnel tops sit at about 62 m; a modern cruise ship stands about 70 m) gives a 167 m hull and a 37 m beam: short for a liner (real ones run 200 to 300 m) but a believable length for a smaller ocean ship, and beam and height read right at the far/mid distances films place it. Bow toward +Z (image-left in the lab left view; the funnels rake aft). y = 0 is the keel; the waterline sits at about y = 11.5 m (the top of the red boot-topping, where the dark hull band starts), so a film sinks the ship 11.5 m into its water plane. Cream superstructure, dark-brown hull band, funnel tops, masts and rigging, buff funnels (White Star style), red boot-topping and flags. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/watercraft-kit",
+      "sha256": "cd1470c1cf441c7f46d0944ae6d0d897242365dc97677c5079b3238965d659f3",
+      "bytes": 1870991,
+      "resolved": "https://kenney.nl/media/pages/assets/watercraft-kit/a335cfed49-1713519620/kenney_watercraft-pack.zip"
+    },
+    "member": "Models/GLB format/ship-ocean-liner.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 70,
+    "memberSha256": "3601dfb08920be829a35c49024940732e3f6c3ec5aa718cd2ef44d4ffa982475"
+  },
+  "file": "model.glb",
+  "sha256": "e0e9a2a846c1a67b7c72d58681c31e98be6b80db765d486cd96e2ddb51065c2c",
+  "bytes": 47428,
+  "triangles": 2796,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#d6d7e7": "#d6d7e7",
+    "colormap#e4e4ee": "#e4e4ee",
+    "colormap#f8f8fb": "#f8f8fb",
+    "colormap#eeeef4": "#eeeef4",
+    "colormap#f3f3f7": "#f3f3f7",
+    "colormap#444652": "#444652",
+    "colormap#505463": "#505463",
+    "colormap#f09b61": "#f09b61",
+    "colormap#d8574c": "#d8574c",
+    "colormap#dd5a4b": "#dd5a4b",
+    "colormap#d3554d": "#d3554d",
+    "colormap#d6805a": "#d6805a"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 70.0018,
+    "heightError": 0,
+    "minY": -0.0018,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2796,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
