@@ -52,7 +52,8 @@ function main() {
   };
   if (Math.abs(qa.heightError) > 0.05) fails.push(`rest height ${top.toFixed(3)} m is ${(qa.heightError * 100).toFixed(1)} % off meta.height ${h}`);
   if (Math.abs(R.minY) > 0.02 * h) fails.push(`rest lowest point ${R.minY.toFixed(3)} m is not on y = 0 (2 % = ${(0.02 * h).toFixed(3)} m)`);
-  R.bbox.size.forEach((s, i) => {
+  // An entry centred on its body (ingest.centerOn) is off-centre overall by design: a held weapon sticks out.
+  if (!meta.ingest?.centerOn) R.bbox.size.forEach((s, i) => {
     if (i === 1) return;
     const c = qa.centre[i ? 1 : 0];
     if (Math.abs(c) > 0.05 * Math.max(s, 0.05)) fails.push(`rest bbox centre ${"xz"[i ? 1 : 0]} = ${c} m is off 0 by more than 5 % of the width`);

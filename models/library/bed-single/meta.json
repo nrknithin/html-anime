@@ -1,0 +1,76 @@
+{
+  "id": "bed-single",
+  "name": "Single bed",
+  "category": "prop",
+  "tags": [
+    "furniture",
+    "bed",
+    "bedroom",
+    "apartment",
+    "interior",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Furniture Kit 2.0)",
+  "height": 0.72,
+  "script": "noon",
+  "colors": {
+    "blanket": "#f0c2ae",
+    "blanketShade": "#c4452d",
+    "sheet": "#fffaf2",
+    "sheetShade": "#f6f3ee",
+    "wood": "#f2d7ae",
+    "woodShade": "#5c3d32"
+  },
+  "materials": {
+    "carpet": "blanket",
+    "carpetWhite": "sheet",
+    "metal": "wood",
+    "wood": "wood"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Furniture Kit",
+    "page": "https://kenney.nl/assets/furniture-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Substitutes for the plan's Quaternius single bed (poly.pizza static GLB, blocked by a Cloudflare challenge). Kenney Furniture Kit 2.0 `bedSingle` (GLB): a single bed with a low wooden frame on four block legs, a plain headboard, a mattress with white sheets, a turned-down blanket and one pillow. Kept at the kit's own scale, the same as desk-teacher and sofa (0.384 kit units = 0.74 m): 0.72 m to the headboard top, 1.10 m wide, 2.16 m long. The blanket (source `carpet`, pale pink) is drawn in the script's skin peach with the accent red as its shade, so its top reads apart from the red sofa cushions and its shaded foot and side stay apart from the frame's brown shade (a brown shade merged the foot end into one block); the sheets and pillow (`carpetWhite`) are practical white; the frame and the legs (`wood` and `metal`, light grey legs in the source) keep the desk's wood pair. Foot end faces +Z, headboard at -Z. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/furniture-kit",
+      "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+      "bytes": 5130729
+    },
+    "member": "Models/GLTF format/bedSingle.glb",
+    "height": 0.72,
+    "memberSha256": "ca00c63f9a12da3138d902b2f5f18e0360fb6e8a5ac42ccb4bc3f185724b65d1"
+  },
+  "file": "model.glb",
+  "sha256": "3e35f385010098b4a253078a9f481ea11ac45904185ed7acfc6da132b2804457",
+  "bytes": 10140,
+  "triangles": 214,
+  "bones": 0,
+  "sourceMaterials": {
+    "carpetWhite": "#fcffff",
+    "wood": "#f3cca8",
+    "metal": "#dfeaec",
+    "carpet": "#f9a39e"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.72,
+    "heightError": -0.0001,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 214,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}

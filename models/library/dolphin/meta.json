@@ -1,0 +1,90 @@
+{
+  "id": "dolphin",
+  "name": "Dolphin",
+  "category": "fish",
+  "tags": [
+    "animal",
+    "dolphin",
+    "sea",
+    "ocean",
+    "marine mammal",
+    "water",
+    "swim"
+  ],
+  "style": "low-poly, flat colours (Quaternius 2018)",
+  "height": 0.8,
+  "script": "indigo",
+  "colors": {
+    "back": "#1b2d6b",
+    "backShade": "#16141c",
+    "belly": "#e7eefc",
+    "bellyShade": "#d5e2ff"
+  },
+  "thresholds": {
+    "back": -0.3
+  },
+  "materials": {
+    "Top": "back",
+    "Bottom": "belly"
+  },
+  "clips": {
+    "swim": "Swim"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated Fish",
+    "page": "https://opengameart.org/content/animated-fish",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 39 named Quaternius Low Poly Sea Animals via the poly.pizza CDN (behind a Cloudflare challenge). This is the OpenGameArt copy of the same Quaternius dolphin: the Animated Fish pack (CC0; the same zip and sha256 pin as the koi), member FBX/Dolphin.fbx. Its only clip is Swim (an up-and-down body and fluke stroke). Coloured on the indigo script: a deep blue back (#1b2d6b, shade #16141c) over a pale blue-white belly (#e7eefc, shade #d5e2ff), so it reads as a dolphin and stays apart from a grey shark. Height 0.8 m (dorsal fin tip to flipper tips) gives a 2.48 m body, a bottlenose dolphin's length. A dolphin has no ground: like every entry its lowest rest point is at y = 0; films lift it into the water."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Animated%20Fish%20Pack%20by%20%40Quaternius.zip",
+      "sha256": "c56a4bf3468e900ed9d881037334152dc203f93b656373347c8a7fc3dedb1855",
+      "bytes": 1024233,
+      "resolved": "https://opengameart.org/sites/default/files/Animated%20Fish%20Pack%20by%20%40Quaternius.zip"
+    },
+    "member": "Animated Fish Pack by @Quaternius/FBX/Dolphin.fbx",
+    "height": 0.8,
+    "yaw": 0,
+    "memberSha256": "4b6f1ff9487bf25bd3dd7e3397723a356579ee9e3d62e915f978c003ee41644f"
+  },
+  "file": "model.glb",
+  "sha256": "8ba9bdcc3bab4935266b717de0b7a39af5e2c8553280ac5542ce462afbc7068c",
+  "bytes": 28868,
+  "triangles": 440,
+  "bones": 13,
+  "sourceMaterials": {
+    "Top": "#959595",
+    "Bottom": "#b1b1b1"
+  },
+  "clipInfo": {
+    "Swim": {
+      "seconds": 1.0417,
+      "loop": true,
+      "sinkAllowed": "a swimmer has no ground: the flippers and flukes dip up to 38 mm below the rest floor in the stroke; films lift it into the water, and clamping would add a false bob"
+    }
+  },
+  "qa": {
+    "height": 0.8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 440,
+    "clips": {
+      "swim": {
+        "minY": -0.0382,
+        "touches": true,
+        "maxSize": 2.48
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + swim"
+  }
+}
