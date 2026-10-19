@@ -26,26 +26,25 @@
 // (0.30 deep), cove 1.95 -> 2.40 at |x| 1.13, strap rails 1.95 at |x| 0.88, ring bottoms ~1.62, light strips at |x|
 // 0.46, ceiling top 2.45. Doors: 1.30 wide x 1.86 tall, centred on z = 0; gangway door 0.84 x 1.90. Section length 8 m.
 // Colours (noon by day): walls sky #f2d7ae / skin #f0c2ae; ceiling moon #fff6e4 (always lit); floor skin #f0c2ae;
-// seats accent #c4452d / iris #5c3d32; heater skirt iris / hair #241c16; stainless moon / skin; glass practical
-// #fffaf2 (blown-out daylight); light strips practical; ad paper practical / sclera; trim (seams, ad frames, belts,
+// seats accent #c4452d / iris #5c3d32; heater skirt iris flat; stainless moon / skin; glass practical
+// #fffaf2 (blown-out daylight); light strips practical in an iris housing rim; ad paper practical / sclera; trim (seams, ad frames, belts,
 // door seams, display) iris flat; rings moon / skin.
-// Night (opts.night, indigo script, NIGHT below): walls line #e7eefc / moon #d5e2ff; ceiling line; floor sclera;
-// seats accent #e23b4a / sky #1b2d6b (the shade runs into the navy skirt); skirt sky / hair #16141c; stainless sclera
-// / moon; glass sky (the dark outside); lights practical #f0c36a; ads sclera / line; trim sky; rings sclera / moon.
+// Night (opts.night, still noon, NIGHT below): every surface drops to its shade under the lamps: walls skin, ceiling
+// sky, steel and rings sky / skin; windows and door glass go hair #241c16 (dark outside); light strips and ads stay
+// practical #fffaf2 and glow against it; seats and skirt unchanged.
 // Options: build(THREE, kit, colors, { height, length, cutaway, night }).
 //   height   scales the whole set uniformly so the ceiling top is `height` (default 2.45, interior 2.40).
 //   length   section length in metres before scaling (default 8, min 4): benches, windows, racks, straps, lights and
 //            ads are laid out again for it; the doors stay in the middle.
 //   cutaway  (default true) leaves out the +X wall with its windows, doors, rack, cove and ads (benches, poles,
 //            straps stay), so the camera sees in. false closes the carriage.
-//   night    indigo colours (dark windows, warm light); the `colors` argument is ignored then.
+//   night    the lamp-lit night colours (dark windows, glowing strips, same script); `colors` is ignored then.
 // Clip: sway 4 s (loops): every strap swings about its hinge, laterally (about Z, +-7.5 deg) and fore-aft (about X,
 // +-5 deg), a slow wave travelling down the car, the two rails out of phase. pose("sway@1.2").
 // Mesh count: 11 (one per material, plus their hulls), 10k triangles at 8 m (11k closed; the 46 straps are 6k).
 // Ink px: shell and seats 3, skirt 2.5, stainless and rings 1.5, light strips 1, glass / ads / trim none.
 // Joints: empty anchors for placing figures and cameras: seatL, seatR (a seat centre on each bench, at seat height),
-// railL, railR (strap rails at z = 0), door (-X doorway floor), gangway (end-wall door floor). The lab checks the
-// palette against meta.script (noon), so a night shot warns about its indigo hexes; that is expected.
+// railL, railR (strap rails at z = 0), door (-X doorway floor), gangway (end-wall door floor).
 
 export const meta = {
   name: "train-interior",
@@ -56,7 +55,7 @@ export const meta = {
     ceiling: "#fff6e4", ceilingShade: "#fff6e4",
     floor: "#f0c2ae", floorShade: "#f0c2ae",
     seat: "#c4452d", seatShade: "#5c3d32",
-    skirt: "#5c3d32", skirtShade: "#241c16",
+    skirt: "#5c3d32", skirtShade: "#5c3d32",
     steel: "#fff6e4", steelShade: "#f0c2ae",
     glass: "#fffaf2", glassShade: "#fff6e4",
     light: "#fffaf2", lightShade: "#fffaf2",
@@ -67,19 +66,19 @@ export const meta = {
   poses: ["rest"],
 };
 
-// indigo script, for opts.night
+// night, still noon: every surface drops to its shade (warm, lamp-lit), the windows go dark, the practicals glow
 const NIGHT = {
-  wall: "#e7eefc", wallShade: "#d5e2ff",
-  ceiling: "#e7eefc", ceilingShade: "#e7eefc",
-  floor: "#f6f3ee", floorShade: "#f6f3ee",
-  seat: "#e23b4a", seatShade: "#1b2d6b",
-  skirt: "#1b2d6b", skirtShade: "#16141c",
-  steel: "#f6f3ee", steelShade: "#d5e2ff",
-  glass: "#1b2d6b", glassShade: "#1b2d6b",
-  light: "#f0c36a", lightShade: "#f0c36a",
-  ad: "#f6f3ee", adShade: "#e7eefc",
-  trim: "#1b2d6b", trimShade: "#1b2d6b",
-  ring: "#f6f3ee", ringShade: "#d5e2ff",
+  wall: "#f0c2ae", wallShade: "#5c3d32",
+  ceiling: "#f2d7ae", ceilingShade: "#f0c2ae",
+  floor: "#f0c2ae", floorShade: "#f0c2ae",
+  seat: "#c4452d", seatShade: "#5c3d32",
+  skirt: "#5c3d32", skirtShade: "#5c3d32",
+  steel: "#f2d7ae", steelShade: "#f0c2ae",
+  glass: "#241c16", glassShade: "#241c16",
+  light: "#fffaf2", lightShade: "#fffaf2",
+  ad: "#fffaf2", adShade: "#fffaf2",
+  trim: "#5c3d32", trimShade: "#5c3d32",
+  ring: "#f2d7ae", ringShade: "#f0c2ae",
 };
 
 export function build(THREE, kit, colors = meta.colors, opts = {}) {
@@ -302,6 +301,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     for (let i = 0; i < nLight; i++) {
       const z = -H2 + 0.1 + i * segL;
       box("light", x - 0.08, x + 0.08, CEIL - 0.035, CEIL, z + 0.03, z + segL - 0.03);
+      box("trim", x - 0.1, x + 0.1, CEIL - 0.012, CEIL, z + 0.01, z + segL - 0.01); // housing rim: the strip reads on a pale ceiling
     }
   const sway = []; // { key, start, end, hinge, z, side }
   const nDrop = Math.max(2, Math.round(L / 1.6) + 1);
