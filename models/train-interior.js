@@ -32,18 +32,20 @@
 // Night (opts.night, still noon, NIGHT below): every surface drops to its shade under the lamps: walls skin, ceiling
 // sky, steel and rings sky / skin; windows and door glass go hair #241c16 (dark outside); light strips and ads stay
 // practical #fffaf2 and glow against it; seats and skirt unchanged.
-// Options: build(THREE, kit, colors, { height, length, cutaway, night }).
+// Options: build(THREE, kit, colors, { height, length, cutaway, nearBench, night }).
 //   height   scales the whole set uniformly so the ceiling top is `height` (default 2.45, interior 2.40).
 //   length   section length in metres before scaling (default 8, min 4): benches, windows, racks, straps, lights and
 //            ads are laid out again for it; the doors stay in the middle.
 //   cutaway  (default true) leaves out the +X wall with its windows, doors, rack, cove and ads (benches, poles,
 //            straps stay), so the camera sees in. false closes the carriage.
+//   nearBench the +X bench: true (full), "cushion" (cushion and skirt, no backrest or seat-end screen) or false (none,
+//            only its poles). Default false with cutaway (its backrest was a red slab across the hero), true closed.
 //   night    the lamp-lit night colours (dark windows, glowing strips, same script); `colors` is ignored then.
 // Clip: sway 4 s (loops): every strap swings about its hinge, laterally (about Z, +-7.5 deg) and fore-aft (about X,
 // +-5 deg), a slow wave travelling down the car, the two rails out of phase. pose("sway@1.2").
-// Mesh count: 11 (one per material, plus their hulls), 10k triangles at 8 m (11k closed; the 46 straps are 6k).
+// Mesh count: 11 (one per material, plus their hulls), 9.7k triangles at 8 m (11k closed; the 46 straps are 6k).
 // Ink px: shell and seats 3, skirt 2.5, stainless and rings 1.5, light strips 1, glass / ads / trim none.
-// Joints: empty anchors for placing figures and cameras: seatL, seatR (a seat centre on each bench, at seat height),
+// Joints: empty anchors for placing figures and cameras: seatL, seatR (a seat centre on each bench, at seat height; seatR stays put when nearBench is false),
 // railL, railR (strap rails at z = 0), door (-X doorway floor), gangway (end-wall door floor).
 
 export const meta = {
@@ -83,6 +85,7 @@ const NIGHT = {
 
 export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const { height = meta.height, length = 8, cutaway = true, night = false } = opts;
+  const nearBench = opts.nearBench ?? !cutaway; // the +X bench: true, "cushion" (no backrest), or false (none)
   const c = night ? NIGHT : { ...meta.colors, ...colors };
   const root = new THREE.Group();
   root.name = "train-interior";
@@ -271,24 +274,27 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     for (const [zEnd, h] of halves) {
       const za = h * DZ, zb = h < 0 ? zEnd : zEnd;
       const [z0, z1] = za < zb ? [za, zb] : [zb, za];
-      // cushion: rounded front corners; backrest: tilted slab, rounded top front
-      const cush = rrect(0, 0.55, 0.3, 0.44, [0, 0.035, 0.05, 0]).map(([d, y]) => [X(d), y]);
-      prism("seat", cush, z0, z1);
-      const back = [[0, 0.44], [0.11, 0.46], [0.095, 0.93], [0.07, 0.965], [0.035, 0.975], [0, 0.975]].map(([d, y]) => [X(d), y]);
-      prism("seat", back, z0, z1);
-      box("skirt", X(0), X(0.47), FY, 0.3, z0, z1);
-      // seams: one per seat across the cushion and up the backrest
-      const nSeat = Math.round((z1 - z0) / 0.46);
-      for (let i = 1; i < nSeat; i++) {
-        const z = z0 + ((z1 - z0) * i) / nSeat;
-        box("trim", X(0.11), X(0.52), 0.44, 0.445, z - 0.007, z + 0.007);
-        beam("trim", [X(0.113), 0.47, z], [X(0.098), 0.92, z], 0.014, 0.008, [s, 0, 0]);
+      const near = s > 0 ? nearBench : true;
+      if (near) {
+        // cushion: rounded front corners; backrest: tilted slab, rounded top front
+        const cush = rrect(0, 0.55, 0.3, 0.44, [0, 0.035, 0.05, 0]).map(([d, y]) => [X(d), y]);
+        prism("seat", cush, z0, z1);
+        const back = [[0, 0.44], [0.11, 0.46], [0.095, 0.93], [0.07, 0.965], [0.035, 0.975], [0, 0.975]].map(([d, y]) => [X(d), y]);
+        if (near === true) prism("seat", back, z0, z1);
+        box("skirt", X(near === true ? 0 : 0.06), X(0.47), FY, 0.3, z0, z1);
+        // seams: one per seat across the cushion and up the backrest
+        const nSeat = Math.round((z1 - z0) / 0.46);
+        for (let i = 1; i < nSeat; i++) {
+          const z = z0 + ((z1 - z0) * i) / nSeat;
+          box("trim", X(near === true ? 0.11 : 0.06), X(0.52), 0.44, 0.445, z - 0.007, z + 0.007);
+          if (near === true) beam("trim", [X(0.113), 0.47, z], [X(0.098), 0.92, z], 0.014, 0.008, [s, 0, 0]);
+        }
       }
-      // seat-end screen by the door, its pole and grab bar
+      // seat-end screen by the door (with its bench), its pole and grab bar
       const zs = h * (DZ - 0.015);
-      box("wall", X(0), X(0.6), FY, 1.12, zs - 0.015, zs + 0.015);
+      if (near === true) box("wall", X(0), X(0.6), FY, 1.12, zs - 0.015, zs + 0.015);
       tube("steel", [X(0.63), FY, zs], [X(0.63), CEIL, zs], 0.018, 8);
-      tube("steel", [X(0), 1.15, zs], [X(0.63), 1.15, zs], 0.014, 6);
+      if (near === true) tube("steel", [X(0), 1.15, zs], [X(0.63), 1.15, zs], 0.014, 6);
       // vertical grab rail on the door jamb
       if (sides.includes(s)) tube("steel", [X(0.03), 0.8, h * (DW + 0.06)], [X(0.03), 1.75, h * (DW + 0.06)], 0.014, 6);
     }
