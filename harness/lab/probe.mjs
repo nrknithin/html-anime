@@ -2,7 +2,7 @@
 // probe.mjs — numbers about a model's poses, no browser: bbox, lowest point, triangles, heaviest meshes, joint world
 // positions, ground contacts and the lab's contract warnings. A few ms per pose after a ~40 ms three.js load. Node 22+, zero dependencies.
 //
-//   node harness/lab/probe.mjs --model models/ox.js [--pose stomp | --poses all | --poses rest,walk-a] [--json]
+//   node harness/lab/probe.mjs --model models/ox.js [--pose stomp | --poses all | --poses rest,walk-a] [--opts '{"lit":true}'] [--json]
 //
 // three.js comes from the lab's CDN disk cache (the same files shoot.mjs uses; fetched into it when missing).
 
@@ -13,7 +13,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { fixPath, resolveFromRoot } from "./paths.mjs";
-import { fmt, scanSource, checkMeta, measure, contractWarnings, jointWarning, jointPositions, meshStats } from "./inspect.js";
+import { fmt, scanSource, checkMeta, measure, contractWarnings, jointWarning, jointPositions, meshStats, parseOpts } from "./inspect.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..", "..");
@@ -23,12 +23,13 @@ const THREE_VERSION = "0.186.1";
 // Contact threshold scales with model size: 5 mm for human-size models, 1 % of meta.height for small ones (floor 0.5 mm).
 const contactM = (h) => Math.max(0.0005, Math.min(0.005, 0.01 * h));
 
-const USAGE = `usage: node harness/lab/probe.mjs --model <path> [--pose <name> | --poses all|a,b,c] [--json] [--lax]
+const USAGE = `usage: node harness/lab/probe.mjs --model <path> [--pose <name> | --poses all|a,b,c] [--opts '<json>'] [--json] [--lax]
 
   --model <path>   model module (repo-relative like models/ox.js, or any file path; relative paths resolve against the repo root)
   --pose <name>    one pose (default rest)
   --poses <list>   several poses, or "all" for every name in meta.poses
-  --clip <name>    library models: probe n frames of a clip [--frames n, default 8]
+  --opts '<json>'  JSON object passed to build() as its 4th argument, e.g. '{"lit":true}' (code models; library entries ignore it)
+  --clip <name>    models with clips: probe n frames of a clip [--frames n, default 8]
   --json           one JSON object instead of text
   --lax            contract violations (Math.random, imports ...) warn instead of fail
 
@@ -42,7 +43,7 @@ function parseArgs(argv) {
     if (!a.startsWith("--")) throw new Error(`unexpected argument "${a}" (flags start with --)`);
     const eq = a.indexOf("=");
     const key = a.slice(2, eq < 0 ? undefined : eq).replace(/-([a-z])/g, (_, c) => c.toUpperCase());
-    if (!["model", "pose", "poses", "json", "lax", "help", "clip", "frames"].includes(key)) throw new Error(`unknown option ${a.split("=")[0]}\n\n${USAGE}`);
+    if (!["model", "pose", "poses", "json", "lax", "help", "clip", "frames", "opts"].includes(key)) throw new Error(`unknown option ${a.split("=")[0]}\n\n${USAGE}`);
     if (["json", "lax", "help"].includes(key)) out[key] = eq < 0 ? true : !["0", "false", "no", "off"].includes(a.slice(eq + 1).toLowerCase());
     else if (eq >= 0) out[key] = a.slice(eq + 1);
     else if (i + 1 < argv.length && !argv[i + 1].startsWith("--")) out[key] = argv[++i];
@@ -190,6 +191,7 @@ async function main() {
     return 0;
   }
   if (!opts.model) throw new Error("--model is required");
+  let buildOpts = opts.opts ? parseOpts(opts.opts) : undefined;
   const t0 = performance.now();
   const tries = [resolveFromRoot(ROOT, opts.model), path.resolve(process.cwd(), fixPath(opts.model))];
   const lib = tries.map((d) => path.join(d, "meta.json")).find((f) => fs.existsSync(f));
@@ -209,11 +211,15 @@ async function main() {
   const tLoad = performance.now() - t0;
   const mod = /\.json$/i.test(file) ? await loadLibrary(file) : await loadModel(file, !opts.lax, warnings);
   const meta = checkMeta(mod, SCRIPTS, warnings);
+  if (buildOpts && lib) {
+    warnings.push("--opts is for code models: a library entry ignores it");
+    buildOpts = undefined;
+  }
   const ink = (SCRIPTS && SCRIPTS[meta.script] && SCRIPTS[meta.script].colors.ink) || "#101628";
   const kit = makeKit(THREE, { mode: "cel", ink });
   let built;
   try {
-    built = mod.build(THREE, kit, meta.colors);
+    built = mod.build(THREE, kit, meta.colors, buildOpts);
   } catch (e) {
     throw new Error(`build() threw: ${e.message}`);
   }
@@ -227,7 +233,7 @@ async function main() {
   if (opts.poses) names = opts.poses === "all" ? [...meta.poses] : String(opts.poses).split(",").map((s) => s.trim()).filter(Boolean);
   if (opts.clip) {
     // --clip <name> [--frames n]: n evenly spaced frames of a library clip (default 8)
-    if (!built.clips || !(opts.clip in built.clips)) throw new Error(`--clip: no clip "${opts.clip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (only library models have clips)"}`);
+    if (!built.clips || !(opts.clip in built.clips)) throw new Error(`--clip: no clip "${opts.clip}"${built.clips ? ` (clips: ${Object.keys(built.clips).join(", ")})` : " (the model returns no clips)"}`);
     const n = Number(opts.frames) > 0 ? Number(opts.frames) : 8;
     names = Array.from({ length: n }, (_, k) => `${opts.clip}@${+((built.clips[opts.clip] * k) / n).toFixed(4)}`);
   }
@@ -240,7 +246,7 @@ async function main() {
   } catch (e) {
     throw new Error(`pose("${hasRest ? "rest" : names[0]}") threw: ${e.message}`);
   }
-  contractWarnings(measure(THREE, built.root), meta, warnings);
+  contractWarnings(measure(THREE, built.root), meta, warnings, buildOpts);
   const reports = names.map((n) => {
     if (!meta.poses.includes(n) && !(built.clips && /@-?[\d.]+$/.test(n))) warnings.push(`pose "${n}" is not listed in meta.poses (${meta.poses.join(", ")})`);
     const r = probePose(THREE, built, n, meta.height);
@@ -250,9 +256,9 @@ async function main() {
   const totalMs = Math.round(performance.now() - t0);
 
   if (opts.json) {
-    console.log(JSON.stringify({ model: path.relative(ROOT, file).split(path.sep).join("/"), name: meta.name, height: meta.height, poses: reports, warnings, info, ms: { total: totalMs, load: Math.round(tLoad) } }));
+    console.log(JSON.stringify({ model: path.relative(ROOT, file).split(path.sep).join("/"), name: meta.name, height: meta.height, ...(buildOpts && { opts: buildOpts }), poses: reports, warnings, info, ms: { total: totalMs, load: Math.round(tLoad) } }));
   } else {
-    console.log(`${meta.name}  (${path.relative(ROOT, file).split(path.sep).join("/")})  meta.height ${fmt(meta.height)} m`);
+    console.log(`${meta.name}  (${path.relative(ROOT, file).split(path.sep).join("/")})  meta.height ${fmt(meta.height)} m${buildOpts ? `  opts ${JSON.stringify(buildOpts)}` : ""}`);
     for (const r of reports) console.log("\n" + textReport(r));
     console.log(`\n${reports.length} pose${reports.length === 1 ? "" : "s"} in ${totalMs} ms (three.js load ${Math.round(tLoad)} ms, ${fmt(reports.reduce((a, r) => a + r.ms, 0) / reports.length, 1)} ms per pose)`);
   }

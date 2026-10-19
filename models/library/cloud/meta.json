@@ -1,0 +1,70 @@
+{
+  "id": "cloud",
+  "name": "Cloud",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "cloud",
+    "sky",
+    "weather",
+    "background",
+    "static"
+  ],
+  "style": "low-poly, flat colours, rounded multi-lobed cumulus (Quaternius 2021)",
+  "height": 15,
+  "script": "indigo",
+  "colors": {
+    "cloud": "#f6f3ee",
+    "cloudShade": "#d5e2ff"
+  },
+  "materials": {
+    "Cloud": "cloud"
+  },
+  "thresholds": {
+    "cloud": 0
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Platformer Pack (Dec 2021)",
+    "page": "https://quaternius.itch.io/ultimate-platformer-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius static cloud on poly.pizza) is behind a Cloudflare challenge, and the Ultimate Nature Pack used for the trees has no cloud. This is Cloud_2 from Quaternius's Ultimate Platformer Pack on itch.io (free download; License.txt in the zip: CC0 1.0). Of the pack's three clouds (all rendered) it reads best as a puffy cumulus: a big central lobe with a smaller puff on each side over a flat base, the classic anime cloud profile, where Cloud_1 is two lumps and Cloud_3 a long sloping mound. The broad side faces +Z (the front view shows the three lobes); y = 0 is the flat bottom. Size: a sky prop, 15 m tall, about 25 m wide and 15 m deep; real cumulus are hundreds of metres across, so a film places it far off or scales it (uniform scale keeps the base flat). Colours on indigo: sclera white shading to moon pale blue, with ink. noInk was tried too: without the hull the lobes merge into one white blob and the cloud reads as a lump, so the ink stays (it also draws the creases between puffs). Shade threshold 0 (default 0.35): at the default half the cloud went blue in patches; at 0 the shade sits on the underside and the far side, the flat-bottomed anime cumulus look. Smooth shading kept so the shade falls as soft bands. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/ultimate-platformer-pack",
+      "upload": "Ultimate Platformer Pack by Quaternius.zip",
+      "sha256": "2d0cac0f3cb58f6845f779a4c6b4a92be6fa27d118ee0b976ead55c6834a53d4",
+      "bytes": 18863631
+    },
+    "member": "Ultimate Platformer Pack - Dec 2021/Nature/FBX/Cloud_2.fbx",
+    "height": 15,
+    "yaw": 0,
+    "memberSha256": "b609edbfb080a3c68d90a8c0a1cfb6f98395f1f6103c7f852f9f6aa5d2de569a"
+  },
+  "file": "model.glb",
+  "sha256": "e7c666d2302124fbbee294cf2cfff784c844477483908f69903bc431885f0113",
+  "bytes": 5516,
+  "triangles": 508,
+  "bones": 0,
+  "sourceMaterials": {
+    "Cloud": "#c6cabd"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 14.9996,
+    "heightError": 0,
+    "minY": 0.0004,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 508,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
