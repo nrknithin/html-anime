@@ -1,11 +1,11 @@
 // library.test.mjs — the model library's pipeline pieces that run without a browser, Blender or the network:
-// the zip reader, the catalog render, the entry checks, and the no-clock rule for the files a film pastes.
+// the zip reader, the attach arguments, the catalog render, the entry checks, and the no-clock rule for the files a film pastes.
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
-import { unzipMember, zipList } from "./ingest.mjs";
+import { unzipMember, zipList, glbClips, attachArgs } from "./ingest.mjs";
 import { render, entryProblems, readEntries } from "./catalog.mjs";
 import { scanSource } from "../lab/inspect.js";
 
@@ -55,6 +55,39 @@ assert.deepEqual(zipList(zip), ["Pack/License.txt", "Pack/FBX/Horse.fbx"]);
 assert.equal(unzipMember(zip, "Pack/License.txt").toString(), "CC0");
 assert.ok(unzipMember(zip, "Pack\\FBX\\Horse.fbx").equals(big), "backslash member paths work");
 assert.throws(() => unzipMember(zip, "Pack/FBX/Cow.fbx"), /Horse\.fbx/, "a missing member lists the near names");
+
+// Clip names and lengths come from the exported GLB (one clip per animation, length = last key time).
+const glbOf = (json) => {
+  let t = Buffer.from(JSON.stringify(json));
+  if (t.length % 4) t = Buffer.concat([t, Buffer.alloc(4 - (t.length % 4), 0x20)]);
+  const h = Buffer.alloc(20);
+  h.writeUInt32LE(0x46546c67, 0);
+  h.writeUInt32LE(2, 4);
+  h.writeUInt32LE(20 + t.length, 8);
+  h.writeUInt32LE(t.length, 12);
+  h.writeUInt32LE(0x4e4f534a, 16);
+  return Buffer.concat([h, t]);
+};
+assert.deepEqual(
+  glbClips(glbOf({ accessors: [{ max: [0.5] }, { max: [1.25] }], animations: [{ name: "walk", samplers: [{ input: 0 }, { input: 1 }] }] })),
+  [{ name: "walk", seconds: 1.25 }],
+);
+assert.equal(glbClips(glbOf({ accessors: [{}], animations: [{ name: "x", samplers: [{ input: 0 }] }] })), null);
+
+// ingest.attach -> convert.py arguments: fetched files only, inside the scratch folder, defaults filled in.
+const srcDir = path.resolve("/scratch/src");
+const fetched = new Set([path.join(srcDir, "Assets/gltf/Blade.gltf")]);
+const has = (f) => fetched.has(f);
+assert.deepEqual(attachArgs([], srcDir, has), []);
+const [flag, spec] = attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "handslot.r", offset: [0, 0.1, 0] }], srcDir, has);
+assert.equal(flag, "--attach");
+assert.deepEqual(JSON.parse(spec), { file: path.join(srcDir, "Assets/gltf/Blade.gltf"), bone: "handslot.r", offset: [0, 0.1, 0], rotation: [0, 0, 0], scale: 1 });
+assert.throws(() => attachArgs([{ file: "Assets/gltf/Shield.gltf", bone: "handslot.l" }], srcDir, has), /was not fetched/);
+assert.throws(() => attachArgs([{ file: "../../etc/passwd", bone: "x" }], srcDir, () => true), /leaves the scratch folder/);
+assert.deepEqual(JSON.parse(attachArgs([{ file: "Assets/gltf/Blade.gltf", offset: [0.3, 0, 0] }], srcDir, has)[1]), { file: path.join(srcDir, "Assets/gltf/Blade.gltf"), offset: [0.3, 0, 0], rotation: [0, 0, 0], scale: 1 });
+assert.throws(() => attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "" }], srcDir, has), /bone must be/);
+assert.throws(() => attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "b", rotation: [0, 90] }], srcDir, has), /rotation must be/);
+assert.throws(() => attachArgs([{ file: "Assets/gltf/Blade.gltf", bone: "b", scale: 0 }], srcDir, has), /scale must be/);
 
 // Catalog: deterministic, sorted, credits only for attribution licences.
 const entry = (id, license) => ({
