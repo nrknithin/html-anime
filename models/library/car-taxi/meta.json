@@ -1,0 +1,116 @@
+{
+  "id": "car-taxi",
+  "name": "Taxi",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "car",
+    "taxi",
+    "cab",
+    "street",
+    "city"
+  ],
+  "style": "low-poly, flat colours (Kenney Car Kit)",
+  "height": 1.55,
+  "script": "festival",
+  "colors": {
+    "body": "#ffb020",
+    "bodyShade": "#ff4d6d",
+    "lower": "#24143a",
+    "lowerShade": "#1a1020",
+    "glass": "#fff1ea",
+    "glassShade": "#ffd7a1",
+    "lamp": "#f6f3ee",
+    "lampShade": "#ffd7a1",
+    "tail": "#ff4d6d",
+    "tailShade": "#fff1ea",
+    "tyre": "#1a1020",
+    "tyreShade": "#140c1c",
+    "rim": "#f6f3ee",
+    "rimShade": "#ffd7a1"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#6a6b80": "lower",
+    "colormap#66677b": "lower",
+    "colormap#707287": "lower",
+    "colormap#81869e": "rim",
+    "colormap#39393f": "tyre",
+    "colormap#3b3b41": "tyre",
+    "colormap#36363a": "tyre",
+    "colormap#38383d": "tyre",
+    "colormap#ffaf45": "body",
+    "colormap#ffbb4f": "body",
+    "colormap#ffc659": "body",
+    "colormap#e8f0fa": "glass",
+    "colormap#afb5d4": "rim",
+    "colormap#ffd634": "lamp",
+    "colormap#e74e3f": "tail",
+    "colormap#414149": "tyre"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Car Kit",
+    "page": "https://kenney.nl/assets/car-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney taxi (FBX like car-sedan and car-sports-sedan from the same kit, whose GLB references Textures/colormap.png; the plan named the GLB member). Height 1.55 m to the top of the roof sign, which puts it at the same scale as car-sedan (both 2.84 m long), so the two sit together in a street; stylized proportions (1.55 m wide, a real Japanese taxi is about 4.7 m long). Taxi yellow comes from the festival script (practical #ffb020), the only script with a yellow; noon has none, so a noon film maps body to its sheet. The roof sign shares the window material in the source, so it is drawn in the same light glass tone. Wheels are separate nodes in the source; static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/car-kit",
+      "sha256": "fac7dacac5c7874348cf19729af3ef205f3d366493edaf0a827d93f4fdf3d0c4",
+      "bytes": 4814237
+    },
+    "member": "Models/FBX format/taxi.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 1.55,
+    "maxColors": 16,
+    "memberSha256": "084415c990ed48a6e05ce02da4de829b10ad0228fbe2068dfff5f4346d643a65"
+  },
+  "file": "model.glb",
+  "sha256": "7d58b15309d5bf9aafb42e20d086c4219bda47b98663d14898d24e0aad049227",
+  "bytes": 47932,
+  "triangles": 2072,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#6a6b80": "#6a6b80",
+    "colormap#66677b": "#66677b",
+    "colormap#707287": "#707287",
+    "colormap#81869e": "#81869e",
+    "colormap#39393f": "#39393f",
+    "colormap#3b3b41": "#3b3b41",
+    "colormap#36363a": "#36363a",
+    "colormap#38383d": "#38383d",
+    "colormap#ffaf45": "#ffaf45",
+    "colormap#ffbb4f": "#ffbb4f",
+    "colormap#ffc659": "#ffc659",
+    "colormap#e8f0fa": "#e8f0fa",
+    "colormap#afb5d4": "#afb5d4",
+    "colormap#ffd634": "#ffd634",
+    "colormap#e74e3f": "#e74f3f",
+    "colormap#414149": "#414149"
+  },
+  "clipInfo": {},
+  "thresholds": {
+    "body": -0.2
+  },
+  "qa": {
+    "height": 1.55,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2072,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
