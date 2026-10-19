@@ -1,0 +1,121 @@
+{
+  "id": "house-suburban",
+  "name": "Suburban house",
+  "category": "building",
+  "tags": [
+    "building",
+    "house",
+    "home",
+    "suburb",
+    "two-storey",
+    "street"
+  ],
+  "style": "low-poly, flat colours (Kenney City Kit Suburban)",
+  "height": 8,
+  "script": "noon",
+  "colors": {
+    "wall": "#fffaf2",
+    "wallShade": "#f2d7ae",
+    "roof": "#c4452d",
+    "roofShade": "#5c3d32",
+    "trim": "#f6f3ee",
+    "trimShade": "#f0c2ae",
+    "glass": "#5c3d32",
+    "glassShade": "#241c16",
+    "door": "#241c16",
+    "doorShade": "#5c3d32",
+    "planter": "#f0c2ae",
+    "planterShade": "#c4452d"
+  },
+  "materials": {
+    "colormap": "wall",
+    "colormap#747991": "trim",
+    "colormap#5f647c": "trim",
+    "colormap#686e85": "trim",
+    "colormap#636880": "trim",
+    "colormap#585d75": "door",
+    "colormap#5b6179": "trim",
+    "colormap#46b07d": "roof",
+    "colormap#53be84": "roof",
+    "colormap#4cb581": "roof",
+    "colormap#4fba82": "roof",
+    "colormap#319a73": "roof",
+    "colormap#e6e6ef": "wall",
+    "colormap#ececf3": "wall",
+    "colormap#dcdce9": "wall",
+    "colormap#f5f5f9": "wall",
+    "colormap#d4d4e4": "wall",
+    "colormap#99bdeb": "glass",
+    "colormap#d57f59": "planter"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · City Kit Suburban",
+    "page": "https://kenney.nl/assets/city-kit-suburban",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney building-type-e (GLB + Textures/colormap.png), chosen over the plan's building-type-a: a compact two-storey gable house with a pent eave (hisashi) between the floors, which also passes for a Japanese suburban home. Height 8 m to the roof ridge (two storeys; at 7 m the stylized door was only 1.6 m tall); at 8 m it is 9.1 m wide and 7.2 m deep with a ~1.85 m door. Single mesh: the porch shrubs share the roof's texture colour, so they take the roof role (read as red azaleas). Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/city-kit-suburban",
+      "sha256": "5869c35cf30b1c87bdb2d197b6d325eebadd2ef08ea27f04797e8e08d77a9a39",
+      "bytes": 3038740,
+      "resolved": "https://kenney.nl/media/pages/assets/city-kit-suburban/2c871b7af2-1745479373/kenney_city-kit-suburban_20.zip"
+    },
+    "member": "Models/GLB format/building-type-e.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 8,
+    "memberSha256": "9ec43994c8c332b1ae5b058d8b9646255831fd91047c1a35b1fc1ecae4c082fc",
+    "maxColors": 18,
+    "yaw": 180
+  },
+  "file": "model.glb",
+  "sha256": "35a8365140fdd355017b29f2b7f3a3a6b4ac3eae1f55c5c1684f2f56a8e81141",
+  "bytes": 42832,
+  "triangles": 1731,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#747991": "#747991",
+    "colormap#5f647c": "#5f647c",
+    "colormap#686e85": "#686e85",
+    "colormap#636880": "#636880",
+    "colormap#585d75": "#585d75",
+    "colormap#5b6179": "#5b6179",
+    "colormap#46b07d": "#46b07d",
+    "colormap#53be84": "#53be84",
+    "colormap#4cb581": "#4cb581",
+    "colormap#4fba82": "#4fba82",
+    "colormap#319a73": "#319a73",
+    "colormap#e6e6ef": "#e6e6ef",
+    "colormap#ececf3": "#ececf3",
+    "colormap#dcdce9": "#dcdce9",
+    "colormap#f5f5f9": "#f5f5f9",
+    "colormap#d4d4e4": "#d4d4e4",
+    "colormap#99bdeb": "#99bdeb",
+    "colormap#d57f59": "#d57f59"
+  },
+  "clipInfo": {},
+  "thresholds": {
+    "trim": -0.8,
+    "roof": 0.1
+  },
+  "qa": {
+    "height": 8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1731,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
