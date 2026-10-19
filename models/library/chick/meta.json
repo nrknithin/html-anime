@@ -1,0 +1,198 @@
+{
+  "id": "chick",
+  "name": "Chick",
+  "category": "bird",
+  "tags": [
+    "animal",
+    "bird",
+    "chick",
+    "baby",
+    "poultry",
+    "farm",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets); height 0.1 m to the head tuft, a real chick (0.08-0.1 m), so it stands a quarter of the library hen (0.4 m) and at a 1.7 m adult ankle; rigid parts moved by node tracks, no skin; colour map flattened to flat colours",
+  "height": 0.1,
+  "script": "indigo",
+  "colors": {
+    "coat": "#f0c36a",
+    "coatShade": "#e7a04a",
+    "beak": "#e23b4a",
+    "beakShade": "#1b2d6b",
+    "sclera": "#f6f3ee",
+    "scleraShade": "#d5e2ff",
+    "eye": "#16141c",
+    "eyeShade": "#1b2d6b"
+  },
+  "materials": {
+    "colormap": "coat",
+    "colormap#e68d47": "beak",
+    "colormap#e17f43": "beak",
+    "colormap#ec9d4d": "beak",
+    "colormap#ea974a": "beak",
+    "colormap#ededf4": "sclera",
+    "colormap#4e505f": "eye",
+    "colormap#ffc255": "coat",
+    "colormap#ffc659": "coat",
+    "colormap#ffcc5d": "coat",
+    "colormap#ffcb5d": "coat",
+    "colormap#ffc759": "coat",
+    "colormap#ffbc50": "coat",
+    "colormap#ffbd51": "coat",
+    "colormap#ffcd5f": "coat",
+    "colormap#ffcf60": "coat",
+    "colormap#ffc154": "coat",
+    "colormap#ffba4f": "coat",
+    "colormap#ffb94e": "coat",
+    "colormap#ffc457": "coat",
+    "colormap#ffbe52": "coat",
+    "colormap#ffa139": "coat",
+    "colormap#ffae44": "coat",
+    "colormap#ffb64b": "coat",
+    "colormap#ff9933": "coat"
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "eat": "eat",
+    "dance": "dance"
+  },
+  "preview": {
+    "clip": "walk",
+    "pose": "idle@0"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan names no source for row 30. Two CC0 candidates were rendered: Quaternius Animals Pack (opengameart.org/content/5-low-poly-animals) Chick.fbx, and this Kenney Cube Pets chick. The Quaternius one, at 0.1 m, has an adult hen silhouette (long neck, tail, long legs) and reads as a small hen, not a chick, with one walk-like clip (ArmatureAction.002) and grey source materials. The Kenney chick is a round yellow ball with big eyes, a beak and a head tuft, reads as a chick at hero size, and has eight clips (static, idle, walk, run, eat, dance, gesture-positive, gesture-negative). Recoloured on indigo: the yellow and darker wing-yellow colour-map clusters -> coat (practical yellow, iris orange shade), the orange beak and feet clusters -> beak (accent red, sky shade; an orange beak on the orange coat shade disappears), the white cluster -> sclera, the slate cluster -> eye. The gestures (a nod and a head shake) keep their source names and play once. Ground: eat dips the beak into the ground while the feet stay planted (sinkAllowed); run hops as authored. Ingested through Blender like the other Cube Pets."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-chick.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.1,
+    "yaw": 0,
+    "maxColors": 24,
+    "memberSha256": "86dd5f030c9341486313b35b9e827500c430274a83b5d683cab5b1f55bc1024d"
+  },
+  "file": "model.glb",
+  "sha256": "a10449a61e1e4da9fcdf3fcf6b55edd87b365fff65f702445457a7b834f9a553",
+  "bytes": 83320,
+  "triangles": 490,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#e68d47": "#e68d47",
+    "colormap#e17f43": "#e17f43",
+    "colormap#ec9d4d": "#ec9d4d",
+    "colormap#ea974a": "#ea974a",
+    "colormap#ededf4": "#ededf4",
+    "colormap#4e505f": "#4e515f",
+    "colormap#ffc255": "#ffc255",
+    "colormap#ffc659": "#ffc659",
+    "colormap#ffcc5d": "#ffcc5d",
+    "colormap#ffcb5d": "#ffcb5d",
+    "colormap#ffc759": "#ffc759",
+    "colormap#ffbc50": "#ffbc50",
+    "colormap#ffbd51": "#ffbd51",
+    "colormap#ffcd5f": "#ffcd5f",
+    "colormap#ffcf60": "#ffcf60",
+    "colormap#ffc154": "#ffc154",
+    "colormap#ffba4f": "#ffba4f",
+    "colormap#ffb94e": "#ffb94e",
+    "colormap#ffc457": "#ffc457",
+    "colormap#ffbe52": "#ffbe52",
+    "colormap#ffa139": "#ffa139",
+    "colormap#ffae44": "#ffae44",
+    "colormap#ffb64b": "#ffb64b",
+    "colormap#ff9933": "#ff9933"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the peck tips the body forward and the beak and chest front dip 2.5 mm (2.5 %) below the ground while both feet stay planted; lifting would float the feet"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": false
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": false
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true
+    },
+    "static": {
+      "seconds": 0.0833,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 0.1,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 490,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.14
+      },
+      "walk": {
+        "minY": 0.0002,
+        "touches": true,
+        "maxSize": 0.14
+      },
+      "run": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 0.14
+      },
+      "eat": {
+        "minY": -0.0025,
+        "touches": true,
+        "maxSize": 0.14
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.14
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
