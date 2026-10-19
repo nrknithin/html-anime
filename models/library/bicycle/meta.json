@@ -1,0 +1,79 @@
+{
+  "id": "bicycle",
+  "name": "Bicycle",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "bicycle",
+    "bike",
+    "street",
+    "city",
+    "ride",
+    "school"
+  ],
+  "style": "low-poly, flat colours; simple diamond-frame street bike with round tubes, no spokes, chain or pedals (Quaternius Public Transport, 2017)",
+  "height": 1,
+  "script": "noon",
+  "colors": {
+    "frame": "#c4452d",
+    "frameShade": "#5c3d32",
+    "grip": "#f2d7ae",
+    "gripShade": "#5c3d32",
+    "tyre": "#241c16",
+    "tyreShade": "#5c3d32",
+    "saddle": "#f2d7ae",
+    "saddleShade": "#5c3d32"
+  },
+  "materials": {
+    "Bike": "frame",
+    "Handle": "grip",
+    "Wheel": "tyre",
+    "Material.003": "saddle"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · LowPoly Public Transport",
+    "page": "https://opengameart.org/content/lowpoly-public-transport",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave 1 row 130 was a gap (no bicycle in any planned source); this fills it from Quaternius's CC0 LowPoly Public Transport pack on OpenGameArt. The pack has two bikes, Bicycle and SquareFrameBicycle: the same diamond frame, wheels, handlebar and saddle, one with round tubes (2812 tris) and one with square-section tubes (1144 tris). Bicycle is used: round tubes shade as clean cel bands and read closer to a steel city bike, the square one looks boxier up close. Neither is a true mamachari (no step-through frame, basket, mudguards or chain guard); it reads as a plain street or school bike. The .blend member is used, not the FBX or OBJ: those carry only grey #e7e7e7 materials, which gltf-transform merges into one, while the .blend keeps the red frame, dark tyres, grips and saddle. Height 1.0 m to the top of the handlebar grips; then it is 1.85 m long (a 26-inch city bike is about 1.8-1.9 m), 0.47 m wide, wheels 0.60 m across. Front wheel toward +Z (yaw 180), both tyres on y = 0. For a rider (metres, model space): saddle top at (0, 0.89, -0.31), the saddle spans z -0.45 to -0.17; handlebar grips at (+-0.19, 0.975, 0.455), each grip spans |x| 0.14-0.24; front hub (0, 0.30, 0.62), rear hub (0, 0.30, -0.62); bottom bracket (crank axle) at about (0, 0.29, -0.34). Pedals and cranks are not modelled: put the feet at about (+-0.12, 0.12-0.46, -0.34 +- 0.17) on a 0.17 m crank circle around the bottom bracket. Static, no clips; wheels are separate nodes (FrontWheel, BackWheel) in the GLB."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/Public%20Transport_0.zip",
+      "sha256": "09155a7491c54e1a3db13bcc4b65d4cfb97839472858604c4a4910c65b294339",
+      "bytes": 1411819,
+      "resolved": "https://opengameart.org/sites/default/files/Public%20Transport_0.zip"
+    },
+    "member": "Public Transport/Blends/Bicycle.blend",
+    "height": 1,
+    "yaw": 180,
+    "memberSha256": "948af9178ff542943c6f0917ba50193a64be5309e1b4222018761ef54b827f15"
+  },
+  "file": "model.glb",
+  "sha256": "41dc8ebdfb739894dd3e84db5bdb9584870355b29a50817412a536ed226fef40",
+  "bytes": 41432,
+  "triangles": 2812,
+  "bones": 0,
+  "sourceMaterials": {
+    "Bike": "#e72e3c",
+    "Handle": "#2a2a2a",
+    "Wheel": "#2c2c2c",
+    "Material.003": "#1d1d1d"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2976,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
