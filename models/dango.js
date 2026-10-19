@@ -9,37 +9,38 @@
 //           (an open cap inked as a ragged band). Tilted up toward the viewer; a flat practical gloss decal on the lit
 //           crown.
 //   ANKO    a lumpy sphere (sin-displaced radius) replaces each ball: red-bean paste coats the dumpling.
-//   TRAY    { plate: true }: a red lacquer geta tray (a slab on two cross feet); the skewer lies across it along x, the balls
+//   TRAY    { plate: true }: a green lacquer geta tray (a slab on two cross feet); the skewer lies across it along x, the balls
 //           resting on the tray top. Without it the skewer stands upright on its cut end, as dango are held in anime.
 // Proportions (real size, base unit the ball diameter B = 25 mm): skewer 130 mm (5.2 B), 5 mm thick (thickened from
 // ~3.5 mm so it survives the hull); ball 25 mm wide, 22 mm tall along the skewer, pitch 20.5 mm; tip pokes 6 mm
 // above the top ball; handle 61 mm below the bottom ball. Tray 175 x 80 mm, 8 mm slab on 8.5 mm feet.
 // Options: build(THREE, kit, colors, { height, flavor, plate }). height = skewer length (default 0.13; scales all,
 // ink is in pixels so it scales cleanly), flavor "hanami" (default) | "mitarashi" | "anko", plate false | true.
-// Colours (noon; no script has a green, see below), base / shade by material:
-//   skewer  sky #f2d7ae / iris #5c3d32 at -0.15 (tan bamboo, a thin brown far side).
-//   hanami  balls at -0.1 (a thin shade crescent): pink skin #f0c2ae / accent #c4452d; white practical #fffaf2 /
-//           skin #f0c2ae; "green" sky #f2d7ae / iris #5c3d32. No SCRIPTS entry has a green, so on noon the set reads
-//           pink, white, toasted tan; a film whose sheet has a green maps colors.green / colors.greenShade to it.
-//   mitarashi  rice moon #fff6e4 / sky #f2d7ae; glaze accent #c4452d / iris #5c3d32 at 0.6 (a brown coat whose lit
-//           crown is red-caramel); gloss practical #fffaf2.
-//   anko    paste accent #c4452d / iris #5c3d32 at 0.84 (dark bean brown, a red sheen on top).
-//   tray    accent #c4452d / iris #5c3d32 at 0.1 (red lacquer, like the torii's vermilion).
-//   No shade is darker than ink #2c261f (hair #241c16 is, so it is not used).
+// Colours (meadow: it has the green hanami needs, but no brown), base / shade by material:
+//   skewer  moon #f7f3e1 / practical #f2c94c at -0.15 (pale bamboo, a thin yellow far side).
+//   hanami  balls at -0.1 (a thin shade crescent): pink skin #f0c2ae / accent #d9483b (skin is meadow's only pink);
+//           white sclera #f6f3ee / sky #d7ecef (a cool shadow); green line #a9d16e / iris #3f8a47.
+//   mitarashi  rice moon #f7f3e1 / skin #f0c2ae; glaze practical #f2c94c / accent #d9483b at 0.15 (an amber coat
+//           with a red-amber lower rim: meadow has no brown, so the soy glaze reads as golden caramel); gloss
+//           sclera #f6f3ee.
+//   anko    paste accent #d9483b / hair #2c5131 at 0.4 (a red crown over the darkest non-ink tone; meadow has no
+//           maroon, so this is red-and-dark rather than true bean brown).
+//   tray    iris #3f8a47 / hair #2c5131 at 0.1 (green lacquer: a red tray swallowed the anko's red crown).
+//   Every shade is lighter than ink #1c261b.
 
 export const meta = {
   name: "dango",
   height: 0.13,
-  script: "noon",
+  script: "meadow",
   colors: {
-    stick: "#f2d7ae", stickShade: "#5c3d32",
-    pink: "#f0c2ae", pinkShade: "#c4452d",
-    white: "#fffaf2", whiteShade: "#f0c2ae",
-    green: "#f2d7ae", greenShade: "#5c3d32",
-    rice: "#fff6e4", riceShade: "#f2d7ae",
-    glaze: "#c4452d", glazeShade: "#5c3d32", gloss: "#fffaf2",
-    anko: "#c4452d", ankoShade: "#5c3d32",
-    tray: "#c4452d", trayShade: "#5c3d32",
+    stick: "#f7f3e1", stickShade: "#f2c94c",
+    pink: "#f0c2ae", pinkShade: "#d9483b",
+    white: "#f6f3ee", whiteShade: "#d7ecef",
+    green: "#a9d16e", greenShade: "#3f8a47",
+    rice: "#f7f3e1", riceShade: "#f0c2ae",
+    glaze: "#f2c94c", glazeShade: "#d9483b", gloss: "#f6f3ee",
+    anko: "#d9483b", ankoShade: "#2c5131",
+    tray: "#3f8a47", trayShade: "#2c5131",
   },
   poses: ["rest"],
 };
@@ -157,7 +158,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       cg.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), plate ? localDir(0, 1, 0.2) : localDir(0, 1, 0.45)));
       cg.scale(1, SQ, 1);
       cg.computeVertexNormals();
-      const glaze = kit.toon(cg, c.glaze, c.glazeShade, { threshold: 0.6 });
+      const glaze = kit.toon(cg, c.glaze, c.glazeShade, { threshold: 0.15 });
       glaze.name = "glaze";
       g.add(glaze);
       // gloss: a flat practical decal on the lit crown (light is +X, +Y, a little +Z), facing the camera quadrant
@@ -168,7 +169,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       gl.name = "gloss";
       g.add(gl);
     } else {
-      g.add(kit.toon(lumpy(R * 1.04), c.anko, c.ankoShade, { threshold: 0.84 }));
+      g.add(kit.toon(lumpy(R * 1.04), c.anko, c.ankoShade, { threshold: 0.4 }));
     }
   });
 
