@@ -1,0 +1,112 @@
+{
+  "id": "car-van",
+  "name": "Van",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "car",
+    "van",
+    "delivery",
+    "street",
+    "city",
+    "panel-van"
+  ],
+  "style": "low-poly, flat colours (Kenney Car Kit)",
+  "height": 2.3,
+  "script": "indigo",
+  "colors": {
+    "body": "#d5e2ff",
+    "bodyShade": "#1b2d6b",
+    "lower": "#101628",
+    "lowerShade": "#16141c",
+    "glass": "#1b2d6b",
+    "glassShade": "#101628",
+    "lamp": "#f0c36a",
+    "lampShade": "#e7a04a",
+    "tyre": "#16141c",
+    "tyreShade": "#101628",
+    "rim": "#f6f3ee",
+    "rimShade": "#d5e2ff"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#43434c": "tyre",
+    "colormap#36363a": "tyre",
+    "colormap#38383d": "tyre",
+    "colormap#3e3e46": "tyre",
+    "colormap#3b3b40": "tyre",
+    "colormap#39393e": "tyre",
+    "colormap#b1b8d8": "rim",
+    "colormap#888da8": "rim",
+    "colormap#6d6f84": "lower",
+    "colormap#66667b": "lower",
+    "colormap#6280d0": "body",
+    "colormap#658ed6": "body",
+    "colormap#5f74ca": "body",
+    "colormap#5d6dc7": "body",
+    "colormap#e7f2fc": "glass",
+    "colormap#f59b37": "lamp"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Car Kit",
+    "page": "https://kenney.nl/assets/car-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney van (FBX like car-sedan, car-taxi and car-hatchback from the same kit, with Textures/colormap.png; the plan named the GLB member). A short-nose panel van (windowless cargo sides, flat high roof), scaled to real size: 2.3 m tall makes it 4.69 m long, matching a standard-body high-roof Toyota HiAce (about 4.70 m x 2.29 m). Kenney's toy proportions make it wider than the real van (2.56 m across the mirrors). Light-blue body from the indigo script's moon tone (#d5e2ff), a common delivery-van colour in Japan, distinct from the red sedan, white sports sedan, cream hatchback, yellow taxi and black/white police car; the source's amber lamps map to the practical/iris pair. Wheels are separate nodes in the source; static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/car-kit",
+      "sha256": "fac7dacac5c7874348cf19729af3ef205f3d366493edaf0a827d93f4fdf3d0c4",
+      "bytes": 4814237
+    },
+    "member": "Models/FBX format/van.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 2.3,
+    "maxColors": 16,
+    "memberSha256": "0717a81e7770300e96faa0a52910bea287f591ec8d0b956667f74819c5df0bbb"
+  },
+  "file": "model.glb",
+  "sha256": "ce5719b210baab9cf0e027968cbe04c8eb2eab7e5317143b3330d1c93215aaa4",
+  "bytes": 46364,
+  "triangles": 2082,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#43434c": "#43434c",
+    "colormap#36363a": "#36363a",
+    "colormap#38383d": "#38383d",
+    "colormap#3e3e46": "#3e3e46",
+    "colormap#3b3b40": "#3b3b40",
+    "colormap#39393e": "#39393e",
+    "colormap#b1b8d8": "#b1b8d8",
+    "colormap#888da8": "#888da8",
+    "colormap#6d6f84": "#6d6f84",
+    "colormap#66667b": "#66667b",
+    "colormap#6280d0": "#6280d0",
+    "colormap#658ed6": "#658ed6",
+    "colormap#5f74ca": "#5f74ca",
+    "colormap#5d6dc7": "#5d6dc7",
+    "colormap#e7f2fc": "#e7f2fc",
+    "colormap#f59b37": "#f59b37"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 2.2999,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2082,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
