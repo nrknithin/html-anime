@@ -1,0 +1,204 @@
+{
+  "id": "parrot",
+  "name": "Parrot",
+  "category": "bird",
+  "tags": [
+    "animal",
+    "parrot",
+    "bird",
+    "tropical",
+    "pet",
+    "jungle",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets); stylized size: 0.5 m to the top of the crest, about a real scarlet macaw standing on a perch (0.4-0.5 m to the crown; 0.8-0.9 m long only with the tail hanging down, which the cube pet's short raised tail does not have), so it is a little over half the cube-pet panda (0.9 m) in the same ratio as the real animals and knee-high to a 1.7 m adult; rigid parts moved by node tracks, no skin; colour map flattened to flat colours",
+  "height": 0.5,
+  "script": "festival",
+  "colors": {
+    "feather": "#ff4d6d",
+    "featherShade": "#24143a",
+    "wing": "#24143a",
+    "wingShade": "#1a1020",
+    "gold": "#ffb020",
+    "goldShade": "#ff4d6d",
+    "beak": "#1a1020",
+    "beakShade": "#1a1020",
+    "eye": "#f6f3ee",
+    "eyeShade": "#fff1ea"
+  },
+  "materials": {
+    "colormap": "feather",
+    "colormap#d5564d": "feather",
+    "colormap#d6574d": "feather",
+    "colormap#d4564e": "feather",
+    "colormap#da594c": "feather",
+    "colormap#db5a4b": "feather",
+    "colormap#f86a42": "feather",
+    "colormap#f96a42": "feather",
+    "colormap#f46843": "feather",
+    "colormap#f16744": "feather",
+    "colormap#e45e48": "feather",
+    "colormap#ec6346": "feather",
+    "colormap#ea6246": "feather",
+    "colormap#fa6b41": "feather",
+    "colormap#e25d49": "feather",
+    "colormap#ededf4": "eye",
+    "colormap#545767": "beak",
+    "colormap#7366c8": "wing",
+    "colormap#e86147": "feather",
+    "colormap#df5c4a": "feather",
+    "colormap#d8584c": "feather",
+    "colormap#ffa840": "gold",
+    "colormap#ff9832": "gold",
+    "colormap#ff9f38": "gold",
+    "colormap#ffbf53": "gold"
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "dance": "dance",
+    "eat": "eat"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (wave-1 row 33). Same zip, pin and route as the panda and lion: ingested through Blender with Textures/colormap.png as an extra member; the colour map flattens to 24 colours (the 17 reds and orange-reds of body, head and crest -> feather, the violet of wings and tail -> wing, the yellows of feet and wing undersides -> gold, the slate beak and pupils -> beak, the white eye rings -> eye). The source has no fly clip (its wings flap only in idle and dance, with the feet on the ground); a film that needs flight should pose the body in the air and play dance. Ground: run is a hop that dips 8 mm on landing and clamps; walk is a bouncy hop that never sinks; eat tips forward to peck (sinkAllowed)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-parrot.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.5,
+    "yaw": 0,
+    "maxColors": 24,
+    "memberSha256": "a028fcccd8559652ea100fabaceb82ef53633e3474025eca593a753b008f52ab"
+  },
+  "file": "model.glb",
+  "sha256": "30a1e4e0e50771ed7c5d89938bdf693f2702b149fbf1185dddc421399261cd24",
+  "bytes": 105892,
+  "triangles": 530,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#d5564d": "#d5564d",
+    "colormap#d6574d": "#d6574d",
+    "colormap#d4564e": "#d4564e",
+    "colormap#da594c": "#da594c",
+    "colormap#db5a4b": "#db5a4b",
+    "colormap#f86a42": "#f86a42",
+    "colormap#f96a42": "#f96a42",
+    "colormap#f46843": "#f46843",
+    "colormap#f16744": "#f16744",
+    "colormap#e45e48": "#e45e48",
+    "colormap#ec6346": "#ec6346",
+    "colormap#ea6246": "#ea6246",
+    "colormap#fa6b41": "#fa6b41",
+    "colormap#e25d49": "#e25d49",
+    "colormap#ededf4": "#ededf4",
+    "colormap#545767": "#545767",
+    "colormap#7366c8": "#7366c8",
+    "colormap#e86147": "#e86147",
+    "colormap#df5c4a": "#df5c4a",
+    "colormap#d8584c": "#d8584c",
+    "colormap#ffa840": "#ffa840",
+    "colormap#ff9832": "#ff9832",
+    "colormap#ff9f38": "#ff9f38",
+    "colormap#ffbf53": "#ffbf53"
+  },
+  "thresholds": {
+    "feather": -0.5,
+    "gold": -0.5
+  },
+  "preview": {
+    "clip": "dance"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the chest corner dips 1.2 cm through the ground as the body tips forward to peck while both feet stay planted (clamping would float the parrot)"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": false
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": false
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "static": {
+      "seconds": 0.0833,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 0.5,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 530,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.65
+      },
+      "walk": {
+        "minY": 0.0011,
+        "touches": true,
+        "maxSize": 0.65
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.65
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.65
+      },
+      "eat": {
+        "minY": -0.012,
+        "touches": true,
+        "maxSize": 0.65
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + dance"
+  }
+}
