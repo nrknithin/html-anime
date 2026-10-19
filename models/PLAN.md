@@ -151,14 +151,36 @@ Where the plan's source was unreachable, each model PR names the substitute and 
 | 7, 9 Shiba / Dog | `dog` (a pug) | Quaternius Farm Animals `Pug.blend` | no free animated Shiba |
 | 10 Cat | `cat` | Quaternius Animal Pack Vol.2 (OpenGameArt) | two clips |
 | 58 T-Rex | `t-rex` | Quaternius Animated LowPoly Dinosaurs (itch.io) | the plan's pack, other route |
+| 14, 15 Sheep, Pig | `sheep`, `pig` | Quaternius Farm Animals `.blend` files | the FBX files hold only Idle and Jump; no eat clip |
+| 32 Small bird | gap | none good (the CC0 OpenGameArt cardinal is one material with a near-static idle) | a code model |
+| 36 Crow / raven | `crow` | "Raven" by Teh_Bucket (OpenGameArt, CC0) | crow-sized; one-frame perch idle; flap loop |
+| 37, 38, 39, 43 Shark, whale, dolphin, clownfish | `shark`, `whale`, `dolphin`, `clownfish` | Quaternius Animated Fish (OpenGameArt) | the plan's pack, other route; Swim only (no attack, death or fast swim) |
+| 41 Koi | `koi` | Quaternius Animated Fish `Fish1` | no koi in the pack: a red-and-white carp shape without black patches; a code koi for close-ups |
 | 64 Man | `man-casual` | Quaternius Ultimate Animated Character Pack (OpenGameArt) | chibi proportions, 11 clips, no run |
 | 144 Torii | gap | none free and verified | build as a code model (vermilion pillars, black caps, nuki, curved kasagi, ~4 m) |
+| 145 Sliding door, 146 Shoji wall, 147 Shrine hall | gap | none free and verified (the only OpenGameArt shrine is LGPL / CC-BY-SA; the rest are paid or unlicensed) | code models, with the torii as one Japanese-architecture set |
+| 175 Classroom desk | `desk-teacher` | Kenney Furniture Kit | an all-wood teacher's desk; a student desk (wood top on a metal frame) is a code model |
+| 187 Ramen | `ramen` | "Ramen" by DREAM_SEARCH_REPEAT (OpenGameArt, CC0) | noodles and toppings were painted on the texture and vanish in cel; a code model would read better |
+| 205 Vending machine | `vending-machine` | "Voxel Vending Machine" by MonoTone (OpenGameArt, CC0) | Kenney's is a small snack box |
+| 112, 114 Cars; 124, 125 Trains; 153, 154 Buildings | Kenney kits | as planned | chunky toy proportions at real height (a 3.7 m train car is 6.3 m long) |
 
 Not used yet, worth a later kitbash: Quaternius **Universal Base Characters** (itch.io, CC0) are realistic-proportion bodies, but unclothed "superhero" meshes with separate hair; their clips live in the separate **Universal Animation Library** GLB (same skeleton). Everyday people from them need outfits and a clip-merge step in the pipeline.
 
 ### Gaps: no library source, built in phase 4 as code or kitbash
 
-Torii gate (no free verified model found in wave 1), schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (armour on a KayKit rig), Japanese house (the shoji walls and door plus a roof), school building (Kenney commercial blocks plus a clock tower), sakura tree (a recoloured round tree plus petals), bicycle, umbrella, airplane, helicopter, crow, butterfly, turtle, lizard or crocodile.
+Torii gate, stone and paper lanterns (tōrō, chōchin), shoji screen and Japanese sliding door, shrine and temple halls (the Quaternius rows 144-148 are poly.pizza only), Japanese house, schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (man-kimono plus the katana via ingest.attach), dango, koi (with patches, for close-ups), a yumi (the only free one is CC-BY-SA), a clock tower, a food truck, a traditional windmill (Kenney's is a turbine), orc and mech. Better ramen and lanterns stay on the list too.
+
+Found in a source search after wave 1 started, now being built or queued (all CC0 unless marked): bicycle (Quaternius Public Transport, OGA), sakura (OGA lowpoly-sakura-tree), bamboo (Kenney Nature Kit), airplane and helicopter (OGA low-poly singles), umbrella and fire hydrant (KayKit Mixed Bag 1 on itch, KayKit City Builder Bits on GitHub), udon (Kenney Food Kit bowl-broth), staff (Quaternius RPG Pack, OGA), pickaxe (Kenney Survival Kit), dumpster (Kenney City Kit Roads), guitar (KayKit Mixed Bag 1 or OGA classical-guitar), water tower (Kenney City Kit Industrial), bell tower (Quaternius Medieval Village Pack, OGA), songbird (Asset Quest Free Pond Kit, OGA), butterfly (OGA butterfly-animated), turtle (OGA turtle-0), lizard (OGA lizard, CC-BY 3.0), goblin and zombie (Quaternius Ultimate Animated Character Pack), Japanese school (OGA japanese-school, CC-BY 4.0, unchecked). The search notes are in the session scratchpad; quaternius.com packs link to Google Drive or Patreon only and stay out of reach.
+
+A second search covered the rows 6–99 that had no entry yet. Results:
+- **Already covered:** stag (`deer`), static bird (`songbird`), business man (`man-suit`), casual character (`man-casual`), hooded rogue (`rogue-kaykit`).
+- **Built from new CC0 sources:** rat, frog, snake and spider (Quaternius Easy Animated Enemy Pack, itch); zebra and alpaca (Farm Animals, the alpaca is the llama); manta ray (Animated Fish); bee (Ultimate Platformer Pack); chick (Kenney Cube Pets); pigeon (OGA mujtaba-io .blend); mech (Animated Mech Pack); SWAT stand-in (UACP BlueSoldier_Male); blocky character (Kenney Blocky Characters).
+- **CC-BY, credited:** orc (OGA umask007 "Ork"), food cart stand-in (OGA ouren "Chinese Food Cart").
+- **Built as code:** torii, tōrō, chōchin, shrine hall, Japanese house, dango; goldfish, koi with patches, better ramen and a bamboo grove in progress.
+- **No usable source:** husky, donkey, raccoon, pufferfish, cartoon lizard, Japanese temple (only LGPL/SA), astronaut (the only animated one is a third-party repost of the Ultimate Space Kit, not used).
+- **Blocked:** VRM avatars (licence decision pending).
+
+Limits found on the way: no colour script has green (dango, bamboo, orc skin and leaves fall back to tan, red or blue); the pipeline flattens a texture to one colour per triangle, so painted faces on box characters (Kenney Blocky) are lost.
 
 ### Batches for wave 1 (8 agents in parallel)
 
