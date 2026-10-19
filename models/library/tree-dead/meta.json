@@ -1,0 +1,72 @@
+{
+  "id": "tree-dead",
+  "name": "Dead tree",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "tree",
+    "dead",
+    "bare",
+    "leafless",
+    "winter",
+    "spooky",
+    "halloween",
+    "graveyard",
+    "background",
+    "static"
+  ],
+  "style": "low-poly, flat colours, bare branching trunk (Quaternius 2019)",
+  "height": 7,
+  "script": "noon",
+  "colors": {
+    "trunk": "#5c3d32",
+    "trunkShade": "#2c261f"
+  },
+  "materials": {
+    "Wood": "trunk"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Nature Pack (Jun 2019)",
+    "page": "https://opengameart.org/content/low-poly-nature-pack-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's source (a Quaternius dead tree on poly.pizza) is behind a Cloudflare challenge; this is CommonTree_Dead_1 from Quaternius's Ultimate Nature Pack on OpenGameArt (License.txt in the zip: CC0 1.0), the same zip as the tree, tree-pine, tree-autumn, tree-palm and bush entries, so they read as one set. Of the fifteen bare trees in the pack (CommonTree_Dead_1-5, BirchTree_Dead_1-5, Willow_Dead_1-5; the Snow variants left out) it has the clearest dead-tree silhouette: one trunk forking at 2.5 m into two wide limbs that each split into a fan of crooked twigs, 6.7 m across, the classic bare tree against a winter or Halloween sky. CommonTree_Dead_3/4 are thin poles with three or four prongs, _2/_5 bunch their branches into a narrow crown, the Willow_Dead trunks lean hard and have few, thick, antler-like branches, and the BirchTree_Dead bark is white (birch is already the tree-autumn entry, and pale bark washes out on a pale sky). Yaw 90 puts the broad side of the fork (6.7 m wide, 3.3 m deep) to the front. Height 7 m: the same size as the broadleaf tree, a dead oak or maple in a field, graveyard or winter park is 6-9 m; the fork sits at about 2.5 m, above a 1.6 m person. Colours on noon: bark iris shading to ink, a dark warm brown that reads hard against the pale paper sky and between the near-black broadleaf trunk and the pale palm trunk. Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip",
+      "sha256": "92daf8b532f60ac0fb53371144d0f8e9ec2f82a2fa408effdf1a64cb8fbaee09",
+      "bytes": 22990249,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_nature_pack_by_quaternius_1.zip"
+    },
+    "member": "Ultimate Nature Pack - Jun 2019/FBX/CommonTree_Dead_1.fbx",
+    "height": 7,
+    "yaw": 90,
+    "memberSha256": "e8b1abbacb9f77f2535670c64a0ebe1e9526c5e591f1509067794630124f6591"
+  },
+  "file": "model.glb",
+  "sha256": "1b74c4a8af74b0c7231d1d96fc32c47df7a38567ef36671e094e6daf7ee14bf7",
+  "bytes": 32004,
+  "triangles": 2360,
+  "bones": 0,
+  "sourceMaterials": {
+    "Wood": "#6d4b45"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 7,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2360,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
