@@ -36,9 +36,14 @@ def parse():
     p.add_argument("--report", required=True)
     p.add_argument("--height", type=float, default=0.0, help="target rest height in metres (0 = keep the source scale)")
     p.add_argument("--yaw", type=float, default=0.0, help="degrees about up, applied before measuring")
+    p.add_argument("--pitch", type=float, default=0.0, help="degrees about +X (glTF axes), applied first: stands a prop modelled lying down")
+    p.add_argument("--roll", type=float, default=0.0, help="degrees about +Z (glTF, the facing axis), applied after pitch and before yaw")
     p.add_argument("--drop", default="", help="comma list of object names to delete (cameras and lights always go)")
     p.add_argument("--keep-actions", default="", help="comma list: export only these actions (default all)")
     p.add_argument("--drop-materials", default="", help="comma list: delete every face using these materials (a hat on the body mesh)")
+    p.add_argument("--legacy-image", default="", help="old .blend with several colour images: the one its faces use")
+    p.add_argument("--center-on", default="", help="comma-separated mesh object names whose rest bbox sets the x/z centre (the body, not a long weapon held out)")
+    p.add_argument("--drop-backfaces", action="store_true", help="delete the inward copy of each triangle a source ships twice, back to back (double-sided kit models)")
     p.add_argument("--search", default="", help="folder searched by file name for images the source cannot find (a .blend expecting its texture beside it)")
     p.add_argument("--max-colors", type=int, default=12, help="textured materials: at most this many flat colours per material")
     p.add_argument("--attach", action="append", default=[], help='JSON {"file", "bone", "offset", "rotation", "scale"}: a prop parented to a bone (repeatable)')
@@ -69,10 +74,14 @@ def material_color(mat):
     return hexof(mat.diffuse_color)
 
 
+LEGACY_IMAGE = ""  # --legacy-image: the image to use when an old file has several candidates
+
+
 def legacy_image():
     """The one colour image of an old Blender Internal file, or None. Those materials have no nodes and Blender 2.8+
-    drops their texture slots, but the image textures survive in bpy.data.textures. Used only when exactly one loaded
-    image is left after leaving out normal maps, so a guess never picks between two candidates."""
+    drops their texture slots, but the image textures survive in bpy.data.textures (or, older still, only as an image
+    the faces used). Used only when exactly one loaded image is left after leaving out normal maps, so a guess never
+    picks between two candidates."""
     found = set()
     for t in bpy.data.textures:
         img = getattr(t, "image", None)
@@ -81,6 +90,17 @@ def legacy_image():
         if getattr(t, "use_normal_map", False) or "norm" in (t.name + img.name + img.filepath).lower():
             continue
         found.add(img.name)
+    if not found:
+        # Older still: the image was assigned straight to the UV faces (no texture datablock), a link Blender 4.2
+        # drops; the image itself survives, packed or beside the file.
+        for img in bpy.data.images:
+            if img.users and img.size[0] and img.type == "IMAGE" and "norm" not in (img.name + img.filepath).lower():
+                found.add(img.name)
+    if LEGACY_IMAGE:
+        img = bpy.data.images.get(LEGACY_IMAGE)
+        if img is None:
+            raise SystemExit(f"convert: --legacy-image {LEGACY_IMAGE!r} not found (images: {', '.join(i.name for i in bpy.data.images)})")
+        return img
     return bpy.data.images[found.pop()] if len(found) == 1 else None
 
 
@@ -236,11 +256,69 @@ def drop_material_faces(objs, names):
         o.data.update()
 
 
+def drop_backfaces(objs):
+    """Some kits (Kenney's Tower Defense saucers) ship every triangle twice: the same corners, once wound each way, so
+    the model shows from inside too. The ink hull of the inward copy lands on the visible surface and paints it
+    black. Delete one face of each such pair, then wind the mesh outward again. Returns the number of faces deleted."""
+    import bmesh
+
+    gone = 0
+    for o in objs:
+        bm = bmesh.new()
+        bm.from_mesh(o.data)
+        seen = {}
+        dup = []
+        for f in bm.faces:
+            key = tuple(sorted(tuple(round(c, 5) for c in v.co) for v in f.verts))
+            other = seen.get(key)
+            if other is not None and other.normal.dot(f.normal) < -0.99:
+                dup.append(f)
+                del seen[key]
+            else:
+                seen[key] = f
+        if dup:
+            bmesh.ops.delete(bm, geom=dup, context="FACES")
+            bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
+            bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+            bm.to_mesh(o.data)
+            o.data.update()
+            gone += len(dup)
+        bm.free()
+    return gone
+
+
+def keep_materials_apart(objs):
+    """gltf-transform's dedup merges materials whose properties match, names aside, so two parts a source paints
+    the same grey (FBX exports that lose their colours, a kit piece attached beside the body) would end up one
+    material and could not take separate roles. Nudge each repeat's base colour by 1e-4 (invisible, the same hex)
+    so every named material survives; roles map by name, so the colour itself never shows."""
+    seen = {}
+    for o in objs:
+        for slot in o.material_slots:
+            m = slot.material
+            if not m or m.name in seen.values() or not (m.use_nodes and m.node_tree):
+                continue
+            p = next((n for n in m.node_tree.nodes if n.type == "BSDF_PRINCIPLED"), None)
+            if p is None or p.inputs["Base Color"].is_linked:
+                continue
+            col = tuple(p.inputs["Base Color"].default_value)
+            key = tuple(round(c, 6) for c in col)
+            n = sum(1 for k in seen if k[:4] == key)
+            seen[key + (n,)] = m.name
+            if n:
+                r = col[0] + 1e-4 * n if col[0] < 0.5 else col[0] - 1e-4 * n
+                p.inputs["Base Color"].default_value = (r, *col[1:])
+
+
 def load(src):
     bpy.context.preferences.filepaths.use_scripts_auto_execute = False
     low = src.lower()
     if low.endswith(".blend"):
         bpy.ops.wm.open_mainfile(filepath=src, load_ui=False, use_scripts=False)
+        # A file saved in edit mode keeps that mesh's real data in its edit copy: the mesh reads as stale or empty
+        # (a UV layer with no entries) and exports wrong until the object is back in object mode.
+        if bpy.context.object and bpy.context.object.mode != "OBJECT":
+            bpy.ops.object.mode_set(mode="OBJECT")
         return
     bpy.ops.wm.read_factory_settings(use_empty=True)
     if low.endswith(".fbx"):
@@ -253,21 +331,33 @@ def load(src):
         raise SystemExit(f"convert: unknown source type {src}")
 
 
+IMAGE_EXTS = (".png", ".jpg", ".jpeg", ".tga", ".bmp", ".tif", ".tiff", ".webp")
+
+
 def relink_images(root):
-    """Point every image whose file is missing at the file of the same name under root (the unpacked pack)."""
+    """Point every image whose file is missing at the file of the same name under root (the unpacked pack). When no
+    file has that name, an image with the same stem and another image extension stands in (a .blend that points at
+    chinese_cart-01.jpg while the pack ships chinese_cart-01.png), as long as only one such file exists."""
     if not root:
         return
     found = {}
+    stems = {}
     for d, _, files in os.walk(root):
         for f in files:
             found.setdefault(f.lower(), os.path.join(d, f))
+            stem, ext = os.path.splitext(f.lower())
+            if ext in IMAGE_EXTS:
+                stems.setdefault(stem, []).append(os.path.join(d, f))
     for img in bpy.data.images:
         if img.source != "FILE" or img.packed_file:
             continue
         cur = bpy.path.abspath(img.filepath)
         if cur and os.path.isfile(cur):
             continue
-        hit = found.get(bpy.path.basename(img.filepath.replace("\\", "/")).lower())
+        name = bpy.path.basename(img.filepath.replace("\\", "/")).lower()
+        hit = found.get(name)
+        if not hit and len(stems.get(os.path.splitext(name)[0], [])) == 1:
+            hit = stems[os.path.splitext(name)[0]][0]
         if hit:
             img.filepath = hit
             img.reload()
@@ -282,11 +372,13 @@ def attach(spec, arms):
     """Import one prop and parent its top-level objects to an armature bone at rest (bone parenting, rigid). The
     prop's origin sits on the bone's head and its file axes on the bone's axes (KayKit's handslot bones are oriented
     for weapons); then offset (in the bone's frame, source units), rotation (degrees XYZ about the bone's axes) and
-    scale apply. Materials keep their names; one that collides with a material already in the scene is named
+    scale apply. Without a bone the prop stays a static part of the model: its origin on the model's origin, its file
+    axes on the model file's axes (Y up), then offset, rotation and scale in those axes (a keyboard beside a monitor).
+    Materials keep their names; one that collides with a material already in the scene is named
     "<name>@<file stem>" (instead of Blender's "<name>.001"), so meta.materials can map the prop on its own."""
-    path, bone_name = spec["file"], spec["bone"]
-    arm = next((o for o in arms if bone_name in o.data.bones), None)
-    if arm is None:
+    path, bone_name = spec["file"], spec.get("bone")
+    arm = next((o for o in arms if bone_name in o.data.bones), None) if bone_name else None
+    if bone_name and arm is None:
         raise SystemExit(f"convert: --attach {os.path.basename(path)}: no armature has a bone {bone_name!r}")
     scene = bpy.context.scene
     before = set(scene.objects)
@@ -317,8 +409,16 @@ def attach(spec, arms):
 
     rot = Euler([math.radians(v) for v in (spec.get("rotation") or (0, 0, 0))], "XYZ")
     local = Matrix.Translation(Vector(spec.get("offset") or (0, 0, 0))) @ rot.to_matrix().to_4x4() @ Matrix.Scale(float(spec.get("scale", 1)), 4)
-    head = arm.matrix_world @ arm.data.bones[bone_name].matrix_local  # the bone's head and axes at rest
     bpy.context.view_layer.update()
+    if arm is None:
+        # The importer already turned the file's Y-up into Z-up: undo it, place the prop in file axes, redo it.
+        place = ZUP_TO_FILE.inverted() @ local @ ZUP_TO_FILE
+        for o in new:
+            if o.parent is None:
+                o.matrix_world = place @ o.matrix_world
+        bpy.context.view_layer.update()
+        return meshes
+    head = arm.matrix_world @ arm.data.bones[bone_name].matrix_local  # the bone's head and axes at rest
     for o in sorted((o for o in new if o.parent is None), key=lambda o: o.name):
         world = head @ local @ ZUP_TO_FILE @ o.matrix_world
         o.parent = arm
@@ -458,6 +558,8 @@ def mesh_points(objs):
 
 def main():
     a = parse()
+    global LEGACY_IMAGE
+    LEGACY_IMAGE = a.legacy_image
     load(a.src)
     relink_images(a.search)
     scene = bpy.context.scene
@@ -489,10 +591,10 @@ def main():
     if len(arms) > 1:
         print(f"convert: warn: {len(arms)} armatures ({', '.join(o.name for o in arms)}): the glTF exporter writes only their active actions")
 
-    # Props parented to bones (a sword in a hand slot), at rest and before measuring, so they count in the bbox.
+    # Props parented to bones (a sword in a hand slot) or placed in the model (a keyboard), at rest and before measuring, so they count in the bbox.
     attached = {}
     for spec in map(json.loads, a.attach):
-        attached[os.path.basename(spec["file"])] = {"bone": spec["bone"], "meshes": attach(spec, arms)}
+        attached[os.path.basename(spec["file"])] = {"bone": spec.get("bone"), "meshes": attach(spec, arms)}
 
     # One root above everything, so the whole normalization is one node transform.
     root = bpy.data.objects.new("root", None)
@@ -503,13 +605,18 @@ def main():
             o.parent = root
             o.matrix_world = mw
     root.rotation_mode = "XYZ"
-    root.rotation_euler = (0.0, 0.0, math.radians(a.yaw))
+    # Blender XYZ Euler applies X, then Y, then Z about the world axes: pitch (X is X in both), roll (glTF +Z is
+    # Blender -Y), then yaw (glTF up is Blender Z).
+    root.rotation_euler = (math.radians(a.pitch), -math.radians(a.roll), math.radians(a.yaw))
     bpy.context.view_layer.update()
 
     objs = [o for o in scene.objects if o.type == "MESH"]
     dropm = {s for s in a.drop_materials.split(",") if s}
     if dropm:
         drop_material_faces(objs, dropm)
+    backfaces = drop_backfaces(objs) if a.drop_backfaces else 0
+    if a.drop_backfaces:
+        print(f"convert: dropped {backfaces} back-to-back duplicate faces")
     pts = mesh_points(objs)
     if not pts:
         raise SystemExit("convert: no meshes")
@@ -517,9 +624,20 @@ def main():
     hi = Vector((max(p.x for p in pts), max(p.y for p in pts), max(p.z for p in pts)))
     h = hi.z - lo.z
     s = a.height / h if a.height > 0 else 1.0
+    # The centre comes from the whole bbox, or from the --center-on objects only (a halberd held forward would
+    # otherwise push the body off the origin).
+    clo, chi = lo, hi
+    names = [n for n in a.center_on.split(",") if n]
+    if names:
+        missing = [n for n in names if n not in {o.name for o in objs}]
+        if missing:
+            raise SystemExit(f"convert: --center-on: no mesh object named {', '.join(missing)} (meshes: {', '.join(sorted(o.name for o in objs))})")
+        cp = mesh_points([o for o in objs if o.name in names])
+        clo = Vector((min(p.x for p in cp), min(p.y for p in cp), 0))
+        chi = Vector((max(p.x for p in cp), max(p.y for p in cp), 0))
     # Scale about the world origin, then move the scaled bbox: centre x/y to 0, bottom to z = 0.
     root.scale = (s, s, s)
-    root.location = (-(lo.x + hi.x) / 2 * s, -(lo.y + hi.y) / 2 * s, -lo.z * s)
+    root.location = (-(clo.x + chi.x) / 2 * s, -(clo.y + chi.y) / 2 * s, -lo.z * s)
     bpy.context.view_layer.update()
     pts = mesh_points(objs)
     lo = Vector((min(p.x for p in pts), min(p.y for p in pts), min(p.z for p in pts)))
@@ -561,6 +679,7 @@ def main():
 
     split = split_textures(objs, a.max_colors)
     principled_everywhere()
+    keep_materials_apart(objs)
     mats = {}
     tris = 0
     for o in objs:
@@ -590,6 +709,9 @@ def main():
         "source": a.src,
         "scale": s,
         "yaw": a.yaw,
+        "droppedBackfaces": backfaces,
+        "pitch": a.pitch,
+        "roll": a.roll,
         "bbox_blender_zup": {"min": list(lo), "max": list(hi)},
         "height": hi.z - lo.z,
         "triangles": tris,
