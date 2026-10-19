@@ -1,0 +1,102 @@
+{
+  "id": "boat-speed",
+  "name": "Speed boat",
+  "category": "vehicle-water",
+  "tags": [
+    "vehicle",
+    "boat",
+    "speedboat",
+    "motorboat",
+    "harbour",
+    "sea"
+  ],
+  "style": "low-poly, flat colours (Kenney Watercraft Kit)",
+  "height": 2.15,
+  "script": "noon",
+  "colors": {
+    "hull": "#fff6e4",
+    "hullShade": "#f2d7ae",
+    "trim": "#c4452d",
+    "trimShade": "#5c3d32",
+    "deck": "#5c3d32",
+    "deckShade": "#241c16",
+    "glass": "#5c3d32",
+    "glassShade": "#241c16"
+  },
+  "materials": {
+    "colormap": "hull",
+    "colormap#e2e2ed": "hull",
+    "colormap#b2bbe0": "hull",
+    "colormap#bec7ee": "hull",
+    "colormap#9da4c5": "hull",
+    "colormap#f16544": "trim",
+    "colormap#eb6246": "trim",
+    "colormap#414450": "trim",
+    "colormap#444754": "trim",
+    "colormap#3d404c": "trim",
+    "colormap#4d505f": "deck",
+    "colormap#b4d6f7": "glass",
+    "colormap#c7e2fc": "glass"
+  },
+  "thresholds": {
+    "trim": -0.6
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Watercraft Kit",
+    "page": "https://kenney.nl/assets/watercraft-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney boat-speed-c (GLB with the kit colormap), same kit and fetch pin as boat-fishing and boat-sail; picked from the kit's ten speed boats (a-j) as the clearest runabout silhouette: pointed bow, raked windscreen, tow arch aft. Kit scale kept (about 1.65 m per source unit, as the other watercraft): height 2.15 m keel to arch top gives a 5.24 m hull and 2.95 m beam (chunky toy proportions, beam on the wide side). Bow toward +Z (image-left in the lab left view). y = 0 is the hull bottom; the waterline sits at about y = 0.4 m (just above the lower chine), so a film sinks the boat 0.4 m into its water plane. Red topsides and bottom (the source's red deck and dark-grey bottom both go to trim, lit down to -0.6 so the flanks stay red and only the shadow-side bow and transom take the brown shade), cream rub-stripe band, cockpit and console, dark-brown tow arch and windscreen. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/watercraft-kit",
+      "sha256": "cd1470c1cf441c7f46d0944ae6d0d897242365dc97677c5079b3238965d659f3",
+      "bytes": 1870991,
+      "resolved": "https://kenney.nl/media/pages/assets/watercraft-kit/a335cfed49-1713519620/kenney_watercraft-pack.zip"
+    },
+    "member": "Models/GLB format/boat-speed-c.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 2.15,
+    "memberSha256": "6b63dbd0d76e8b5dc5685df15a5857950246ff9fe3e765f2739e8298327473e6"
+  },
+  "file": "model.glb",
+  "sha256": "c179bcc6e35faa791c906542d470d71e4c2e63624ff0913c3e014972884f3913",
+  "bytes": 17420,
+  "triangles": 154,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#414450": "#414450",
+    "colormap#444754": "#444754",
+    "colormap#3d404c": "#3d404c",
+    "colormap#4d505f": "#4d505f",
+    "colormap#e2e2ed": "#e2e2ed",
+    "colormap#f16544": "#f16544",
+    "colormap#eb6246": "#eb6246",
+    "colormap#b2bbe0": "#b2bbe0",
+    "colormap#bec7ee": "#bec7ee",
+    "colormap#9da4c5": "#9da4c5",
+    "colormap#b4d6f7": "#b4d6f7",
+    "colormap#c7e2fc": "#c7e2fc"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 2.15,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 154,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
