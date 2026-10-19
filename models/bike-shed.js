@@ -15,11 +15,11 @@
 //          at 0.62 m and the front-left camera sees the bikes' left sides): two low steel rails along X and a pair of
 //          hoop guides per slot straddling the front wheel; empty slots show their hoops.
 //   BIKE   bike(): one mamachari, local frame (faces +Z, centred on its own x = z = 0, wheels on y = 0). 26" wheels
-//          (dark tori with a thin rim and hub), a step-through frame (one curved down tube from the head tube to the
+//          (dark 12 x 4 tori crossed by three spoke lines), a step-through frame (one curved down tube from the head tube to the
 //          bottom bracket, seat tube, chain and seat stays, fork), upright swept-back handlebar on a tall stem, a wide
-//          saddle, a wire front basket over the front wheel (a tapered open box with a wire rim), a flat rear rack,
+//          saddle, a wire front basket over the front wheel (a tapered open box), a flat rear rack,
 //          two mudguards (arc bands), a chain case on the -X side, a centre kickstand down behind the rear wheel,
-//          crank and pedals, a small yellow dynamo lamp. Rims, spokes, struts and the stand carry no hull (too thin).
+//          crank and pedals, a small yellow dynamo lamp. Spokes, struts and the stand carry no hull (too thin).
 //          Bikes stand in slots 0.62 m apart; a hash of the slot index (sin hash, no Math.random) picks which slots
 //          stay empty, the frame colour and a small extra yaw (+-4 deg) and shift, so the row is varied but the same
 //          every build.
@@ -32,7 +32,7 @@
 //   height  scales everything uniformly so the front eave top is `height` (default 2.40 m).
 //   length  shed length in metres (default 12; bays of about 2.4 m are recomputed, at least 2 m).
 //   bikes   how many bikes are parked (default: about 80 % of the slots, 14 of 18); clamped to the slot count.
-// Budget: 25.1k triangles in 11 meshes at defaults (about 1.45k a bike, the shed and rack 4.8k); 18 m / 40 bikes 48k.
+// Budget: 13.6k triangles in 11 meshes at defaults (about 750 a bike: 4-5 sided tubes, no bends; the shed and rack 3.1k).
 //   Ink: shed 2.5-3.5 px, bike parts 1.5 px, so a bike seen 40 px tall keeps its colour.
 // Colours (meadow, as models/school.js), base / shade:
 //   pad                    sky #d7ecef / skin #f0c2ae, threshold 0.1
@@ -192,11 +192,9 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   // ---------- the bicycle (local: faces +Z, wheels on y = 0, centred on x = z = 0) ----------
   const WR = 0.33, ZF = 0.55, ZR = -0.55;
   function bike(frame) {
-    // wheels: tyre, thin rim, hub, three spoke lines
+    // wheels: tyre and three crossed spoke lines (no rim or hub: the spokes' crossing is the hub at any size)
     for (const zc of [ZF, ZR]) {
-      torus("rubber", WR, zc, WR - 0.024, 0.024, { segs: 14, sx: 1.05 });
-      torus("chromeThin", WR, zc, WR - 0.06, 0.009, { segs: 10, sides: 3 });
-      tube("chrome", [[-0.05, WR, zc], [0.05, WR, zc]], 0.018, [0, 1, 0], { sides: 6 });
+      torus("rubber", WR, zc, WR - 0.026, 0.026, { segs: 12, sides: 4, sx: 1.05 });
       for (let k = 0; k < 3; k++) {
         const a = (k / 3) * Math.PI + 0.3;
         const d = [0, Math.sin(a) * (WR - 0.06), Math.cos(a) * (WR - 0.06)];
@@ -206,14 +204,13 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     // frame: head tube, step-through down tube, seat tube, stays, fork
     const FT = 0.022;
     const headLo = [0, 0.64, 0.4], headHi = [0, 0.8, 0.35], bb = [0, 0.27, -0.06], seatTop = [0, 0.74, -0.22];
-    tube(frame, [headLo, headHi], 0.026, [1, 0, 0]);
-    tube(frame, [add(headLo, [0, 0.03, -0.01]), [0, 0.42, 0.26], [0, 0.29, 0.06], bb], FT, [1, 0, 0], { bend: 0.12 });
-    tube(frame, [bb, seatTop], FT, [1, 0, 0]);
-    for (const s of [-1, 1]) {
-      tube(frame, [[s * 0.012, 0.27, -0.06], [s * 0.05, WR, ZR]], 0.013, [1, 0, 0]);
-      tube(frame, [[s * 0.012, 0.7, -0.205], [s * 0.05, WR + 0.01, ZR + 0.02]], 0.012, [1, 0, 0]);
-      tube(frame, [[s * 0.035, 0.66, 0.395], [s * 0.05, WR + 0.03, ZF - 0.01], [s * 0.05, WR, ZF]], 0.014, [1, 0, 0], { bend: 0.04 });
-    }
+    tube(frame, [headLo, headHi], 0.026, [1, 0, 0], { sides: 5 });
+    tube(frame, [add(headLo, [0, 0.03, -0.01]), [0, 0.47, 0.3], [0, 0.36, 0.17], [0, 0.29, 0.06], bb], FT, [1, 0, 0], { bend: 0, sides: 5 });
+    tube(frame, [bb, seatTop], FT, [1, 0, 0], { sides: 5 });
+    // stays and fork: one tube per pair, a V through the hub's axis line
+    tube(frame, [[0.05, WR, ZR], [0, 0.27, -0.06], [-0.05, WR, ZR]], 0.013, [0, 1, 0], { bend: 0, sides: 4 });
+    tube(frame, [[0.05, WR + 0.01, ZR + 0.02], [0, 0.7, -0.205], [-0.05, WR + 0.01, ZR + 0.02]], 0.012, [0, 0, 1], { bend: 0, sides: 4 });
+    for (const s of [-1, 1]) tube(frame, [[s * 0.035, 0.66, 0.395], [s * 0.05, WR, ZF]], 0.014, [1, 0, 0], { sides: 4 });
     box(frame, -0.05, 0.05, 0.62, 0.67, 0.37, 0.43); // fork crown
     // chain case on the -X side, from the bottom bracket to the rear hub
     hex(frame, [[-0.06, 0.2, 0.02], [-0.06, 0.37, 0.02], [-0.06, 0.42, ZR - 0.06], [-0.06, 0.24, ZR - 0.06],
@@ -224,36 +221,30 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     box("rubber", 0.07, 0.17, 0.135, 0.165, -0.03, 0.04);
     box("rubber", -0.17, -0.07, 0.375, 0.405, -0.155, -0.085);
     // seat post and the wide saddle
-    tube("chrome", [seatTop, [0, 0.84, -0.26]], 0.014, [1, 0, 0]);
+    tube("chrome", [seatTop, [0, 0.84, -0.26]], 0.014, [1, 0, 0], { sides: 4 });
     hex("rubber", [[-0.11, 0.84, -0.36], [0.11, 0.84, -0.36], [0.06, 0.85, -0.12], [-0.06, 0.85, -0.12],
       [-0.12, 0.895, -0.37], [0.12, 0.895, -0.37], [0.065, 0.89, -0.12], [-0.065, 0.89, -0.12]]);
     // stem and the upright swept-back handlebar, grips
-    tube("chrome", [headHi, [0, 0.95, 0.32]], 0.016, [1, 0, 0]);
-    tube("chrome", [[-0.2, 0.99, 0.14], [-0.17, 0.98, 0.25], [0, 0.95, 0.33], [0.17, 0.98, 0.25], [0.2, 0.99, 0.14]], 0.012, [0, 1, 0], { bend: 0.08, sides: 5 });
-    for (const s of [-1, 1]) tube("rubber", [[s * 0.205, 0.99, 0.15], [s * 0.235, 0.995, 0.03]], 0.018, [0, 1, 0]);
-    // front basket: an open wire box over the front wheel, on two struts to the hub
+    tube("chrome", [headHi, [0, 0.95, 0.32]], 0.016, [1, 0, 0], { sides: 4 });
+    tube("chrome", [[-0.2, 0.99, 0.14], [-0.17, 0.98, 0.25], [0, 0.95, 0.33], [0.17, 0.98, 0.25], [0.2, 0.99, 0.14]], 0.012, [0, 1, 0], { bend: 0, sides: 4 });
+    for (const s of [-1, 1]) tube("rubber", [[s * 0.205, 0.99, 0.15], [s * 0.235, 0.995, 0.03]], 0.018, [0, 1, 0], { sides: 4 });
+    // front basket: a tapered open box over the front wheel (four walls and a floor, the hull draws its rim)
     {
-      // tapered: the bottom 3 cm in from the top on every side; walls 8 mm thick, a wire rim round the top
       const x = 0.18, z0 = 0.46, z1 = 0.76, y0 = 0.72, y1 = 0.95, t = 0.008, k = 0.03, cz = (z0 + z1) / 2;
-      const cn = (sx, sz, y, ins) => { const tp = y === y1; const q = tp ? 0 : k; return [sx * (x - q - ins), y, cz + sz * ((z1 - z0) / 2 - q - ins)]; };
+      const cn = (sx, sz, y, ins) => { const q = y === y1 ? 0 : k; return [sx * (x - q - ins), y, cz + sz * ((z1 - z0) / 2 - q - ins)]; };
       box("chrome", -x + k, x - k, y0, y0 + t, z0 + k, z1 - k);
       for (const [a, b] of [[[1, 1], [-1, 1]], [[-1, 1], [-1, -1]], [[-1, -1], [1, -1]], [[1, -1], [1, 1]]])
         hex("chrome", [cn(...a, y0, 0), cn(...b, y0, 0), cn(...b, y0, t), cn(...a, y0, t), cn(...a, y1, 0), cn(...b, y1, 0), cn(...b, y1, t), cn(...a, y1, t)]);
-      tube("chrome", [[x, y1, z1], [-x, y1, z1], [-x, y1, z0], [x, y1, z0], [x, y1, z1], [-x * 0.9, y1, z1]], 0.009, [0, 1, 0], { bend: 0, sides: 4 });
-      for (const s of [-1, 1]) tube("chromeThin", [[s * 0.05, WR, ZF], [s * 0.1, y0, z1 - 0.04]], 0.007, [1, 0, 0], { sides: 4 });
+      tube("chromeThin", [[0.1, y0, z1 - 0.04], [0, WR, ZF], [-0.1, y0, z1 - 0.04]], 0.007, [0, 0, 1], { bend: 0, sides: 3 });
     }
-    // rear rack: a flat frame over the rear wheel, struts to the hub
-    {
-      const y = 0.74;
-      box("chrome", -0.08, 0.08, y, y + 0.014, -0.82, -0.26);
-      for (const s of [-1, 1]) tube("chromeThin", [[s * 0.075, y, -0.8], [s * 0.05, WR, ZR]], 0.008, [1, 0, 0], { sides: 4 });
-      tube("chromeThin", [[0, y, -0.26], [0, 0.72, -0.2]], 0.008, [1, 0, 0], { sides: 4 });
-    }
+    // rear rack: a flat plate over the rear wheel, a V strut to the hub
+    box("chrome", -0.08, 0.08, 0.74, 0.754, -0.82, -0.26);
+    tube("chromeThin", [[0.075, 0.74, -0.8], [0, WR, ZR], [-0.075, 0.74, -0.8]], 0.008, [0, 0, 1], { bend: 0, sides: 3 });
     // mudguards: arc bands over both wheels
-    arcBand("chrome", WR, ZF, WR + 0.03, -0.25, Math.PI * 0.95, 0.06, 0.008, 5);
-    arcBand("chrome", WR, ZR, WR + 0.03, 0.15, Math.PI + 0.25, 0.06, 0.008, 5);
+    arcBand("chrome", WR, ZF, WR + 0.03, -0.25, Math.PI * 0.95, 0.06, 0.008, 3);
+    arcBand("chrome", WR, ZR, WR + 0.03, 0.15, Math.PI + 0.25, 0.06, 0.008, 3);
     // centre kickstand (down): a U from the rear hub to the floor behind the wheel
-    tube("chromeThin", [[0.06, WR, ZR], [0.085, 0.012, ZR - 0.09], [-0.085, 0.012, ZR - 0.09], [-0.06, WR, ZR]], 0.012, [0, 0, 1], { bend: 0.02, sides: 4 });
+    tube("chromeThin", [[0.06, WR, ZR], [0.085, 0.012, ZR - 0.09], [-0.085, 0.012, ZR - 0.09], [-0.06, WR, ZR]], 0.012, [0, 0, 1], { bend: 0, sides: 3 });
     // dynamo lamp on the fork
     box("yellow", -0.03, 0.03, 0.62, 0.67, 0.44, 0.5);
   }
@@ -321,7 +312,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const x = sx0 + i * pitch;
     place(x, zBike, Y0, () => {
       for (const s of [-1, 1]) // a hoop guide either side of the front wheel
-        tube("steel", [[s * 0.045, 0.12, hz0], [s * 0.045, 0.42, hz0 + 0.1], [s * 0.045, 0.42, hz1 - 0.06], [s * 0.045, 0.12, hz1]], 0.012, [1, 0, 0], { bend: 0.06, sides: 5 });
+        tube("steel", [[s * 0.045, 0.12, hz0], [s * 0.045, 0.42, hz0 + 0.1], [s * 0.045, 0.42, hz1 - 0.06], [s * 0.045, 0.12, hz1]], 0.012, [1, 0, 0], { bend: 0, sides: 4 });
     });
     if (empty.has(i)) continue;
     const yaw = Y0 + (hash(i, 2) - 0.5) * 0.14, dx = (hash(i, 3) - 0.5) * 0.04, dz = (hash(i, 4) - 0.5) * 0.06;
