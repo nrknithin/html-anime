@@ -47,7 +47,7 @@ Three research agents checked every source end to end (a real download, the lice
 - Quaternius's own Google Drive folders answer "Quota exceeded" for every file, even the 1 KB licence, from this network.
 - **Quaternius packs come from OpenGameArt** (zip files with FBX, OBJ and .blend, CC0), for example the Farm Animals, Animal Pack Vol.2, Animated Fish, Animated Monsters, Animated Human, Animated Knight, Universal Animation Library 1 and 2, Animated Mech, RPG Characters, Food, Furniture, Cars, Houses, Nature, Stylized Nature MegaKit, Medieval Weapons and Ultimate Space Kit packs, and **from itch.io**. The itch.io free download is three plain requests (the page's form token, the download page, the upload's signed URL), not a bot check. `ingest.mjs` does both. FBX and .blend go through Blender's Python module.
 - **itch.io also unblocks the 1,170 KayKit itch.io rows** marked X in CANDIDATES.md; they move to their scored tier as they are ingested.
-- **Not reachable: Quaternius "Ultimate Animated Animals"** (horse, bull, wolf, fox, deer, stag, Shiba Inu, husky, cow, donkey, alpaca) and the other Drive-only packs. Wave-1 rows from them are substituted with the nearest reachable Quaternius pack (Farm Animals for horse and cow, Animal Pack Vol.2 for wolf, fox, deer and others), and the swap is written in the entry's `meta.json` and its PR. `plan/wave1.json` keeps the original rows as the record of intent; an entry's `meta.json` is the truth.
+- **Not reachable: Quaternius "Ultimate Animated Animals"** (horse, bull, wolf, fox, deer, stag, Shiba Inu, husky, cow, donkey, alpaca) and the other Drive-only packs. Wave-1 rows from them are substituted with the nearest reachable Quaternius pack (Farm Animals for horse and cow, Animal Pack Vol.2 for wolf and dog; Vol.2 holds only cat, dog, eagle, piranha and wolf, so the fox is the Khronos sample Fox, CC0 mesh with CC-BY 4.0 rig and clips), and the swap is written in the entry's `meta.json` and its PR. `plan/wave1.json` keeps the original rows as the record of intent; an entry's `meta.json` is the truth.
 - Poly Haven's katana is `antique_katana_01` (`katana` and `katana_01` do not exist).
 - Licences (owner): CC0, CC-BY with `CREDITS.md`, and free avatars. Nothing paid, nothing NC or ND.
 
@@ -168,7 +168,19 @@ Not used yet, worth a later kitbash: Quaternius **Universal Base Characters** (i
 
 ### Gaps: no library source, built in phase 4 as code or kitbash
 
-Torii gate (no free verified model found in wave 1), schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (armour on a KayKit rig), Japanese house (the shoji walls and door plus a roof), school building (Kenney commercial blocks plus a clock tower), sakura tree (a recoloured round tree plus petals), bicycle, umbrella, airplane, helicopter, small songbird, koi (with patches, for close-ups), butterfly, turtle, lizard or crocodile, and better ramen and lanterns (tōrō, chōchin).
+Torii gate, stone and paper lanterns (tōrō, chōchin), shoji screen and Japanese sliding door, shrine and temple halls (the Quaternius rows 144-148 are poly.pizza only), Japanese house, schoolgirl and schoolboy (outfit and recolour a Kenney mini character, or the heroine rig), samurai (man-kimono plus the katana via ingest.attach), dango, koi (with patches, for close-ups), a yumi (the only free one is CC-BY-SA), a clock tower, a food truck, a traditional windmill (Kenney's is a turbine), orc and mech. Better ramen and lanterns stay on the list too.
+
+Found in a source search after wave 1 started, now being built or queued (all CC0 unless marked): bicycle (Quaternius Public Transport, OGA), sakura (OGA lowpoly-sakura-tree), bamboo (Kenney Nature Kit), airplane and helicopter (OGA low-poly singles), umbrella and fire hydrant (KayKit Mixed Bag 1 on itch, KayKit City Builder Bits on GitHub), udon (Kenney Food Kit bowl-broth), staff (Quaternius RPG Pack, OGA), pickaxe (Kenney Survival Kit), dumpster (Kenney City Kit Roads), guitar (KayKit Mixed Bag 1 or OGA classical-guitar), water tower (Kenney City Kit Industrial), bell tower (Quaternius Medieval Village Pack, OGA), songbird (Asset Quest Free Pond Kit, OGA), butterfly (OGA butterfly-animated), turtle (OGA turtle-0), lizard (OGA lizard, CC-BY 3.0), goblin and zombie (Quaternius Ultimate Animated Character Pack), Japanese school (OGA japanese-school, CC-BY 4.0, unchecked). The search notes are in the session scratchpad; quaternius.com packs link to Google Drive or Patreon only and stay out of reach.
+
+A second search covered the rows 6–99 that had no entry yet. Results:
+- **Already covered:** stag (`deer`), static bird (`songbird`), business man (`man-suit`), casual character (`man-casual`), hooded rogue (`rogue-kaykit`).
+- **Built from new CC0 sources:** rat, frog, snake and spider (Quaternius Easy Animated Enemy Pack, itch); zebra and alpaca (Farm Animals, the alpaca is the llama); manta ray (Animated Fish); bee (Ultimate Platformer Pack); chick (Kenney Cube Pets); pigeon (OGA mujtaba-io .blend); mech (Animated Mech Pack); SWAT stand-in (UACP BlueSoldier_Male); blocky character (Kenney Blocky Characters).
+- **CC-BY, credited:** orc (OGA umask007 "Ork"), food cart stand-in (OGA ouren "Chinese Food Cart").
+- **Built as code:** torii, tōrō, chōchin, shrine hall, Japanese house, dango; goldfish, koi with patches, better ramen and a bamboo grove in progress.
+- **No usable source:** husky, donkey, raccoon, pufferfish, cartoon lizard, Japanese temple (only LGPL/SA), astronaut (the only animated one is a third-party repost of the Ultimate Space Kit, not used).
+- **Blocked:** VRM avatars (licence decision pending).
+
+Limits found on the way: no colour script has green (dango, bamboo, orc skin and leaves fall back to tan, red or blue); the pipeline flattens a texture to one colour per triangle, so painted faces on box characters (Kenney Blocky) are lost.
 
 ### Batches for wave 1 (8 agents in parallel)
 
@@ -235,7 +247,7 @@ Grouped by category. *Pri* is the order inside wave 1 (P1 first). *Batch* is the
 | 33 | Parrot | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 150 KB | P3 | B2 |
 | 34 | Penguin | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 130 KB | P3 | B2 |
 | 35 | Bird (static) | Quaternius · Static models | - | CC0 | 50 KB | P3 | B2 |
-| 36 | Crow / raven | gap | - | - | - | P2 | B8 |
+| 36 | Crow / raven | Teh_Bucket · Raven (OpenGameArt; filled from row 32, see `models/library/crow`) | 2 (idle perch, fly) | CC0 | 80 KB | P2 | B8 |
 
 ### Sea life (10)
 
