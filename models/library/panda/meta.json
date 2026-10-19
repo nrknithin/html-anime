@@ -1,0 +1,197 @@
+{
+  "id": "panda",
+  "name": "Panda",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "panda",
+    "bear",
+    "zoo",
+    "wild",
+    "quadruped",
+    "cute",
+    "chibi",
+    "blocky"
+  ],
+  "style": "chibi cube pet, deliberately blocky (Kenney Cube Pets); stylized size: 0.9 m tall, about a real giant panda's height on all fours (0.6-0.8 m at the shoulder, the head a little higher), so it sits under the library's cow (1.5 m) and beside a 1.7 m adult's hip; rigid parts moved by node tracks, no skin; colour map flattened to flat colours",
+  "height": 0.9,
+  "script": "indigo",
+  "colors": {
+    "fur": "#e7eefc",
+    "furShade": "#d5e2ff",
+    "patch": "#16141c",
+    "patchShade": "#1b2d6b"
+  },
+  "materials": {
+    "colormap": "fur",
+    "colormap#454856": "patch",
+    "colormap#4b4e5c": "patch",
+    "colormap#4e5260": "patch",
+    "colormap#40434f": "patch",
+    "colormap#424552": "patch",
+    "colormap#414450": "patch",
+    "colormap#484b59": "patch",
+    "colormap#494c5a": "patch",
+    "colormap#505463": "patch",
+    "colormap#3e414d": "patch",
+    "colormap#3d404c": "patch",
+    "colormap#515463": "patch",
+    "colormap#525564": "patch",
+    "colormap#3d3f4b": "patch",
+    "colormap#cecee0": "fur",
+    "colormap#dedeea": "fur",
+    "colormap#ededf4": "fur",
+    "colormap#f2f2f6": "fur",
+    "colormap#f6f6fa": "fur",
+    "colormap#e1e1ec": "fur",
+    "colormap#d8d8e6": "fur",
+    "colormap#eaeaf2": "fur",
+    "colormap#c3c3d9": "fur",
+    "colormap#cbcbde": "fur"
+  },
+  "clips": {
+    "idle": "idle",
+    "walk": "walk",
+    "run": "run",
+    "dance": "dance",
+    "eat": "eat"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Kenney (kenney.nl)",
+    "pack": "Kenney · Cube Pets",
+    "page": "https://kenney.nl/assets/cube-pets",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 17 named the Panda from Quaternius's Animated Animals on poly.pizza, which sits behind a Cloudflare challenge (and Quaternius's Google Drive is quota-blocked), so it is unreachable. Two reachable CC0 pandas were rendered: the Panda from Quaternius's Textured Cute Monster Pack (Aug 2020, OpenGameArt) and this one from Kenney Cube Pets. The monster-pack panda is a head-shaped blob with no legs, and its painted grey texture clusters into 17 near-identical greys that scatter the eye patches over the face, so it does not read as a panda in the cel look. The Cube Pets panda has clean black eye patches, ears, shoulder band and legs on white, and reads as a panda at a glance; it is deliberately blocky. Colour map flattened to 24 clusters: the 14 slate clusters (#3d-#52) -> patch, the 10 white clusters -> fur. Ground: run is a hop (in the air up to 5 cm between strides, as authored) and clamps so the landings never sink; walk is a bouncy trot that never sinks and is left as authored; eat lets the snout dip (sinkAllowed). Ingested through Blender like the other Cube Pets (the gltf route cannot load the external colormap.png in Node and would not flatten it)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/cube-pets",
+      "sha256": "b3bdc99a2ec92c687b875718c5d01e9231d2711ed0e2845f295b474bb42a1283",
+      "bytes": 2812444
+    },
+    "member": "Models/GLB format/animal-panda.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.9,
+    "yaw": 0,
+    "maxColors": 24,
+    "memberSha256": "e001aea4fcd1c2dcb384774019f84183e6d0b638ebd986da65fee32bd93d1359"
+  },
+  "file": "model.glb",
+  "sha256": "61fe4c02a70bc2a363e2b2f18be7320e2975aef046e322dfc9be3387c95d2426",
+  "bytes": 78828,
+  "triangles": 734,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#454856": "#454856",
+    "colormap#4b4e5c": "#4b4e5c",
+    "colormap#4e5260": "#4e5260",
+    "colormap#40434f": "#40434f",
+    "colormap#424552": "#424552",
+    "colormap#414450": "#414450",
+    "colormap#484b59": "#484b59",
+    "colormap#494c5a": "#494c5a",
+    "colormap#505463": "#505463",
+    "colormap#3e414d": "#3e414d",
+    "colormap#3d404c": "#3d404c",
+    "colormap#515463": "#515463",
+    "colormap#525564": "#525564",
+    "colormap#3d3f4b": "#3d3f4b",
+    "colormap#cecee0": "#cecee0",
+    "colormap#dedeea": "#dedeea",
+    "colormap#ededf4": "#ededf4",
+    "colormap#f2f2f6": "#f2f2f6",
+    "colormap#f6f6fa": "#f6f6fa",
+    "colormap#e1e1ec": "#e1e1ec",
+    "colormap#d8d8e6": "#d8d8e6",
+    "colormap#eaeaf2": "#eaeaf2",
+    "colormap#c3c3d9": "#c3c3d9",
+    "colormap#cbcbde": "#cbcbde"
+  },
+  "clipInfo": {
+    "dance": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "eat": {
+      "seconds": 0.5,
+      "loop": true,
+      "sinkAllowed": "the snout dips 2.4 cm through the ground as the head bobs down to eat while all four feet stay planted (clamping would float the panda)"
+    },
+    "gesture-negative": {
+      "seconds": 0.25,
+      "loop": false
+    },
+    "gesture-positive": {
+      "seconds": 0.25,
+      "loop": false
+    },
+    "idle": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.25,
+      "loop": true,
+      "ground": "clamp"
+    },
+    "static": {
+      "seconds": 0.0833,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "thresholds": {
+    "patch": -0.5
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 0.9,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 734,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.92
+      },
+      "walk": {
+        "minY": 0.0023,
+        "touches": true,
+        "maxSize": 0.92
+      },
+      "run": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.91
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.96
+      },
+      "eat": {
+        "minY": -0.0241,
+        "touches": true,
+        "maxSize": 0.95
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
