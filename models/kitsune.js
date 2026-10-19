@@ -12,8 +12,9 @@
 // axis, so from the front three-quarter they rise behind the fox as a halo.
 //
 // Proportions (H = withers height 0.45 m; a red fox, slightly stylised): trunk 1.15 H point of shoulder to buttock,
-// chest depth 0.45 H, elbow 0.54 H, long slender legs, head 0.44 H long with the muzzle half of it, skull top 1.36 H,
-// ear tips 1.7 H (ears 0.27 H: the anime oversize), tails 0.6 m along the curve, centre tail top ~2 H. Landmarks
+// chest depth 0.45 H, elbow 0.49 H, slender legs, head 0.44 H long with the muzzle half of it, skull top 1.36 H,
+// ear tips 1.7 H (ears 0.27 H: the anime oversize), tails ~0.62 m along an S-curve, 0.24 m across at the widest, centre
+// tail top ~1.95 H; legs below the elbow / stifle compressed to 0.9 (LEGK), the body 2.4 cm lower. Authored landmarks
 // (z, y m): withers (0.11, 0.455), croup (-0.19, 0.44), buttock z -0.27, nose tip z 0.49, chest bottom 0.25,
 // front toes z 0.19, hind toes z -0.17, tail base (-0.255, 0.42).
 //
@@ -207,6 +208,14 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const flat = (o = {}) => ({ outline: false, threshold: -0.3, ...o });
 
   const body = joint("body", fox, 0, 0.35, 0);
+  // short legs: everything below the elbow / stifle is authored at full length and compressed to LEGK in y about the
+  // ground, and the body (with all it carries) sits LEGD lower. lo(y) maps an authored distal y into the authoring
+  // frame of the joints above (which ends up LEGD above the world once the body is lowered).
+  const LEGK = 0.9, LEGD = 0.024;
+  body.userData.rest.y -= LEGD;
+  body.position.y -= LEGD;
+  const lo = (y) => y * LEGK + LEGD;
+  const short = (g) => g.scale(1, LEGK, 1).translate(0, LEGD, 0);
   const neck = joint("neck", body, 0, 0.42, 0.17);
   const head = joint("head", neck, 0, 0.555, 0.31);
   head.scale.setScalar(1.2);
@@ -312,23 +321,25 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   }
 
   // --- tails: nine fox brushes on one fan; each a planar curve (local: up and back), two segments ---
-  const TAILC = new THREE.CatmullRomCurve3([[0, 0, 0], [0, 0.035, -0.08], [0, 0.11, -0.16], [0, 0.22, -0.215],
-    [0, 0.34, -0.23], [0, 0.45, -0.2], [0, 0.52, -0.13]].map((p) => V(...p)));
-  const TR = (t) => 0.068 * (0.3 * (1 - t) + Math.sin(Math.PI * (0.94 * t) ** 0.75));
+  // a gentle S: out and up from the rump, bowing forward mid-way, back again, the tip curling forward
+  const TAILC = new THREE.CatmullRomCurve3([[0, 0, 0], [0, 0.05, -0.1], [0, 0.15, -0.17], [0, 0.27, -0.185],
+    [0, 0.385, -0.225], [0, 0.48, -0.215], [0, 0.545, -0.15]].map((p) => V(...p)));
+  // a fox brush: slim root, fat middle, soft rounded taper to the tip
+  const TR = (t) => 0.12 * (0.2 * (1 - t) + Math.sin(Math.PI * 0.97 * t ** 0.9) ** 0.85);
   const TMID = 0.5, TMIDP = TAILC.getPointAt(TMID);
   function tailSeg(t0, t1, r0k, steps) {
-    const rings = [], tags = [], seg = 10, X = V(1, 0, 0);
+    const rings = [], tags = [], seg = 12, X = V(1, 0, 0);
     for (let i = 0; i <= steps; i++) {
-      const t = t0 + ((t1 - t0) * i) / steps, P = TAILC.getPointAt(t), T = TAILC.getTangentAt(t), B = T.clone().cross(X).normalize();
+      const t = Math.min(1, t0 + ((t1 - t0) * i) / steps), P = TAILC.getPointAt(t), T = TAILC.getTangentAt(t), B = T.clone().cross(X).normalize();
       const k = r0k + (1 - r0k) * Math.min(1, i / 2);
       const r = Math.max(TR(t) * k, 2e-4);
       rings.push(Array.from({ length: seg }, (_, j) => {
         const a = (j / seg) * TAU;
         return P.clone().addScaledVector(X, Math.cos(a) * r * 0.9).addScaledVector(B, Math.sin(a) * r).toArray();
       }));
-      if (i < steps) for (let j = 0; j < seg; j++) { const g = t + (t1 - t0) / steps / 2 > 0.84 ? 1 : 0; tags.push(g, g); }
+      if (i < steps) for (let j = 0; j < seg; j++) { const g = t + (t1 - t0) / steps / 2 > 0.82 ? 1 : 0; tags.push(g, g); }
     }
-    const geo = skin(rings, { dome: 0.6 });
+    const geo = skin(rings, { dome: 0.8 });
     const ix = geo.index.array, bk = [[], []];
     for (let k = 0; k < ix.length / 3; k++) bk[tags[k] ?? (t1 > 0.9 ? 1 : 0)].push(ix[3 * k], ix[3 * k + 1], ix[3 * k + 2]);
     geo.setIndex(bk.flat());
@@ -348,8 +359,8 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const fan = joint("fan" + i, tailBase, ...P0);
     const tr = joint("tail" + i, fan, ...P0);
     const tm = joint("tail" + i + "b", tr, P0[0], P0[1] + TMIDP.y, P0[2] + TMIDP.z);
-    const a = tailSeg(0, TMID + 0.06, 1, 9).translate(...P0);
-    const b = tailSeg(TMID - 0.04, 1, 0.8, 11).translate(...P0);
+    const a = tailSeg(0, TMID + 0.06, 1, 10).translate(...P0);
+    const b = tailSeg(TMID - 0.04, 1, 0.8, 15).translate(...P0);
     const ma = part(tr, a, C.fur, C.furShade);
     const mb = part(tm, b, C.fur, C.furShade);
     ma.material = tailMat(); mb.material = tailMat();
@@ -371,23 +382,23 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     // fore: shoulder -> elbow -> wrist -> paw
     const sh = joint("shoulder" + side, body, X, 0.36, 0.2);
     const el = joint("elbow" + side, sh, X, 0.245, 0.13);
-    const wr = joint("wrist" + side, el, X, 0.075, 0.148);
-    const pw = joint("paw" + side, wr, X, 0.03, 0.152);
+    const wr = joint("wrist" + side, el, X, lo(0.075), 0.148);
+    const pw = joint("paw" + side, wr, X, lo(0.03), 0.152);
     fur(sh, limb(X, [0.215, 0.41], [0.133, 0.236], [0.032, 0.025], [0.036, 0.027], [0.024, 0.025], { bulge: 0.12 }));
-    fur(el, limb(X, [0.131, 0.25], [0.148, 0.068], [0.02, 0.016], [0.021, 0.015], [0.019, 0.016]));
-    fur(wr, limb(X, [0.147, 0.085], [0.152, 0.03], [0.015, 0.015], [0.014, 0.014], [0.016, 0.017]));
-    fur(pw, paw(X, 0.162, 0.028, 0.018));
+    fur(el, short(limb(X, [0.131, 0.25], [0.148, 0.068], [0.02, 0.016], [0.021, 0.015], [0.019, 0.016])));
+    fur(wr, short(limb(X, [0.147, 0.085], [0.152, 0.03], [0.015, 0.015], [0.014, 0.014], [0.016, 0.017])));
+    fur(pw, short(paw(X, 0.162, 0.028, 0.018)));
     // hind: hip -> stifle -> hock -> foot
     const hp = joint("hip" + side, body, HX, 0.37, -0.17);
     const st = joint("stifle" + side, hp, HX, 0.235, -0.11);
-    const ho = joint("hock" + side, st, HX, 0.095, -0.215);
-    const ft = joint("foot" + side, ho, HX, 0.03, -0.205);
+    const ho = joint("hock" + side, st, HX, lo(0.095), -0.215);
+    const ft = joint("foot" + side, ho, HX, lo(0.03), -0.205);
     fur(hp, limb(HX, [-0.185, 0.42], [-0.115, 0.228], [0.047, 0.027], [0.057, 0.025], [0.03, 0.025], { bulge: 0.1 }));
-    fur(st, limb(HX, [-0.11, 0.244], [-0.216, 0.088], [0.021, 0.017], [0.025, 0.018], [0.021, 0.017]));
-    fur(ho, limb(HX, [-0.214, 0.105], [-0.205, 0.03], [0.016, 0.015], [0.016, 0.015], [0.016, 0.017]));
-    fur(ft, paw(HX, -0.196, 0.026, 0.017));
-    LEGS[side + "F"] = { A: sh, B: el, Cj: wr, P: pw, toe: [0.19, 0] };
-    LEGS[side + "H"] = { A: hp, B: st, Cj: ho, P: ft, toe: [-0.17, 0] };
+    fur(st, short(limb(HX, [-0.11, 0.244], [-0.216, 0.088], [0.021, 0.017], [0.025, 0.018], [0.021, 0.017])));
+    fur(ho, short(limb(HX, [-0.214, 0.105], [-0.205, 0.03], [0.016, 0.015], [0.016, 0.015], [0.016, 0.017])));
+    fur(ft, short(paw(HX, -0.196, 0.026, 0.017)));
+    LEGS[side + "F"] = { A: sh, B: el, Cj: wr, P: pw, toe: [0.19, LEGD] };
+    LEGS[side + "H"] = { A: hp, B: st, Cj: ho, P: ft, toe: [-0.17, LEGD] };
   }
   for (const L of Object.values(LEGS)) {
     L.u1 = [L.B.position.y, L.B.position.z];
@@ -440,11 +451,11 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   const REST_FEET = { LF: [0.19, 0, 0, 0], RF: [0.19, 0, 0, 0], LH: [-0.17, 0, 0, 0], RH: [-0.17, 0, 0, 0] };
   const SPREAD = (deg) => (NT === 1 ? 0 : deg * Math.min(1, 0.45 + 0.55 * (NT - 1) / 8));
   const POSES = {
-    rest: { tailBase: [-12, 0, 0], spread: 72, tail: (u) => [-6 * (1 - Math.abs(u)), 0, 6 * Math.abs(u), 0] },
+    rest: { tailBase: [-12, 0, 0], spread: 64, tail: (u) => [-6 * (1 - Math.abs(u)), 0, 6 * Math.abs(u), 0] },
     // sit: body pitched up 30 about the hips, haunches down, hind paws ahead of the folded hocks, forelegs straight;
     // tails swept back behind the haunches and fanned low
     sit: {
-      body: [-0.13, -42, 0.03], neck: [24, 0, 0], head: [18, 0, 0], tailBase: [26, 0, 0], spread: 80,
+      body: [-0.102, -42, 0.03], neck: [24, 0, 0], head: [18, 0, 0], tailBase: [26, 0, 0], spread: 66,
       tail: (u) => [-4, 0, 10 * Math.abs(u), 0],
       feet: { LF: [0.185, 0, 0, 2], RF: [0.185, 0, 0, 2], LH: [-0.04, 0, 0, -80], RH: [-0.04, 0, 0, -80] },
     },
@@ -487,7 +498,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     for (const k of ["neck", "head", "earL", "earR", "tailBase"]) if (F[k]) joints[k].rotation.set(F[k][0] * D, F[k][1] * D, F[k][2] * D);
     const br = F.breath ?? 0;
     bodyMesh.scale.set(1 + 0.6 * br, 1 + br, 1);
-    const sp = SPREAD(F.spread ?? 72);
+    const sp = SPREAD(F.spread ?? 64);
     TAILS.forEach((T, i) => {
       const r = typeof F.tail === "function" ? F.tail(T.u, i) : F.tail ?? [0, 0, 0, 0];
       T.fan.rotation.set(0, 0, -T.u * sp * D);
@@ -515,7 +526,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
         body: [0.0015 * b, -0.6 * b, 0], breath: 0.012 * b,
         neck: [0.8 * b, 0, 0], head: [-0.5 * b, 8 * syc(1, ph, 0.15), 3 * syc(1, ph, 0.2)],
         earL: [-20 * tw, 0, 10 * tw], earR: [-20 * tw2, 0, -10 * tw2],
-        tailBase: [-12 + 1.5 * b, 0, 0], spread: 72,
+        tailBase: [-12 + 1.5 * b, 0, 0], spread: 64,
         tail: (u, i) => {
           const lag = (i / Math.max(1, NT)) * 0.9;
           return [-6 * (1 - Math.abs(u)) + 3 * syc(2, ph, lag), 7 * syc(2, ph, lag), 6 * Math.abs(u) + 9 * syc(2, ph, lag + 0.1),
@@ -530,7 +541,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
         lift: 0.09 + 0.012 * b, body: [0, -4 + 1.5 * b, 0], breath: 0.01 * w,
         neck: [-4, 0, 0], head: [-6 + 2 * b, 0, 2 * syc(1, ph, 0.2)],
         earL: [-6, 0, 4 * w], earR: [-6, 0, -4 * w],
-        tailBase: [-4 + 2 * b, 0, 0], spread: 100,
+        tailBase: [-4 + 2 * b, 0, 0], spread: 88,
         tail: (u, i) => {
           const lag = Math.abs(u) * 0.25;
           return [-10 + 4 * syc(2, ph, lag), 6 * u * syc(2, ph, lag), 4 + 10 * syc(2, ph, lag + 0.12), 6 * u * syc(2, ph, lag + 0.1)];
@@ -554,7 +565,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
       head: run ? [-6 - 6 * syc(1, ph, 0.25), 0, 0] : [-1.5 - 1.5 * cyc(4, ph, 0.15), 2 * syc(1, ph), 0],
       earL: run ? [-30, 0, -6] : [-3, 0, 0], earR: run ? [-30, 0, 6] : [-3, 0, 0],
       // tails: streaming back and narrower in the run, a trailing wave in both gaits
-      tailBase: run ? [-48 + 4 * cyc(1, ph), 0, 0] : [-22, 0, 0], spread: run ? 46 : 60,
+      tailBase: run ? [-48 + 4 * cyc(1, ph), 0, 0] : [-22, 0, 0], spread: run ? 36 : 50,
       tail: (u, i) => {
         const lag = Math.abs(u) * 0.2;
         return run ? [-6 + 6 * syc(1, ph, lag), 3 * syc(1, ph, lag), -18 + 10 * syc(1, ph, lag + 0.15), 0]
