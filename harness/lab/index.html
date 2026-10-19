@@ -723,7 +723,7 @@
           ? per.map((p) => ({ kind: "view", name: P.views[0], pose: p.name, jpos: p.jpos, fc: P.focus ? p.jpos[P.focus] : null }))
           : [
               ...P.views.map((name) => ({ kind: "view", name, pose: P.pose, jpos: per[0].jpos, fc: P.focus ? per[0].jpos[P.focus] : null })),
-              ...strip.map((pose, i) => ({ kind: "view", name: P.stripView, pose, strip: true, jpos: per[i + 1].jpos, fc: null })),
+              ...strip.map((pose, i) => ({ kind: "view", name: P.stripView, pose, strip: true, jpos: per[i + 1].jpos, fc: P.focus ? per[i + 1].jpos[P.focus] : null })),
             ];
         if (img && P.refMode === "beside") items.splice(P.views.indexOf(P.refView) + 1, 0, { kind: "ref", name: "ref" });
 
