@@ -1,0 +1,151 @@
+{
+  "id": "t-rex",
+  "name": "T-Rex",
+  "category": "dinosaur",
+  "tags": [
+    "animal",
+    "dinosaur",
+    "t-rex",
+    "predator",
+    "prehistoric",
+    "biped"
+  ],
+  "style": "low-poly, flat colours",
+  "height": 5.8,
+  "script": "noon",
+  "colors": {
+    "hide": "#c4452d",
+    "hideShade": "#5c3d32",
+    "belly": "#f2d7ae",
+    "bellyShade": "#c4452d",
+    "mouth": "#f0c2ae",
+    "mouthShade": "#5c3d32",
+    "teeth": "#fff6e4",
+    "teethShade": "#f2d7ae",
+    "eye": "#241c16",
+    "eyeShade": "#5c3d32"
+  },
+  "materials": {
+    "Green": "hide",
+    "LightGreen": "belly",
+    "Red": "mouth",
+    "LightYellow": "teeth",
+    "Black": "eye"
+  },
+  "clips": {
+    "idle": "TRex_Idle",
+    "walk": "TRex_Walk",
+    "run": "TRex_Run",
+    "attack": "TRex_Attack",
+    "jump": "TRex_Jump",
+    "death": "TRex_Death"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Animated LowPoly Dinosaurs",
+    "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 58 named the Quaternius Animated Creatures/Dinosaurs T-Rex on poly.pizza (Cloudflare challenge). This is the same Quaternius dinosaur pack (Dec 2018) from its itch.io page, CC0. Height 5.8 m to the head top in the horizontal rest pose puts the hips at ~3.8 m and the length at 12 m, an adult T. rex."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://quaternius.itch.io/animated-lowpoly-dinosaurs",
+      "upload": "Dinosaur Animated Pack - Dec 2018.zip",
+      "sha256": "d9ca7d3568bd98b323b0be9a82b546af66d77c2a18e355c1bee5c50061b8931c",
+      "bytes": 10849959
+    },
+    "member": "Dinosaur Animated Pack - Dec 2018/FBX/Trex.fbx",
+    "height": 5.8,
+    "memberSha256": "db4ae6f657f32ce2253851c3eeca70602be2572b7f5e7fdda3c4c6e7132dea8c"
+  },
+  "file": "model.glb",
+  "sha256": "0a3b37a05324cb1122ad8c3eb4caefc575eacae779efd55654d163c0160a5b88",
+  "bytes": 193120,
+  "triangles": 1820,
+  "bones": 29,
+  "sourceMaterials": {
+    "Green": "#4d534a",
+    "Black": "#111111",
+    "LightGreen": "#94906f",
+    "Red": "#96434b",
+    "LightYellow": "#cea469"
+  },
+  "clipInfo": {
+    "TRex_Attack": {
+      "seconds": 1.1667,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "TRex_Death": {
+      "seconds": 1.5833,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "TRex_Idle": {
+      "seconds": 2.5,
+      "loop": true
+    },
+    "TRex_Jump": {
+      "seconds": 1.4583,
+      "loop": false
+    },
+    "TRex_Run": {
+      "seconds": 0.9167,
+      "loop": true
+    },
+    "TRex_Walk": {
+      "seconds": 1.375,
+      "loop": true
+    }
+  },
+  "preview": {
+    "clip": "run"
+  },
+  "qa": {
+    "height": 5.7999,
+    "heightError": 0,
+    "minY": 0.0001,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1820,
+    "clips": {
+      "idle": {
+        "minY": -0.0343,
+        "touches": true,
+        "maxSize": 11.97
+      },
+      "walk": {
+        "minY": -0.0133,
+        "touches": true,
+        "maxSize": 11.99
+      },
+      "run": {
+        "minY": -0.0287,
+        "touches": true,
+        "maxSize": 11.97
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 11.71
+      },
+      "jump": {
+        "minY": -0.0391,
+        "touches": true,
+        "maxSize": 11.81
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 11.33
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + run"
+  }
+}
