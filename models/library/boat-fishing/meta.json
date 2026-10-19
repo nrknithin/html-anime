@@ -1,0 +1,96 @@
+{
+  "id": "boat-fishing",
+  "name": "Fishing boat",
+  "category": "vehicle-water",
+  "tags": [
+    "vehicle",
+    "boat",
+    "fishing",
+    "harbour",
+    "sea"
+  ],
+  "style": "low-poly, flat colours (Kenney Watercraft Kit)",
+  "height": 4.2,
+  "script": "noon",
+  "colors": {
+    "hull": "#fff6e4",
+    "hullShade": "#f2d7ae",
+    "trim": "#c4452d",
+    "trimShade": "#5c3d32",
+    "deck": "#5c3d32",
+    "deckShade": "#241c16"
+  },
+  "materials": {
+    "colormap": "hull",
+    "colormap#c6c6db": "hull",
+    "colormap#cbcee2": "hull",
+    "colormap#d7dae9": "hull",
+    "colormap#dfdfeb": "hull",
+    "colormap#c2c2d8": "hull",
+    "colormap#d1d1e2": "hull",
+    "colormap#d3d3e3": "hull",
+    "colormap#617dce": "trim",
+    "colormap#6385d2": "trim",
+    "colormap#6489d4": "trim",
+    "colormap#668fd7": "trim",
+    "colormap#787d95": "deck"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Watercraft Kit",
+    "page": "https://kenney.nl/assets/watercraft-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney boat-fishing-small (GLB with the kit colormap). Small Japanese fishing boat: height 4.2 m keel to mast tops gives a 6.25 m hull, 2.88 m beam (chunky toy proportions, beam on the wide side). y = 0 is the hull bottom; the waterline sits at about y = 0.45 m (the hull knuckle), so a film sinks the boat 0.45 m into its water plane. White hull, red gunwale and wheelhouse roof (the source blue), dark deck. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/watercraft-kit",
+      "sha256": "cd1470c1cf441c7f46d0944ae6d0d897242365dc97677c5079b3238965d659f3",
+      "bytes": 1870991,
+      "resolved": "https://kenney.nl/media/pages/assets/watercraft-kit/a335cfed49-1713519620/kenney_watercraft-pack.zip"
+    },
+    "member": "Models/GLB format/boat-fishing-small.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 4.2,
+    "memberSha256": "f6a03c86e7147764de6aac135433a428ee503d42852ecd101c1795a278480742"
+  },
+  "file": "model.glb",
+  "sha256": "fd033f70b13054ac6f1d079f0a1164a9ae142ce7d379038fef4ca0dd0e35c65e",
+  "bytes": 18316,
+  "triangles": 237,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#c6c6db": "#c6c6db",
+    "colormap#cbcee2": "#cbcee2",
+    "colormap#d7dae9": "#d7dae9",
+    "colormap#dfdfeb": "#dfdfeb",
+    "colormap#c2c2d8": "#c2c2d8",
+    "colormap#d1d1e2": "#d1d1e2",
+    "colormap#d3d3e3": "#d3d3e3",
+    "colormap#617dce": "#617dce",
+    "colormap#6385d2": "#6385d2",
+    "colormap#6489d4": "#6489d4",
+    "colormap#668fd7": "#668fd7",
+    "colormap#787d95": "#787d95"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 4.2,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 237,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
