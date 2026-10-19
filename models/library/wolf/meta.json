@@ -1,0 +1,507 @@
+{
+  "id": "wolf",
+  "name": "Wolf",
+  "category": "mammal",
+  "tags": [
+    "animal",
+    "wolf",
+    "wild",
+    "quadruped",
+    "canine",
+    "predator"
+  ],
+  "style": "low-poly, hand-painted texture flattened to flat colours (CoinCoin 2021)",
+  "height": 0.85,
+  "script": "indigo",
+  "colors": {
+    "coat": "#d5e2ff",
+    "coatShade": "#1b2d6b",
+    "mane": "#1b2d6b",
+    "maneShade": "#16141c",
+    "dark": "#16141c",
+    "darkShade": "#1b2d6b",
+    "teeth": "#f6f3ee",
+    "teethShade": "#e7eefc"
+  },
+  "materials": {
+    "wolf_TEX": "coat",
+    "wolf_TEX#4d5e5a": "coat",
+    "wolf_TEX#333c3c": "coat",
+    "wolf_TEX#44504e": "coat",
+    "wolf_TEX#3a4544": "coat",
+    "wolf_TEX#393e40": "coat",
+    "wolf_TEX#596b67": "coat",
+    "wolf_TEX#687c77": "coat",
+    "wolf_TEX#2f3033": "coat",
+    "wolf_TEX#141418": "mane",
+    "wolf_TEX#8b4a2c": "dark",
+    "wolf_TEX#420e0a": "dark",
+    "wolf_TEX#edb581": "teeth"
+  },
+  "clips": {
+    "idle": "Baked frames____",
+    "run": "Baked frames______",
+    "attack": "Baked frames_",
+    "hit": "Baked frames___",
+    "death": "Baked frames__",
+    "turn": "Baked frames_____",
+    "howl": "Baked frames"
+  },
+  "preview": {
+    "clip": "run"
+  },
+  "source": {
+    "license": "CC-BY-4.0",
+    "author": "CoinCoin",
+    "pack": "CoinCoin · Animated Wolf",
+    "page": "https://opengameart.org/content/animated-wolf",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "note": "Wave-1 row 3 named the Ultimate Animated Animals wolf (poly.pizza, behind a Cloudflare challenge; its Google Drive is quota-blocked). The reachable Quaternius wolf (Animal Pack Vol.2, OpenGameArt, CC0) has only Idle and Walking; this CC-BY wolf has a stronger silhouette and seven clips. Its clips are all named \"Baked frames…\" and were identified by eye. The howl and the crouch-and-pounce attack keep sinkAllowed: their long brush tail passes 16 and 24 cm through the ground while the feet stay planted, and lifting would float the whole wolf."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/low-poly-wolf.zip",
+      "sha256": "6ea91928a630225fdd7dd76a84371d2390fe78be8e07bc410681e7b5e87e79be",
+      "bytes": 3096809,
+      "resolved": "https://opengameart.org/sites/default/files/low-poly-wolf.zip"
+    },
+    "member": "source/loup.fbx",
+    "height": 0.85,
+    "memberSha256": "2743e7cfba22433bc466be6300889b3b9032a542650b51595ba3f480fbb6f939"
+  },
+  "file": "model.glb",
+  "sha256": "8b6afb1af2535d36e394af3db7d7dc4d8fd8fa8531588125fc8d751dcbcbb74c",
+  "bytes": 269972,
+  "triangles": 1334,
+  "bones": 27,
+  "sourceMaterials": {
+    "wolf_TEX": "texture",
+    "wolf_TEX#4d5e5a": "#4d5e5a",
+    "wolf_TEX#333c3c": "#333c3c",
+    "wolf_TEX#44504e": "#44504e",
+    "wolf_TEX#3a4544": "#3a4544",
+    "wolf_TEX#393e40": "#393e40",
+    "wolf_TEX#596b67": "#596b67",
+    "wolf_TEX#687c77": "#687c77",
+    "wolf_TEX#2f3033": "#2f3033",
+    "wolf_TEX#141418": "#141418",
+    "wolf_TEX#8b4a2c": "#8b4a2c",
+    "wolf_TEX#420e0a": "#420e0a",
+    "wolf_TEX#edb581": "#edb581"
+  },
+  "clipInfo": {
+    "Baked frames": {
+      "seconds": 2.6667,
+      "loop": false,
+      "sinkAllowed": "the brush tail sweeps down through the ground while the wolf sits to howl; feet stay planted"
+    },
+    "Baked frames_": {
+      "seconds": 1.8833,
+      "loop": false,
+      "sinkAllowed": "the brush tail hangs through the ground in the pre-pounce crouch; feet stay planted"
+    },
+    "Baked frames__": {
+      "seconds": 0.8667,
+      "loop": false,
+      "lift": [
+        [
+          0,
+          0
+        ],
+        [
+          0.0294,
+          0.012
+        ],
+        [
+          0.0589,
+          0.038
+        ],
+        [
+          0.0883,
+          0.036
+        ],
+        [
+          0.1178,
+          0
+        ],
+        [
+          0.3828,
+          0
+        ],
+        [
+          0.4122,
+          0.003
+        ],
+        [
+          0.4417,
+          0.034
+        ],
+        [
+          0.4711,
+          0.048
+        ],
+        [
+          0.5006,
+          0.056
+        ],
+        [
+          0.53,
+          0.087
+        ],
+        [
+          0.5594,
+          0.112
+        ],
+        [
+          0.5889,
+          0.131
+        ],
+        [
+          0.6183,
+          0.132
+        ],
+        [
+          0.6478,
+          0.118
+        ],
+        [
+          0.6772,
+          0.098
+        ],
+        [
+          0.7067,
+          0.081
+        ],
+        [
+          0.7361,
+          0.072
+        ],
+        [
+          0.7656,
+          0.073
+        ],
+        [
+          0.795,
+          0.051
+        ],
+        [
+          0.8244,
+          0.052
+        ],
+        [
+          0.8539,
+          0.064
+        ]
+      ]
+    },
+    "Baked frames___": {
+      "seconds": 1.2,
+      "loop": false,
+      "lift": [
+        [
+          0.0406,
+          0
+        ],
+        [
+          0.0811,
+          0.006
+        ],
+        [
+          0.1217,
+          0.027
+        ],
+        [
+          0.1622,
+          0.032
+        ],
+        [
+          0.2028,
+          0.034
+        ],
+        [
+          0.2433,
+          0.033
+        ],
+        [
+          0.2839,
+          0.031
+        ],
+        [
+          0.3244,
+          0.028
+        ],
+        [
+          0.365,
+          0.023
+        ],
+        [
+          0.4056,
+          0.017
+        ],
+        [
+          0.4461,
+          0.016
+        ],
+        [
+          0.4867,
+          0.022
+        ],
+        [
+          0.5272,
+          0.024
+        ],
+        [
+          0.5678,
+          0.022
+        ],
+        [
+          0.6083,
+          0.017
+        ],
+        [
+          0.6489,
+          0.008
+        ],
+        [
+          0.6894,
+          0
+        ]
+      ]
+    },
+    "Baked frames____": {
+      "seconds": 1.2833,
+      "loop": true
+    },
+    "Baked frames_____": {
+      "seconds": 0.6167,
+      "loop": false,
+      "lift": [
+        [
+          0,
+          0.018
+        ],
+        [
+          0.0211,
+          0.036
+        ],
+        [
+          0.0422,
+          0.083
+        ],
+        [
+          0.0633,
+          0.019
+        ],
+        [
+          0.0844,
+          0.02
+        ],
+        [
+          0.1056,
+          0.066
+        ],
+        [
+          0.1267,
+          0.121
+        ],
+        [
+          0.1478,
+          0.113
+        ],
+        [
+          0.1689,
+          0.048
+        ],
+        [
+          0.19,
+          0
+        ],
+        [
+          0.2744,
+          0
+        ],
+        [
+          0.2956,
+          0.05
+        ],
+        [
+          0.3167,
+          0.102
+        ],
+        [
+          0.3378,
+          0.108
+        ],
+        [
+          0.3589,
+          0.07
+        ],
+        [
+          0.38,
+          0.024
+        ],
+        [
+          0.4011,
+          0
+        ]
+      ]
+    },
+    "Baked frames______": {
+      "seconds": 0.6,
+      "loop": true,
+      "lift": [
+        [
+          0,
+          0.072
+        ],
+        [
+          0.0206,
+          0.071
+        ],
+        [
+          0.0411,
+          0.068
+        ],
+        [
+          0.0617,
+          0.068
+        ],
+        [
+          0.0822,
+          0.046
+        ],
+        [
+          0.1028,
+          0.007
+        ],
+        [
+          0.1233,
+          0
+        ],
+        [
+          0.2467,
+          0
+        ],
+        [
+          0.2672,
+          0.012
+        ],
+        [
+          0.2878,
+          0.017
+        ],
+        [
+          0.3083,
+          0.009
+        ],
+        [
+          0.3289,
+          0.017
+        ],
+        [
+          0.3494,
+          0.041
+        ],
+        [
+          0.37,
+          0.076
+        ],
+        [
+          0.3906,
+          0.097
+        ],
+        [
+          0.4111,
+          0.093
+        ],
+        [
+          0.4317,
+          0.069
+        ],
+        [
+          0.4522,
+          0.049
+        ],
+        [
+          0.4728,
+          0.056
+        ],
+        [
+          0.4933,
+          0.074
+        ],
+        [
+          0.5139,
+          0.081
+        ],
+        [
+          0.5344,
+          0.076
+        ],
+        [
+          0.555,
+          0.041
+        ],
+        [
+          0.5756,
+          0
+        ],
+        [
+          0.5961,
+          0.002
+        ]
+      ]
+    }
+  },
+  "qa": {
+    "height": 0.85,
+    "heightError": -0.0001,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1334,
+    "clips": {
+      "idle": {
+        "minY": -0.0048,
+        "touches": true,
+        "maxSize": 1.74
+      },
+      "run": {
+        "minY": -0.0097,
+        "touches": true,
+        "maxSize": 2.35
+      },
+      "attack": {
+        "minY": -0.2426,
+        "touches": true,
+        "maxSize": 2.1
+      },
+      "hit": {
+        "minY": -0.0204,
+        "touches": true,
+        "maxSize": 1.69
+      },
+      "death": {
+        "minY": -0.006,
+        "touches": true,
+        "maxSize": 1.89
+      },
+      "turn": {
+        "minY": -0.0193,
+        "touches": true,
+        "maxSize": 1.72
+      },
+      "howl": {
+        "minY": -0.1627,
+        "touches": true,
+        "maxSize": 1.73
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + run"
+  }
+}
