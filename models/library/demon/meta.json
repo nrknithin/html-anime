@@ -1,0 +1,206 @@
+{
+  "id": "demon",
+  "name": "Demon",
+  "category": "creature",
+  "tags": [
+    "creature",
+    "demon",
+    "oni",
+    "yokai",
+    "monster",
+    "cute",
+    "halloween",
+    "japanese"
+  ],
+  "style": "low-poly chibi, painted texture flattened to flat colours (Quaternius 2020)",
+  "height": 0.8,
+  "script": "noon",
+  "colors": {
+    "body": "#c4452d",
+    "bodyShade": "#5c3d32",
+    "dark": "#241c16",
+    "darkShade": "#5c3d32",
+    "horn": "#f6f3ee",
+    "hornShade": "#f2d7ae",
+    "band": "#5c3d32",
+    "bandShade": "#5c3d32",
+    "tongue": "#f0c2ae",
+    "tongueShade": "#5c3d32"
+  },
+  "materials": {
+    "Texture": "horn",
+    "Texture#471717": "body",
+    "Texture#571818": "body",
+    "Texture#671f1f": "body",
+    "Texture#5a1a1a": "body",
+    "Texture#511717": "body",
+    "Texture#601c1c": "body",
+    "Texture#35110c": "body",
+    "Texture#5d1b1b": "body",
+    "Texture#6f2323": "body",
+    "Texture#521313": "body",
+    "Texture#501d1d": "body",
+    "Texture#171514": "dark",
+    "Texture#787057": "horn",
+    "Texture#4b4634": "band",
+    "Texture#3a3627": "band",
+    "Texture#4b0e2f": "tongue"
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "jump": "Jump",
+    "death": "Death",
+    "hit": "HitRecieve",
+    "attack": "Bite_Front",
+    "dance": "Dance"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Textured Cute Monster Pack (Aug 2020)",
+    "page": "https://opengameart.org/content/textured-cute-monster-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 105 named Quaternius's \"Demon\" from poly.pizza (8 clips incl. Punch, Run, Jump_Idle); poly.pizza is behind a Cloudflare challenge and Quaternius's Google Drive is quota-blocked, so that version is unreachable. This is the Demon from the same author's Textured Cute Monster Pack (Aug 2020) on OpenGameArt: same character family, ten ground clips, no run or punch (Bite_Front is the attack). The pack has two demons; both were rendered and the red Demon was chosen over the GreenDemon: red skin, fangs in an open mouth, striped horns and bat ears read as an oni, while the green one is a plain bull-horned blob with a worried face. Its .blend expects Demon_Texture.png beside itself; the pipeline relinks it from the zip's Textures folder. The painted texture is flattened to 16 clusters: the eleven reds (skin, mouth cavity, nose, chin tuft, cheek patches) -> body; the near-black cluster (eye discs, brows, ear insides) -> dark; the cream cluster (horns, fangs and the eye catchlights, which fall in it) and the untextured #e7e7e7 -> horn; the two olive-brown horn stripes -> band; the plum cluster (tongue) -> tongue. dark has threshold -0.6 so the eyes stay mostly solid. Ground: like the ghost it is a head-shaped body on a flat base, no legs; Walk and Jump hop off the ground by design (up to 16 and 28 cm), and only Death sinks (2.9 cm as it tips over), so Death clamps to the ground. Height 0.8 m is a chibi choice: an oni has no real size at this scale, and 0.8 m puts the big-headed imp at a child's height, matching the pack's ghost so the two stand together."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/cute_animated_monsters_-_aug_2020.zip",
+      "sha256": "844824c04936a9af954ee82011f98ad8c14ba291a20a0dd0b83c172764ba0eb2",
+      "bytes": 10181866,
+      "resolved": "https://opengameart.org/sites/default/files/cute_animated_monsters_-_aug_2020.zip"
+    },
+    "member": "Cute Animated Monsters - Aug 2020/Blends/Demon.blend",
+    "extraMembers": [
+      "Cute Animated Monsters - Aug 2020/Textures/Demon_Texture.png"
+    ],
+    "height": 0.8,
+    "maxColors": 16,
+    "memberSha256": "850da6e2dd5ef023ecca867184aa302bfffbe9a113ee97c6c367aa9ce8613bab"
+  },
+  "file": "model.glb",
+  "sha256": "ebab2324a2bbcea60381b3677639f16f3b48a7ddde4fc283813b129d2bbe3522",
+  "bytes": 91080,
+  "triangles": 1640,
+  "bones": 7,
+  "sourceMaterials": {
+    "Texture": "#e7e7e7",
+    "Texture#471717": "#471717",
+    "Texture#571818": "#571818",
+    "Texture#671f1f": "#671f1f",
+    "Texture#5a1a1a": "#5a1a1a",
+    "Texture#511717": "#511717",
+    "Texture#601c1c": "#601c1c",
+    "Texture#35110c": "#35110c",
+    "Texture#5d1b1b": "#5d1b1b",
+    "Texture#6f2323": "#6f2323",
+    "Texture#521313": "#521313",
+    "Texture#501d1d": "#501d1d",
+    "Texture#171514": "#171514",
+    "Texture#787057": "#787057",
+    "Texture#4b4634": "#4b4634",
+    "Texture#3a3627": "#3a3627",
+    "Texture#4b0e2f": "#4b0e2f"
+  },
+  "clipInfo": {
+    "Bite_Front": {
+      "seconds": 0.5,
+      "loop": false
+    },
+    "Bite_InPlace": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Dance": {
+      "seconds": 0.8333,
+      "loop": true
+    },
+    "Death": {
+      "seconds": 0.4583,
+      "loop": false,
+      "ground": "clamp"
+    },
+    "HitRecieve": {
+      "seconds": 0.375,
+      "loop": false
+    },
+    "Idle": {
+      "seconds": 2.5,
+      "loop": true
+    },
+    "Jump": {
+      "seconds": 0.5417,
+      "loop": false
+    },
+    "No": {
+      "seconds": 0.5,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 0.5417,
+      "loop": true
+    },
+    "Yes": {
+      "seconds": 0.5,
+      "loop": true
+    }
+  },
+  "thresholds": {
+    "dark": -0.6,
+    "tongue": -0.2
+  },
+  "preview": {
+    "clip": "walk"
+  },
+  "qa": {
+    "height": 0.8,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 1640,
+    "clips": {
+      "idle": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.97
+      },
+      "walk": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.97
+      },
+      "jump": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.97
+      },
+      "death": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.97
+      },
+      "hit": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.97
+      },
+      "attack": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.97
+      },
+      "dance": {
+        "minY": 0,
+        "touches": true,
+        "maxSize": 0.97
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "rest + walk"
+  }
+}
