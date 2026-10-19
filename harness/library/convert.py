@@ -41,6 +41,8 @@ def parse():
     p.add_argument("--drop", default="", help="comma list of object names to delete (cameras and lights always go)")
     p.add_argument("--keep-actions", default="", help="comma list: export only these actions (default all)")
     p.add_argument("--drop-materials", default="", help="comma list: delete every face using these materials (a hat on the body mesh)")
+    p.add_argument("--legacy-image", default="", help="old .blend with several colour images: the one its faces use")
+    p.add_argument("--center-on", default="", help="comma-separated mesh object names whose rest bbox sets the x/z centre (the body, not a long weapon held out)")
     p.add_argument("--drop-backfaces", action="store_true", help="delete the inward copy of each triangle a source ships twice, back to back (double-sided kit models)")
     p.add_argument("--search", default="", help="folder searched by file name for images the source cannot find (a .blend expecting its texture beside it)")
     p.add_argument("--max-colors", type=int, default=12, help="textured materials: at most this many flat colours per material")
@@ -72,10 +74,14 @@ def material_color(mat):
     return hexof(mat.diffuse_color)
 
 
+LEGACY_IMAGE = ""  # --legacy-image: the image to use when an old file has several candidates
+
+
 def legacy_image():
     """The one colour image of an old Blender Internal file, or None. Those materials have no nodes and Blender 2.8+
-    drops their texture slots, but the image textures survive in bpy.data.textures. Used only when exactly one loaded
-    image is left after leaving out normal maps, so a guess never picks between two candidates."""
+    drops their texture slots, but the image textures survive in bpy.data.textures (or, older still, only as an image
+    the faces used). Used only when exactly one loaded image is left after leaving out normal maps, so a guess never
+    picks between two candidates."""
     found = set()
     for t in bpy.data.textures:
         img = getattr(t, "image", None)
@@ -84,6 +90,17 @@ def legacy_image():
         if getattr(t, "use_normal_map", False) or "norm" in (t.name + img.name + img.filepath).lower():
             continue
         found.add(img.name)
+    if not found:
+        # Older still: the image was assigned straight to the UV faces (no texture datablock), a link Blender 4.2
+        # drops; the image itself survives, packed or beside the file.
+        for img in bpy.data.images:
+            if img.users and img.size[0] and img.type == "IMAGE" and "norm" not in (img.name + img.filepath).lower():
+                found.add(img.name)
+    if LEGACY_IMAGE:
+        img = bpy.data.images.get(LEGACY_IMAGE)
+        if img is None:
+            raise SystemExit(f"convert: --legacy-image {LEGACY_IMAGE!r} not found (images: {', '.join(i.name for i in bpy.data.images)})")
+        return img
     return bpy.data.images[found.pop()] if len(found) == 1 else None
 
 
@@ -298,6 +315,10 @@ def load(src):
     low = src.lower()
     if low.endswith(".blend"):
         bpy.ops.wm.open_mainfile(filepath=src, load_ui=False, use_scripts=False)
+        # A file saved in edit mode keeps that mesh's real data in its edit copy: the mesh reads as stale or empty
+        # (a UV layer with no entries) and exports wrong until the object is back in object mode.
+        if bpy.context.object and bpy.context.object.mode != "OBJECT":
+            bpy.ops.object.mode_set(mode="OBJECT")
         return
     bpy.ops.wm.read_factory_settings(use_empty=True)
     if low.endswith(".fbx"):
@@ -310,21 +331,33 @@ def load(src):
         raise SystemExit(f"convert: unknown source type {src}")
 
 
+IMAGE_EXTS = (".png", ".jpg", ".jpeg", ".tga", ".bmp", ".tif", ".tiff", ".webp")
+
+
 def relink_images(root):
-    """Point every image whose file is missing at the file of the same name under root (the unpacked pack)."""
+    """Point every image whose file is missing at the file of the same name under root (the unpacked pack). When no
+    file has that name, an image with the same stem and another image extension stands in (a .blend that points at
+    chinese_cart-01.jpg while the pack ships chinese_cart-01.png), as long as only one such file exists."""
     if not root:
         return
     found = {}
+    stems = {}
     for d, _, files in os.walk(root):
         for f in files:
             found.setdefault(f.lower(), os.path.join(d, f))
+            stem, ext = os.path.splitext(f.lower())
+            if ext in IMAGE_EXTS:
+                stems.setdefault(stem, []).append(os.path.join(d, f))
     for img in bpy.data.images:
         if img.source != "FILE" or img.packed_file:
             continue
         cur = bpy.path.abspath(img.filepath)
         if cur and os.path.isfile(cur):
             continue
-        hit = found.get(bpy.path.basename(img.filepath.replace("\\", "/")).lower())
+        name = bpy.path.basename(img.filepath.replace("\\", "/")).lower()
+        hit = found.get(name)
+        if not hit and len(stems.get(os.path.splitext(name)[0], [])) == 1:
+            hit = stems[os.path.splitext(name)[0]][0]
         if hit:
             img.filepath = hit
             img.reload()
@@ -525,6 +558,8 @@ def mesh_points(objs):
 
 def main():
     a = parse()
+    global LEGACY_IMAGE
+    LEGACY_IMAGE = a.legacy_image
     load(a.src)
     relink_images(a.search)
     scene = bpy.context.scene
@@ -589,9 +624,20 @@ def main():
     hi = Vector((max(p.x for p in pts), max(p.y for p in pts), max(p.z for p in pts)))
     h = hi.z - lo.z
     s = a.height / h if a.height > 0 else 1.0
+    # The centre comes from the whole bbox, or from the --center-on objects only (a halberd held forward would
+    # otherwise push the body off the origin).
+    clo, chi = lo, hi
+    names = [n for n in a.center_on.split(",") if n]
+    if names:
+        missing = [n for n in names if n not in {o.name for o in objs}]
+        if missing:
+            raise SystemExit(f"convert: --center-on: no mesh object named {', '.join(missing)} (meshes: {', '.join(sorted(o.name for o in objs))})")
+        cp = mesh_points([o for o in objs if o.name in names])
+        clo = Vector((min(p.x for p in cp), min(p.y for p in cp), 0))
+        chi = Vector((max(p.x for p in cp), max(p.y for p in cp), 0))
     # Scale about the world origin, then move the scaled bbox: centre x/y to 0, bottom to z = 0.
     root.scale = (s, s, s)
-    root.location = (-(lo.x + hi.x) / 2 * s, -(lo.y + hi.y) / 2 * s, -lo.z * s)
+    root.location = (-(clo.x + chi.x) / 2 * s, -(clo.y + chi.y) / 2 * s, -lo.z * s)
     bpy.context.view_layer.update()
     pts = mesh_points(objs)
     lo = Vector((min(p.x for p in pts), min(p.y for p in pts), min(p.z for p in pts)))
