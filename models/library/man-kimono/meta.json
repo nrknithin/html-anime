@@ -1,0 +1,171 @@
+{
+  "id": "man-kimono",
+  "name": "Man in kimono",
+  "category": "character",
+  "tags": [
+    "human",
+    "man",
+    "kimono",
+    "japanese",
+    "traditional",
+    "townsfolk",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019)",
+  "height": 1.75,
+  "script": "indigo",
+  "colors": {
+    "kimono": "#1b2d6b",
+    "kimonoShade": "#16141c",
+    "obi": "#f0c36a",
+    "obiShade": "#e23b4a",
+    "skin": "#f0c2ae",
+    "skinShade": "#e7a04a",
+    "eye": "#16141c",
+    "eyeShade": "#16141c"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Clothes": "kimono",
+    "Band": "obi",
+    "Face": "eye"
+  },
+  "thresholds": {
+    "skin": -0.2,
+    "kimono": -0.2
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Not a numbered wave-1 row: added for the plan's Japanese setting (traditional dress) and as a stand-in toward the samurai gap (row 100, gap-samurai). Kimono_Male from the Quaternius Ultimate Animated Character Pack (Nov 2019) on OpenGameArt, the same CC0 zip, rig, scale and clips as man-casual and man-suit (idle, walk, punch, hit, sit and six more; no run, jump or death clip). The outfit is a fitted, belted jacket and trousers with a hachimaki headband (closer to a martial-arts gi than to a full kimono: no wide sleeves, no hakama, no topknot, no sword), recoloured as an indigo kimono with an ochre obi and headband. Height 1.75 m like man-casual: the chibi proportions (big head) are the artist's, the overall size is a grown man's. The pack also has a Kimono_Female (shipped separately as woman-kimono)."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Kimono_Male.fbx",
+    "height": 1.75,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "b867a7d59fafd4270c7a6bef4a49ce867c4abfdb4423e6c9a4dfd3366234d8b6"
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "file": "model.glb",
+  "sha256": "28d246320f41298598bd330ff583a706434e72b22ead5be8285d0bca05f908ea",
+  "bytes": 220004,
+  "triangles": 2540,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#1f1f1f",
+    "Clothes": "#c5c5c5",
+    "Band": "#853528",
+    "Face": "#fffff8"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5417,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.2083,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.7917,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5833,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 1,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.3333,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.9167,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.2917,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.2917,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.75,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2540,
+    "clips": {
+      "idle": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.72
+      },
+      "walk": {
+        "minY": -0.0014,
+        "touches": true,
+        "maxSize": 1.73
+      },
+      "attack": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.71
+      },
+      "hit": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.71
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.71
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}

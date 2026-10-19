@@ -1,0 +1,100 @@
+{
+  "id": "onigiri",
+  "name": "Onigiri (rice ball)",
+  "category": "food",
+  "tags": [
+    "food",
+    "onigiri",
+    "rice ball",
+    "nori",
+    "japan",
+    "bento",
+    "prop",
+    "static"
+  ],
+  "style": "low-poly, colour-map texture flattened to flat colours; Kenney's rice ball is taller than wide, so at 0.085 m tall it is 0.075 m wide and 0.053 m thick",
+  "height": 0.085,
+  "script": "noon",
+  "colors": {
+    "rice": "#fffaf2",
+    "riceShade": "#f2d7ae",
+    "nori": "#241c16",
+    "noriShade": "#241c16"
+  },
+  "materials": {
+    "colormap": "rice",
+    "colormap#483835": "nori",
+    "colormap#4e3e3a": "nori",
+    "colormap#3e2e2d": "nori",
+    "colormap#dadae8": "rice",
+    "colormap#cdcde0": "rice",
+    "colormap#d5d5e4": "rice",
+    "colormap#dfdfeb": "rice",
+    "colormap#c5c5da": "rice",
+    "colormap#ebebf2": "rice",
+    "colormap#f4f4f8": "rice",
+    "colormap#e5e5ee": "rice",
+    "colormap#c1c1d8": "rice"
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Food Kit",
+    "page": "https://kenney.nl/assets/food-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 row 189 named a Quaternius static model on poly.pizza (Cloudflare challenge, off limits); Quaternius's Ultimate Food Pack on OpenGameArt has nigiri, sushi rolls and sashimi but no onigiri. Kenney Food Kit `rice-ball` is the onigiri: a rounded white rice triangle with a nori strip wrapped up both faces and under the base. Turned 90 degrees so a triangle face points +Z. Colours (noon): rice in practical with a sky shade; the nori is one flat tone (hair) and drawn without its own ink hull, since a sheet that thin made its hull show through as a diagonal split; the rice's outline still closes the silhouette. Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/food-kit",
+      "sha256": "cdad90853682499b94c9fda2f87678b24bfd8f3264e0ed323f6b6a27fd7c6f6f",
+      "bytes": 4606270
+    },
+    "member": "Models/GLB format/rice-ball.glb",
+    "extraMembers": [
+      "Models/GLB format/Textures/colormap.png"
+    ],
+    "height": 0.085,
+    "yaw": 90,
+    "memberSha256": "1c68253d36c0705da38a63226521be1f949bd9ce4b7ff8f8529878cd0aae6e08"
+  },
+  "file": "model.glb",
+  "sha256": "0fd99399ae7fbf30e6aed056453035b22a01b8e18f74a37db2b96a0ee61f1a0b",
+  "bytes": 16180,
+  "triangles": 104,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#483835": "#483835",
+    "colormap#4e3e3a": "#4e3e3a",
+    "colormap#3e2e2d": "#3e2e2d",
+    "colormap#dadae8": "#dadae8",
+    "colormap#cdcde0": "#cdcde0",
+    "colormap#d5d5e4": "#d5d5e4",
+    "colormap#dfdfeb": "#dfdfeb",
+    "colormap#c5c5da": "#c5c5da",
+    "colormap#ebebf2": "#ebebf2",
+    "colormap#f4f4f8": "#f4f4f8",
+    "colormap#e5e5ee": "#e5e5ee",
+    "colormap#c1c1d8": "#c1c1d8"
+  },
+  "clipInfo": {},
+  "noInk": [
+    "nori"
+  ],
+  "qa": {
+    "height": 0.085,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 104,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
