@@ -1,0 +1,96 @@
+{
+  "id": "car-sedan",
+  "name": "Sedan",
+  "category": "vehicle",
+  "tags": [
+    "vehicle",
+    "car",
+    "sedan",
+    "street",
+    "saloon"
+  ],
+  "style": "low-poly, flat colours (Kenney Car Kit)",
+  "height": 1.45,
+  "script": "noon",
+  "colors": {
+    "body": "#c4452d",
+    "bodyShade": "#5c3d32",
+    "lower": "#2c261f",
+    "lowerShade": "#241c16",
+    "glass": "#5c3d32",
+    "glassShade": "#241c16",
+    "lamp": "#fffaf2",
+    "lampShade": "#f2d7ae",
+    "tyre": "#241c16",
+    "tyreShade": "#2c261f",
+    "rim": "#f6f3ee",
+    "rimShade": "#f2d7ae"
+  },
+  "materials": {
+    "colormap": "body",
+    "colormap#404047": "tyre",
+    "colormap#38383d": "tyre",
+    "colormap#8d94b1": "rim",
+    "colormap#e4f0fc": "glass",
+    "colormap#696a7f": "lower",
+    "colormap#e76047": "body",
+    "colormap#e25b48": "body",
+    "colormap#f66843": "body",
+    "colormap#ffd431": "lamp"
+  },
+  "smooth": false,
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Car Kit",
+    "page": "https://kenney.nl/assets/car-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Kenney sedan (FBX, like car-sports-sedan from the same kit, so the two read as one set). Everyday sedan height 1.45 m; stylized proportions: at that height it is 2.84 m long and 1.67 m wide. Body in the accent red (the sports sedan is white) so a street scene can use both. Wheels are separate nodes in the source; static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/car-kit",
+      "sha256": "fac7dacac5c7874348cf19729af3ef205f3d366493edaf0a827d93f4fdf3d0c4",
+      "bytes": 4814237
+    },
+    "member": "Models/FBX format/sedan.fbx",
+    "extraMembers": [
+      "Models/FBX format/Textures/colormap.png"
+    ],
+    "height": 1.45,
+    "maxColors": 9,
+    "memberSha256": "0affa82e6b09440844b2d69dfccfa1ec962e5915b08c2740efe9abe3964ac579"
+  },
+  "file": "model.glb",
+  "sha256": "94d0731f294a90ad9a4f142a8874f9048da3d3973468e8664107a634b944318c",
+  "bytes": 30184,
+  "triangles": 2032,
+  "bones": 0,
+  "sourceMaterials": {
+    "colormap": "texture",
+    "colormap#404047": "#404047",
+    "colormap#38383d": "#38383d",
+    "colormap#8d94b1": "#8d94b1",
+    "colormap#e4f0fc": "#e4f0fc",
+    "colormap#696a7f": "#696a7f",
+    "colormap#e76047": "#e76047",
+    "colormap#e25b48": "#e25b48",
+    "colormap#f66843": "#f66843",
+    "colormap#ffd431": "#ffd431"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 1.45,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 2032,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
