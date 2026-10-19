@@ -4,9 +4,9 @@
 // Construction (all procedural, deterministic from { count, seed }; one seeded mulberry32, never Math.random):
 //   CULM    one smooth loft per culm: a 6-sided ring at the ground, at every node and at the tip, around a gently
 //           leaning, bowing centreline; the radius tapers to ~32 % at the top and the tip closes in a short cone.
-//           Ink 3 px (not 5): at hero size a culm is ~6 px wide and a 5 px hull would swallow the light fill.
-//   NODES   a short open band (6 sides, 16 % proud of the culm, 4 cm tall) at every node, flat hair, no hull: the
-//           dark rings that make a light pole read as bamboo. Internodes 0.30-0.40 m (shorter near the ground).
+//           Ink 3 px (not 5): at hero size a culm is ~6 px wide and a 5 px hull would swallow the pale fill.
+//   NODES   a short open band (6 sides, 16 % proud of the culm, 4 cm tall) at every node, flat iris, no hull: the
+//           dark rings that make a pale pole read as bamboo. Internodes 0.30-0.40 m (shorter near the ground).
 //   TWIGS   from the nodes of the upper ~40 % of each culm, alternating sides node to node (as real bamboo does),
 //           a thin 3-sided twig rising 25-42 deg, pulled toward the outside of the clump, carrying feathery fans of
 //           narrow lanceolate leaves (each leaf a thin closed solid with a midrib ridge, 6 tris, inked at 2 px): a
@@ -26,20 +26,19 @@
 //   rewritten in place (positions only; hull normals stay from rest). pose("rest") is still air;
 //   pose("sway-1..4") = sway(0, 0.25, 0.5, 0.75). A film calls pose("rest") once, then sway((t / period) % 1) per
 //   frame (period ~3-4 s).
-// Colours (meadow): green bamboo.
-//   culm line #a9d16e / iris #3f8a47 at threshold -0.4 (a light green pole; only the far -X edge goes mid green);
-//   node bands flat hair #2c5131 (the dark rings against the light culm);
-//   twigs and leaves iris #3f8a47 / hair #2c5131 at threshold 0.35 (mid green fans, deep green on the shaded side).
-//   Every shade is lighter than ink #1c261b and distinct from the fill next to it.
+// Colours (noon; none of the four scripts has a green): a pale golden-dry bamboo in the paper-noon ink-wash manner.
+//   culm sky #f2d7ae / iris #5c3d32 at threshold -0.4 (a pale pole; only the far -X edge goes dark);
+//   node bands, twigs and leaves flat iris #5c3d32 (lighter than ink #2c261f, distinct from the pale culm base).
+//   Same script as the torii and the library bamboo, so they share a shrine-edge scene.
 
 export const meta = {
   name: "bamboo-grove",
   height: 9.0,
-  script: "meadow",
+  script: "noon",
   colors: {
-    culm: "#a9d16e", culmShade: "#3f8a47",
-    node: "#2c5131",
-    leaf: "#3f8a47", leafShade: "#2c5131",
+    culm: "#f2d7ae", culmShade: "#5c3d32",
+    node: "#5c3d32",
+    leaf: "#5c3d32", leafShade: "#5c3d32",
   },
   poses: ["rest", "sway-1", "sway-2", "sway-3", "sway-4"],
 };
@@ -88,7 +87,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     return g;
   }
 
-  // Triangle soup: each triangle faces away from its own interior point (flat normals).
+  // Triangle soup: each triangle faces away from its own interior point (flat normals; the leaves are flat iris).
   function soup(tris) {
     const out = [];
     for (const [a, b, e, inside] of tris) {
@@ -205,7 +204,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     culm.name = `culm${i}Pole`;
     g.add(culm);
 
-    // node bands: open short tubes, flat hair, double-sided, no hull
+    // node bands: open short tubes, flat iris, double-sided, no hull
     const bp = [], bi = [];
     for (const y of nodes) {
       const p = centre(y), r = radius(y) * 1.16, o = bp.length / 3;
