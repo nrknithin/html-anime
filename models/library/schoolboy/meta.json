@@ -1,0 +1,185 @@
+{
+  "id": "schoolboy",
+  "name": "Schoolboy (blazer uniform)",
+  "category": "character",
+  "tags": [
+    "human",
+    "boy",
+    "student",
+    "school",
+    "uniform",
+    "blazer",
+    "teen",
+    "anime",
+    "chibi"
+  ],
+  "style": "low-poly, flat colours, chibi big-head proportions (Quaternius 2019); recoloured as a dark school blazer uniform",
+  "height": 1.68,
+  "script": "indigo",
+  "colors": {
+    "uniform": "#16141c",
+    "uniformShade": "#1b2d6b",
+    "shirt": "#e7eefc",
+    "shirtShade": "#d5e2ff",
+    "tie": "#e23b4a",
+    "tieShade": "#16141c",
+    "skin": "#f0c2ae",
+    "skinShade": "#e7a04a",
+    "hair": "#1b2d6b",
+    "hairShade": "#16141c",
+    "belt": "#16141c",
+    "beltShade": "#1b2d6b",
+    "eye": "#16141c",
+    "eyeShade": "#16141c"
+  },
+  "materials": {
+    "Skin": "skin",
+    "Black": "uniform",
+    "Belt": "belt",
+    "Shirt": "shirt",
+    "Details": "tie",
+    "Face": "eye",
+    "Hair": "hair"
+  },
+  "thresholds": {
+    "skin": -0.2,
+    "tie": -0.6
+  },
+  "clips": {
+    "idle": "Idle",
+    "walk": "Walk",
+    "attack": "Punch",
+    "hit": "RecieveHit",
+    "sit": "SitDown"
+  },
+  "source": {
+    "license": "CC0",
+    "author": "Quaternius",
+    "pack": "Quaternius · Ultimate Animated Character Pack (Nov 2019)",
+    "page": "https://opengameart.org/content/animated-characters-pack",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Wave-1 P1 #88 (gap-schoolboy) had no source; PLAN.md suggests outfitting/recolouring an existing character. This is a recolour of the man-suit entry: the same Suit_Male from the Quaternius Ultimate Animated Character Pack (Nov 2019, CC0, OpenGameArt), same fetch, member and pins; only roles, colours, name, tags and height differ. Suit_Male was picked over man-casual, worker and Kenney mini-male-a/b/c because its materials already separate jacket+trousers (Black), shirt, tie+buckle (Details), belt, hair, skin and eyes, so a blazer + white shirt + tie + dark trousers uniform comes from role mapping alone (the minis bake one texture into T-shirt colours with no collar or tie; the casual and worker outfits have no jacket). Jacket and trousers share one material, so a gakuran's gold buttons or grey trousers are not possible without editing the mesh. Height 1.68 m for a teenager; the big head is the artist's chibi proportion."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "zip",
+      "url": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip",
+      "sha256": "0295062cbc72da52ee804f39ac38694901a40458011f9b2638fc7ef13ed509da",
+      "bytes": 48430012,
+      "resolved": "https://opengameart.org/sites/default/files/ultimate_animated_character_pack_by_quaternius.zip"
+    },
+    "member": "Ultimate Animated Character Pack - Nov 2019/FBX/Suit_Male.fbx",
+    "height": 1.68,
+    "yaw": 0,
+    "drop": [],
+    "keepActions": [],
+    "memberSha256": "f1c7112a59d035a4b54339961e1225e03fc3968b09788b480bd42f618d0519e6"
+  },
+  "noInk": [
+    "eye"
+  ],
+  "preview": {
+    "pose": "idle@0",
+    "clip": "walk"
+  },
+  "file": "model.glb",
+  "sha256": "6d7764f0da699e8790fd98e4bd8df15e28273772d4498efa4ec286af3208ceee",
+  "bytes": 258796,
+  "triangles": 6518,
+  "bones": 23,
+  "sourceMaterials": {
+    "Skin": "#1f1f1f",
+    "Black": "#111111",
+    "Belt": "#121525",
+    "Shirt": "#cecece",
+    "Details": "#474747",
+    "Face": "#fffff8",
+    "Hair": "#8a6d40"
+  },
+  "clipInfo": {
+    "Defeat": {
+      "seconds": 2.5417,
+      "loop": true
+    },
+    "Idle": {
+      "seconds": 4.2083,
+      "loop": true
+    },
+    "PickUp": {
+      "seconds": 1.2917,
+      "loop": false
+    },
+    "Punch": {
+      "seconds": 0.7917,
+      "loop": true
+    },
+    "RecieveHit": {
+      "seconds": 0.6667,
+      "loop": false
+    },
+    "Shoot_OneHanded": {
+      "seconds": 0.5833,
+      "loop": true
+    },
+    "SitDown": {
+      "seconds": 1,
+      "loop": false
+    },
+    "StandUp": {
+      "seconds": 1.3333,
+      "loop": false
+    },
+    "Victory": {
+      "seconds": 1.9167,
+      "loop": true
+    },
+    "Walk": {
+      "seconds": 1.2917,
+      "loop": true
+    },
+    "Walk_Carry": {
+      "seconds": 1.2917,
+      "loop": true
+    }
+  },
+  "qa": {
+    "height": 1.68,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 6518,
+    "clips": {
+      "idle": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.68
+      },
+      "walk": {
+        "minY": -0.0013,
+        "touches": true,
+        "maxSize": 1.67
+      },
+      "attack": {
+        "minY": -0.0008,
+        "touches": true,
+        "maxSize": 1.59
+      },
+      "hit": {
+        "minY": -0.0004,
+        "touches": true,
+        "maxSize": 1.66
+      },
+      "sit": {
+        "minY": -0.0005,
+        "touches": true,
+        "maxSize": 1.64
+      }
+    },
+    "palette": 1,
+    "deterministic": true,
+    "preview": "idle@0 + walk"
+  }
+}
