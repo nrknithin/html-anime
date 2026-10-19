@@ -1,0 +1,102 @@
+{
+  "id": "umbrella",
+  "name": "Umbrella",
+  "category": "prop",
+  "tags": [
+    "prop",
+    "umbrella",
+    "rain",
+    "weather",
+    "held",
+    "static"
+  ],
+  "style": "low-poly, flat colours (KayKit)",
+  "height": 0.9,
+  "script": "indigo",
+  "colors": {
+    "canopy": "#e23b4a",
+    "canopyShade": "#1b2d6b",
+    "wood": "#e7a04a",
+    "woodShade": "#1b2d6b",
+    "shaft": "#d5e2ff",
+    "shaftShade": "#1b2d6b"
+  },
+  "materials": {
+    "KayKit_Texture_A": "canopy",
+    "KayKit_Texture_A#7c5948": "wood",
+    "KayKit_Texture_A#c1af99": "shaft",
+    "KayKit_Texture_A#ff5c91": "canopy",
+    "KayKit_Texture_A#ff70a2": "canopy",
+    "KayKit_Texture_A#ff6fa2": "canopy",
+    "KayKit_Texture_A#ff6da0": "canopy",
+    "KayKit_Texture_A#ff6a9d": "canopy",
+    "KayKit_Texture_A#ff75a7": "canopy",
+    "KayKit_Texture_A#ff6699": "canopy",
+    "KayKit_Texture_A#ff6397": "canopy",
+    "KayKit_Texture_A#ff7dae": "canopy",
+    "KayKit_Texture_A#ff84b4": "canopy"
+  },
+  "thresholds": {
+    "canopy": 0.1
+  },
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kay Lousberg (KayKit)",
+    "pack": "KayKit · Mixed Bag 1 (free)",
+    "page": "https://kaylousberg.itch.io/mixed-bag-1",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "Plan row gap-umbrella said no source had an umbrella (procedural). KayKit Mixed Bag 1 (Sept 2026) has one: umbrella_pink.gltf from the free tier on itch.io (License.txt in the zip: CC0 1.0, credit optional). The pack ships one umbrella shape in four colours (pink, blue, green, yellow); pink was taken because it maps straight onto the script's red accent, the classic anime rain umbrella. It is OPEN: an eight-panel scalloped dome with a top ferrule, a straight shaft and a J-hook handle; the canopy is modelled with an inner surface, so it is not doubleSided. Rest pose: upright, canopy up, the bottom of the hook on y = 0, shaft on the y axis. Height 0.9 m is the whole umbrella, hook to ferrule (a real full-size umbrella is 0.85 to 0.95 m long); KayKit's dome is deeper and its shaft shorter than a real one, so the canopy is 0.86 m across X (0.81 m flat-to-flat along Z) where a real one is about 1.0 m; scale 1.15 for a full-size canopy. Canopy rim at about y 0.48 m, shaft meets canopy at about y 0.52 m. The hook curls toward +X in the XY plane, its tip at about x 0.18 m, y 0.16 m. Grip: the straight wooden handle just above the hook, y 0.11 to 0.21 m on the shaft axis (hold at about y 0.17 m). To put it in a hand: parent to the hand, offset by -0.17 m along the umbrella's Y, then rotate so Y runs along the fist's thumb direction (canopy above the head). Colours on indigo: canopy accent red, handle iris amber, shaft and ferrule moon pale steel, all shading to sky; canopy shade threshold 0.1 (default 0.35 shaded half the dome). Static: no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "itch",
+      "page": "https://kaylousberg.itch.io/mixed-bag-1",
+      "upload": "Free",
+      "sha256": "65d0ff7cfe128b78d26b98f2e4797b7bd7c6371885455faed52c15d9d2c3ec60",
+      "bytes": 5692996
+    },
+    "member": "KayKit_Mixed_Bag_1_FREE/Assets/gltf/umbrella_pink.gltf",
+    "extraMembers": [
+      "KayKit_Mixed_Bag_1_FREE/Assets/gltf/umbrella_pink.bin",
+      "KayKit_Mixed_Bag_1_FREE/Assets/gltf/kaykit_texture_A.png"
+    ],
+    "height": 0.9,
+    "yaw": 0,
+    "memberSha256": "c42539bd2ee8f61296ddae2cb153c8d02354d0221e3f9e74a1df1d138c5a0dda"
+  },
+  "file": "model.glb",
+  "sha256": "d9438f1272ff493d84a2c0b8306f6650b92d9ad2fe4289855bceea21f68ea23a",
+  "bytes": 24464,
+  "triangles": 904,
+  "bones": 0,
+  "sourceMaterials": {
+    "KayKit_Texture_A": "texture",
+    "KayKit_Texture_A#7c5948": "#7c5948",
+    "KayKit_Texture_A#c1af99": "#c1af99",
+    "KayKit_Texture_A#ff5c91": "#ff5c91",
+    "KayKit_Texture_A#ff70a2": "#ff70a2",
+    "KayKit_Texture_A#ff6fa2": "#ff6fa2",
+    "KayKit_Texture_A#ff6da0": "#ff6da0",
+    "KayKit_Texture_A#ff6a9d": "#ff6a9d",
+    "KayKit_Texture_A#ff75a7": "#ff75a7",
+    "KayKit_Texture_A#ff6699": "#ff6699",
+    "KayKit_Texture_A#ff6397": "#ff6397",
+    "KayKit_Texture_A#ff7dae": "#ff7dae",
+    "KayKit_Texture_A#ff84b4": "#ff84b4"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.9,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 904,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
