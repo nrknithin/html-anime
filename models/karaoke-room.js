@@ -143,14 +143,15 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   }
   // superellipsoid at o with radii r (axis aligned); e < 1 boxy, e = 1 an ellipsoid
   const spow = (w, p) => Math.sign(w) * Math.pow(Math.abs(w), p);
-  function blob(key, o, r, e = 1, nu = 6, nv = 12) {
+  // bias: added to every unit normal before renormalising (leans a cushion's shading toward the light)
+  function blob(key, o, r, e = 1, nu = 6, nv = 12, bias = [0, 0, 0]) {
     const pt = (i, j) => {
       const th = -Math.PI / 2 + (i / nu) * Math.PI, ph = (j / nv) * TAU;
       const [ct, st, cp, sp] = [Math.cos(th), Math.sin(th), Math.cos(ph), Math.sin(ph)];
       const p = [r[0] * spow(ct, e) * spow(cp, e), r[1] * spow(st, e), r[2] * spow(ct, e) * spow(sp, e)];
       const q = 2 - e;
       const n = [spow(ct, q) * spow(cp, q) / r[0], spow(st, q) / r[1], spow(ct, q) * spow(sp, q) / r[2]];
-      return [add(o, p), nrm(Math.hypot(...n) < 1e-9 ? [0, Math.sign(st), 0] : n)];
+      return [add(o, p), nrm(add(nrm(Math.hypot(...n) < 1e-9 ? [0, Math.sign(st), 0] : n), bias))];
     };
     for (let i = 0; i < nu; i++)
       for (let j = 0; j < nv; j++) {
@@ -217,7 +218,9 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     box("vinyl", r.x0, r.x1, 0.12, 0.3, r.z0, r.z1);
   }
   const cushion = (x0, x1, z0, z1) => blob("vinyl", [(x0 + x1) / 2, 0.37, (z0 + z1) / 2], [(x1 - x0) / 2 - 0.008, 0.075, (z1 - z0) / 2 - 0.008], 0.28);
-  const backC = (x0, x1, z0, z1) => blob("vinyl", [(x0 + x1) / 2, (0.3 + BACK) / 2, (z0 + z1) / 2], [(x1 - x0) / 2 - 0.006, (BACK - 0.3) / 2, (z1 - z0) / 2 - 0.006], 0.3);
+  // bias: the -Z arm's backs face +Z (dot 0.30), shade at the night threshold; leaning their normals toward +X keeps
+  // their faces lit (dot ~0.67) without changing the day look
+  const backC = (x0, x1, z0, z1, bias) => blob("vinyl", [(x0 + x1) / 2, (0.3 + BACK) / 2, (z0 + z1) / 2], [(x1 - x0) / 2 - 0.006, (BACK - 0.3) / 2, (z1 - z0) / 2 - 0.006], 0.3, 6, 12, bias);
   // base run: back cushions along -X, seats from the corner to the front
   const bz = [Z0, -0.75, -0.1, FZ0, FZ1];
   for (let i = 0; i + 1 < bz.length; i++) {
@@ -226,7 +229,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
   }
   // arm along -Z: back cushions against the wall, two seats
   const ax = [X0 + BT, X0 + SD, -0.7, AX];
-  for (let i = 0; i + 1 < ax.length; i++) backC(ax[i], ax[i + 1], Z0, Z0 + BT);
+  for (let i = 0; i + 1 < ax.length; i++) backC(ax[i], ax[i + 1], Z0, Z0 + BT, [0.5, 0.2, 0]);
   cushion(X0 + SD, -0.7, Z0 + BT, Z0 + SD);
   cushion(-0.7, AX, Z0 + BT, Z0 + SD);
   // front arm: backless, two seats
@@ -380,19 +383,34 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     g.setAttribute("normal", new THREE.Float32BufferAttribute(s.n, 3));
     return g;
   };
+  // soups whose materials draw the same (same tones, threshold and hull; single-tone ones whatever their threshold)
+  // share one mesh, so the mesh count drops without changing a pixel
   const meshes = (soups, parent, inkCore) => {
+    const groups = new Map();
     for (const [key, s] of Object.entries(soups)) {
       if (key === "wallInk" || !s.p.length) continue;
       const [base, shade, threshold, px] = MAT[key];
-      const mesh = kit.toon(geo(s), base, shade, px ? { threshold, px } : { threshold, outline: false });
+      const sig = base === shade ? `${base}|${px}` : `${base}|${shade}|${threshold}|${px}`;
+      if (!groups.has(sig)) groups.set(sig, { keys: [], p: [], n: [], mat: [base, shade, base === shade ? 0 : threshold, px] });
+      const g = groups.get(sig);
+      g.keys.push(key);
+      for (let i = 0; i < s.p.length; i++) g.p.push(s.p[i]), g.n.push(s.n[i]);
+    }
+    for (const g of groups.values()) {
+      const [base, shade, threshold, px] = g.mat;
+      const mesh = kit.toon(geo(g), base, shade, px ? { threshold, px } : { threshold, outline: false });
+      const key = g.keys.join("+");
       mesh.name = parent.name === "room" ? key : `${parent.name}-${key}`;
-      if (key === "wall") // ink the whole-wall twins and keep only their hulls
+      if (g.keys.includes("wall")) // ink the whole-wall twins and keep only their hulls
         for (const h of kit.outline(new THREE.Mesh(geo(soups.wallInk), mesh.material), { px: 2.5 }).children.slice()) mesh.add(h);
-      if (inkCore && key === "core")
-        for (const h of kit.outline(new THREE.Mesh(geo(s), mesh.material), { px: 2 }).children.slice()) mesh.add(h);
+      if (inkCore && g.keys.includes("core"))
+        for (const h of kit.outline(new THREE.Mesh(geo(g), mesh.material), { px: 2 }).children.slice()) mesh.add(h);
       parent.add(mesh);
     }
   };
+  // the lyric bars share the fleck mesh (same unlit line tone): taken out here, written at the front of its buffer
+  const bars = targets.set.scrBar;
+  delete targets.set.scrBar;
   meshes(targets.set, set, false);
   const ball = new THREE.Group();
   ball.name = "ball";
@@ -409,7 +427,10 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
     const az = hash(i + 101) * TAU, el = (-40 + hash(i + 202) * 70) * (Math.PI / 180);
     return new THREE.Vector3(Math.cos(el) * Math.cos(az), Math.sin(el), Math.cos(el) * Math.sin(az));
   });
-  const fpos = new Float32Array(NF * FS * 9), fnor = new Float32Array(NF * FS * 9);
+  const FB = bars.p.length; // the static lyric bars come first
+  const fpos = new Float32Array(FB + NF * FS * 9), fnor = new Float32Array(FB + NF * FS * 9);
+  fpos.set(bars.p);
+  fnor.set(bars.n);
   const fgeo = new THREE.BufferGeometry();
   fgeo.setAttribute("position", new THREE.BufferAttribute(fpos, 3));
   fgeo.setAttribute("normal", new THREE.BufferAttribute(fnor, 3));
@@ -438,7 +459,7 @@ export function build(THREE, kit, colors = meta.colors, opts = {}) {
         if (ok(h)) best = { t, h, ax, ua, va };
       }
       for (let k = 0; k < FS; k++) {
-        const o = (i * FS + k) * 9;
+        const o = FB + (i * FS + k) * 9;
         const pts = best ? [[0, 0], [Math.cos((k / FS) * TAU), Math.sin((k / FS) * TAU)], [Math.cos(((k + 1) / FS) * TAU), Math.sin(((k + 1) / FS) * TAU)]] : [[0, 0], [0, 0], [0, 0]];
         const r = best ? 0.012 + 0.016 * best.t : 0;
         for (let m = 0; m < 3; m++) {
