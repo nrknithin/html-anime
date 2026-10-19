@@ -1,0 +1,71 @@
+{
+  "id": "mushroom-red",
+  "name": "Red mushroom",
+  "category": "nature",
+  "tags": [
+    "nature",
+    "mushroom",
+    "toadstool",
+    "fly agaric",
+    "forest",
+    "scenery",
+    "static"
+  ],
+  "style": "low-poly, flat colours (Kenney Nature Kit)",
+  "height": 0.2,
+  "script": "noon",
+  "colors": {
+    "cap": "#c4452d",
+    "capShade": "#5c3d32",
+    "stem": "#fff6e4",
+    "stemShade": "#f2d7ae"
+  },
+  "materials": {
+    "colorRed": "cap",
+    "_defaultMat": "stem"
+  },
+  "smooth": false,
+  "clips": {},
+  "source": {
+    "license": "CC0",
+    "author": "Kenney",
+    "pack": "Kenney · Nature Kit",
+    "page": "https://kenney.nl/assets/nature-kit",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "note": "The plan's own source (Kenney Nature Kit, zip pinned by sha256; the kit page currently links https://kenney.nl/media/pages/assets/nature-kit/37ac38a37b-1677698939/kenney_nature-kit.zip). The kit has three red mushrooms: `mushroom_red` (squat, a stem nearly as wide as the cap), `mushroom_redTall` and `mushroom_redGroup` (a cluster). `mushroom_redTall` is used instead of the plan's `mushroom_red`: its slender stem under a wide conical cap reads best as a lone fly agaric / toadstool. Height 0.2 m: a mature fly agaric stands 0.15-0.3 m, and 0.2 m gives this model a 10 cm cap, true to life. The model has no white spots (Kenney's mushrooms are plain red), so the cap is the noon vermilion (`accent`) over the dark brown (`iris`) shade, and the stem and gills (one source material, `_defaultMat`) are cream (`moon`) over paper (`sky`). A hexagonal low-poly prism (48 tris), kept faceted (`smooth: false`; smooth normals turned the whole stem to its shade tone). Static, no clips."
+  },
+  "ingest": {
+    "fetch": {
+      "type": "kenney",
+      "page": "https://kenney.nl/assets/nature-kit",
+      "sha256": "fa7974a0d342bfe63c38664ba9f8ec1a4aab8ea25f099bdc56870e33588c4d9d",
+      "bytes": 10537521
+    },
+    "member": "Models/GLTF format/mushroom_redTall.glb",
+    "height": 0.2,
+    "memberSha256": "d982f6c5dce9ca870132448034eced9e84573aeed87e9158e18a3a033124f810"
+  },
+  "file": "model.glb",
+  "sha256": "9922059be2acff780e5ef52ae894a0c3a5cb42bb0f48833eadd7f551f5885152",
+  "bytes": 3956,
+  "triangles": 48,
+  "bones": 0,
+  "sourceMaterials": {
+    "colorRed": "#f19398",
+    "_defaultMat": "#ffffff"
+  },
+  "clipInfo": {},
+  "qa": {
+    "height": 0.2,
+    "heightError": 0,
+    "minY": 0,
+    "centre": [
+      0,
+      0
+    ],
+    "triangles": 48,
+    "clips": {},
+    "palette": 1,
+    "preview": "rest"
+  }
+}
