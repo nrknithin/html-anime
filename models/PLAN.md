@@ -247,7 +247,7 @@ Grouped by category. *Pri* is the order inside wave 1 (P1 first). *Batch* is the
 | 33 | Parrot | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 150 KB | P3 | B2 |
 | 34 | Penguin | Kenney · Cube Pets | 8 (idle, walk, run, dance) | CC0 | 130 KB | P3 | B2 |
 | 35 | Bird (static) | Quaternius · Static models | - | CC0 | 50 KB | P3 | B2 |
-| 36 | Crow / raven | gap | - | - | - | P2 | B8 |
+| 36 | Crow / raven | Teh_Bucket · Raven (OpenGameArt; filled from row 32, see `models/library/crow`) | 2 (idle perch, fly) | CC0 | 80 KB | P2 | B8 |
 
 ### Sea life (10)
 
